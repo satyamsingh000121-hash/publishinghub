@@ -6,20 +6,51 @@ import SmokyText from "@/components/SmokyText";
 export default function AboutHero() {
   return (
     <section className="relative w-full py-28 sm:py-36 md:py-44 overflow-hidden border-b border-[#b89245]/20 bg-[#050807]">
-      {/* Background with Book Flatlay Pattern and Moody Overlay */}
-      <div className="absolute inset-0 z-0">
-        <div 
-          className="w-full h-full bg-cover bg-center scale-105 transition-transform duration-1000 opacity-25 filter blur-[0.5px]"
-          style={{
-            backgroundImage: `url('/images/hero_sectin1.png'), url('/images/A_images.png')`,
-            backgroundPosition: "center 40%",
-          }}
-        />
-        {/* Editorial Vignette & Dark Forest Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050807]/90 via-[#07130e]/75 to-[#050807] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(24,82,56,0.18)_0%,rgba(5,8,7,0.95)_75%)] pointer-events-none" />
-        
-        {/* Subtle grid texture overlay */}
+      {/* Pure Luxury Dark Forest Green Background with Sunflower Engraving */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Deep Forest Gradient Base */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#060c09] via-[#08150f] to-[#040806]" />
+
+        {/* Central Luminous Golden & Emerald Ambient Illumination */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[950px] h-[450px] bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.18)_0%,rgba(24,82,56,0.25)_45%,transparent_75%)] blur-3xl pointer-events-none" />
+
+        {/* Soft Warm Ambient Light Highlights Left & Right */}
+        <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-[#d4b56a]/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-[#1e6144]/20 rounded-full blur-[100px] pointer-events-none" />
+
+        {/* Botanical Sunflower Line Art Illustration Watermark (Centered / Offset) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] sm:w-[600px] sm:h-[600px] lg:w-[680px] lg:h-[680px] opacity-25 sm:opacity-35 pointer-events-none transform rotate-12 transition-transform duration-700">
+          <svg viewBox="0 0 200 200" className="w-full h-full text-[#d4b56a] fill-none stroke-current" strokeWidth="0.75">
+            {/* Sunflower Center Disc */}
+            <circle cx="100" cy="100" r="28" fill="#0d1f16" stroke="#d4b56a" strokeWidth="1.2" />
+            <circle cx="100" cy="100" r="20" stroke="#d4b56a" strokeWidth="0.75" strokeDasharray="3 3" />
+            <circle cx="100" cy="100" r="12" stroke="#d4b56a" strokeWidth="0.6" />
+            <circle cx="100" cy="100" r="4" fill="#d4b56a" />
+
+            {/* Sunflower Radiating Petals */}
+            {[...Array(24)].map((_, i) => {
+              const angle = (i * 360) / 24;
+              return (
+                <path
+                  key={i}
+                  d="M100,72 C94,36 106,36 100,72"
+                  transform={`rotate(${angle} 100 100)`}
+                  fill="#d4b56a"
+                  fillOpacity="0.12"
+                  stroke="#d4b56a"
+                  strokeWidth="0.8"
+                />
+              );
+            })}
+            
+            {/* Stem and Emerald Leaves */}
+            <path d="M100,128 Q95,170 85,200" stroke="#2c7650" strokeWidth="1.8" />
+            <path d="M96,150 Q70,140 60,160 Q85,165 94,155" fill="#2c7650" fillOpacity="0.25" stroke="#2c7650" strokeWidth="1" />
+            <path d="M90,175 Q115,165 125,185 Q100,190 88,180" fill="#2c7650" fillOpacity="0.25" stroke="#2c7650" strokeWidth="1" />
+          </svg>
+        </div>
+
+        {/* Subtle Luxury Golden Grid Pattern */}
         <div 
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
@@ -27,6 +58,9 @@ export default function AboutHero() {
             backgroundSize: "32px 32px",
           }}
         />
+
+        {/* Subtle Vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(5,8,7,0.8)_100%)] pointer-events-none" />
       </div>
 
       {/* Hero Content */}
