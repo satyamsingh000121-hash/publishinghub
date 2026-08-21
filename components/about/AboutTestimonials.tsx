@@ -9,7 +9,7 @@ export default function AboutTestimonials() {
       role: "/ Reporter",
       quote:
         "“Auteur is a monthly book review publication distributed to 400,000 avid readers through subscribing bookstores & public libraries.”",
-      image: "/images/vladimir_avatar.jpg",
+      image: "/images/testimonial-01.jpg",
       fallbackImage: "/images/sir1.png",
       initials: "VN",
     },
@@ -18,7 +18,7 @@ export default function AboutTestimonials() {
       role: "/ Reporter",
       quote:
         "“It was a dark night, with only occasional scattered lights, glittering like stars on the plain. It flashed upon me suddenly; they were going to shoot me!”",
-      image: "/images/savanna_avatar.jpg",
+      image: "/images/testimonial-02.jpg",
       fallbackImage: "/images/sir2.png",
       initials: "SW",
     },
@@ -74,7 +74,7 @@ export default function AboutTestimonials() {
                       // Fallback if local image not found
                       e.currentTarget.src = item.fallbackImage;
                     }}
-                    className="w-full h-full object-cover rounded-full filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
               </div>
