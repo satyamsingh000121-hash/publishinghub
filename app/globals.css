@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #050807;
+  --bg-soft: #09110d;
+  --surface: #0b120f;
+  --surface-2: #101914;
+  --surface-3: #151e18;
+  --forest: #123d2b;
+  --forest-2: #185238;
+  --forest-light: #2c7650;
+  --forest-hover: #37865d;
+  --gold: #b89245;
+  --gold-light: #d4b56a;
+  --gold-bright: #e6c880;
+  --cream: #f2eee3;
+  --cream-soft: #d9d5ca;
+  --muted: #9a9b94;
+  --line: rgba(242, 238, 227, 0.14);
+  --line-gold: rgba(184, 146, 69, 0.45);
+  --white: #ffffff;
+  --danger: #c96d42;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Inter", Arial, sans-serif;
+
+  --container: 1380px;
+  --section-space: clamp(70px, 8vw, 125px);
+  --radius: 0px;
+  --transition: 260ms cubic-bezier(.22,.61,.36,1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050807;
+}
+::-webkit-scrollbar-thumb {
+  background: #185238;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2c7650;
+}
+
+/* Base custom font helpers */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.container-custom {
+  width: min(calc(100% - 80px), var(--container));
+  margin-inline: auto;
+}
+
+@media (max-width: 1100px) {
+  .container-custom {
+    width: min(calc(100% - 48px), var(--container));
+  }
+}
+
+@media (max-width: 820px) {
+  .container-custom {
+    width: min(calc(100% - 32px), var(--container));
+  }
+}
+
+/* Button styles */
+.btn-forest {
+  background-color: #2c7650;
+  color: #ffffff;
+  transition: all var(--transition);
+}
+.btn-forest:hover {
+  background-color: #37865d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(44, 118, 80, 0.35);
+}
+
+.btn-outline-gold {
+  border: 1px solid rgba(242, 238, 227, 0.35);
+  background-color: transparent;
+  color: var(--cream);
+  transition: all var(--transition);
+}
+.btn-outline-gold:hover {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+  transform: translateY(-2px);
+  background-color: rgba(184, 146, 69, 0.08);
+}
+
+.btn-solid-gold {
+  background-color: var(--gold);
+  color: #10100b;
+  font-weight: 700;
+  transition: all var(--transition);
+}
+.btn-solid-gold:hover {
+  background-color: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+/* Card hover glow */
+.card-hover-effect {
+  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.card-hover-effect:hover {
+  transform: translateY(-4px);
+  border-color: rgba(184, 146, 69, 0.5);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(44, 118, 80, 0.15);
+}
+
+/* Subtle book spine 3D effect */
+.book-spine-3d {
+  box-shadow: -8px 8px 24px rgba(0,0,0,0.8), 2px 2px 8px rgba(0,0,0,0.5);
+}
+
+/* Text selections */
+::selection {
+  background: var(--gold);
+  color: #050807;
+}
+
+/* Realistic Candle Flame & Glow Animations */
+@keyframes candleFlicker {
+  0%, 100% {
+    transform: scale(1, 1) rotate(0deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(255, 153, 0, 0.95)) drop-shadow(0 0 6px rgba(255, 230, 150, 0.9));
+  }
+  15% {
+    transform: scale(0.94, 1.06) rotate(-1.5deg) skewX(-1deg);
+    opacity: 0.92;
+    filter: drop-shadow(0 0 22px rgba(255, 175, 0, 1)) drop-shadow(0 0 8px rgba(255, 240, 180, 1));
+  }
+  35% {
+    transform: scale(1.06, 0.93) rotate(1.8deg) skewX(1deg);
+    opacity: 0.88;
+    filter: drop-shadow(0 0 14px rgba(255, 130, 0, 0.85)) drop-shadow(0 0 4px rgba(255, 210, 120, 0.8));
+  }
+  55% {
+    transform: scale(0.97, 1.04) rotate(-0.8deg);
+    opacity: 0.98;
+    filter: drop-shadow(0 0 20px rgba(255, 165, 0, 1)) drop-shadow(0 0 7px rgba(255, 235, 160, 0.95));
+  }
+  75% {
+    transform: scale(1.05, 0.96) rotate(1.2deg);
+    opacity: 0.91;
+    filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.9)) drop-shadow(0 0 5px rgba(255, 220, 140, 0.85));
+  }
+  90% {
+    transform: scale(0.98, 1.02) rotate(-0.4deg);
+    opacity: 0.96;
+  }
+}
+
+@keyframes candleGlowPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  25% {
+    transform: scale(1.18);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  75% {
+    transform: scale(1.12);
+    opacity: 0.88;
+  }
+}
+
+.animate-candle-flame {
+  animation: candleFlicker 1.8s infinite ease-in-out;
+  transform-origin: bottom center;
+}
+
+.animate-candle-glow {
+  animation: candleGlowPulse 1.8s infinite ease-in-out;
+  transform-origin: center center;
+}
+

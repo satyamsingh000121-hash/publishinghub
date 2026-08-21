@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Publishing — Books That Inspire | Premium Dark Theme Bookstore</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Cormorant Garamond & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: {
+              DEFAULT: '#050807',
+              soft: '#09110d',
+              card: '#080d0a',
+              surface: '#0b120f',
+              surface2: '#101914',
+              surface3: '#151e18',
+            },
+            forest: {
+              DEFAULT: '#123d2b',
+              dark: '#0d2a1d',
+              medium: '#185238',
+              light: '#2c7650',
+              hover: '#37865d',
+            },
+            gold: {
+              DEFAULT: '#b89245',
+              light: '#d4b56a',
+              bright: '#e5c479',
+            },
+            cream: {
+              DEFAULT: '#f2eee3',
+              soft: '#d9d5ca',
+              muted: '#9a9b94',
+            }
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'Arial', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg: #050807;
+      --forest: #123d2b;
+      --forest-light: #2c7650;
+      --gold: #b89245;
+      --gold-light: #d4b56a;
+      --cream: #f2eee3;
+      --line: rgba(242, 238, 227, 0.12);
+    }
+    body {
+      background-color: #050807;
+      color: #f2eee3;
+      font-family: 'Inter', sans-serif;
+    }
+    .font-display {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .container-custom {
+      width: min(calc(100% - 80px), 1380px);
+      margin-inline: auto;
+    }
+    @media (max-width: 1024px) {
+      .container-custom {
+        width: min(calc(100% - 36px), 1380px);
+      }
+    }
+    /* Candle Flicker Animation */
+    @keyframes candleFlicker {
+      0%, 100% {
+        transform: scale(1, 1) rotate(0deg);
+        opacity: 1;
+        filter: drop-shadow(0 0 16px rgba(255, 153, 0, 0.95)) drop-shadow(0 0 6px rgba(255, 230, 150, 0.9));
+      }
+      15% {
+        transform: scale(0.94, 1.06) rotate(-1.5deg) skewX(-1deg);
+        opacity: 0.92;
+        filter: drop-shadow(0 0 22px rgba(255, 175, 0, 1)) drop-shadow(0 0 8px rgba(255, 240, 180, 1));
+      }
+      35% {
+        transform: scale(1.06, 0.93) rotate(1.8deg) skewX(1deg);
+        opacity: 0.88;
+        filter: drop-shadow(0 0 14px rgba(255, 130, 0, 0.85)) drop-shadow(0 0 4px rgba(255, 210, 120, 0.8));
+      }
+      55% {
+        transform: scale(0.97, 1.04) rotate(-0.8deg);
+        opacity: 0.98;
+        filter: drop-shadow(0 0 20px rgba(255, 165, 0, 1)) drop-shadow(0 0 7px rgba(255, 235, 160, 0.95));
+      }
+      75% {
+        transform: scale(1.05, 0.96) rotate(1.2deg);
+        opacity: 0.91;
+        filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.9)) drop-shadow(0 0 5px rgba(255, 220, 140, 0.85));
+      }
+      90% {
+        transform: scale(0.98, 1.02) rotate(-0.4deg);
+        opacity: 0.96;
+      }
+    }
+    @keyframes candleGlowPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.75;
+      }
+      25% {
+        transform: scale(1.18);
+        opacity: 0.95;
+      }
+      50% {
+        transform: scale(0.9);
+        opacity: 0.6;
+      }
+      75% {
+        transform: scale(1.12);
+        opacity: 0.88;
+      }
+    }
+    .animate-candle-flame {
+      animation: candleFlicker 1.8s infinite ease-in-out;
+      transform-origin: bottom center;
+    }
+    .animate-candle-glow {
+      animation: candleGlowPulse 1.8s infinite ease-in-out;
+      transform-origin: center center;
+    }
+  </style>
+</head>
+<body class="bg-[#050807] text-[#f2eee3] antialiased selection:bg-[#b89245] selection:text-[#050807]">
+
+  <!-- Announcement Bar -->
+  <div class="bg-[#0d2a1d] text-[#f2eee3] text-[10px] tracking-[0.08em] uppercase py-2 px-4 border-b border-[#b89245]/40 flex items-center justify-center gap-4 text-center z-50 relative">
+    <span class="font-medium">
+      SUMMER SALE IS LIVE — Get Up To 30% OFF on Selected Books!
+    </span>
+    <a href="#bestsellers" class="text-[#d4b56a] hover:text-white font-bold inline-flex items-center gap-1 transition-colors">
+      SHOP NOW &rarr;
+    </a>
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="sticky top-0 z-40 bg-[#050807]/95 backdrop-blur-md border-b border-[#f2eee3]/10">
+    <div class="container-custom flex items-center justify-between min-h-[82px] gap-8">
+      <!-- Logo -->
+      <a href="#" class="flex flex-col group select-none">
+        <span class="text-[10px] tracking-[0.28em] text-[#d4b56a] font-semibold leading-none mb-1">THE</span>
+        <span class="font-display text-[27px] font-semibold tracking-[-0.02em] text-[#f2eee3] leading-none">PUBLISHING</span>
+        <span class="text-[8px] tracking-[0.24em] text-[#b89245] uppercase mt-1.5 font-medium leading-none">BOOKS THAT INSPIRE</span>
+      </a>
+
+      <!-- Menu -->
+      <nav class="hidden lg:flex items-center justify-center gap-8 xl:gap-10">
+        <a href="#" class="relative py-7 text-[11px] font-semibold tracking-[0.06em] uppercase text-white">
+          HOME
+          <span class="absolute bottom-5 left-0 right-0 h-[2px] bg-[#d4b56a]"></span>
+        </a>
+        <a href="#about" class="relative py-7 text-[11px] font-semibold tracking-[0.06em] uppercase text-[#dddcd5] hover:text-[#d4b56a] transition-colors">ABOUT US</a>
+        <a href="#bestsellers" class="relative py-7 text-[11px] font-semibold tracking-[0.06em] uppercase text-[#dddcd5] hover:text-[#d4b56a] transition-colors">SHOP</a>
+        <a href="#bestsellers" class="relative py-7 text-[11px] font-semibold tracking-[0.06em] uppercase text-[#dddcd5] hover:text-[#d4b56a] transition-colors">BEST SELLERS</a>
+        <a href="#events" class="relative py-7 text-[11px] font-semibold tracking-[0.06em] uppercase text-[#dddcd5] hover:text-[#d4b56a] transition-colors">EVENTS</a>
+        <a href="#contact" class="relative py-7 text-[11px] font-semibold tracking-[0.06em] uppercase text-[#dddcd5] hover:text-[#d4b56a] transition-colors">CONTACT US</a>
+        <a href="#" class="relative py-7 text-[11px] font-semibold tracking-[0.06em] uppercase text-[#dddcd5] hover:text-[#d4b56a] transition-colors flex items-center gap-1">
+          EXTRA PAGES <i data-lucide="chevron-down" class="w-3 h-3 text-[#d4b56a]"></i>
+        </a>
+      </nav>
+
+      <!-- Icons -->
+      <div class="flex items-center gap-5 text-[#d9d5ca]">
+        <button class="p-1.5 hover:text-[#d4b56a] transition-colors" title="Search"><i data-lucide="search" class="w-[18px] h-[18px]"></i></button>
+        <button class="p-1.5 hover:text-[#d4b56a] transition-colors relative" title="Cart">
+          <i data-lucide="shopping-bag" class="w-[18px] h-[18px]"></i>
+          <span class="absolute -top-1 -right-1 bg-[#2c7650] text-[#f2eee3] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">0</span>
+        </button>
+        <a href="#account" class="p-1.5 hover:text-[#d4b56a] transition-colors" title="Account"><i data-lucide="user" class="w-[18px] h-[18px]"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[680px] lg:min-h-[740px] flex items-center overflow-hidden border-b border-[#f2eee3]/10 bg-gradient-to-r from-[#050807] via-[#07100c] to-[#0b1711]">
+    <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_80%_45%,rgba(25,75,51,0.32),transparent_55%)]"></div>
+    <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_85%_55%,rgba(184,146,69,0.12),transparent_35%)]"></di    <div class="container-custom relative z-20 py-16 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-12">
+      
+      <!-- Left Content (Slide 1 by default) -->
+      <div id="hero-left-content" class="w-full lg:w-[48%] space-y-6">
+        <span id="hero-eyebrow" class="text-[11px] tracking-[0.28em] text-[#d4b56a] font-bold uppercase block">
+          SALE UP TO 20% OFF
+        </span>
+        <h1 id="hero-title" class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[76px] font-normal leading-[0.95] tracking-[-0.025em] text-[#f2eee3]">
+          Meet Your Next <br />
+          <span class="italic text-[#d4b56a]">Favorite Book.</span>
+        </h1>
+        <p id="hero-desc" class="text-[#aaa9a1] text-sm sm:text-base max-w-[480px] leading-relaxed font-light">
+          Explore our handpicked collection of inspiring literature, exclusive editions, and timeless masterworks.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 pt-4">
+          <a id="hero-btn-primary" href="#bestsellers" class="min-h-[46px] px-9 bg-[#c85a32] hover:bg-[#d96a40] text-white text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all shadow-lg shadow-[#c85a32]/30">
+            PURCHASE
+          </a>
+          <a href="#featured" class="min-h-[46px] px-8 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] font-bold tracking-[0.1em] uppercase inline-flex items-center justify-center transition-all bg-black/20">
+            EXPLORE BOOKS
+          </a>
+        </div>
+        <!-- Slide counter -->
+        <div class="flex items-center gap-4 pt-8 text-[#f2eee3] font-display text-xl select-none">
+          <span id="hero-slide-num" class="font-semibold text-lg">01</span>
+          <div class="w-12 h-[1px] bg-[#d4b56a]"></div>
+          <span class="text-[#9a9b94] text-lg">03</span>
+        </div>
+      </div>
+
+      <!-- Right 3D Visual (Slide 1 Default) -->
+      <div class="w-full lg:w-[52%] relative flex items-center justify-center min-h-[440px] lg:min-h-[520px]">
+        
+        <!-- Visual Container -->
+        <div id="hero-visual-container" class="relative w-full max-w-[540px] h-[380px] sm:h-[440px] flex items-center justify-center">
+          
+          <div class="absolute bottom-4 w-5/6 h-16 bg-black/80 blur-2xl rounded-full"></div>
+
+          <!-- Laying Flat 3D Book (Left) -->
+          <div class="absolute bottom-10 left-2 sm:left-6 w-[240px] sm:w-[280px] h-[190px] sm:h-[220px] transform -rotate-12 hover:-rotate-10 transition-transform duration-500 z-10">
+            <div class="relative w-full h-full bg-gradient-to-br from-[#f5b82e] via-[#e5a017] to-[#cb8708] rounded-md shadow-[-20px_25px_45px_rgba(0,0,0,0.85)] border-l-4 border-[#b57200] p-4 flex flex-col justify-between overflow-hidden">
+              <div class="absolute right-0 top-0 bottom-0 w-4 bg-[#fbf5e6] border-l border-[#d4b56a]/60 shadow-inner flex flex-col justify-around py-2">
+                <div class="w-full h-[1px] bg-[#c7ab77]/50"></div>
+                <div class="w-full h-[1px] bg-[#c7ab77]/50"></div>
+              </div>
+              <div class="absolute -top-6 -left-6 w-28 h-28 bg-[#2d7bb8] rounded-full opacity-85 transform rotate-45"></div>
+              <div class="relative z-10 pt-2">
+                <span class="text-[7px] font-bold text-[#442c00] tracking-widest uppercase block">SETTING THE STAGE</span>
+                <h3 class="font-display font-black text-2xl sm:text-3xl text-white tracking-tight leading-none drop-shadow-md mt-1">
+                  VISIONS <br/><span class="text-[#194c73]">TO</span> VICTORY
+                </h3>
+              </div>
+              <div class="relative z-10">
+                <p class="text-[8px] font-bold text-[#3d2400] leading-tight max-w-[140px]">UNLOCKING THE PATH</p>
+                <span class="text-[8px] font-extrabold text-[#194c73] uppercase tracking-wider block mt-1">SANTOSH KUMAR</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Standing Open 3D Book (Right) -->
+          <div class="absolute bottom-16 right-4 sm:right-10 w-[180px] sm:w-[210px] h-[260px] sm:h-[300px] transform rotate-3 hover:rotate-1 transition-transform duration-500 z-20">
+            <div class="relative w-full h-full bg-gradient-to-b from-[#f7c244] via-[#e8a81c] to-[#cb8708] rounded-md shadow-[-25px_30px_60px_rgba(0,0,0,0.95)] border-l-[6px] border-[#9c6300] p-4 flex flex-col justify-between overflow-hidden">
+              <div class="absolute -top-2 left-3 right-0 h-4 bg-[#fff9ed] border-t border-b border-[#cca968] shadow-sm transform skew-x-12"></div>
+              <div class="absolute -top-4 -right-4 w-20 h-20 bg-[#2d7bb8] rounded-full opacity-80"></div>
+              <div class="relative z-10 pt-4">
+                <span class="text-[6px] font-bold text-[#442c00] tracking-widest uppercase block">VOL 1 • THE BEGINNING</span>
+                <h3 class="font-display font-black text-xl sm:text-2xl text-white tracking-tight leading-none drop-shadow-md mt-1">
+                  VISIONS <br/><span class="text-[#194c73]">TO</span> VICTORY
+                </h3>
+              </div>
+              <div class="relative z-10">
+                <div class="bg-[#fff3d4]/80 p-1.5 rounded-sm border border-[#e5a017]/40 mb-1">
+                  <p class="text-[7px] text-[#3d2400] font-semibold leading-tight">Building a Solid Foundation for Growth</p>
+                </div>
+                <span class="text-[8px] font-extrabold text-[#194c73] uppercase tracking-wider block">SANTOSH KUMAR</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inkpot & Pens -->
+          <div class="absolute bottom-4 left-[46%] sm:left-[48%] z-30 transform -translate-x-1/2 flex items-end gap-3">
+            <div class="relative w-12 h-14 bg-gradient-to-b from-[#1a211e] via-[#090d0b] to-[#040605] rounded-sm border border-[#3a4740] shadow-2xl flex flex-col items-center justify-between p-1">
+              <div class="w-6 h-3 bg-[#111111] rounded-t-sm border border-[#444] shadow-sm -mt-2.5"></div>
+              <div class="w-8 h-5 bg-[#e8dfce]/90 border border-[#b89245]/40 rounded-sm flex items-center justify-center">
+                <span class="text-[5px] font-bold text-[#1a1a1a] tracking-tighter uppercase font-display">INK</span>
+              </div>
+              <div class="w-full h-1 bg-[#020302] rounded-b-sm"></div>
+            </div>
+            <div class="flex flex-col gap-1 transform rotate-[-28deg] -mb-1">
+              <div class="w-20 h-2 bg-gradient-to-r from-[#111111] via-[#d4b56a] to-[#222222] rounded-full shadow-md border-r-2 border-[#e6c880]"></div>
+              <div class="w-22 h-2 bg-gradient-to-r from-[#0d1f16] via-[#2c7650] to-[#111111] rounded-full shadow-md border-r-2 border-[#d4b56a]"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Controls -->
+        <div class="absolute bottom-2 right-0 flex items-center gap-2 z-30">
+          <button onclick="changeHeroSlide(-1)" class="w-10 h-10 border border-[#f2eee3]/20 hover:border-[#d4b56a] bg-[#050807]/90 text-[#f2eee3] hover:text-[#d4b56a] flex items-center justify-center transition-all shadow-md">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button onclick="changeHeroSlide(1)" class="w-10 h-10 border border-[#f2eee3]/20 hover:border-[#d4b56a] bg-[#050807]/90 text-[#f2eee3] hover:text-[#d4b56a] flex items-center justify-center transition-all shadow-md">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>/div>
+    </div>
+  </section>
+
+  <!-- Promo Tiles (6 Cards - Increased Height & Asymmetric) -->
+  <section class="py-24 bg-[#050807] border-b border-[#f2eee3]/10">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+        <!-- Card 1: WIDE (6 Columns, Height 360px) -->
+        <div class="lg:col-span-6 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-8 sm:p-10 lg:p-12 flex flex-col sm:flex-row items-center justify-between gap-8 min-h-[320px] sm:min-h-[360px]">
+          <div class="w-32 h-32 sm:w-44 sm:h-44 flex items-center justify-center flex-shrink-0">
+            <span class="font-display text-9xl font-semibold text-[#d4b56a]">A</span>
+          </div>
+          <div class="flex-1 space-y-4">
+            <h3 class="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3] leading-tight">Find Books <br/><span class="italic text-[#d9d5ca]">For All Ages</span></h3>
+            <p class="text-[#9a9b94] text-xs sm:text-sm font-light leading-relaxed">Explore a world of stories with our diverse book collection for all ages. From timeless classics to modern favorites, explore books for children, teens, and adults.</p>
+            <a href="#bestsellers" class="text-xs font-bold tracking-widest text-[#d4b56a] uppercase flex items-center gap-1.5 pt-2">DISCOVER MORE &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Summer Sale (3 Columns, Height 360px) -->
+        <div class="lg:col-span-3 bg-[#07140d] border border-[#b89245]/40 p-8 sm:p-10 flex flex-col items-center justify-center text-center min-h-[320px] sm:min-h-[360px] shadow-lg shadow-[#123d2b]/20 relative">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(27,92,60,0.55),transparent_75%)] pointer-events-none"></div>
+          <span class="font-display text-3xl sm:text-4xl text-[#f2eee3] uppercase">SUMMER</span>
+          <span class="font-display text-4xl sm:text-5xl text-[#d4b56a] uppercase">SALE</span>
+          <div class="flex items-center gap-2 py-3 text-[#f2eee3]">
+            <span class="text-xs uppercase text-[#9a9b94]">UP TO</span>
+            <span class="font-display text-6xl sm:text-7xl font-bold">40</span>
+            <span class="text-base text-[#d4b56a] font-bold">% OFF</span>
+          </div>
+          <a href="#bestsellers" class="text-xs font-bold tracking-widest text-[#d4b56a] uppercase mt-3">SHOP NOW &rarr;</a>
+        </div>
+
+        <!-- Card 3: Cook book (3 Columns, Height 360px) -->
+        <div class="lg:col-span-3 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[360px]">
+          <div>
+             <h3 class="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3]">Cook book <br/><span class="italic text-[#d4b56a]">of the month</span></h3>
+          </div>
+          <div class="w-full flex justify-end my-4">
+            <div class="w-32 h-26 bg-[#e8e4d8] rounded p-2.5 shadow-2xl text-[5px] text-gray-700">
+              <div class="w-8 h-8 bg-[#cfb57a] rounded-full mx-auto mb-1"></div>
+              <p class="font-bold text-center">Herbal</p>
+            </div>
+          </div>
+          <a href="#bestsellers" class="text-xs font-bold tracking-widest text-[#d4b56a] uppercase flex items-center gap-1">VIEW BOOK &rarr;</a>
+        </div>
+
+        <!-- Card 4: Feature book (3 Columns, Height 360px) -->
+        <div class="lg:col-span-3 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[360px]">
+          <div>
+            <h3 class="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3]">Feature book <br/><span class="italic text-[#d4b56a]">of the month</span></h3>
+          </div>
+          <div class="w-full flex justify-end my-4">
+            <div class="flex items-end gap-2">
+              <div class="w-4 h-20 bg-[#6d5138] rounded-t shadow"></div>
+              <div class="w-5 h-24 bg-[#2d473b] rounded-t shadow"></div>
+              <div class="w-4 h-18 bg-[#b89245] rounded-t shadow"></div>
+            </div>
+          </div>
+          <a href="#bestsellers" class="text-xs font-bold tracking-widest text-[#d4b56a] uppercase flex items-center gap-1">VIEW BOOK &rarr;</a>
+        </div>
+
+        <!-- Card 5: Henry & the good dog (WIDE - 6 Columns, Height 360px) -->
+        <div class="lg:col-span-6 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-8 sm:p-10 lg:p-12 flex flex-col sm:flex-row items-center justify-between gap-8 min-h-[320px] sm:min-h-[360px]">
+          <div class="flex-1 space-y-4">
+            <h3 class="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3]">Henry <br/><span class="italic text-[#d4b56a]">&amp; the good dog</span></h3>
+            <p class="text-[#9a9b94] text-xs sm:text-sm font-light leading-relaxed">A heartwarming illustrated story of friendship, wonder, and loyalty.</p>
+            <a href="#bestsellers" class="text-xs font-bold tracking-widest text-[#d4b56a] uppercase flex items-center gap-1.5 pt-2">VIEW BOOK &rarr;</a>
+          </div>
+          <div class="flex items-end gap-2.5 flex-shrink-0">
+            <div class="w-24 h-34 bg-[#16364d] rounded p-2 shadow-2xl border border-white/10 text-center flex flex-col justify-between">
+              <span class="text-[7px] text-[#f2eee3] font-bold">HENRY</span>
+              <span class="text-lg">🐕</span>
+              <span class="text-[5px] text-[#d4b56a] italic">The Good Dog</span>
+            </div>
+            <div class="w-20 h-28 bg-[#1a4231] rounded p-1.5 shadow border border-white/10"></div>
+            <div class="w-18 h-24 bg-[#5c2b18] rounded p-1.5 shadow border border-white/10"></div>
+          </div>
+        </div>
+
+        <!-- Card 6: Best seller Books (3 Columns, Height 360px) -->
+        <div class="lg:col-span-3 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[360px]">
+          <div>
+            <h3 class="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3]">Best seller <br/><span class="italic text-[#d4b56a]">Books</span></h3>
+          </div>
+          <div class="w-full flex justify-end my-4">
+            <div class="w-32 h-26 bg-[#eceae2] rounded p-2 shadow-2xl border border-black/30 flex gap-2">
+              <div class="w-1/2 h-full bg-[#1b1e22] rounded flex items-center justify-center text-[6px] text-white">Art</div>
+              <div class="w-1/2 h-full bg-[#2a2c27] rounded flex items-center justify-center text-[6px] text-white">Photo</div>
+            </div>
+          </div>
+          <a href="#bestsellers" class="text-xs font-bold tracking-widest text-[#d4b56a] uppercase flex items-center gap-1">VIEW BOOK &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestseller Section -->
+  <section id="bestsellers" class="py-20 bg-[#050807] border-b border-[#f2eee3]/10">
+    <div class="container-custom">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 pb-4 border-b border-[#f2eee3]/10">
+        <div>
+          <span class="text-[10px] tracking-[0.28em] text-[#d4b56a] font-bold uppercase block mb-2">PEOPLE'S CHOICE</span>
+          <div class="flex items-center gap-8">
+            <h2 class="font-display text-3xl font-medium text-[#f2eee3] border-b-2 border-[#b89245] pb-2">Bestseller Books</h2>
+            <h2 class="font-display text-3xl font-medium text-[#777970] hover:text-[#f2eee3] cursor-pointer pb-2">Sale</h2>
+            <h2 class="font-display text-3xl font-medium text-[#777970] hover:text-[#f2eee3] cursor-pointer pb-2">Featured Books</h2>
+          </div>
+        </div>
+        <a href="#bestsellers" class="text-[10px] font-bold tracking-[0.14em] uppercase text-[#2c7650] hover:text-[#d4b56a] transition-colors">VIEW ALL &rarr;</a>
+      </div>
+
+      <!-- 8 Bestseller Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- 1 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#f3b52d] overflow-hidden p-3 flex flex-col justify-between text-center">
+            <span class="absolute top-2 left-2 z-20 bg-[#2c7650] text-white text-[8px] font-extrabold px-2 py-0.5">SALE -20%</span>
+            <div class="pt-4"><h4 class="font-display font-black text-xl text-[#0f233a]">VISIONS OF VICTORY</h4></div>
+            <div><span class="text-[7px] bg-[#0b1d30] text-white px-2 py-0.5 uppercase">Santosh Kumar</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">The Journey of a Young Entrepreneur</h4>
+            <p class="text-[11px] text-[#85877f]">by Santosh Kumar</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="text-[#656861] line-through">£22.00</span>
+              <span class="font-semibold text-[#d4b56a]">£18.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#252d29] overflow-hidden p-3 flex flex-col justify-between text-center">
+            <span class="absolute top-2 left-2 z-20 bg-[#2c7650] text-white text-[8px] font-extrabold px-2 py-0.5">SALE -20%</span>
+            <div class="pt-4"><h4 class="font-display font-bold text-lg text-[#e8eee9]">Fragments <span class="italic">of War</span></h4></div>
+            <div><span class="text-[7px] text-[#cbd7ce] uppercase">John Walker</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">Fragments of War</h4>
+            <p class="text-[11px] text-[#85877f]">by John Walker</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="text-[#656861] line-through">£24.00</span>
+              <span class="font-semibold text-[#d4b56a]">£18.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#0d0f12] overflow-hidden p-3 flex flex-col justify-between text-center border border-[#cbb06d]/30">
+            <span class="absolute top-2 left-2 z-20 bg-[#2c7650] text-white text-[8px] font-extrabold px-2 py-0.5">SALE -20%</span>
+            <div class="pt-4"><h4 class="font-display text-lg text-[#f2eee3]">THE NIGHT <span class="italic text-[#d4b56a]">I Died</span></h4></div>
+            <div><span class="text-[7px] text-[#9e9a8f] uppercase">Jonathan Ashwood</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">The Night I Died</h4>
+            <p class="text-[11px] text-[#85877f]">by Jonathan Ashwood</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="text-[#656861] line-through">£20.00</span>
+              <span class="font-semibold text-[#d4b56a]">£16.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#b34c28] overflow-hidden p-3 flex flex-col justify-between text-center">
+            <div class="pt-4"><h4 class="font-display font-bold text-lg text-[#fdf6f0]">The Mind's <span class="italic">Mastery</span></h4></div>
+            <div><span class="text-[7px] text-[#f7dcd0] uppercase">Marcus Hathaway</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">The Mind's Mastery</h4>
+            <p class="text-[11px] text-[#85877f]">by Marcus Hathaway</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="font-semibold text-[#d4b56a]">£22.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#1c1b18] overflow-hidden p-3 flex flex-col justify-between text-center">
+            <div class="pt-4"><h4 class="font-display text-base text-[#f0ebe1]">ENEMY <br/><span class="italic text-xs">of the Quiet Mind</span></h4></div>
+            <div><span class="text-[7px] text-[#a8a192] uppercase">Alexander Kent</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">Enemy of the Quiet Mind</h4>
+            <p class="text-[11px] text-[#85877f]">by Alexander Kent</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="font-semibold text-[#d4b56a]">£21.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#101b16] overflow-hidden p-3 flex flex-col justify-between text-center">
+            <div class="pt-4"><h4 class="font-display text-base text-[#e5f0ea]">Wounds Down, <br/><span class="italic text-[#8cbda5]">Wisdom Up</span></h4></div>
+            <div><span class="text-[7px] text-[#a8c7b8] uppercase">Olivia Hart</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">Wounds Down, Wisdom Up</h4>
+            <p class="text-[11px] text-[#85877f]">by Olivia Hart</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="font-semibold text-[#d4b56a]">£19.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#1e1f26] overflow-hidden p-3 flex flex-col justify-between text-center">
+            <span class="absolute top-2 left-2 z-20 bg-[#2c7650] text-white text-[8px] font-extrabold px-2 py-0.5">SALE -20%</span>
+            <div class="pt-4"><h4 class="font-display font-semibold text-lg text-[#f0f2f8]">Built & Broken <br/><span class="italic text-xs">Poems</span></h4></div>
+            <div><span class="text-[7px] text-[#b8bfd6] uppercase">Sophie Collins</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">Built & Broken</h4>
+            <p class="text-[11px] text-[#85877f]">by Sophie Collins</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="font-semibold text-[#d4b56a]">£18.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all p-4 pb-6">
+          <div class="relative aspect-[3/4] bg-[#cb8929] overflow-hidden p-3 flex flex-col justify-between text-center">
+            <div class="pt-4"><h4 class="font-display font-bold text-base text-[#fffcf5]">The Summer of <br/><span class="italic text-sm">Impossible Things</span></h4></div>
+            <div><span class="text-[7px] text-[#fff2d4] uppercase">Ethan Morris</span></div>
+          </div>
+          <div class="mt-4">
+            <h4 class="font-display text-lg text-[#f2eee3] truncate">The Summer of Impossible Things</h4>
+            <p class="text-[11px] text-[#85877f]">by Ethan Morris</p>
+            <div class="flex items-center gap-2 mt-2 text-xs">
+              <span class="font-semibold text-[#d4b56a]">£17.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offer Banner (Realistic Book Stack & Glowing Candle) -->
+  <section class="relative min-h-[380px] sm:min-h-[420px] lg:min-h-[460px] flex items-center justify-center overflow-hidden border-t border-b border-[#b89245]/35 bg-[#050c08]">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#030705] via-[#07130c] to-[#040806]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(20,65,42,0.4),transparent_70%)] pointer-events-none"></div>
+
+    <!-- Left: Stack of Books with Open Top Book (3D Perspective) -->
+    <div class="absolute -left-6 sm:left-0 md:left-6 lg:left-10 bottom-0 top-0 w-72 sm:w-96 md:w-[460px] lg:w-[500px] pointer-events-none flex items-end pb-2 z-10">
+      <div class="relative w-full h-[260px] sm:h-[300px] md:h-[340px]">
+        <svg viewBox="0 0 520 360" class="w-full h-full filter drop-shadow-2xl">
+          <!-- Book 1 (Bottom Brown) -->
+          <path d="M40,325 C40,305 60,300 280,295 L460,300 L440,345 C280,342 60,350 40,325 Z" fill="#3d2215" stroke="#1a0c06" />
+          <polygon points="280,295 470,290 450,332 280,340" fill="#ede3cc" />
+          <rect x="75" y="303" width="3" height="44" fill="#e5c577" />
+          <rect x="100" y="303" width="3" height="44" fill="#e5c577" />
+          <rect x="165" y="299" width="3" height="44" fill="#e5c577" />
+          <rect x="190" y="299" width="3" height="44" fill="#e5c577" />
+          <!-- Book 2 (Middle Green) -->
+          <g transform="translate(10, -38)">
+            <path d="M45,318 C45,300 65,295 275,290 L450,295 L430,335 C275,332 65,340 45,318 Z" fill="#1e3a29" stroke="#09140c" />
+            <polygon points="275,290 460,285 440,323 275,330" fill="#ede3cc" />
+            <rect x="80" y="298" width="3" height="38" fill="#e5c577" />
+            <rect x="105" y="298" width="3" height="38" fill="#e5c577" />
+            <rect x="170" y="293" width="3" height="38" fill="#e5c577" />
+            <rect x="195" y="293" width="3" height="38" fill="#e5c577" />
+          </g>
+          <!-- Book 3 (Top Natural Open Book) -->
+          <g transform="translate(15, -15)">
+            <path d="M55,248 C140,225 235,238 250,270 C265,238 360,225 445,248 L450,260 C360,236 265,250 250,280 C235,250 140,236 50,260 Z" fill="#21130a" />
+            <path d="M60,238 C145,212 238,228 250,262 C262,228 355,212 440,238 L437,246 C355,220 262,236 250,268 C238,236 145,220 63,246 Z" fill="#c4b59b" />
+            <path d="M65,220 C150,188 240,210 250,250 C260,210 350,188 435,220 L432,228 C350,198 260,218 250,256 C240,218 150,198 68,228 Z" fill="#d9cdb6" />
+            <path d="M78,175 C160,125 242,165 250,225 L250,236 C242,176 160,136 78,186 Z" fill="#f5efe1" stroke="#ab997a" stroke-width="0.5" />
+            <path d="M422,175 C340,125 258,165 250,225 L250,236 C258,176 340,136 422,186 Z" fill="#ede5d3" stroke="#ab997a" stroke-width="0.5" />
+            <line x1="250" y1="145" x2="250" y2="236" stroke="#382817" stroke-width="1.5" />
+            <path d="M250,228 Q248,260 235,285 Q225,305 240,320" stroke="#8b1c1c" stroke-width="3" fill="none" stroke-linecap="round" />
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Right: Clean Ceramic Cup & Eucalyptus with Warm Glow -->
+    <div class="absolute right-4 sm:right-8 md:right-12 lg:right-16 bottom-0 top-0 w-60 sm:w-72 md:w-80 pointer-events-none flex items-end justify-end pb-3 z-10">
+      <div class="relative w-full h-[220px] sm:h-[250px] flex items-end justify-end">
+        <!-- Eucalyptus Leaf Branch -->
+        <div class="absolute right-12 sm:right-16 bottom-8 w-56 sm:w-64 h-44 pointer-events-none">
+          <svg viewBox="0 0 240 180" class="w-full h-full">
+            <path d="M210,130 Q140,85 80,95 Q40,105 10,120" stroke="#2c4233" stroke-width="2.5" fill="none" />
+            <path d="M140,85 Q110,60 70,55" stroke="#2c4233" stroke-width="2" fill="none" />
+            <g transform="translate(55, 118)">
+              <ellipse cx="0" cy="0" rx="17" ry="11" fill="#183124" />
+              <ellipse cx="1" cy="-1" rx="14" ry="9" fill="#294e39" />
+              <ellipse cx="2" cy="-1.5" rx="10" ry="6" fill="#d4b56a" opacity="0.45" />
+            </g>
+            <g transform="translate(80, 95)">
+              <ellipse cx="0" cy="0" rx="19" ry="13" fill="#183124" />
+              <ellipse cx="1" cy="-1" rx="16" ry="11" fill="#294e39" />
+              <ellipse cx="2" cy="-1.5" rx="11" ry="7" fill="#d4b56a" opacity="0.45" />
+            </g>
+            <g transform="translate(115, 88)">
+              <ellipse cx="0" cy="0" rx="20" ry="14" fill="#183124" />
+              <ellipse cx="1" cy="-1" rx="17" ry="12" fill="#294e39" />
+              <ellipse cx="2" cy="-1.5" rx="12" ry="8" fill="#d4b56a" opacity="0.45" />
+            </g>
+            <g transform="translate(145, 85)">
+              <ellipse cx="0" cy="0" rx="21" ry="14" fill="#183124" />
+              <ellipse cx="1" cy="-1" rx="18" ry="12" fill="#294e39" />
+              <ellipse cx="2" cy="-1.5" rx="12" ry="8" fill="#d4b56a" opacity="0.45" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- Candle Container with Centered Soft Glow -->
+        <div class="relative z-20 flex flex-col items-center mr-6 sm:mr-10 mb-2">
+          <!-- Ambient Glow centered directly on flame -->
+          <div class="absolute -top-10 -left-6 -right-6 w-24 h-24 bg-[radial-gradient(circle,rgba(255,170,0,0.5)_0%,rgba(255,130,0,0.2)_50%,transparent_75%)] rounded-full blur-lg pointer-events-none animate-candle-glow"></div>
+
+          <!-- Flame -->
+          <div class="relative mb-[-2px] flex flex-col items-center animate-candle-flame">
+            <div class="relative z-10 w-6 h-11 bg-gradient-to-t from-[#ff4400] via-[#ffaa00] to-[#fffde0] rounded-full blur-[0.4px] shadow-[0_0_20px_#ff9900]"></div>
+            <div class="absolute bottom-1 z-20 w-2.5 h-4 bg-gradient-to-t from-[#2a66ff] via-[#ffffff] to-[#ffffff] rounded-full"></div>
+            <div class="w-0.5 h-1.5 bg-[#111111] mt-[-1px] relative z-10"></div>
+          </div>
+
+          <!-- Ceramic Cup -->
+          <div class="w-20 sm:w-22 h-20 sm:h-22 bg-[#161a18] rounded-xl border border-[#2c332e] shadow-[-10px_15px_30px_rgba(0,0,0,0.95)] relative overflow-hidden flex flex-col justify-start p-1.5">
+            <div class="w-full h-3.5 bg-gradient-to-r from-[#242b27] via-[#f0d694] to-[#1c221e] rounded-full border border-black/60 shadow-inner flex items-center justify-center">
+              <div class="w-4/5 h-2 bg-gradient-to-r from-[#ebd69b] via-[#ffffff] to-[#dfc480] rounded-full blur-[0.3px]"></div>
+            </div>
+            <div class="absolute top-4 left-2 bottom-2 w-2 bg-gradient-to-r from-white/10 to-transparent rounded-full pointer-events-none"></div>
+          </div>
+          <div class="w-22 h-2.5 bg-black/90 blur-sm rounded-full -mt-0.5"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Content -->
+    <div class="container-custom relative z-20 text-center px-4 py-16 sm:py-20 max-w-[850px] mx-auto space-y-5">
+      <span class="text-[11px] sm:text-xs tracking-[0.32em] text-[#d4b56a] font-bold uppercase block">LIMITED TIME OFFER</span>
+      <h2 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-normal tracking-tight text-[#f2eee3] leading-[1.05] drop-shadow-md">
+        Get -30% purchase on <br /> order over £299.00
+      </h2>
+      <div class="pt-3">
+        <a href="#bestsellers" class="min-h-[46px] px-9 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center gap-2 transition-all shadow-xl shadow-black/70">
+          EXPLORE NOW &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Author Spotlight -->
+  <section class="py-20 bg-[#070c09] border-b border-[#f2eee3]/10 overflow-hidden">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-12">
+        <div>
+          <span class="text-[10px] tracking-[0.28em] text-[#d4b56a] font-bold uppercase block mb-3">IN AUGUST</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-medium text-[#f2eee3] leading-[1.05]">
+            Best Author <br/><span class="italic text-[#d9d5ca]">of the Month</span>
+          </h2>
+          <div class="flex items-center gap-4 py-6">
+            <span class="text-xs text-[#d4b56a] font-bold border border-[#d4b56a]/40 px-2 py-1">AWARD 2026</span>
+            <span class="text-xs text-[#d4b56a] font-bold border border-[#d4b56a]/40 px-2 py-1">AWARD 2027</span>
+            <span class="text-xs text-[#d4b56a] font-bold border border-[#d4b56a]/40 px-2 py-1">AWARD 2028</span>
+          </div>
+          <a href="#author" class="min-h-[44px] px-7 bg-[#2c7650] hover:bg-[#37865d] text-white text-[10px] font-bold tracking-widest uppercase inline-flex items-center gap-2">
+            VIEW AUTHOR &rarr;
+          </a>
+        </div>
+
+        <div class="flex justify-center">
+          <div class="w-64 sm:w-72 aspect-[4/5] rounded border border-[#f2eee3]/15 shadow-2xl bg-gradient-to-b from-[#182a20] to-[#0b1410] flex items-center justify-center p-4">
+            <div class="text-center">
+              <div class="w-28 h-28 rounded-full bg-[#aa8362] mx-auto mb-3 border-2 border-[#d4b56a]"></div>
+              <h4 class="font-display text-xl text-white font-semibold">Santosh Kumar</h4>
+              <p class="text-xs text-[#d4b56a]">Bestselling Author</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <blockquote class="font-display italic text-2xl sm:text-3xl text-[#f2eee3] leading-snug">
+            &ldquo;My books are written from human soul of love, are crafted with a aim to help by publisher.&rdquo;
+          </blockquote>
+          <div>
+            <span class="text-xs font-bold text-[#d4b56a] uppercase tracking-widest block">SANTOSH KUMAR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newest Arrivals -->
+  <section class="py-20 bg-[#080d0a] border-b border-[#f2eee3]/10">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-4xl sm:text-5xl font-medium tracking-tight text-[#f2eee3]">Our Newest Arrivals</h2>
+        <div class="w-16 h-[2px] bg-[#b89245] mx-auto mt-3"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Left Promo -->
+        <div class="lg:col-span-3 bg-[#101611] border border-[#f2eee3]/15 p-6 flex flex-col justify-between text-center">
+          <div>
+            <span class="font-display italic text-lg text-[#d9d5ca]">Get Extra</span>
+            <h3 class="font-display text-3xl font-semibold text-[#d4b56a] mt-0.5">Sale -25%</h3>
+            <span class="text-[9px] font-bold text-[#9a9b94] uppercase tracking-widest block mt-1">ON ORDER OVER £150</span>
+          </div>
+          <div class="my-6">
+            <div class="w-32 h-16 bg-[#1b3d2b] mx-auto rounded border-l-4 border-[#b89245] shadow flex items-center justify-center text-[7px] text-[#d4b56a] font-bold">
+              COLLECTOR EDITION
+            </div>
+          </div>
+          <a href="#bestsellers" class="w-full py-2.5 border border-[#f2eee3]/30 text-[#f2eee3] hover:text-[#d4b56a] text-[10px] font-bold tracking-widest uppercase">
+            VIEW MORE &rarr;
+          </a>
+        </div>
+
+        <!-- 8 Book Grid -->
+        <div class="lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          <!-- 1 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#f2b844] relative flex items-center justify-center text-[7px] font-bold text-black p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              VISIONS OF VICTORY
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">Visions of Victory</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£18.00</span><span class="text-[#d4b56a]">£15.00</span></div>
+            </div>
+          </div>
+          <!-- 2 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#214a6b] relative flex items-center justify-center text-[7px] font-bold text-white p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              Henry & The Good Dog
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">Henry & The Good Dog</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£15.00</span><span class="text-[#d4b56a]">£12.00</span></div>
+            </div>
+          </div>
+          <!-- 3 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#294c38] relative flex items-center justify-center text-[7px] font-bold text-white p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              A Journey of Thousand Miles
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">A Journey of Thousand Miles</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£18.00</span><span class="text-[#d4b56a]">£12.00</span></div>
+            </div>
+          </div>
+          <!-- 4 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#233d61] relative flex items-center justify-center text-[7px] font-bold text-white p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              The Warrior of Silent Rivers
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">The Warrior of Silent Rivers</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£18.00</span><span class="text-[#d4b56a]">£12.00</span></div>
+            </div>
+          </div>
+          <!-- 5 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#2d4978] relative flex items-center justify-center text-[7px] font-bold text-white p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              Life in Two Worlds
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">Life in Two Worlds</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£19.00</span><span class="text-[#d4b56a]">£15.00</span></div>
+            </div>
+          </div>
+          <!-- 6 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#255073] relative flex items-center justify-center text-[7px] font-bold text-white p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              Bottle of Blue Dreams
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">Bottle of Blue Dreams</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£16.00</span><span class="text-[#d4b56a]">£12.00</span></div>
+            </div>
+          </div>
+          <!-- 7 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#4d4434] relative flex items-center justify-center text-[7px] font-bold text-white p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              Shadows of Yesterday
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">Shadows of Yesterday</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£18.00</span><span class="text-[#d4b56a]">£12.00</span></div>
+            </div>
+          </div>
+          <!-- 8 -->
+          <div class="bg-[#060a08] border border-[#f2eee3]/10 p-3">
+            <div class="aspect-[3/4] bg-[#663b33] relative flex items-center justify-center text-[7px] font-bold text-white p-2">
+              <span class="absolute top-1.5 left-1.5 bg-[#2c7650] text-white text-[7px] px-1">SALE -20%</span>
+              Fragments of Truth & Hell
+            </div>
+            <div class="mt-2 text-xs">
+              <h5 class="font-display text-white truncate">Fragments of Truth & Hell</h5>
+              <div class="flex gap-2 text-[11px]"><span class="line-through text-gray-500">£16.00</span><span class="text-[#d4b56a]">£12.00</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events & Newsletter Section -->
+  <section id="events" class="border-t border-b border-[#f2eee3]/10 bg-[#050807] overflow-hidden">
+    <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#f2eee3]/10">
+      
+      <!-- Left: The Bookshop Events with Sunflower Background -->
+      <div class="relative p-10 sm:p-14 lg:p-20 bg-[#080e0b] flex flex-col justify-between min-h-[380px] lg:min-h-[440px] overflow-hidden group">
+        <div class="space-y-4 relative z-10">
+          <span class="text-[11px] tracking-[0.3em] font-bold text-[#d4b56a] uppercase block">UPCOMING EVENTS</span>
+          <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-[#f2eee3] leading-[1.02]">
+            The Bookshop Events
+          </h2>
+          <p class="text-xs sm:text-sm text-[#9a9b94] font-light max-w-[460px] leading-relaxed pt-1">
+            Join us for intimate author signings, evening book club discussions, poetry recitals, and creative writing workshops throughout the season.
+          </p>
+          <div class="space-y-3 pt-3">
+            <div class="flex items-center gap-3 text-xs bg-[#050807]/60 border border-[#f2eee3]/10 p-3 rounded-sm">
+              <span class="text-[#d4b56a] font-bold tracking-wider font-display text-sm">AUG 28</span>
+              <div class="w-[1px] h-4 bg-[#f2eee3]/20"></div>
+              <span class="text-[#e2ded2]">Santosh Kumar: Author Reading &amp; Signing</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs bg-[#050807]/60 border border-[#f2eee3]/10 p-3 rounded-sm">
+              <span class="text-[#d4b56a] font-bold tracking-wider font-display text-sm">SEP 05</span>
+              <div class="w-[1px] h-4 bg-[#f2eee3]/20"></div>
+              <span class="text-[#e2ded2]">Autumn Poetry &amp; Acoustic Evening</span>
+            </div>
+          </div>
+        </div>
+        <div class="relative z-10 pt-8">
+          <a href="#bestsellers" class="inline-flex items-center gap-2 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] hover:text-white transition-colors">
+            EXPLORE ALL EVENTS &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Stay In Touch with Our Updates / Newsletter -->
+      <div class="relative p-10 sm:p-14 lg:p-20 bg-[#0b1510] flex flex-col justify-between min-h-[380px] lg:min-h-[440px]">
+        <div class="relative z-10 space-y-4">
+          <span class="text-[11px] tracking-[0.3em] font-bold text-[#d4b56a] uppercase block">NEWSLETTER</span>
+          <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-[#f2eee3] leading-[1.02]">
+            Stay In Touch with Our Updates
+          </h2>
+          <p class="text-xs sm:text-sm text-[#9a9b94] font-light leading-relaxed">
+            Newsletter to get in touch. Receive exclusive early access to curated editions, signed copies, and subscriber discounts.
+          </p>
+
+          <form onsubmit="event.preventDefault(); alert('Subscribed successfully!');" class="pt-4 space-y-4 max-w-[480px]">
+            <div>
+              <label class="block text-xs text-[#888b83] uppercase tracking-wider mb-2 font-semibold">Email</label>
+              <input type="email" placeholder="Enter Your Email" required class="w-full h-12 bg-[#050807]/80 border border-[#f2eee3]/20 focus:border-[#d4b56a] px-4 text-sm text-[#f2eee3] placeholder-[#666a64] outline-none transition-colors">
+            </div>
+            <div>
+              <button type="submit" class="min-h-[46px] px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-xs font-bold tracking-[0.16em] uppercase transition-all shadow-lg">
+                SUBSCRIBE
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="relative z-10 pt-6 text-[11px] text-[#646860]">
+          <p>We respect your privacy. Unsubscribe anytime with one click.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer (Balanced Proportion) -->
+  <footer class="bg-[#040605] border-t border-[#f2eee3]/10 text-[#888b83]">
+    <div class="container-custom py-14 sm:py-16 lg:py-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
+        <!-- Col 1 -->
+        <div class="lg:col-span-4 space-y-4">
+          <h4 class="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">CONNECT</h4>
+          <div class="space-y-1.5 text-[#9a9b94] text-[13px] sm:text-sm">
+            <p>32 Bishop Road, Birmingham, B15 1AA, United Kingdom</p>
+            <p class="pt-1.5 text-[#f2eee3] font-medium">(+44) 0121 496 7890</p>
+            <p class="text-[#d4b56a]">hello@thepublishing.com</p>
+          </div>
+          <div class="flex items-center gap-2.5 pt-1.5">
+            <button class="w-8 h-8 rounded-full bg-[#0d1410] border border-[#f2eee3]/15 text-[#d9d5ca] flex items-center justify-center"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i></button>
+            <button class="w-8 h-8 rounded-full bg-[#0d1410] border border-[#f2eee3]/15 text-[#d9d5ca] flex items-center justify-center"><i data-lucide="twitter" class="w-3.5 h-3.5"></i></button>
+            <button class="w-8 h-8 rounded-full bg-[#0d1410] border border-[#f2eee3]/15 text-[#d9d5ca] flex items-center justify-center"><i data-lucide="linkedin" class="w-3.5 h-3.5"></i></button>
+            <button class="w-8 h-8 rounded-full bg-[#0d1410] border border-[#f2eee3]/15 text-[#d9d5ca] flex items-center justify-center"><i data-lucide="mail" class="w-3.5 h-3.5"></i></button>
+          </div>
+        </div>
+        <!-- Col 2 -->
+        <div class="lg:col-span-2 space-y-4">
+          <h4 class="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">QUICK LINKS</h4>
+          <ul class="space-y-2.5 text-[13px] sm:text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Shop</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Events</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Col 3 -->
+        <div class="lg:col-span-2 space-y-4">
+          <h4 class="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">YOUR ACCOUNT</h4>
+          <ul class="space-y-2.5 text-[13px] sm:text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">Cart</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">My Orders</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Wishlist</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Track Order</a></li>
+          </ul>
+        </div>
+        <!-- Col 4 -->
+        <div class="lg:col-span-4 space-y-4">
+          <h4 class="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">BEST SELLERS</h4>
+          <div class="flex items-center gap-3.5 bg-[#09100c] border border-[#f2eee3]/10 p-2.5 rounded">
+            <div class="w-10 h-14 bg-[#164833] rounded"></div>
+            <div>
+              <h5 class="text-white text-xs font-medium">Visions of Victory</h5>
+              <span class="text-[#d4b56a] text-xs font-bold">£19.00</span>
+            </div>
+          </div>
+          <div class="flex border border-[#f2eee3]/20 bg-[#070d09]">
+            <input type="email" placeholder="Enter Your Email..." class="w-full bg-transparent px-3 py-2 text-xs text-white outline-none">
+            <button class="px-4 py-2 bg-[#2c7650] text-white text-[9px] font-bold tracking-widest uppercase">SUBSCRIBE</button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-[#f2eee3]/10 pt-6 mt-8 flex justify-between items-center text-xs text-[#646860]">
+        <p>© 2026 The Publishing. All Rights Reserved.</p>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-8 h-8 bg-[#123d2b] text-[#d4b56a] flex items-center justify-center rounded">▲</button>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Hero Carousel Slider with 1s Ultra-Smooth Crossfade
+    let currentHeroSlide = 1;
+    const totalHeroSlides = 3;
+    let isHeroFading = false;
+
+    function changeHeroSlide(dir) {
+      if (isHeroFading) return;
+      isHeroFading = true;
+
+      const leftContent = document.getElementById('hero-left-content');
+      const visualContainer = document.getElementById('hero-visual-container');
+
+      if (leftContent) {
+        leftContent.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+        leftContent.style.opacity = '0';
+        leftContent.style.transform = 'translateY(6px)';
+        leftContent.style.filter = 'blur(2px)';
+      }
+      if (visualContainer) {
+        visualContainer.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+        visualContainer.style.opacity = '0';
+        visualContainer.style.transform = 'scale(0.97)';
+        visualContainer.style.filter = 'blur(2px)';
+      }
+
+      setTimeout(() => {
+        currentHeroSlide += dir;
+        if (currentHeroSlide > totalHeroSlides) currentHeroSlide = 1;
+        if (currentHeroSlide < 1) currentHeroSlide = totalHeroSlides;
+
+        const slideNum = document.getElementById('hero-slide-num');
+        const eyebrow = document.getElementById('hero-eyebrow');
+        const title = document.getElementById('hero-title');
+        const desc = document.getElementById('hero-desc');
+        const btn = document.getElementById('hero-btn-primary');
+
+        if (slideNum) slideNum.textContent = String(currentHeroSlide).padStart(2, '0');
+
+        if (currentHeroSlide === 1) {
+          if (eyebrow) eyebrow.textContent = 'SALE UP TO 20% OFF';
+          if (title) title.innerHTML = 'Meet Your Next <br /><span class="italic text-[#d4b56a]">Favorite Book.</span>';
+          if (desc) desc.textContent = 'Explore our handpicked collection of inspiring literature, exclusive editions, and timeless masterworks.';
+          if (btn) {
+            btn.textContent = 'PURCHASE';
+            btn.className = 'min-h-[46px] px-9 bg-[#c85a32] hover:bg-[#d96a40] text-white text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all shadow-lg shadow-[#c85a32]/30';
+          }
+          if (visualContainer) {
+            visualContainer.innerHTML = `
+              <div class="absolute bottom-4 w-5/6 h-16 bg-black/80 blur-2xl rounded-full"></div>
+              <div class="absolute bottom-10 left-2 sm:left-6 w-[240px] sm:w-[280px] h-[190px] sm:h-[220px] transform -rotate-12 hover:-rotate-10 transition-transform duration-500 z-10">
+                <div class="relative w-full h-full bg-gradient-to-br from-[#f5b82e] via-[#e5a017] to-[#cb8708] rounded-md shadow-[-20px_25px_45px_rgba(0,0,0,0.85)] border-l-4 border-[#b57200] p-4 flex flex-col justify-between overflow-hidden">
+                  <div class="absolute right-0 top-0 bottom-0 w-4 bg-[#fbf5e6] border-l border-[#d4b56a]/60 shadow-inner flex flex-col justify-around py-2"><div class="w-full h-[1px] bg-[#c7ab77]/50"></div></div>
+                  <div class="absolute -top-6 -left-6 w-28 h-28 bg-[#2d7bb8] rounded-full opacity-85 transform rotate-45"></div>
+                  <div class="relative z-10 pt-2"><span class="text-[7px] font-bold text-[#442c00] tracking-widest uppercase block">SETTING THE STAGE</span><h3 class="font-display font-black text-2xl sm:text-3xl text-white tracking-tight leading-none drop-shadow-md mt-1">VISIONS <br/><span class="text-[#194c73]">TO</span> VICTORY</h3></div>
+                  <div class="relative z-10"><p class="text-[8px] font-bold text-[#3d2400] leading-tight max-w-[140px]">UNLOCKING THE PATH</p><span class="text-[8px] font-extrabold text-[#194c73] uppercase tracking-wider block mt-1">SANTOSH KUMAR</span></div>
+                </div>
+              </div>
+              <div class="absolute bottom-16 right-4 sm:right-10 w-[180px] sm:w-[210px] h-[260px] sm:h-[300px] transform rotate-3 hover:rotate-1 transition-transform duration-500 z-20">
+                <div class="relative w-full h-full bg-gradient-to-b from-[#f7c244] via-[#e8a81c] to-[#cb8708] rounded-md shadow-[-25px_30px_60px_rgba(0,0,0,0.95)] border-l-[6px] border-[#9c6300] p-4 flex flex-col justify-between overflow-hidden">
+                  <div class="absolute -top-2 left-3 right-0 h-4 bg-[#fff9ed] border-t border-b border-[#cca968] shadow-sm transform skew-x-12"></div>
+                  <div class="absolute -top-4 -right-4 w-20 h-20 bg-[#2d7bb8] rounded-full opacity-80"></div>
+                  <div class="relative z-10 pt-4"><span class="text-[6px] font-bold text-[#442c00] tracking-widest uppercase block">VOL 1 • THE BEGINNING</span><h3 class="font-display font-black text-xl sm:text-2xl text-white tracking-tight leading-none drop-shadow-md mt-1">VISIONS <br/><span class="text-[#194c73]">TO</span> VICTORY</h3></div>
+                  <div class="relative z-10"><span class="text-[8px] font-extrabold text-[#194c73] uppercase tracking-wider block">SANTOSH KUMAR</span></div>
+                </div>
+              </div>
+              <div class="absolute bottom-4 left-[46%] z-30 transform -translate-x-1/2 flex items-end gap-3">
+                <div class="relative w-12 h-14 bg-gradient-to-b from-[#1a211e] via-[#090d0b] to-[#040605] rounded-sm border border-[#3a4740] shadow-2xl flex flex-col items-center justify-between p-1">
+                  <div class="w-6 h-3 bg-[#111111] rounded-t-sm border border-[#444] shadow-sm -mt-2.5"></div>
+                  <div class="w-8 h-5 bg-[#e8dfce]/90 border border-[#b89245]/40 rounded-sm flex items-center justify-center"><span class="text-[5px] font-bold text-[#1a1a1a] tracking-tighter uppercase font-display">INK</span></div>
+                  <div class="w-full h-1 bg-[#020302] rounded-b-sm"></div>
+                </div>
+                <div class="flex flex-col gap-1 transform rotate-[-28deg] -mb-1">
+                  <div class="w-20 h-2 bg-gradient-to-r from-[#111111] via-[#d4b56a] to-[#222222] rounded-full shadow-md border-r-2 border-[#e6c880]"></div>
+                  <div class="w-22 h-2 bg-gradient-to-r from-[#0d1f16] via-[#2c7650] to-[#111111] rounded-full shadow-md border-r-2 border-[#d4b56a]"></div>
+                </div>
+              </div>
+            `;
+          }
+        } else if (currentHeroSlide === 2) {
+          if (eyebrow) eyebrow.textContent = 'SALE UP TO 30% OFF';
+          if (title) title.innerHTML = 'Get -30% <br />purchase on order <br />over <span class="text-[#2c7650] font-medium">£99.00</span>';
+          if (desc) desc.textContent = 'Discover your next great read from our wide selection of bestselling books.';
+          if (btn) {
+            btn.textContent = 'SHOP NOW';
+            btn.className = 'min-h-[46px] px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] font-bold tracking-[0.1em] uppercase inline-flex items-center justify-center transition-all shadow-lg shadow-[#123d2b]/40';
+          }
+          if (visualContainer) {
+            visualContainer.innerHTML = `
+              <div class="absolute -bottom-8 w-[92%] h-16 bg-gradient-to-t from-black via-black/80 to-transparent blur-md rounded-full"></div>
+              <div class="absolute -bottom-4 w-[85%] h-10 bg-[#0d1410] border-t border-[#f2eee3]/10 transform -skew-x-12 rounded-sm shadow-2xl"></div>
+              <div class="relative z-10 w-[190px] sm:w-[220px] h-[270px] sm:h-[310px] transform -rotate-12 translate-x-4 translate-y-3 shadow-[0_20px_50px_rgba(0,0,0,0.9)] rounded-[2px] overflow-hidden border-l-4 border-[#091b13] bg-[#0d2a1d] p-6 flex flex-col justify-between border border-[#b89245]/30">
+                <div class="text-center pt-2"><span class="text-[7px] tracking-[0.3em] text-[#d4b56a] uppercase font-bold block mb-1">EXCLUSIVE EDITION</span><h2 class="font-display font-semibold text-2xl leading-none text-[#f2eee3] uppercase">VISIONS</h2><span class="font-display italic text-xs text-[#d4b56a] block my-0.5">OF</span><h2 class="font-display font-semibold text-2xl leading-none text-[#f2eee3] uppercase">VICTORY</h2></div>
+                <div class="text-center pb-1"><span class="text-[7px] tracking-[0.2em] text-[#f2eee3] uppercase font-semibold py-0.5 px-2 border border-[#d4b56a]/40 bg-[#061710]/70 inline-block">SANTOSH KUMAR</span></div>
+              </div>
+              <div class="relative z-20 w-[210px] sm:w-[250px] h-[300px] sm:h-[350px] transform rotate-3 -translate-x-4 shadow-[-15px_25px_60px_rgba(0,0,0,0.95)] rounded-[2px] overflow-hidden border-l-[6px] border-[#081811] bg-[#0d2a1d] p-6 flex flex-col justify-between border border-[#b89245]/30">
+                <div class="text-center pt-4"><span class="text-[8px] tracking-[0.3em] text-[#d4b56a] uppercase font-bold block mb-2">EXCLUSIVE EDITION</span><h2 class="font-display font-semibold text-3xl leading-none text-[#f2eee3] uppercase">VISIONS</h2><span class="font-display italic text-sm text-[#d4b56a] block my-1">OF</span><h2 class="font-display font-semibold text-3xl leading-none text-[#f2eee3] uppercase">VICTORY</h2></div>
+                <div class="text-center pb-2"><span class="text-[8px] tracking-[0.25em] text-[#f2eee3] uppercase font-semibold py-1 px-3 border border-[#d4b56a]/40 bg-[#061710]/70 inline-block">SANTOSH KUMAR</span></div>
+              </div>
+              <div class="absolute -bottom-2 right-8 z-30 transform -rotate-25 w-40 sm:w-48 h-3 pointer-events-none"><div class="w-full h-2 bg-gradient-to-r from-[#111111] via-[#d4b56a] to-[#222222] rounded-full shadow-lg"></div></div>
+            `;
+          }
+        } else if (currentHeroSlide === 3) {
+          if (eyebrow) eyebrow.textContent = 'LIMITED EDITION RELEASE';
+          if (title) title.innerHTML = 'Curated Stories <br />for Passionate <br /><span class="italic text-[#d4b56a]">Readers.</span>';
+          if (desc) desc.textContent = 'Immerse yourself in collector’s hardcovers, signed author editions, and exquisite typography.';
+          if (btn) {
+            btn.textContent = 'VIEW EDITIONS';
+            btn.className = 'min-h-[46px] px-8 bg-[#d4b56a] hover:bg-[#e6c880] text-[#050807] text-[11px] font-bold tracking-[0.1em] uppercase inline-flex items-center justify-center transition-all shadow-lg shadow-[#d4b56a]/30';
+          }
+          if (visualContainer) {
+            visualContainer.innerHTML = `
+              <div class="absolute -bottom-8 w-[92%] h-16 bg-gradient-to-t from-black blur-md rounded-full"></div>
+              <div class="relative z-10 w-[200px] sm:w-[230px] h-[280px] sm:h-[320px] transform -rotate-8 translate-x-3 shadow-2xl rounded-sm overflow-hidden border-l-4 border-[#0e1f2b] bg-[#122b3b] p-6 text-center text-white"><h3 class="font-display text-xl font-bold text-[#d4b56a]">THE GOLDEN ODYSSEY</h3><p class="text-[8px] text-[#93b3c8] mt-2">Collector's Series</p></div>
+              <div class="relative z-20 w-[210px] sm:w-[245px] h-[300px] sm:h-[340px] transform rotate-4 -translate-x-3 shadow-2xl rounded-sm overflow-hidden border-l-[6px] border-[#38110b] bg-[#381510] p-6 text-center text-white"><h3 class="font-display text-2xl font-bold text-[#f2eee3]">CURATED ANTHOLOGY</h3><p class="text-[8px] text-[#e0a89d] mt-2">ELEANOR ROOKE</p></div>
+            `;
+          }
+        }
+
+        setTimeout(() => {
+          if (leftContent) {
+            leftContent.style.opacity = '1';
+            leftContent.style.transform = 'translateY(0)';
+            leftContent.style.filter = 'none';
+          }
+          if (visualContainer) {
+            visualContainer.style.opacity = '1';
+            visualContainer.style.transform = 'scale(1)';
+            visualContainer.style.filter = 'none';
+          }
+          isHeroFading = false;
+        }, 150);
+      }, 600);
+    }
+
+    // Auto-advance hero slides every 8 seconds with buttery liquid smooth transition
+    let heroAutoTimer = setInterval(() => {
+      changeHeroSlide(1);
+    }, 8000);
+
+    // Reset auto-play timer on manual interaction
+    const origChangeHeroSlide = changeHeroSlide;
+    window.changeHeroSlide = function(dir) {
+      clearInterval(heroAutoTimer);
+      origChangeHeroSlide(dir);
+      heroAutoTimer = setInterval(() => {
+        origChangeHeroSlide(1);
+      }, 8000);
+    };
+  </script>
+</body>
+</html>
+

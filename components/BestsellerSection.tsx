@@ -1,0 +1,233 @@
+"use client";
+
+import React, { useState } from "react";
+import { ArrowRight, ShoppingCart, Heart, Eye } from "lucide-react";
+import BookCoverArt from "./BookCoverArt";
+
+interface Book {
+  id: string;
+  coverId: string;
+  title: string;
+  author: string;
+  price: string;
+  oldPrice?: string;
+  saleBadge?: string;
+  category: string;
+}
+
+interface BestsellerSectionProps {
+  onAddToCart?: (bookTitle: string) => void;
+  onQuickView?: (book: Book) => void;
+}
+
+const ALL_BOOKS: Book[] = [
+  {
+    id: "b1",
+    coverId: "bestseller-1",
+    title: "The Journey of a Young Entrepreneur",
+    author: "by Santosh Kumar",
+    price: "£18.00",
+    oldPrice: "£22.00",
+    saleBadge: "SALE -20%",
+    category: "bestseller",
+  },
+  {
+    id: "b2",
+    coverId: "bestseller-2",
+    title: "Fragments of War",
+    author: "by John Walker",
+    price: "£18.00",
+    oldPrice: "£24.00",
+    saleBadge: "SALE -20%",
+    category: "bestseller",
+  },
+  {
+    id: "b3",
+    coverId: "bestseller-3",
+    title: "The Night I Died",
+    author: "by Jonathan Ashwood",
+    price: "£16.00",
+    oldPrice: "£20.00",
+    saleBadge: "SALE -20%",
+    category: "bestseller",
+  },
+  {
+    id: "b4",
+    coverId: "bestseller-4",
+    title: "The Mind's Mastery",
+    author: "by Marcus Hathaway",
+    price: "£22.00",
+    category: "bestseller",
+  },
+  {
+    id: "b5",
+    coverId: "bestseller-5",
+    title: "Enemy of the Quiet Mind",
+    author: "by Alexander Kent",
+    price: "£21.00",
+    category: "bestseller",
+  },
+  {
+    id: "b6",
+    coverId: "bestseller-6",
+    title: "Wounds Down, Wisdom Up",
+    author: "by Olivia Hart",
+    price: "£19.00",
+    category: "bestseller",
+  },
+  {
+    id: "b7",
+    coverId: "bestseller-7",
+    title: "Built & Broken",
+    author: "by Sophie Collins",
+    price: "£18.00",
+    saleBadge: "SALE -20%",
+    category: "bestseller",
+  },
+  {
+    id: "b8",
+    coverId: "bestseller-8",
+    title: "The Summer of Impossible Things",
+    author: "by Ethan Morris",
+    price: "£17.00",
+    category: "bestseller",
+  },
+];
+
+export default function BestsellerSection({ onAddToCart, onQuickView }: BestsellerSectionProps) {
+  const [activeTab, setActiveTab] = useState<"bestseller" | "sale" | "featured">("bestseller");
+
+  const filteredBooks = ALL_BOOKS.filter((book) => {
+    if (activeTab === "sale") return !!book.saleBadge;
+    if (activeTab === "featured") return ["b1", "b3", "b5", "b7"].includes(book.id);
+    return true;
+  });
+
+  return (
+    <section id="bestsellers" className="py-20 bg-[#050807] border-b border-[#f2eee3]/10">
+      <div className="container-custom">
+        
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 pb-4 border-b border-[#f2eee3]/10">
+          <div>
+            <span className="text-[10px] tracking-[0.28em] text-[#d4b56a] font-bold uppercase block mb-2">
+              PEOPLE&apos;S CHOICE
+            </span>
+            <div className="flex items-center gap-6 sm:gap-8 pt-1">
+              <button
+                onClick={() => setActiveTab("bestseller")}
+                className={`font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors relative pb-2 ${
+                  activeTab === "bestseller" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
+                }`}
+              >
+                Bestseller Books
+                {activeTab === "bestseller" && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#b89245]" />
+                )}
+              </button>
+
+              <button
+                onClick={() => setActiveTab("sale")}
+                className={`font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors relative pb-2 ${
+                  activeTab === "sale" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
+                }`}
+              >
+                Sale
+                {activeTab === "sale" && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#b89245]" />
+                )}
+              </button>
+
+              <button
+                onClick={() => setActiveTab("featured")}
+                className={`font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors relative pb-2 ${
+                  activeTab === "featured" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
+                }`}
+              >
+                Featured Books
+                {activeTab === "featured" && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#b89245]" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          <a
+            href="#shop"
+            className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.14em] uppercase text-[#2c7650] hover:text-[#d4b56a] transition-colors self-start sm:self-end"
+          >
+            VIEW ALL <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+
+        {/* Product Cards 4x2 Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {filteredBooks.map((book) => (
+            <div
+              key={book.id}
+              className="group relative bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 p-4 pb-6 flex flex-col justify-between"
+            >
+              {/* Book Artwork Frame */}
+              <div className="relative aspect-[3/4] w-full bg-[#101612] overflow-hidden flex items-center justify-center border border-black/40">
+                
+                {/* Sale Badge */}
+                {book.saleBadge && (
+                  <span className="absolute top-2 left-2 z-20 bg-[#2c7650] text-white text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 shadow-md">
+                    {book.saleBadge}
+                  </span>
+                )}
+
+                {/* Cover Rendering */}
+                <div className="w-full h-full transform group-hover:scale-105 transition-transform duration-500">
+                  <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace("by ", "")} />
+                </div>
+
+                {/* Quick Action Overlay on Hover */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-30">
+                  <button
+                    onClick={() => onAddToCart && onAddToCart(book.title)}
+                    className="w-10 h-10 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+                    title="Add to Cart"
+                    aria-label="Add to cart"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => onQuickView && onQuickView(book)}
+                    className="w-10 h-10 rounded-full bg-[#0b120f] border border-[#d4b56a] hover:bg-[#d4b56a] text-[#f2eee3] hover:text-[#050807] flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+                    title="Quick View"
+                    aria-label="Quick view"
+                  >
+                    <Eye className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Book Information */}
+              <div className="mt-4">
+                <h4 className="font-display text-lg font-medium text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors line-clamp-1 leading-snug">
+                  {book.title}
+                </h4>
+                <p className="text-[11px] text-[#85877f] mt-0.5">
+                  {book.author}
+                </p>
+                <div className="flex items-center gap-2.5 mt-2">
+                  {book.oldPrice && (
+                    <span className="text-xs text-[#656861] line-through font-normal">
+                      {book.oldPrice}
+                    </span>
+                  )}
+                  <span className="text-xs font-semibold text-[#d4b56a]">
+                    {book.price}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
