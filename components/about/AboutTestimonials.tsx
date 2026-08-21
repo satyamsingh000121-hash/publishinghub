@@ -25,10 +25,10 @@ export default function AboutTestimonials() {
   ];
 
   return (
-    <section className="py-24 sm:py-32 bg-gradient-to-b from-[#060c09] via-[#040806] to-[#050807] border-b border-[#f2eee3]/10 relative overflow-hidden">
+    <section className="py-24 sm:py-32 dark:bg-gradient-to-b dark:from-[#060c09] dark:via-[#040806] dark:to-[#050807] bg-[#f7f2fd] border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] relative overflow-hidden">
       {/* Central Watermark Feather Background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-        <svg viewBox="0 0 200 200" className="w-[500px] h-[500px] text-[#d4b56a]" fill="currentColor">
+        <svg viewBox="0 0 200 200" className="w-[500px] h-[500px] dark:text-[#d4b56a] text-[#9333ea]" fill="currentColor">
           <path d="M100 20 C90 40 70 80 65 120 C63 150 75 180 100 195 C125 180 137 150 135 120 C130 80 110 40 100 20 Z" />
         </svg>
       </div>
@@ -39,16 +39,16 @@ export default function AboutTestimonials() {
           <span className="text-[11px] sm:text-xs tracking-[0.28em] text-[#d4b56a] font-bold uppercase block mb-3 font-sans">
             TESTIMONIALS
           </span>
-          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium text-[#f2eee3] tracking-tight leading-tight mb-4">
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium dark:text-[#f2eee3] text-[#18181b] tracking-tight leading-tight mb-4">
             Read Reviews by My Readers
           </h2>
 
-          {/* Decorative Gold Filigree Divider */}
+          {/* Decorative Gold/Purple Filigree Divider */}
           <div className="flex items-center justify-center gap-3 text-[#d4b56a] opacity-90 my-2">
             <span className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#d4b56a] to-[#d4b56a]" />
             <div className="flex items-center gap-1.5">
               <span className="w-1 h-1 rotate-45 bg-[#d4b56a]" />
-              <span className="w-2 h-2 rotate-45 border border-[#d4b56a] bg-[#050807] flex items-center justify-center">
+              <span className="w-2 h-2 rotate-45 border border-[#d4b56a] dark:bg-[#050807] bg-white flex items-center justify-center">
                 <span className="w-0.5 h-0.5 bg-[#d4b56a]" />
               </span>
               <span className="w-1 h-1 rotate-45 bg-[#d4b56a]" />
@@ -62,11 +62,11 @@ export default function AboutTestimonials() {
           {testimonials.map((item, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center text-center group bg-[#070e0a]/40 border border-[#f2eee3]/5 p-8 sm:p-10 rounded-sm hover:border-[#d4b56a]/30 transition-all duration-300 shadow-xl"
+              className="flex flex-col items-center text-center group dark:bg-[#070e0a]/40 bg-white border dark:border-[#f2eee3]/5 border-[#e9e1f5] p-8 sm:p-10 rounded-xs dark:hover:border-[#d4b56a]/30 hover:border-[#9333ea] transition-all duration-300 shadow-xs hover:shadow-lg hover:shadow-purple-500/10"
             >
               {/* Circular Avatar Frame */}
               <div className="relative mb-6">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#d4b56a]/50 p-1 bg-[#0d1712] shadow-[0_0_20px_rgba(212,181,106,0.15)] group-hover:border-[#d4b56a] transition-all duration-300">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 dark:border-[#d4b56a]/50 border-purple-300/60 p-1 dark:bg-[#0d1712] bg-[#faf5ff] dark:shadow-[0_0_20px_rgba(212,181,106,0.15)] shadow-[0_0_15px_rgba(147,51,234,0.15)] group-hover:border-[#9333ea] transition-all duration-300">
                   <img
                     src={item.image}
                     alt={item.name}
@@ -80,16 +80,16 @@ export default function AboutTestimonials() {
               </div>
 
               {/* Italic Quote Text */}
-              <blockquote className="font-display italic text-lg sm:text-xl text-[#dedacf] leading-relaxed max-w-md mb-6 font-normal">
+              <blockquote className="font-display italic text-lg sm:text-xl dark:text-[#dedacf] text-[#3f3f46] leading-relaxed max-w-md mb-6 font-normal">
                 {item.quote}
               </blockquote>
 
               {/* Author Name and Role */}
               <div className="mt-auto">
-                <h4 className="font-display text-lg sm:text-xl font-semibold text-[#f2eee3] tracking-wide">
+                <h4 className="font-display text-lg sm:text-xl font-semibold dark:text-[#f2eee3] text-[#18181b] tracking-wide">
                   {item.name}
                 </h4>
-                <p className="text-[11px] sm:text-xs text-[#2c7650] font-medium tracking-wider uppercase mt-1">
+                <p className="text-[11px] sm:text-xs text-[#9333ea] dark:text-[#2c7650] font-medium tracking-wider uppercase mt-1">
                   {item.role}
                 </p>
               </div>

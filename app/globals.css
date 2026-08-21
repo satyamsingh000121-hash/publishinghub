@@ -269,14 +269,16 @@ html.light section.bg-gradient-to-r.from-\[\#050807\] > div.bg-\[radial-gradient
   opacity: 0.15 !important;
 }
 
-/* 2. Promo Cards in Light Mode */
+/* 2. Promo Cards & Dark Containers in Light Mode */
 html.light .promo-card,
-html.light .bg-\[\#0b120f\] {
+html.light .bg-\[\#0b120f\],
+html.light .bg-\[\#050807\] {
   background-color: #ffffff !important;
   border-color: #e9e1f5 !important;
   box-shadow: 0 4px 20px rgba(147, 51, 234, 0.04) !important;
 }
-html.light .bg-\[\#0b120f\]:hover {
+html.light .bg-\[\#0b120f\]:hover,
+html.light .bg-\[\#050807\]:hover {
   border-color: #c084fc !important;
   box-shadow: 0 10px 25px rgba(147, 51, 234, 0.1) !important;
 }

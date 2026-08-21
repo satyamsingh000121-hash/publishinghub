@@ -90,47 +90,45 @@ export default function AboutFeatures() {
   ];
 
   return (
-    <section className="py-20 sm:py-24 bg-[#050807] border-b border-[#f2eee3]/10">
+    <section className="py-20 sm:py-24 dark:bg-[#050807] bg-[#faf7fd] border-b dark:border-[#f2eee3]/10 border-[#e9e1f5]">
       <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#f2eee3]/10 border border-[#f2eee3]/10 bg-[#070d0a]/60 backdrop-blur-sm rounded-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x dark:divide-[#f2eee3]/10 divide-[#e9e1f5] border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:bg-[#070d0a]/60 bg-white backdrop-blur-sm rounded-xs shadow-xs overflow-hidden">
           {features.map((item, idx) => (
             <div
               key={idx}
-              className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between group hover:bg-[#0c1611]/80 transition-colors duration-300 relative"
+              className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between group dark:hover:bg-[#0c1611]/80 hover:bg-[#faf5ff] transition-colors duration-300 relative"
             >
-              {/* Top Accent line on hover */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4b56a] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-              <div>
-                {/* Icon & Badge Header */}
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-2 rounded-sm bg-[#050807] border border-[#d4b56a]/30 group-hover:border-[#d4b56a] transition-colors duration-300">
+              <div className="space-y-6">
+                {/* Top Badge & Custom SVG Icon Row */}
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] tracking-[0.22em] font-extrabold uppercase px-3 py-1 dark:bg-[#123d2b] bg-[#f4ecfa] text-[#9333ea] dark:text-[#d4b56a] border dark:border-[#d4b56a]/30 border-[#e9d5ff] rounded-xs shadow-xs">
+                    {item.badge}
+                  </span>
+                  
+                  {/* Subtle Icon Glow Frame */}
+                  <div className="w-12 h-12 rounded-sm dark:bg-[#0e1c14] bg-[#faf5ff] border dark:border-[#d4b56a]/20 border-[#e9d5ff] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                     {item.icon}
-                  </div>
-                  <div>
-                    <span className="text-[10px] tracking-[0.24em] font-bold text-[#d4b56a] uppercase block">
-                      {item.badge}
-                    </span>
-                    <h3 className="font-display text-2xl sm:text-[26px] font-medium text-[#f2eee3] group-hover:text-[#e6c880] transition-colors leading-tight">
-                      {item.title}
-                    </h3>
                   </div>
                 </div>
 
-                {/* Excerpt Body */}
-                <p className="text-[13px] sm:text-sm text-[#9a9b94] leading-relaxed pt-2">
-                  {item.description}
-                </p>
+                {/* Title and Description */}
+                <div>
+                  <h3 className="font-display text-2xl sm:text-3xl font-medium dark:text-[#f2eee3] text-[#18181b] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#71717a] dark:text-[#9a9b94] font-light leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
               </div>
 
-              {/* View More Link */}
-              <div className="pt-8">
+              {/* Bottom View More Link */}
+              <div className="pt-8 sm:pt-10">
                 <a
                   href={item.linkHref}
-                  className="inline-flex items-center gap-2 text-[10px] tracking-[0.18em] font-bold uppercase text-[#d4b56a] hover:text-white group/link transition-colors duration-200"
+                  className="inline-flex items-center gap-2 text-[11px] sm:text-xs font-bold tracking-[0.18em] uppercase text-[#9333ea] dark:text-[#d4b56a] group-hover:text-[#7e22ce] dark:group-hover:text-white transition-colors"
                 >
-                  <span>{item.linkText}</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
+                  {item.linkText} <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
             </div>

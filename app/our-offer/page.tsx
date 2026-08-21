@@ -177,11 +177,11 @@ export default function OurOfferPage() {
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <main className="min-h-screen bg-[#050807] text-[#f2eee3] flex flex-col font-sans selection:bg-[#b89245] selection:text-[#050807]">
+    <main className="min-h-screen dark:bg-[#050807] bg-white dark:text-[#f2eee3] text-[#18181b] flex flex-col font-sans selection:bg-[#b89245] selection:text-[#050807] transition-colors duration-300">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#0d2a1d] border border-[#d4b56a] text-[#f2eee3] px-4 py-3 rounded shadow-2xl flex items-center gap-2.5 animate-bounce text-xs font-semibold">
-          <Check className="w-4 h-4 text-[#d4b56a]" />
+        <div className="fixed bottom-6 right-6 z-50 dark:bg-[#0d2a1d] bg-[#f3e8ff] border dark:border-[#d4b56a] border-[#9333ea] dark:text-[#f2eee3] text-[#581c87] px-4 py-3 rounded shadow-2xl flex items-center gap-2.5 animate-bounce text-xs font-semibold">
+          <Check className="w-4 h-4 dark:text-[#d4b56a] text-[#9333ea]" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -198,9 +198,9 @@ export default function OurOfferPage() {
       <OfferHeader />
 
       {/* Main Content Section */}
-      <section className="py-16 sm:py-24 bg-[#050807] flex-1 relative overflow-hidden">
+      <section className="py-16 sm:py-24 dark:bg-[#050807] bg-white flex-1 relative overflow-hidden transition-colors duration-300">
         {/* Background glow ambiance */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#185238]/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] dark:bg-[#185238]/10 bg-purple-400/10 rounded-full blur-[140px] pointer-events-none" />
 
         <div className="container-custom relative z-10">
 
@@ -209,12 +209,12 @@ export default function OurOfferPage() {
             <SmokyText
               as="h2"
               text={"Unlock Exceptional Value with Our Exclusive\nPackage Offers!"}
-              color="#f2eee3"
+              color="var(--cream)"
               intensity={9}
               appearTrigger="default"
               animationMode="singleLine"
               position="bottomLeft"
-              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal text-[#f2eee3] leading-snug tracking-tight text-center"
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal dark:text-[#f2eee3] text-[#18181b] leading-snug tracking-tight text-center"
               appearTransition={{ type: "tween", ease: "easeOut", duration: 1.8, delay: 0.1 }}
             />
           </div>
@@ -239,19 +239,19 @@ export default function OurOfferPage() {
       {/* Plan Selection Confirmation Modal */}
       {selectedPlan && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fadeIn">
-          <div className="relative w-full max-w-lg bg-[#09120d] border border-[#d4b56a]/50 rounded-lg p-6 sm:p-8 shadow-2xl space-y-6">
-            <div className="flex items-start justify-between border-b border-[#f2eee3]/10 pb-4">
+          <div className="relative w-full max-w-lg dark:bg-[#09120d] bg-white border dark:border-[#d4b56a]/50 border-[#e9e1f5] rounded-lg p-6 sm:p-8 shadow-2xl space-y-6">
+            <div className="flex items-start justify-between border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] pb-4">
               <div>
-                <span className="text-[10px] tracking-[0.24em] text-[#d4b56a] font-bold uppercase block">
+                <span className="text-[10px] tracking-[0.24em] dark:text-[#d4b56a] text-[#9333ea] font-bold uppercase block">
                   SELECTED PUBLISHING PLAN
                 </span>
-                <h3 className="font-display text-2xl text-[#f2eee3] font-medium mt-1">
+                <h3 className="font-display text-2xl dark:text-[#f2eee3] text-[#18181b] font-medium mt-1">
                   {selectedPlan.title}
                 </h3>
               </div>
               <button
                 onClick={() => setSelectedPlan(null)}
-                className="text-[#888b83] hover:text-white transition-colors"
+                className="dark:text-[#888b83] text-[#71717a] hover:text-[#18181b] dark:hover:text-white transition-colors"
                 aria-label="Close"
               >
                 <X className="w-5 h-5" />
@@ -259,25 +259,25 @@ export default function OurOfferPage() {
             </div>
 
             <div className="space-y-3">
-              <p className="text-xs text-[#9a9d95]">
+              <p className="text-xs dark:text-[#9a9d95] text-[#71717a]">
                 {selectedPlan.subtitle}
               </p>
-              <div className="p-4 bg-[#050a07] border border-[#f2eee3]/10 rounded-sm flex items-center justify-between">
-                <span className="text-xs text-[#dedacf] font-semibold">Total Package Investment</span>
-                <span className="font-display text-2xl text-[#d4b56a] font-bold">{selectedPlan.price}</span>
+              <div className="p-4 dark:bg-[#050a07] bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9d5ff] rounded-sm flex items-center justify-between">
+                <span className="text-xs dark:text-[#dedacf] text-[#18181b] font-semibold">Total Package Investment</span>
+                <span className="font-display text-2xl dark:text-[#d4b56a] text-[#9333ea] font-bold">{selectedPlan.price}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 onClick={() => setSelectedPlan(null)}
-                className="px-5 py-2.5 border border-[#f2eee3]/20 hover:border-[#888b83] text-xs font-semibold text-[#dedacf] rounded-sm transition-colors"
+                className="px-5 py-2.5 border dark:border-[#f2eee3]/20 border-[#e9e1f5] hover:border-[#9333ea] dark:hover:border-[#888b83] text-xs font-semibold dark:text-[#dedacf] text-[#71717a] rounded-sm transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmPlan}
-                className="px-6 py-2.5 bg-[#2c7650] hover:bg-[#37865d] text-white text-xs font-bold tracking-wider uppercase rounded-sm transition-colors shadow-lg"
+                className="px-6 py-2.5 dark:bg-[#2c7650] bg-[#9333ea] hover:bg-[#7e22ce] dark:hover:bg-[#37865d] text-white text-xs font-bold tracking-wider uppercase rounded-sm transition-colors shadow-lg"
               >
                 Confirm Plan
               </button>

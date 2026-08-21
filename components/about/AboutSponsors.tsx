@@ -79,38 +79,41 @@ export default function AboutSponsors() {
   const marqueeList = [...sponsors, ...sponsors, ...sponsors];
 
   return (
-    <section className="py-20 sm:py-28 bg-[#050807] border-b border-[#f2eee3]/10 relative overflow-hidden">
+    <section className="py-20 sm:py-28 dark:bg-[#050807] bg-white border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] relative overflow-hidden">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-16 sm:mb-20">
-          <h2 className="font-display text-4xl sm:text-5xl font-medium text-[#f2eee3] tracking-tight mb-3">
-            Sponsors & affiliates
+          <h2 className="font-display text-4xl sm:text-5xl font-medium dark:text-[#f2eee3] text-[#18181b] tracking-tight mb-3">
+            Sponsors &amp; affiliates
           </h2>
-          <p className="text-xs sm:text-sm text-[#888b83] font-sans">
-            Lorem ipsum dolor sit amet conse ctetur adipiscing elit.
+          <p className="text-xs sm:text-sm dark:text-[#888b83] text-[#71717a] font-sans">
+            Trusted partners, publishers, and independent literary guilds.
           </p>
         </div>
       </div>
 
-      {/* Infinite Seamless Scrolling Marquee Container (Right to Left) with Enlarged Boxes */}
-      <div className="relative w-full border-y border-[#f2eee3]/10 py-10 sm:py-14 overflow-hidden bg-[#060b08]/70">
+      {/* Infinite Seamless Scrolling Marquee Container */}
+      <div className="relative w-full border-y dark:border-[#f2eee3]/10 border-[#e9e1f5] py-10 sm:py-14 overflow-hidden dark:bg-[#060b08]/70 bg-[#faf7fd]">
         
-        {/* Left & Right Cinematic Fading Gradients */}
-        <div className="absolute top-0 bottom-0 left-0 w-28 sm:w-48 bg-gradient-to-r from-[#050807] via-[#050807]/80 to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 bottom-0 right-0 w-28 sm:w-48 bg-gradient-to-l from-[#050807] via-[#050807]/80 to-transparent z-10 pointer-events-none" />
+        {/* Left & Right Fading Gradients */}
+        <div className="absolute top-0 bottom-0 left-0 w-28 sm:w-48 bg-gradient-to-r dark:from-[#050807] dark:via-[#050807]/80 from-white via-white/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-28 sm:w-48 bg-gradient-to-l dark:from-[#050807] dark:via-[#050807]/80 from-white via-white/80 to-transparent z-10 pointer-events-none" />
 
-        {/* Marquee Track Moving Right to Left */}
-        <div className="marquee-track flex items-center gap-10 sm:gap-14 whitespace-nowrap will-change-transform">
-          {marqueeList.map((sponsor, idx) => (
+        {/* Marquee Track with CSS Animation */}
+        <div className="marquee-track flex items-center gap-8 sm:gap-12 whitespace-nowrap will-change-transform">
+          {marqueeList.map((item, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 flex flex-col items-center justify-center text-center text-[#9a9d95] hover:text-[#d4b56a] group transition-all duration-400 cursor-pointer min-w-[220px] sm:min-w-[280px] py-10 px-8 rounded-lg bg-[#09120e]/60 border border-[#f2eee3]/10 hover:border-[#d4b56a]/40 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1"
+              className="flex-shrink-0 w-44 h-40 sm:w-56 sm:h-48 md:w-60 md:h-52 flex flex-col items-center justify-center p-6 sm:p-8 dark:bg-[#0c140f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] rounded-xs group dark:hover:border-[#d4b56a]/50 hover:border-[#9333ea] transition-all duration-300 dark:hover:bg-[#101b14] hover:bg-[#faf5ff] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_24px_rgba(147,51,234,0.12)] cursor-pointer"
             >
-              <div className="group-hover:scale-115 transition-transform duration-300 mb-4 opacity-80 group-hover:opacity-100 group-hover:text-[#d4b56a]">
-                {sponsor.icon}
+              {/* Scaled Icon */}
+              <div className="text-[#888b83] dark:text-[#888b83] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] group-hover:scale-110 transition-all duration-300 mb-3 sm:mb-4 flex items-center justify-center">
+                {item.icon}
               </div>
-              <span className="font-display text-sm sm:text-base tracking-[0.2em] uppercase font-semibold text-[#888b83] group-hover:text-[#f2eee3] transition-colors">
-                {sponsor.label}
+
+              {/* Brand Label */}
+              <span className="text-[11px] sm:text-xs font-bold tracking-[0.24em] uppercase dark:text-[#f2eee3] text-[#18181b] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors text-center">
+                {item.label}
               </span>
             </div>
           ))}
