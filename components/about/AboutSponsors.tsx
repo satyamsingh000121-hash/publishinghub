@@ -7,7 +7,7 @@ export default function AboutSponsors() {
     {
       name: "BOOKS",
       icon: (
-        <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" stroke="currentColor">
+        <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <rect x="14" y="16" width="36" height="7" rx="1.5" strokeWidth="1.8" />
           <rect x="10" y="27" width="44" height="7" rx="1.5" strokeWidth="1.8" />
           <rect x="12" y="38" width="40" height="7" rx="1.5" strokeWidth="1.8" />
@@ -21,10 +21,9 @@ export default function AboutSponsors() {
     {
       name: "BOOKCRAFT",
       icon: (
-        <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" stroke="currentColor">
+        <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <path d="M12 42 C20 38 28 38 32 40 C36 38 44 38 52 42 L52 20 C44 17 36 17 32 19 C28 17 20 17 12 20 Z" strokeWidth="1.8" />
           <line x1="32" y1="19" x2="32" y2="40" strokeWidth="1.8" />
-          {/* Feather Quill */}
           <path d="M38 12 C44 14 48 22 42 30 L34 38" strokeWidth="1.5" />
         </svg>
       ),
@@ -33,7 +32,7 @@ export default function AboutSponsors() {
     {
       name: "Word Basement.",
       icon: (
-        <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" stroke="currentColor">
+        <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <rect x="14" y="18" width="36" height="28" rx="2" strokeWidth="1.8" />
           <line x1="20" y1="26" x2="34" y2="26" strokeWidth="1.8" />
           <line x1="20" y1="32" x2="30" y2="32" strokeWidth="1.8" />
@@ -45,8 +44,7 @@ export default function AboutSponsors() {
     {
       name: "pelicon",
       icon: (
-        <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" stroke="currentColor">
-          {/* Stylized P / Pelicon Logo */}
+        <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <path d="M22 46 L22 18 C22 18 36 14 42 22 C48 30 40 38 26 36" strokeWidth="2.2" strokeLinecap="round" />
           <circle cx="33" cy="25" r="2.5" fill="currentColor" />
         </svg>
@@ -56,7 +54,7 @@ export default function AboutSponsors() {
     {
       name: "CLASSIC BOOKS",
       icon: (
-        <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" stroke="currentColor">
+        <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <rect x="12" y="18" width="40" height="8" rx="1.5" strokeWidth="1.8" />
           <rect x="12" y="30" width="40" height="8" rx="1.5" strokeWidth="1.8" />
           <rect x="16" y="42" width="32" height="6" rx="1.5" strokeWidth="1.8" />
@@ -67,7 +65,7 @@ export default function AboutSponsors() {
     {
       name: "WRITER'S GUILD",
       icon: (
-        <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" stroke="currentColor">
+        <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <circle cx="32" cy="32" r="18" strokeWidth="1.5" strokeDasharray="3 3" />
           <path d="M32 18 L24 40 L32 36 L40 40 Z" strokeWidth="1.8" />
           <line x1="32" y1="22" x2="32" y2="34" strokeWidth="1.5" />
@@ -77,8 +75,11 @@ export default function AboutSponsors() {
     },
   ];
 
+  // Repeat for continuous seamless looping
+  const marqueeList = [...sponsors, ...sponsors, ...sponsors];
+
   return (
-    <section className="py-20 sm:py-28 bg-[#050807] border-b border-[#f2eee3]/10">
+    <section className="py-20 sm:py-28 bg-[#050807] border-b border-[#f2eee3]/10 relative overflow-hidden">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-16 sm:mb-20">
@@ -89,24 +90,49 @@ export default function AboutSponsors() {
             Lorem ipsum dolor sit amet conse ctetur adipiscing elit.
           </p>
         </div>
+      </div>
 
-        {/* 6 Logos Row with subtle divider lines */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-y md:divide-y-0 lg:divide-x divide-[#f2eee3]/10 border-y border-[#f2eee3]/10 py-4">
-          {sponsors.map((sponsor, idx) => (
+      {/* Infinite Seamless Scrolling Marquee Container (Right to Left) with Enlarged Boxes */}
+      <div className="relative w-full border-y border-[#f2eee3]/10 py-10 sm:py-14 overflow-hidden bg-[#060b08]/70">
+        
+        {/* Left & Right Cinematic Fading Gradients */}
+        <div className="absolute top-0 bottom-0 left-0 w-28 sm:w-48 bg-gradient-to-r from-[#050807] via-[#050807]/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-28 sm:w-48 bg-gradient-to-l from-[#050807] via-[#050807]/80 to-transparent z-10 pointer-events-none" />
+
+        {/* Marquee Track Moving Right to Left */}
+        <div className="marquee-track flex items-center gap-10 sm:gap-14 whitespace-nowrap will-change-transform">
+          {marqueeList.map((sponsor, idx) => (
             <div
               key={idx}
-              className="py-8 px-4 flex flex-col items-center justify-center text-center text-[#888b83] hover:text-[#d4b56a] group transition-all duration-300 cursor-pointer"
+              className="flex-shrink-0 flex flex-col items-center justify-center text-center text-[#9a9d95] hover:text-[#d4b56a] group transition-all duration-400 cursor-pointer min-w-[220px] sm:min-w-[280px] py-10 px-8 rounded-lg bg-[#09120e]/60 border border-[#f2eee3]/10 hover:border-[#d4b56a]/40 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1"
             >
-              <div className="group-hover:scale-110 transition-transform duration-300 mb-3 opacity-75 group-hover:opacity-100">
+              <div className="group-hover:scale-115 transition-transform duration-300 mb-4 opacity-80 group-hover:opacity-100 group-hover:text-[#d4b56a]">
                 {sponsor.icon}
               </div>
-              <span className="font-display text-xs sm:text-sm tracking-[0.14em] uppercase font-semibold text-[#888b83] group-hover:text-[#f2eee3] transition-colors">
+              <span className="font-display text-sm sm:text-base tracking-[0.2em] uppercase font-semibold text-[#888b83] group-hover:text-[#f2eee3] transition-colors">
                 {sponsor.label}
               </span>
             </div>
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .marquee-track {
+          animation: marqueeRightToLeft 28s linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+        @keyframes marqueeRightToLeft {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-33.333%);
+          }
+        }
+      `}</style>
     </section>
   );
 }
