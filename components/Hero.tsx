@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
+import SmokyText from "./SmokyText";
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -58,10 +59,29 @@ export default function Hero() {
                 SALE UP TO 20% OFF
               </span>
 
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
-                Meet Your Next <br />
-                <span className="italic text-[#d4b56a]">Favorite Book.</span>
-              </h1>
+              <div className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.93] tracking-[-0.025em]">
+                <SmokyText
+                  key={`hero-slide0-l1-${currentSlide}`}
+                  text="Meet Your Next"
+                  color="#f2eee3"
+                  intensity={8}
+                  position="bottomLeft"
+                  appearTrigger={currentSlide === 0 ? "default" : "hidden"}
+                  appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
+                />
+                <div className="mt-1">
+                  <SmokyText
+                    key={`hero-slide0-l2-${currentSlide}`}
+                    text="Favorite Book."
+                    color="#d4b56a"
+                    font={{ fontStyle: "italic" }}
+                    intensity={9}
+                    position="bottomLeft"
+                    appearTrigger={currentSlide === 0 ? "default" : "hidden"}
+                    appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
+                  />
+                </div>
+              </div>
 
               <p className="text-[#aaa9a1] text-base sm:text-lg max-w-[520px] leading-relaxed font-light pt-2">
                 Explore our handpicked collection of inspiring literature, exclusive editions, and timeless masterworks.
@@ -99,10 +119,29 @@ export default function Hero() {
                 SALE UP TO 30% OFF
               </span>
 
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
-                Get -30% Purchase <br />
-                <span className="italic text-[#d4b56a]">on Order over £99.00</span>
-              </h1>
+              <div className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.93] tracking-[-0.025em]">
+                <SmokyText
+                  key={`hero-slide1-l1-${currentSlide}`}
+                  text="Get -30% Purchase"
+                  color="#f2eee3"
+                  intensity={8}
+                  position="bottomLeft"
+                  appearTrigger={currentSlide === 1 ? "default" : "hidden"}
+                  appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
+                />
+                <div className="mt-1">
+                  <SmokyText
+                    key={`hero-slide1-l2-${currentSlide}`}
+                    text="on Order over £99.00"
+                    color="#d4b56a"
+                    font={{ fontStyle: "italic" }}
+                    intensity={9}
+                    position="bottomLeft"
+                    appearTrigger={currentSlide === 1 ? "default" : "hidden"}
+                    appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
+                  />
+                </div>
+              </div>
 
               <p className="text-[#aaa9a1] text-base sm:text-lg max-w-[520px] leading-relaxed font-light pt-2">
                 Discover your next great read from our wide selection of bestselling books and award-winning authors.
@@ -140,10 +179,29 @@ export default function Hero() {
                 SUMMER SPECIAL
               </span>
 
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
-                Best of the <br />
-                <span className="italic text-[#d4b56a]">Publishing World</span>
-              </h1>
+              <div className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.93] tracking-[-0.025em]">
+                <SmokyText
+                  key={`hero-slide2-l1-${currentSlide}`}
+                  text="Best of the"
+                  color="#f2eee3"
+                  intensity={8}
+                  position="bottomLeft"
+                  appearTrigger={currentSlide === 2 ? "default" : "hidden"}
+                  appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
+                />
+                <div className="mt-1">
+                  <SmokyText
+                    key={`hero-slide2-l2-${currentSlide}`}
+                    text="Publishing World"
+                    color="#d4b56a"
+                    font={{ fontStyle: "italic" }}
+                    intensity={9}
+                    position="bottomLeft"
+                    appearTrigger={currentSlide === 2 ? "default" : "hidden"}
+                    appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
+                  />
+                </div>
+              </div>
 
               <p className="text-[#aaa9a1] text-base sm:text-lg max-w-[520px] leading-relaxed font-light pt-2">
                 Handcrafted hardcovers and premium leatherbound volumes designed for true bibliophiles.
