@@ -7,6 +7,7 @@ import OfferHeader from "@/components/offers/OfferHeader";
 import OfferCard, { PackageOffer } from "@/components/offers/OfferCard";
 import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
+import SmokyText from "@/components/SmokyText";
 import { Check, X } from "lucide-react";
 
 const PACKAGES: PackageOffer[] = [
@@ -202,12 +203,20 @@ export default function OurOfferPage() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#185238]/10 rounded-full blur-[140px] pointer-events-none" />
 
         <div className="container-custom relative z-10">
-          
+
           {/* Main Headline */}
-          <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20 px-4">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal text-[#f2eee3] leading-snug tracking-tight">
-              Unlock Exceptional Value with Our Exclusive Package Offers!
-            </h2>
+          <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20 px-4 flex justify-center">
+            <SmokyText
+              as="h2"
+              text={"Unlock Exceptional Value with Our Exclusive\nPackage Offers!"}
+              color="#f2eee3"
+              intensity={9}
+              appearTrigger="default"
+              animationMode="singleLine"
+              position="bottomLeft"
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal text-[#f2eee3] leading-snug tracking-tight text-center"
+              appearTransition={{ type: "tween", ease: "easeOut", duration: 1.8, delay: 0.1 }}
+            />
           </div>
 
           {/* 4 Packages Grid matching reference layout */}

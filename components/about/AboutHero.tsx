@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import SmokyText from "@/components/SmokyText";
 
 export default function AboutHero() {
   return (
@@ -39,13 +40,29 @@ export default function AboutHero() {
           <span className="h-[1px] w-6 sm:w-10 bg-gradient-to-l from-transparent to-[#d4b56a]" />
         </div>
 
-        {/* Big Serif Heading matching reference */}
-        <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-[#f2eee3] tracking-tight leading-[1.08] mb-6 sm:mb-8 max-w-3xl drop-shadow-lg">
-          A Monthly Book Review
-          <span className="block mt-1 sm:mt-2 text-[#f2eee3]/95">
-            Publication
-          </span>
-        </h1>
+        {/* Big Serif Heading in 2 Lines matching reference */}
+        <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-[#f2eee3] tracking-tight leading-[1.08] mb-6 sm:mb-8 max-w-3xl drop-shadow-lg flex flex-col items-center justify-center">
+          <SmokyText
+            text="A Monthly Book Review"
+            color="#f2eee3"
+            intensity={9}
+            appearTrigger="default"
+            position="bottomLeft"
+            className="text-center"
+            appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.05 }}
+          />
+          <div className="mt-1 sm:mt-2">
+            <SmokyText
+              text="Publication"
+              color="#f2eee3"
+              intensity={9}
+              appearTrigger="default"
+              position="bottomLeft"
+              className="text-center"
+              appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.2 }}
+            />
+          </div>
+        </div>
 
         {/* Decorative Gold Filigree Ornament Divider */}
         <div className="flex items-center justify-center gap-3 text-[#d4b56a] opacity-90 my-2">
