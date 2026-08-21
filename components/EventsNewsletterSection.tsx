@@ -72,15 +72,15 @@ export default function EventsNewsletterSection() {
 
             {/* Event Highlights List */}
             <div className="space-y-3 pt-3">
-              <div className="flex items-center gap-3 text-xs bg-[#050807]/60 border border-[#f2eee3]/10 p-3 rounded-sm">
+              <div className="flex items-center gap-3 text-xs dark:bg-[#050807]/60 bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9e1f5] p-3 rounded-sm shadow-xs">
                 <span className="text-[#d4b56a] font-bold tracking-wider font-display text-sm">AUG 28</span>
-                <div className="w-[1px] h-4 bg-[#f2eee3]/20" />
-                <span className="text-[#e2ded2]">Santosh Kumar: Author Reading &amp; Signing</span>
+                <div className="w-[1px] h-4 dark:bg-[#f2eee3]/20 bg-[#e9e1f5]" />
+                <span className="dark:text-[#e2ded2] text-[#18181b] font-medium">Santosh Kumar: Author Reading &amp; Signing</span>
               </div>
-              <div className="flex items-center gap-3 text-xs bg-[#050807]/60 border border-[#f2eee3]/10 p-3 rounded-sm">
+              <div className="flex items-center gap-3 text-xs dark:bg-[#050807]/60 bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9e1f5] p-3 rounded-sm shadow-xs">
                 <span className="text-[#d4b56a] font-bold tracking-wider font-display text-sm">SEP 05</span>
-                <div className="w-[1px] h-4 bg-[#f2eee3]/20" />
-                <span className="text-[#e2ded2]">Autumn Poetry &amp; Acoustic Evening</span>
+                <div className="w-[1px] h-4 dark:bg-[#f2eee3]/20 bg-[#e9e1f5]" />
+                <span className="dark:text-[#e2ded2] text-[#18181b] font-medium">Autumn Poetry &amp; Acoustic Evening</span>
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@ export default function EventsNewsletterSection() {
               <div>
                 <button
                   type="submit"
-                  className="min-h-[46px] px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-xs font-bold tracking-[0.16em] uppercase transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-black/50 inline-flex items-center justify-center gap-2"
+                  className="min-h-[46px] px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-xs font-bold tracking-[0.16em] uppercase transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/50 shadow-[0_6px_18px_rgba(147,51,234,0.25)] inline-flex items-center justify-center gap-2 rounded-sm"
                 >
                   {isSubscribed ? (
                     <span className="flex items-center gap-2 text-[#d4b56a]">

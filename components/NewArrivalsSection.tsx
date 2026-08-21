@@ -94,21 +94,21 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Left Special Offer Card (3 columns on lg) */}
-          <div className="lg:col-span-3 bg-gradient-to-b from-[#0d2217] via-[#08150e] to-[#040a07] border border-[#d4b56a]/30 p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden group hover:border-[#d4b56a] transition-all duration-300 shadow-[0_15px_35px_rgba(0,0,0,0.8)]">
-            {/* Radial Gold & Emerald Background Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(212,181,106,0.12),transparent_70%)] pointer-events-none" />
-            <div className="absolute inset-2 border border-[#d4b56a]/20 pointer-events-none" />
-            <div className="absolute inset-3 border border-[#d4b56a]/10 pointer-events-none" />
+          <div className="lg:col-span-3 bg-gradient-to-b dark:from-[#0d2217] dark:via-[#08150e] dark:to-[#040a07] from-white via-[#faf5ff] to-[#f3e8ff] border dark:border-[#d4b56a]/30 border-[#e9d5ff] p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden group hover:border-[#9333ea] transition-all duration-300 dark:shadow-[0_15px_35px_rgba(0,0,0,0.8)] shadow-[0_8px_24px_rgba(147,51,234,0.08)] rounded-xs">
+            {/* Radial Gold & Emerald Background Glow (Dark Mode Only) */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(212,181,106,0.12),transparent_70%)] pointer-events-none dark:block hidden" />
+            <div className="absolute inset-2 border dark:border-[#d4b56a]/20 border-[#9333ea]/15 pointer-events-none" />
+            <div className="absolute inset-3 border dark:border-[#d4b56a]/10 border-[#9333ea]/10 pointer-events-none" />
 
             {/* Top Text (Moved Down & Enlarged/Bolded) */}
             <div className="relative z-10 text-center pt-12 sm:pt-16">
-              <span className="font-display italic text-2xl sm:text-3xl font-semibold text-[#d4b56a] block drop-shadow-md">
+              <span className="font-display italic text-2xl sm:text-3xl font-semibold text-[#d4b56a] block drop-shadow-xs">
                 Get Extra
               </span>
-              <h3 className="font-display text-5xl sm:text-6xl font-black text-[#f2eee3] tracking-tight mt-1.5 drop-shadow-xl">
+              <h3 className="font-display text-5xl sm:text-6xl font-black text-[#f2eee3] tracking-tight mt-1.5">
                 Sale <span className="text-[#d4b56a]">-25%</span>
               </h3>
-              <span className="text-[11px] sm:text-xs tracking-[0.24em] font-extrabold text-[#c0d4c8] uppercase block mt-2.5">
+              <span className="text-[11px] sm:text-xs tracking-[0.24em] font-extrabold text-[#c0d4c8] dark:text-[#c0d4c8] uppercase block mt-2.5">
                 ON ORDER OVER £150
               </span>
             </div>
@@ -119,7 +119,7 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
                 <img
                   src="/images/Gemini_Generated_Image_n0hwhvn0hwhvn0hw-Photoroom.png"
                   alt="Special Offer Books Collection"
-                  className="w-full h-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] scale-110 sm:scale-115"
+                  className="w-full h-full object-contain dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] drop-shadow-[0_10px_20px_rgba(147,51,234,0.15)] scale-110 sm:scale-115"
                 />
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
             <div className="relative z-10 text-center pb-8 sm:pb-12">
               <a
                 href="#bestsellers"
-                className="w-full py-3.5 bg-[#2c7650] hover:bg-[#37865d] text-white border border-[#d4b56a]/40 text-[12px] font-extrabold tracking-[0.16em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 shadow-xl shadow-black/60"
+                className="w-full py-3.5 bg-[#2c7650] hover:bg-[#37865d] text-white border dark:border-[#d4b56a]/40 border-transparent text-[12px] font-extrabold tracking-[0.16em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/60 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm"
               >
                 VIEW MORE <ArrowRight className="w-4 h-4" />
               </a>
@@ -140,10 +140,10 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
             {NEW_ARRIVALS.map((book) => (
               <div
                 key={book.id}
-                className="group relative bg-[#060a08] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 p-2.5 sm:p-3 flex flex-col justify-between"
+                className="group relative dark:bg-[#060a08] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-2.5 sm:p-3 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-purple-500/10 rounded-xs"
               >
                 {/* Image Container */}
-                <div className="relative aspect-[3/4] w-full bg-[#0d120f] overflow-hidden flex items-center justify-center">
+                <div className="relative aspect-[3/4] w-full dark:bg-[#0d120f] bg-[#fbf8fe] overflow-hidden flex items-center justify-center rounded-xs border dark:border-black/40 border-[#f3e8ff]">
                   
                   {/* Badges (SALE & HOT) */}
                   <div className="absolute top-1.5 left-1.5 z-20 flex flex-col gap-1">

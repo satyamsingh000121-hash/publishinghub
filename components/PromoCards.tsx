@@ -14,7 +14,7 @@ export default function PromoCards() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
 
           {/* Card 1: Find Books For All Ages (WIDE - 6 Columns, Height 360px) */}
-          <div className="lg:col-span-6 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 p-8 sm:p-10 lg:p-12 flex flex-col sm:flex-row items-center justify-between gap-8 min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group">
+          <div className="lg:col-span-6 dark:bg-[#0b120f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-8 sm:p-10 lg:p-12 flex flex-col sm:flex-row items-center justify-between gap-8 min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs">
             {/* Left Floral "A" Monogram Image */}
             <div className="w-36 h-36 sm:w-48 sm:h-48 relative flex-shrink-0 flex items-center justify-center">
               <img
@@ -48,10 +48,10 @@ export default function PromoCards() {
           </div>
 
           {/* Card 2: Summer Sale Spotlight (SQUARE - 3 Columns, Height 360px) */}
-          <div className="lg:col-span-3 bg-[#05140d] border border-[#b89245]/40 hover:border-[#d4b56a] hover:shadow-[0_0_25px_rgba(212,181,106,0.18)] transition-all duration-300 p-2 sm:p-3 flex flex-col items-center justify-between text-center min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden relative group">
-            {/* Emerald radial glow & inner border */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(27,92,60,0.4),transparent_75%)] pointer-events-none" />
-            <div className="absolute inset-1.5 border border-[#b89245]/20 pointer-events-none" />
+          <div className="lg:col-span-3 dark:bg-[#05140d] bg-[#f4ecfa] border dark:border-[#b89245]/40 border-[#d8b4fe] dark:hover:border-[#d4b56a] hover:border-[#9333ea] transition-all duration-300 p-2 sm:p-3 flex flex-col items-center justify-between text-center min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden relative group shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs">
+            {/* Emerald radial glow (Dark Mode Only) */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(27,92,60,0.4),transparent_75%)] pointer-events-none dark:block hidden" />
+            <div className="absolute inset-1.5 border dark:border-[#b89245]/20 border-purple-300/30 pointer-events-none" />
 
             {/* Top: SUMMER SALE */}
             <div className="relative z-10 pt-2">
@@ -84,7 +84,7 @@ export default function PromoCards() {
           </div>
 
           {/* Card 3: Cook book of the month (SQUARE - 3 Columns, Height 360px) */}
-          <div className="lg:col-span-3 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group">
+          <div className="lg:col-span-3 dark:bg-[#0b120f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs">
             <div className="space-y-6">
               <div>
                 <h3 className="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3] leading-tight group-hover:text-[#d4b56a] transition-colors">
@@ -99,7 +99,7 @@ export default function PromoCards() {
                   <img
                     src="/images/3_book.png"
                     alt="Cook book of the month"
-                    className="w-full h-full object-contain filter drop-shadow-2xl scale-[1.35]"
+                    className="w-full h-full object-contain filter dark:drop-shadow-2xl drop-shadow-[0_8px_16px_rgba(147,51,234,0.12)] scale-[1.35]"
                   />
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function PromoCards() {
           </div>
 
           {/* Card 4: Feature book of the month (SQUARE - 3 Columns, Height 360px) */}
-          <div className="lg:col-span-3 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group relative">
+          <div className="lg:col-span-3 dark:bg-[#0b120f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group relative shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs">
             {/* Top: Title & VIEW BOOK button */}
             <div className="space-y-4 z-10">
               <h3 className="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3] leading-tight group-hover:text-[#d4b56a] transition-colors">
@@ -145,7 +145,7 @@ export default function PromoCards() {
           </div>
 
           {/* Card 5: Henry & the good dog (WIDE - 6 Columns, Height 360px) */}
-          <div className="lg:col-span-6 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 pl-8 sm:pl-10 lg:pl-12 pr-3 sm:pr-5 pt-0 pb-0 flex flex-col sm:flex-row items-center justify-between gap-6 min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group">
+          <div className="lg:col-span-6 dark:bg-[#0b120f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 pl-8 sm:pl-10 lg:pl-12 pr-3 sm:pr-5 pt-0 pb-0 flex flex-col sm:flex-row items-center justify-between gap-6 min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs">
             {/* Left Title & Link */}
             <div className="flex-1 flex flex-col justify-between py-8 sm:py-10 lg:py-12 h-full space-y-5">
               <div>
@@ -170,24 +170,24 @@ export default function PromoCards() {
 
             {/* Right: 3 Standing Illustrated Books Image with softer floor shadow */}
             <div className="w-full sm:w-[50%] lg:w-[52%] h-[320px] sm:h-[350px] lg:h-[370px] relative flex-shrink-0 flex items-center justify-end overflow-visible">
-              {/* Soft ambient lighting behind books */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,181,106,0.10),transparent_65%)] pointer-events-none blur-lg" />
-              {/* Soft realistic ground floor contact shadow */}
-              <div className="absolute bottom-5 right-2 w-[85%] h-7 bg-black/70 blur-lg rounded-full pointer-events-none" />
+              {/* Soft ambient lighting behind books (Dark Mode Only) */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,181,106,0.10),transparent_65%)] pointer-events-none blur-lg dark:block hidden" />
+              {/* Soft ground floor shadow (Dark Mode Only) */}
+              <div className="absolute bottom-5 right-2 w-[85%] h-7 bg-black/70 blur-lg rounded-full pointer-events-none dark:block hidden" />
 
               <img
                 src="/images/Gemini_Generated_Image_rj0p3rj0p3rj0p3r-Photoroom.png"
                 alt="Henry & the good dog"
-                className="relative z-10 w-full h-full object-contain object-right filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.85)] scale-105 group-hover:scale-110 transition-transform duration-500"
+                className="relative z-10 w-full h-full object-contain object-right filter dark:drop-shadow-[0_15px_25px_rgba(0,0,0,0.85)] drop-shadow-[0_8px_16px_rgba(147,51,234,0.12)] scale-105 group-hover:scale-110 transition-transform duration-500"
               />
             </div>
           </div>
 
           {/* Card 6: Best seller Books (SQUARE - 3 Columns, Height 360px) */}
-          <div className="lg:col-span-3 bg-[#0b120f] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group relative">
+          <div className="lg:col-span-3 dark:bg-[#0b120f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-8 sm:p-10 flex flex-col justify-between min-h-[320px] sm:min-h-[350px] lg:min-h-[370px] overflow-hidden group relative shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs">
             {/* Top: Title */}
             <div className="relative z-10">
-              <h3 className="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3] leading-tight group-hover:text-[#d4b56a] transition-colors drop-shadow-lg">
+              <h3 className="font-display text-3xl sm:text-4xl font-medium text-[#f2eee3] leading-tight group-hover:text-[#d4b56a] transition-colors">
                 Best seller <br />
                 <span className="italic font-normal text-[#d4b56a]">Books</span>
               </h3>
@@ -198,7 +198,7 @@ export default function PromoCards() {
               <img
                 src="/images/last_book.png"
                 alt="Best seller Books"
-                className="w-full h-full object-contain filter drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-contain filter dark:drop-shadow-2xl drop-shadow-[0_8px_16px_rgba(147,51,234,0.12)] scale-[1.35] transition-transform duration-300 group-hover:scale-[1.40]"
               />
             </div>
 
@@ -206,7 +206,7 @@ export default function PromoCards() {
             <div className="relative z-10 pt-4">
               <a
                 href="#bestsellers"
-                className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors drop-shadow-lg"
+                className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
               >
                 VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </a>

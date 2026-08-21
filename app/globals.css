@@ -34,6 +34,29 @@
   --transition: 260ms cubic-bezier(.22,.61,.36,1);
 }
 
+/* LIGHT THEME TOKENS - LAVENDER / PURPLE / SOFT WHITE LUXURY */
+html.light {
+  --bg: #ffffff;
+  --bg-soft: #faf7fd;
+  --surface: #ffffff;
+  --surface-2: #f6f0fc;
+  --surface-3: #ede3f8;
+  --forest: #9333ea;
+  --forest-2: #7c3aed;
+  --forest-light: #a855f7;
+  --forest-hover: #7e22ce;
+  --gold: #9333ea;
+  --gold-light: #a855f7;
+  --gold-bright: #c084fc;
+  --cream: #18181b;
+  --cream-soft: #3f3f46;
+  --muted: #71717a;
+  --line: #e9e1f5;
+  --line-gold: #c084fc;
+  --white: #000000;
+  --danger: #ef4444;
+}
+
 *,
 *::before,
 *::after {
@@ -61,7 +84,7 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #050807;
+  background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
   background: #185238;
@@ -100,7 +123,7 @@ body {
 /* Button styles */
 .btn-forest {
   background-color: #2c7650;
-  color: #ffffff;
+  color: #ffffff !important;
   transition: all var(--transition);
 }
 .btn-forest:hover {
@@ -215,4 +238,276 @@ body {
   animation: candleGlowPulse 1.8s infinite ease-in-out;
   transform-origin: center center;
 }
+
+/* ==========================================================================
+   LIGHT THEME DESIGN SYSTEM (MATCHING EXACT REFERENCE IMAGE)
+   Dreamy Lavender / Purple / Clean White Luxury Publishing Aesthetic
+   ========================================================================== */
+
+html.light,
+html.light body,
+html.light main {
+  background-color: #ffffff !important;
+  color: #18181b !important;
+}
+
+/* Sections in Light Mode */
+html.light section {
+  background-color: #ffffff !important;
+  border-color: #e9e1f5 !important;
+}
+
+/* 1. Hero Section in Light Mode */
+html.light section:first-of-type,
+html.light section#hero,
+html.light section.bg-gradient-to-r.from-\[\#050807\] {
+  background: linear-gradient(135deg, #f6f0fd 0%, #fbf8fe 50%, #ffffff 100%) !important;
+  border-bottom-color: #e9e1f5 !important;
+}
+html.light section.bg-gradient-to-r.from-\[\#050807\] > div.bg-gradient-to-r,
+html.light section.bg-gradient-to-r.from-\[\#050807\] > div.bg-\[radial-gradient {
+  opacity: 0.15 !important;
+}
+
+/* 2. Promo Cards in Light Mode */
+html.light .promo-card,
+html.light .bg-\[\#0b120f\] {
+  background-color: #ffffff !important;
+  border-color: #e9e1f5 !important;
+  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.04) !important;
+}
+html.light .bg-\[\#0b120f\]:hover {
+  border-color: #c084fc !important;
+  box-shadow: 0 10px 25px rgba(147, 51, 234, 0.1) !important;
+}
+/* Summer Sale 40% Tile */
+html.light .bg-\[\#05140d\] {
+  background-color: #f4ecfa !important;
+  border-color: #d8b4fe !important;
+}
+
+/* 3. Bestseller Section in Light Mode */
+html.light section#bestsellers {
+  background-color: #ffffff !important;
+}
+html.light section#bestsellers .bg-\[\#080d0a\] {
+  background-color: #ffffff !important;
+  border-color: #e9e1f5 !important;
+  box-shadow: 0 2px 12px rgba(147, 51, 234, 0.04) !important;
+}
+html.light section#bestsellers .bg-\[\#080d0a\]:hover {
+  border-color: #c084fc !important;
+  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.12) !important;
+}
+html.light section#bestsellers .bg-\[\#101612\] {
+  background-color: #fbf8fe !important;
+  border-color: #e9e1f5 !important;
+}
+
+/* 4. Limited Time Offer Banner in Light Mode */
+html.light section.bg-\[\#050c08\] {
+  background: linear-gradient(135deg, #eaddf7 0%, #f4e8fd 50%, #e9d8f8 100%) !important;
+  border-color: #d8b4fe !important;
+}
+html.light section.bg-\[\#050c08\] > div.bg-gradient-to-r,
+html.light section.bg-\[\#050c08\] > div.bg-\[radial-gradient {
+  opacity: 0.1 !important;
+}
+
+/* 5. Author Section in Light Mode */
+html.light section.bg-\[\#070c09\] {
+  background-color: #ffffff !important;
+  border-color: #e9e1f5 !important;
+}
+
+/* 6. Newest Arrivals Section in Light Mode */
+html.light section.bg-\[\#080d0a\] {
+  background-color: #f7f2fd !important;
+  border-color: #e9e1f5 !important;
+}
+html.light section.bg-\[\#080d0a\] .bg-gradient-to-b.from-\[\#0d2217\] {
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8fe 50%, #f4ecfa 100%) !important;
+  border-color: #d8b4fe !important;
+}
+
+/* 7. Events & Newsletter in Light Mode */
+html.light section#events {
+  background-color: #ffffff !important;
+  border-color: #e9e1f5 !important;
+}
+html.light section#events .bg-\[\#080e0b\] {
+  background-color: #ffffff !important;
+}
+html.light section#events .bg-\[\#0b1510\] {
+  background-color: #faf7fd !important;
+}
+
+/* 8. Footer in Light Mode */
+html.light footer {
+  background-color: #ffffff !important;
+  border-top-color: #e9e1f5 !important;
+  color: #4b5563 !important;
+}
+
+/* Text Colors in Light Mode */
+html.light .text-\[\#f2eee3\] {
+  color: #18181b !important;
+}
+html.light .text-\[\#d9d5ca\] {
+  color: #27272a !important;
+}
+html.light .text-\[\#dddcd5\] {
+  color: #3f3f46 !important;
+}
+html.light .text-\[\#9a9b94\],
+html.light .text-\[\#888b83\],
+html.light .text-\[\#aaa9a1\],
+html.light .text-\[\#747870\] {
+  color: #71717a !important;
+}
+html.light .text-\[\#656861\],
+html.light .text-\[\#666a64\] {
+  color: #a1a1aa !important;
+}
+
+/* Purple Text Highlights (Headings, Prices, Links) */
+html.light .text-\[\#d4b56a\],
+html.light .text-\[\#b89245\],
+html.light .text-\[\#e5c479\],
+html.light .text-\[\#e6c880\],
+html.light .text-\[\#2c7650\] {
+  color: #9333ea !important;
+}
+
+/* Primary Solid Buttons in Light Mode */
+html.light .btn-forest,
+html.light .btn-solid-gold,
+html.light a.bg-\[\#2c7650\],
+html.light button.bg-\[\#2c7650\],
+html.light a.bg-\[\#b89245\],
+html.light button.bg-\[\#b89245\] {
+  background-color: #9333ea !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(147, 51, 234, 0.35) !important;
+}
+html.light .btn-forest:hover,
+html.light .btn-solid-gold:hover,
+html.light a.bg-\[\#2c7650\]:hover,
+html.light button.bg-\[\#2c7650\]:hover {
+  background-color: #7e22ce !important;
+  box-shadow: 0 6px 20px rgba(147, 51, 234, 0.45) !important;
+}
+
+/* Secondary Outline Buttons in Light Mode */
+html.light .btn-outline-gold,
+html.light a.border-\[\#f2eee3\]\/30,
+html.light button.border-\[\#f2eee3\]\/30 {
+  border-color: rgba(147, 51, 234, 0.35) !important;
+  color: #7e22ce !important;
+  background-color: #ffffff !important;
+}
+html.light .btn-outline-gold:hover,
+html.light a.border-\[\#f2eee3\]\/30:hover {
+  border-color: #9333ea !important;
+  color: #9333ea !important;
+  background-color: #faf5ff !important;
+}
+
+/* Active Nav Underlines & Indicators */
+html.light .bg-\[\#d4b56a\],
+html.light .bg-\[\#b89245\] {
+  background-color: #9333ea !important;
+}
+
+/* Badges */
+html.light .bg-\[\#2c7650\] {
+  background-color: #9333ea !important;
+}
+
+/* Header & Announcement */
+html.light header {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-bottom-color: #e9e1f5 !important;
+}
+html.light div.bg-\[\#0d2a1d\] {
+  background-color: #faf5ff !important;
+  color: #6b21a8 !important;
+  border-bottom-color: #e9d5ff !important;
+}
+html.light div.bg-\[\#0d2a1d\] a {
+  color: #9333ea !important;
+}
+
+/* Brand Logo */
+html.light .brand-logo-img {
+  filter: hue-rotate(185deg) saturate(3) brightness(0.65) !important;
+}
+
+/* Borders */
+html.light .border-\[\#f2eee3\]\/10,
+html.light .border-\[\#f2eee3\]\/15,
+html.light .border-\[\#f2eee3\]\/20,
+html.light .border-\[\#f2eee3\]\/25,
+html.light .border-\[\#f2eee3\]\/30,
+html.light .border-\[\#f2eee3\]\/5,
+html.light .border-\[\#d9d5ca\]\/20 {
+  border-color: #e9e1f5 !important;
+}
+html.light .border-\[\#b89245\]\/20,
+html.light .border-\[\#b89245\]\/30,
+html.light .border-\[\#b89245\]\/40,
+html.light .border-\[\#b89245\]\/50,
+html.light .border-\[\#d4b56a\]\/20,
+html.light .border-\[\#d4b56a\]\/30,
+html.light .border-\[\#d4b56a\]\/40,
+html.light .border-\[\#d4b56a\]\/50,
+html.light .border-\[\#d4b56a\],
+html.light .border-\[\#b89245\] {
+  border-color: #d8b4fe !important;
+}
+
+/* Inputs & Forms */
+html.light input,
+html.light select,
+html.light textarea {
+  background-color: #ffffff !important;
+  color: #18181b !important;
+  border-color: #e9e1f5 !important;
+}
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+  border-color: #9333ea !important;
+  outline-color: #9333ea !important;
+}
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #a1a1aa !important;
+}
+
+/* Book Spine 3D in Light Mode */
+html.light .book-spine-3d {
+  box-shadow: -6px 6px 18px rgba(147, 51, 234, 0.12), 1px 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Scrollbars & Selections */
+html.light ::selection {
+  background: #d8b4fe !important;
+  color: #581c87 !important;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #c084fc !important;
+}
+html.light ::-webkit-scrollbar-track {
+  background: #ffffff !important;
+}
+
+/* Modals & Drawers in Light Mode */
+html.light .modal-surface,
+html.light .drawer-surface {
+  background-color: #ffffff !important;
+  color: #18181b !important;
+}
+
+
 

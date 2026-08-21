@@ -165,10 +165,10 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
           {filteredBooks.map((book) => (
             <div
               key={book.id}
-              className="group relative bg-[#080d0a] border border-[#f2eee3]/10 hover:border-[#b89245]/50 transition-all duration-300 p-4 pb-6 flex flex-col justify-between"
+              className="group relative dark:bg-[#080d0a] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-4 pb-6 flex flex-col justify-between shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs"
             >
               {/* Book Artwork Frame */}
-              <div className="relative aspect-[3/4] w-full bg-[#101612] overflow-hidden flex items-center justify-center border border-black/40">
+              <div className="relative aspect-[3/4] w-full dark:bg-[#101612] bg-[#fbf8fe] overflow-hidden flex items-center justify-center border dark:border-black/40 border-[#f3e8ff] rounded-xs">
                 
                 {/* Sale Badge */}
                 {book.saleBadge && (

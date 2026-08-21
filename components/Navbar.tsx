@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, ShoppingBag, User, ChevronDown, Menu, X, ArrowRight } from "lucide-react";
+import { Search, ShoppingBag, Heart, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
 
 interface NavbarProps {
   cartCount?: number;
@@ -19,6 +20,7 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [internalActiveTab, setInternalActiveTab] = useState(controlledActiveTab || "HOME");
   const activeTab = controlledActiveTab || internalActiveTab;
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     { label: "HOME", href: "/" },
@@ -55,7 +57,7 @@ export default function Navbar({
             <img
               src="/images/The-Publishing-Hub-Final-Logo-02-Photoroom.png"
               alt="The Publishing Hub"
-              className="h-9 sm:h-11 w-auto max-w-[200px] sm:max-w-[240px] object-contain brightness-0 invert opacity-95 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
+              className="brand-logo-img h-9 sm:h-11 w-auto max-w-[200px] sm:max-w-[240px] object-contain transition-all duration-300 group-hover:scale-105"
             />
           </a>
 
@@ -89,7 +91,21 @@ export default function Navbar({
           </nav>
 
           {/* Right Action Icons */}
-          <div className="flex items-center gap-5 sm:gap-6 text-[#d9d5ca]">
+          <div className="flex items-center gap-4 sm:gap-5 text-[#d9d5ca]">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full border border-[#f2eee3]/15 hover:border-[#d4b56a]/60 bg-[#f2eee3]/5 hover:bg-[#d4b56a]/15 text-[#d4b56a] hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center"
+              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label="Toggle Theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="w-[17px] h-[17px] text-[#e6c880] animate-spin-slow" />
+              ) : (
+                <Moon className="w-[17px] h-[17px] text-[#123d2b]" />
+              )}
+            </button>
+
             <button
               onClick={onOpenSearch}
               className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
@@ -99,6 +115,18 @@ export default function Navbar({
               <Search className="w-[18px] h-[18px]" />
             </button>
 
+            <a
+              href="#wishlist"
+              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center"
+              title="Wishlist"
+              aria-label="Wishlist"
+            >
+              <Heart className="w-[18px] h-[18px]" />
+              <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
+                0
+              </span>
+            </a>
+
             <button
               onClick={onOpenCart}
               className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center"
@@ -106,7 +134,7 @@ export default function Navbar({
               aria-label="Shopping Cart"
             >
               <ShoppingBag className="w-[18px] h-[18px]" />
-              <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#f2eee3] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
+              <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
                 {cartCount}
               </span>
             </button>
@@ -135,6 +163,16 @@ export default function Navbar({
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-[#07100c] border-b border-[#f2eee3]/10 px-6 py-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#f2eee3]/10">
+              <span className="text-xs tracking-wider uppercase font-semibold text-[#dddcd5]">Theme</span>
+              <button
+                onClick={toggleTheme}
+                className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#f2eee3]/20 text-[#d4b56a]"
+              >
+                {theme === "dark" ? <Sun className="w-4 h-4 text-[#e6c880]" /> : <Moon className="w-4 h-4" />}
+                <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+              </button>
+            </div>
             {navItems.map((item) => (
               <a
                 key={item.label}

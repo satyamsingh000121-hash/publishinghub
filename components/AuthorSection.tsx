@@ -49,7 +49,7 @@ export default function AuthorSection() {
             <div className="pt-2 flex justify-center w-full">
               <a
                 href="#author"
-                className="min-h-[46px] px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-black/40"
+                className="min-h-[46px] px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/40 shadow-[0_6px_18px_rgba(147,51,234,0.25)] rounded-sm"
               >
                 VIEW AUTHOR <ArrowRight className="w-3.5 h-3.5" />
               </a>
@@ -63,7 +63,7 @@ export default function AuthorSection() {
               className="absolute -top-6 -bottom-6 -right-6 sm:-right-10 w-48 sm:w-64 opacity-20 pointer-events-none rounded-sm"
               style={{
                 backgroundImage:
-                  "repeating-linear-gradient(45deg, rgba(212, 181, 106, 0.45) 0px, rgba(212, 181, 106, 0.45) 1.5px, transparent 1.5px, transparent 10px)",
+                  "repeating-linear-gradient(45deg, rgba(147, 51, 234, 0.35) 0px, rgba(147, 51, 234, 0.35) 1.5px, transparent 1.5px, transparent 10px)",
               }}
             />
             {/* Diagonal Striped Line Pattern Backdrop (Left Side) */}
@@ -71,19 +71,19 @@ export default function AuthorSection() {
               className="absolute -top-4 -bottom-4 -left-6 sm:-left-8 w-40 sm:w-48 opacity-15 pointer-events-none rounded-sm"
               style={{
                 backgroundImage:
-                  "repeating-linear-gradient(-45deg, rgba(242, 238, 227, 0.35) 0px, rgba(242, 238, 227, 0.35) 1.5px, transparent 1.5px, transparent 10px)",
+                  "repeating-linear-gradient(-45deg, rgba(147, 51, 234, 0.25) 0px, rgba(147, 51, 234, 0.25) 1.5px, transparent 1.5px, transparent 10px)",
               }}
             />
 
-            <div className="relative w-64 sm:w-72 md:w-80 aspect-[4/5] rounded-sm overflow-hidden border border-[#f2eee3]/15 shadow-[0_20px_50px_rgba(0,0,0,0.8)] bg-gradient-to-b from-[#182a20] to-[#0b1410] flex items-end justify-center z-10">
+            <div className="relative w-64 sm:w-72 md:w-80 aspect-[4/5] rounded-sm overflow-hidden border dark:border-[#f2eee3]/15 border-[#e9e1f5] dark:shadow-[0_20px_50px_rgba(0,0,0,0.8)] shadow-[0_12px_32px_rgba(147,51,234,0.14)] bg-gradient-to-b dark:from-[#182a20] dark:to-[#0b1410] from-white to-[#faf5ff] flex items-end justify-center z-10">
               <img
                 src="/images/Gemini_Generated_Image_f41einf41einf41e.png"
                 alt="#1 Best Seller"
                 className="w-full h-full object-cover"
               />
 
-              {/* Gold border accent inside frame */}
-              <div className="absolute inset-2 border border-[#d4b56a]/20 pointer-events-none" />
+              {/* Accent border inside frame */}
+              <div className="absolute inset-2 border dark:border-[#d4b56a]/20 border-[#9333ea]/25 pointer-events-none" />
             </div>
           </div>
 
@@ -113,7 +113,7 @@ export default function AuthorSection() {
                 <a
                   key={social.name}
                   href={social.href}
-                  className="w-8 h-8 rounded-full border border-[#f2eee3]/20 hover:border-[#d4b56a] hover:bg-[#d4b56a] text-[#d9d5ca] hover:text-[#050807] flex items-center justify-center text-xs font-semibold transition-all duration-200"
+                  className="w-8 h-8 rounded-full border dark:border-[#f2eee3]/20 border-[#e9e1f5] dark:hover:border-[#d4b56a] hover:border-[#9333ea] dark:hover:bg-[#d4b56a] hover:bg-[#9333ea] dark:text-[#d9d5ca] text-[#71717a] hover:text-white dark:hover:text-[#050807] flex items-center justify-center text-xs font-semibold transition-all duration-200 shadow-sm"
                   aria-label={social.name}
                 >
                   {social.symbol}

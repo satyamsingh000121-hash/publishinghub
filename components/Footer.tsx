@@ -58,7 +58,7 @@ export default function Footer() {
                 return (
                   <button
                     key={idx}
-                    className="w-8 h-8 rounded-full bg-[#0d1410] border border-[#f2eee3]/15 hover:border-[#d4b56a] text-[#d9d5ca] hover:text-[#d4b56a] flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5"
+                    className="w-8 h-8 rounded-full dark:bg-[#0d1410] bg-[#faf5ff] border dark:border-[#f2eee3]/15 border-[#e9e1f5] dark:hover:border-[#d4b56a] hover:border-[#9333ea] dark:text-[#d9d5ca] text-[#71717a] hover:text-[#9333ea] flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-xs"
                     aria-label={item.label}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -70,18 +70,18 @@ export default function Footer() {
             {/* Payment Method Badges */}
             <div className="flex items-center gap-2 pt-2">
               {/* Visa */}
-              <div className="px-2.5 py-1 bg-[#1a1f1c] border border-white/10 rounded-sm flex items-center justify-center">
+              <div className="px-2.5 py-1 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center">
                 <span className="text-[10px] font-black tracking-widest text-[#1a73e8] italic">
                   VISA
                 </span>
               </div>
               {/* Mastercard */}
-              <div className="px-2.5 py-1 bg-[#1a1f1c] border border-white/10 rounded-sm flex items-center justify-center gap-0.5">
+              <div className="px-2.5 py-1 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center gap-0.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#eb001b] inline-block" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#f79e1b] -ml-1.5 inline-block opacity-90" />
               </div>
               {/* Maestro / Cirrus */}
-              <div className="px-2.5 py-1 bg-[#1a1f1c] border border-white/10 rounded-sm flex items-center justify-center gap-0.5">
+              <div className="px-2.5 py-1 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center gap-0.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#00a2e5] inline-block" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#eb001b] -ml-1.5 inline-block opacity-90" />
               </div>
@@ -144,8 +144,8 @@ export default function Footer() {
             </h4>
 
             {/* Featured Book Preview */}
-            <div className="flex items-center gap-3.5 bg-[#09100c] border border-[#f2eee3]/10 p-2.5 rounded-sm">
-              <div className="w-12 h-16 bg-[#164833] flex-shrink-0 rounded-sm overflow-hidden border border-[#d4b56a]/30">
+            <div className="flex items-center gap-3.5 dark:bg-[#09100c] bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9e1f5] p-2.5 rounded-sm shadow-xs">
+              <div className="w-12 h-16 dark:bg-[#164833] bg-white flex-shrink-0 rounded-sm overflow-hidden border dark:border-[#d4b56a]/30 border-[#e9d5ff]">
                 <img
                   src="/images/book_section1.png"
                   alt="Visions of Victory - The Journey of a Young Entrepreneur"
@@ -172,7 +172,7 @@ export default function Footer() {
 
             {/* Newsletter subscription form */}
             <form onSubmit={handleSubscribe} className="space-y-2 pt-1">
-              <div className="flex items-center border border-[#f2eee3]/20 bg-[#070d09] focus-within:border-[#d4b56a] transition-colors">
+              <div className="flex items-center border dark:border-[#f2eee3]/20 border-[#e9e1f5] dark:bg-[#070d09] bg-white focus-within:border-[#9333ea] transition-colors rounded-sm overflow-hidden">
                 <input
                   type="email"
                   value={email}
@@ -210,11 +210,11 @@ export default function Footer() {
           
           <button
             onClick={scrollToTop}
-            className="w-8 h-8 rounded-sm bg-[#123d2b] hover:bg-[#2c7650] text-[#f2eee3] flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-md"
+            className="w-8 h-8 rounded-sm dark:bg-[#123d2b] bg-[#9333ea] hover:bg-[#7e22ce] dark:hover:bg-[#2c7650] text-white flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-md"
             title="Scroll to Top"
             aria-label="Scroll to Top"
           >
-            <ChevronUp className="w-4 h-4 text-[#d4b56a]" />
+            <ChevronUp className="w-4 h-4 dark:text-[#d4b56a] text-white" />
           </button>
         </div>
 
