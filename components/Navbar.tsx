@@ -51,16 +51,12 @@ export default function Navbar({
         <div className="container-custom flex items-center justify-between min-h-[82px] gap-8">
           
           {/* Brand Logo */}
-          <a href="#" className="flex flex-col group select-none">
-            <span className="text-[10px] tracking-[0.28em] text-[#d4b56a] font-semibold leading-none mb-1">
-              THE
-            </span>
-            <span className="font-display text-[27px] font-semibold tracking-[-0.02em] text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors duration-300 leading-none">
-              PUBLISHING
-            </span>
-            <span className="text-[8px] tracking-[0.24em] text-[#b89245] uppercase mt-1.5 font-medium leading-none">
-              BOOKS THAT INSPIRE
-            </span>
+          <a href="/" className="flex items-center group select-none py-1">
+            <img
+              src="/images/The-Publishing-Hub-Final-Logo-02-Photoroom.png"
+              alt="The Publishing Hub"
+              className="h-9 sm:h-11 w-auto max-w-[200px] sm:max-w-[240px] object-contain brightness-0 invert opacity-95 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
+            />
           </a>
 
           {/* Desktop Navigation Links */}
