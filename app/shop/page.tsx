@@ -29,7 +29,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     author: "by DINA NAYERI",
     price: "£18.00",
     numericPrice: 18.0,
-    image: "/images/Newest3.webp",
+    image: "/images/shop1.jpg",
     description: "An evocative story of identity, longing, and storytelling spanning across seas and generations.",
   },
   {
@@ -39,7 +39,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     price: "£16.00",
     numericPrice: 16.0,
     badge: "NEW",
-    image: "/images/book_section8.webp",
+    image: "/images/shop2.jpg",
     description: "A witty, insightful exploration of modern life, detachments, and rediscovering inner purpose.",
   },
   {
@@ -49,7 +49,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     price: "£21.00",
     numericPrice: 21.0,
     badge: "SALE_AND_NEW",
-    image: "/images/hero_section2.png",
+    image: "/images/book_section7.webp",
     description: "A gripping narrative of resilience and courage against unexpected odds in a rapidly changing world.",
   },
   {
@@ -69,7 +69,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     price: "£13.00",
     numericPrice: 13.0,
     badge: "NEW",
-    image: "/images/Gemini_Generated_Image_rj0p3rj0p3rj0p3r-Photoroom.png",
+    image: "/images/shop3.jpg",
     description: "Practical insights and soulful practices for sustaining creativity and purpose in demanding times.",
   },
   {
@@ -79,7 +79,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     price: "£14.00",
     numericPrice: 14.0,
     badge: "SALE",
-    image: "/images/book_section6.webp",
+    image: "/images/shop4.jpg",
     description: "An honest and empowering guide to understanding cognitive patterns and cultivating inner clarity.",
   },
   {
@@ -98,7 +98,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     price: "£16.00",
     numericPrice: 16.0,
     badge: "SALE",
-    image: "/images/book_section7.webp",
+    image: "/images/shop8.jpg",
     description: "A heartwarming and courageous tale about embracing vulnerabilities and finding light in darkness.",
   },
   {
@@ -138,7 +138,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     price: "£14.00",
     numericPrice: 14.0,
     badge: "SALE",
-    image: "/images/3_book.png",
+    image: "/images/Newest6.webp",
     description: "A deeply moving memoir about healing complex trauma and discovering resilience and wholeness.",
   },
   {
@@ -156,7 +156,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     author: "by NOREEN HARRIS",
     price: "£15.00",
     numericPrice: 15.0,
-    image: "/images/Newest6.webp",
+    image: "/images/shop5.jpg",
     description: "A clever and charming fable about goal-setting, community collaboration, and sweet rewards.",
   },
   {
@@ -165,7 +165,7 @@ const SHOP_BOOKS_PAGE_1: BookItem[] = [
     author: "by JONATHAN LITTLE",
     price: "£17.00",
     numericPrice: 17.0,
-    image: "/images/last_book.png",
+    image: "/images/shop6.jpg",
     description: "Memoir of deep discovery exploring the boundaries of science, mystery, and human resilience.",
   },
 ];
@@ -179,7 +179,7 @@ const SHOP_BOOKS_PAGE_2: BookItem[] = [
     price: "£19.00",
     numericPrice: 19.0,
     badge: "NEW",
-    image: "/images/book_section1.png",
+    image: "/images/Newest3.webp",
     description: "The bestselling guide to turning ambitious dreams into triumphant realities.",
   },
   {
@@ -189,7 +189,7 @@ const SHOP_BOOKS_PAGE_2: BookItem[] = [
     price: "£14.00",
     numericPrice: 14.0,
     badge: "SALE",
-    image: "/images/Newest6.webp",
+    image: "/images/book_section1.png",
     description: "An amusing story about perspective, persistence, and unexpected treasures.",
   },
   {
@@ -199,7 +199,7 @@ const SHOP_BOOKS_PAGE_2: BookItem[] = [
     price: "£16.00",
     numericPrice: 16.0,
     badge: "SALE",
-    image: "/images/Newest7.webp",
+    image: "/images/book_section3.webp",
     description: "The classic musical fairy tale brought alive with rich artwork and storytelling.",
   },
   {
@@ -208,7 +208,25 @@ const SHOP_BOOKS_PAGE_2: BookItem[] = [
     author: "by BRAYDEN COLLINS",
     price: "£20.00",
     numericPrice: 20.0,
-    image: "/images/book_section3.webp",
+    image: "/images/shop7.webp",
+    description: "A gripping psychological mystery exploring truth, memories, and redemption.",
+  },
+   {
+    id: "shop-20",
+    title: "The Night I Died",
+    author: "by BRAYDEN COLLINS",
+    price: "£20.00",
+    numericPrice: 20.0,
+    image: "/images/shop9.jpg",
+    description: "A gripping psychological mystery exploring truth, memories, and redemption.",
+  },
+   {
+    id: "shop-20",
+    title: "The Night I Died",
+    author: "by BRAYDEN COLLINS",
+    price: "£20.00",
+    numericPrice: 20.0,
+    image: "/images/book_section6.webp",
     description: "A gripping psychological mystery exploring truth, memories, and redemption.",
   },
 ];
