@@ -40,7 +40,7 @@ export default function ShopBookCard({
     return (
       <div className="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1 pointer-events-none">
         {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
-          <span className="bg-[#2c7650] text-white text-[9px] font-bold tracking-widest px-2 py-0.5 uppercase shadow-xs rounded-[1px]">
+          <span className="bg-[#9333ea] dark:bg-[#2c7650] text-white text-[9px] font-bold tracking-widest px-2 py-0.5 uppercase shadow-xs rounded-[1px]">
             SALE
           </span>
         )}
@@ -60,7 +60,7 @@ export default function ShopBookCard({
 
   if (viewMode === "list") {
     return (
-      <div className="flex flex-col sm:flex-row items-center gap-6 p-5 sm:p-6 bg-white dark:bg-[#080e0a] border border-[#e5e7eb] dark:border-[#f2eee3]/10 hover:border-[#b89245]/50 dark:hover:border-[#d4b56a]/40 transition-all duration-200 rounded-[2px] group">
+      <div className="flex flex-col sm:flex-row items-center gap-6 p-5 sm:p-6 bg-white dark:bg-[#080e0a] border border-[#e5e7eb] dark:border-[#f2eee3]/10 hover:border-[#9333ea]/50 dark:hover:border-[#d4b56a]/40 transition-all duration-200 rounded-[2px] group">
         {/* Book Cover Thumbnail */}
         <div className="relative w-32 sm:w-40 aspect-[3/4] flex-shrink-0 bg-[#f5f5f4] dark:bg-[#0c1611] rounded-[2px] overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 shadow-sm">
           {renderBadges()}
@@ -93,13 +93,13 @@ export default function ShopBookCard({
                 {book.originalPrice}
               </span>
             )}
-            <span className="text-sm font-semibold text-[#b89245] dark:text-[#d4b56a]">
+            <span className="text-sm font-semibold text-[#9333ea] dark:text-[#d4b56a]">
               {book.price}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="font-display text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#b89245] dark:group-hover:text-[#e6c880] transition-colors leading-tight">
+          <h3 className="font-display text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#9333ea] dark:group-hover:text-[#e6c880] transition-colors leading-tight">
             {book.title}
           </h3>
 
@@ -118,13 +118,13 @@ export default function ShopBookCard({
           <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
             <button
               onClick={() => onAddToCart?.(book.title, book.price)}
-              className="px-4 py-2 bg-[#1e3527] hover:bg-[#284936] text-white text-[10px] font-bold tracking-[0.14em] uppercase transition-colors flex items-center gap-1.5 rounded-[2px]"
+              className="px-4 py-2 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#1e3527] dark:hover:bg-[#284936] text-white text-[10px] font-bold tracking-[0.14em] uppercase transition-colors flex items-center gap-1.5 rounded-[2px] cursor-pointer"
             >
               <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART
             </button>
             <button
               onClick={() => onQuickView?.(book)}
-              className="px-4 py-2 border border-[#d6d3d1] dark:border-[#f2eee3]/20 hover:border-[#b89245] dark:hover:border-[#d4b56a] text-[#44403c] dark:text-[#dedacf] hover:text-[#b89245] dark:hover:text-[#d4b56a] text-[10px] font-bold tracking-[0.14em] uppercase transition-colors flex items-center gap-1.5 rounded-[2px]"
+              className="px-4 py-2 border border-[#d6d3d1] dark:border-[#f2eee3]/20 hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[#44403c] dark:text-[#dedacf] hover:text-[#9333ea] dark:hover:text-[#d4b56a] text-[10px] font-bold tracking-[0.14em] uppercase transition-colors flex items-center gap-1.5 rounded-[2px] cursor-pointer"
             >
               <Eye className="w-3.5 h-3.5" /> QUICK VIEW
             </button>
@@ -138,7 +138,7 @@ export default function ShopBookCard({
   return (
     <div className="flex flex-col items-center text-center group select-none">
       {/* Cover Image Frame */}
-      <div className="relative w-full aspect-[3/4] bg-[#edebe4] dark:bg-[#0c1611] rounded-[2px] overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 hover:border-[#b89245]/60 dark:hover:border-[#d4b56a]/40 shadow-xs hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
+      <div className="relative w-full aspect-[3/4] bg-[#edebe4] dark:bg-[#0c1611] rounded-[2px] overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 hover:border-[#9333ea]/60 dark:hover:border-[#d4b56a]/40 shadow-xs hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
         
         {/* Badges on Top-Left */}
         {renderBadges()}
@@ -155,10 +155,10 @@ export default function ShopBookCard({
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          /* Graceful Elegant Fallback Book Cover Design */
+          /* Graceful Fallback Book Cover Design */
           <div className="w-full h-full flex flex-col justify-between p-5 bg-[#faf8f5] dark:bg-[#0e1712] border border-[#e7e3da] dark:border-[#27272a]">
             <div className="text-left">
-              <span className="text-[7px] tracking-[0.25em] text-[#b89245] dark:text-[#d4b56a] uppercase font-semibold block">
+              <span className="text-[7px] tracking-[0.25em] text-[#9333ea] dark:text-[#d4b56a] uppercase font-semibold block">
                 PUBLISHING HUB
               </span>
             </div>
@@ -179,13 +179,13 @@ export default function ShopBookCard({
         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2.5 p-4 z-20 backdrop-blur-[1.5px]">
           <button
             onClick={() => onAddToCart?.(book.title, book.price)}
-            className="w-full py-2.5 bg-[#1e3527] hover:bg-[#284936] text-white text-[10px] font-bold tracking-[0.14em] uppercase transition-all shadow-md flex items-center justify-center gap-1.5 rounded-[2px]"
+            className="w-full py-2.5 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#1e3527] dark:hover:bg-[#284936] text-white text-[10px] font-bold tracking-[0.14em] uppercase transition-all shadow-md flex items-center justify-center gap-1.5 rounded-[2px] cursor-pointer"
           >
             <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART
           </button>
           <button
             onClick={() => onQuickView?.(book)}
-            className="w-full py-2 bg-white hover:bg-[#f5f5f4] text-[#1c1917] text-[10px] font-bold tracking-[0.14em] uppercase transition-all shadow-md flex items-center justify-center gap-1.5 rounded-[2px]"
+            className="w-full py-2 bg-white hover:bg-[#f5f5f4] dark:bg-[#0d1611] dark:hover:bg-[#15231c] text-[#1c1917] dark:text-[#f2eee3] border border-[#e5e7eb] dark:border-[#27272a] hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[10px] font-bold tracking-[0.14em] uppercase transition-all shadow-md flex items-center justify-center gap-1.5 rounded-[2px] cursor-pointer"
           >
             <Eye className="w-3.5 h-3.5" /> QUICK VIEW
           </button>
@@ -195,7 +195,7 @@ export default function ShopBookCard({
       {/* Book Metadata Below Cover matching reference design */}
       <div className="pt-3.5 space-y-1 w-full text-center">
         {/* Price (with originalPrice strikethrough if on sale) */}
-        <div className="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#b89245] dark:text-[#d4b56a]">
+        <div className="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#9333ea] dark:text-[#d4b56a]">
           {book.originalPrice && (
             <span className="text-[#a8a29e] line-through font-normal text-xs">
               {book.originalPrice}
@@ -205,7 +205,7 @@ export default function ShopBookCard({
         </div>
 
         {/* Book Title in Serif */}
-        <h3 className="font-display text-[16px] sm:text-[17px] font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-1">
+        <h3 className="font-display text-[16px] sm:text-[17px] font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-1">
           {book.title}
         </h3>
 

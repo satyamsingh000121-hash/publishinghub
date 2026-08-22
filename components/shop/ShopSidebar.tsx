@@ -41,10 +41,10 @@ export default function ShopSidebar({
 
   // Categories list matching reference
   const categoriesList = [
-    { id: "Fiction", label: "Fiction", count: categoryCounts["Fiction"] ?? 9 },
-    { id: "Children's", label: "Children's", count: categoryCounts["Children's"] ?? 7 },
-    { id: "Poetry", label: "Poetry", count: categoryCounts["Poetry"] ?? 3 },
-    { id: "Non-fiction", label: "Non-fiction", count: categoryCounts["Non-fiction"] ?? 3 },
+    { id: "Biography", label: "Biography", count: categoryCounts["Biography"] ?? 8 },
+    { id: "Drama", label: "Drama", count: categoryCounts["Drama"] ?? 2 },
+    { id: "For Kid", label: "For Kid", count: categoryCounts["For Kid"] ?? 10 },
+    { id: "Romance", label: "Romance", count: categoryCounts["Romance"] ?? 3 },
   ];
 
   // Authors list matching reference
