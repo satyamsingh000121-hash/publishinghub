@@ -27,7 +27,6 @@ export default function Navbar({
     { label: "ABOUT US", href: "/about" },
     { label: "SHOP", href: "/shop" },
     { label: "OUR OFFER", href: "/our-offer" },
-    { label: "BEST SELLERS", href: "/#bestsellers" },
     { label: "EVENTS", href: "/events" },
     { label: "CONTACT US", href: "/contact" },
     { label: "EXTRA PAGES", href: "#", hasDropdown: true },

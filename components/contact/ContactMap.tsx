@@ -1,60 +1,123 @@
 "use client";
 
 import React from "react";
-import { MapPin, Navigation, ExternalLink } from "lucide-react";
+import { WorldMap } from "@/components/ui/map";
+import { Globe, MapPin, Sparkles } from "lucide-react";
 
 export default function ContactMap() {
   return (
-    <div className="relative w-full rounded-xs overflow-hidden border dark:border-[#f2eee3]/15 border-[#e9e1f5] shadow-xl dark:bg-[#070e0a] bg-white group">
-      {/* Interactive Google Map Embed */}
-      <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full min-h-[380px] sm:min-h-[460px]">
-        <iframe
-          src="https://maps.google.com/maps?q=12+Shirley+Road,+Southampton,+SO15+3EU,+UK&t=&z=15&ie=UTF8&iwloc=&output=embed"
-          className="w-full h-full border-0 dark:grayscale dark:invert-[0.92] dark:contrast-[1.15] dark:hue-rotate-[180deg] opacity-90 hover:opacity-100 transition-opacity duration-300"
-          loading="lazy"
-          title="The Publishing Hub Location"
-          allowFullScreen
+    <div className="w-full bg-transparent">
+      {/* Header Info */}
+      <div className="text-center max-w-3xl mx-auto mb-8 px-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-semibold uppercase tracking-wider mb-3">
+          <Globe className="w-3.5 h-3.5" />
+          <span>Global Reach & Distribution</span>
+        </div>
+        <h3 className="font-display text-2xl sm:text-4xl font-bold dark:text-[#f2eee3] text-[#18181b] tracking-tight">
+          Worldwide Publishing Network
+        </h3>
+        <p className="text-sm sm:text-base dark:text-[#9a9d95] text-[#71717a] mt-2">
+          From our headquarters in Southampton, UK to readers, authors, and distribution hubs across the globe.
+        </p>
+      </div>
+
+      {/* Full-width Transparent World Map */}
+      <div className="w-full relative px-2 sm:px-0">
+        <WorldMap
+          lineColor="#f59e0b"
+          labelClassName="text-[11px] sm:text-xs font-semibold text-amber-600 dark:text-amber-400 bg-white/95 dark:bg-[#09110d]/95 border border-amber-500/30 backdrop-blur-md shadow-md"
+          dots={[
+            {
+              start: {
+                lat: 50.9097,
+                lng: -1.4044,
+                label: "Southampton (HQ)",
+              },
+              end: {
+                lat: 40.7128,
+                lng: -74.006,
+                label: "New York",
+              },
+            },
+            {
+              start: {
+                lat: 50.9097,
+                lng: -1.4044,
+                label: "Southampton (HQ)",
+              },
+              end: {
+                lat: 28.6139,
+                lng: 77.209,
+                label: "New Delhi",
+              },
+            },
+            {
+              start: {
+                lat: 50.9097,
+                lng: -1.4044,
+                label: "Southampton (HQ)",
+              },
+              end: {
+                lat: 35.6762,
+                lng: 139.6503,
+                label: "Tokyo",
+              },
+            },
+            {
+              start: {
+                lat: 50.9097,
+                lng: -1.4044,
+                label: "Southampton (HQ)",
+              },
+              end: {
+                lat: -33.8688,
+                lng: 151.2093,
+                label: "Sydney",
+              },
+            },
+            {
+              start: {
+                lat: 50.9097,
+                lng: -1.4044,
+                label: "Southampton (HQ)",
+              },
+              end: {
+                lat: -23.5505,
+                lng: -46.6333,
+                label: "São Paulo",
+              },
+            },
+            {
+              start: {
+                lat: 50.9097,
+                lng: -1.4044,
+                label: "Southampton (HQ)",
+              },
+              end: {
+                lat: -1.2921,
+                lng: 36.8219,
+                label: "Nairobi",
+              },
+            },
+          ]}
         />
+      </div>
 
-        {/* Ambient Top & Bottom Gradients */}
-        <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b dark:from-[#050807]/40 from-white/30 to-transparent pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t dark:from-[#050807]/40 from-white/30 to-transparent pointer-events-none" />
-
-        {/* Location Info Card Overlay matching reference layout on Top-Left */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 max-w-[280px] sm:max-w-xs dark:bg-[#09110d]/95 bg-white/95 backdrop-blur-md border dark:border-[#d4b56a]/30 border-[#e9e1f5] rounded-xs p-4 shadow-2xl space-y-2.5 pointer-events-auto">
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <h4 className="font-display text-sm font-semibold dark:text-[#f2eee3] text-[#18181b] leading-tight">
-                12 Shirley Rd
-              </h4>
-              <p className="text-[11px] dark:text-[#9a9d95] text-[#71717a] mt-0.5 leading-snug">
-                12 Shirley Rd, Southampton, SO15 3EU, UK
-              </p>
-            </div>
-
-            {/* Directions Icon Button */}
-            <a
-              href="https://maps.google.com/?q=12+Shirley+Road,+Southampton,+SO15+3EU,+UK"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center justify-center p-1.5 rounded dark:bg-[#122319] bg-[#f3e8ff] dark:text-[#d4b56a] text-[#9333ea] hover:scale-105 transition-transform"
-              title="Get Directions"
-            >
-              <Navigation className="w-4 h-4" />
-              <span className="text-[8px] font-bold uppercase mt-0.5">Directions</span>
-            </a>
-          </div>
-
-          <div className="pt-2 border-t dark:border-[#f2eee3]/10 border-[#e9e1f5] flex items-center justify-between text-[10px] font-medium">
-            <a
-              href="https://maps.google.com/?q=12+Shirley+Road,+Southampton,+SO15+3EU,+UK"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="dark:text-[#d4b56a] text-[#9333ea] hover:underline inline-flex items-center gap-1"
-            >
-              View larger map <ExternalLink className="w-2.5 h-2.5" />
-            </a>
-          </div>
+      {/* Bottom Info Badges */}
+      <div className="mt-4 flex flex-wrap items-center justify-center sm:justify-between gap-3 text-xs dark:text-[#9a9d95] text-[#71717a] px-4">
+        <div className="flex items-center gap-2">
+          <MapPin className="w-4 h-4 text-amber-500" />
+          <span>Headquarters: 12 Shirley Rd, Southampton, SO15 3EU, UK</span>
+        </div>
+        <div className="flex items-center gap-4 text-[11px]">
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Active Worldwide Dispatch
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            Global Express Delivery
+          </span>
         </div>
       </div>
     </div>
