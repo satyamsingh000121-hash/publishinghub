@@ -324,8 +324,8 @@ export default function ShopPage() {
       <section className="py-12 sm:py-16 dark:bg-[#050807] bg-white flex-1 transition-colors duration-300">
         <div className="container-custom">
           {viewMode === "grid" ? (
-            /* 4 Columns x 4 Rows Grid matching reference design */
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 sm:gap-x-8 gap-y-12 sm:gap-y-14">
+            /* 2-Col Mobile / 4-Col Desktop Grid */
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3.5 sm:gap-x-8 gap-y-8 sm:gap-y-14">
               {sortedBooks.map((book) => (
                 <ShopBookCard
                   key={book.id}

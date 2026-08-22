@@ -114,10 +114,26 @@ body {
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 768px) {
   .container-custom {
     width: min(calc(100% - 32px), var(--container));
   }
+}
+
+@media (max-width: 480px) {
+  .container-custom {
+    width: min(calc(100% - 24px), var(--container));
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Button styles */

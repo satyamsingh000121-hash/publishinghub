@@ -79,56 +79,56 @@ const NEW_ARRIVALS = [
 
 export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionProps) {
   return (
-    <section className="py-20 bg-[#080d0a] border-b border-[#f2eee3]/10">
+    <section className="py-14 sm:py-20 bg-[#080d0a] border-b border-[#f2eee3]/10">
       <div className="container-custom">
         
         {/* Centered Heading */}
-        <div className="text-center mb-12">
-          <h2 className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-[#f2eee3]">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[#f2eee3]">
             Our Newest Arrivals
           </h2>
-          <div className="w-16 h-[2px] bg-[#b89245] mx-auto mt-3" />
+          <div className="w-16 h-[2px] bg-[#b89245] mx-auto mt-2 sm:mt-3" />
         </div>
 
         {/* Layout: Left Big Promo Card + Right 4x2 Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
           
           {/* Left Special Offer Card (3 columns on lg) */}
-          <div className="lg:col-span-3 bg-gradient-to-b dark:from-[#0d2217] dark:via-[#08150e] dark:to-[#040a07] from-white via-[#faf5ff] to-[#f3e8ff] border dark:border-[#d4b56a]/30 border-[#e9d5ff] p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden group hover:border-[#9333ea] transition-all duration-300 dark:shadow-[0_15px_35px_rgba(0,0,0,0.8)] shadow-[0_8px_24px_rgba(147,51,234,0.08)] rounded-xs">
-            {/* Radial Gold & Emerald Background Glow (Dark Mode Only) */}
+          <div className="lg:col-span-3 bg-gradient-to-b dark:from-[#0d2217] dark:via-[#08150e] dark:to-[#040a07] from-white via-[#faf5ff] to-[#f3e8ff] border dark:border-[#d4b56a]/30 border-[#e9d5ff] p-4 sm:p-6 flex flex-col justify-between relative overflow-hidden group hover:border-[#9333ea] transition-all duration-300 dark:shadow-[0_15px_35px_rgba(0,0,0,0.8)] shadow-[0_8px_24px_rgba(147,51,234,0.08)] rounded-xs">
+            {/* Radial Gold & Emerald Background Glow */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(212,181,106,0.12),transparent_70%)] pointer-events-none dark:block hidden" />
             <div className="absolute inset-2 border dark:border-[#d4b56a]/20 border-[#9333ea]/15 pointer-events-none" />
             <div className="absolute inset-3 border dark:border-[#d4b56a]/10 border-[#9333ea]/10 pointer-events-none" />
 
-            {/* Top Text (Moved Down & Enlarged/Bolded) */}
-            <div className="relative z-10 text-center pt-12 sm:pt-16">
-              <span className="font-display italic text-2xl sm:text-3xl font-semibold text-[#d4b56a] block drop-shadow-xs">
+            {/* Top Text */}
+            <div className="relative z-10 text-center pt-8 sm:pt-16">
+              <span className="font-display italic text-xl sm:text-3xl font-semibold text-[#d4b56a] block drop-shadow-xs">
                 Get Extra
               </span>
-              <h3 className="font-display text-5xl sm:text-6xl font-black text-[#f2eee3] tracking-tight mt-1.5">
+              <h3 className="font-display text-4xl sm:text-6xl font-black text-[#f2eee3] tracking-tight mt-1">
                 Sale <span className="text-[#d4b56a]">-25%</span>
               </h3>
-              <span className="text-[11px] sm:text-xs tracking-[0.24em] font-extrabold text-[#c0d4c8] dark:text-[#c0d4c8] uppercase block mt-2.5">
+              <span className="text-[10px] sm:text-xs tracking-[0.24em] font-extrabold text-[#c0d4c8] dark:text-[#c0d4c8] uppercase block mt-2">
                 ON ORDER OVER £150
               </span>
             </div>
 
             {/* Bookshelf / Books Graphic */}
-            <div className="relative z-10 my-4 -mx-2 sm:-mx-3 flex items-center justify-center overflow-visible">
-              <div className="relative w-full h-52 sm:h-60 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
+            <div className="relative z-10 my-3 sm:my-4 -mx-2 sm:-mx-3 flex items-center justify-center overflow-visible">
+              <div className="relative w-full h-44 sm:h-60 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
                 <img
                   src="/images/Gemini_Generated_Image_n0hwhvn0hwhvn0hw-Photoroom.png"
                   alt="Special Offer Books Collection"
-                  className="w-full h-full object-contain dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] drop-shadow-[0_10px_20px_rgba(147,51,234,0.15)] scale-110 sm:scale-115"
+                  className="w-full h-full object-contain dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] drop-shadow-[0_10px_20px_rgba(147,51,234,0.15)] scale-105 sm:scale-115"
                 />
               </div>
             </div>
 
-            {/* Bottom Button (Moved Higher Up) */}
-            <div className="relative z-10 text-center pb-8 sm:pb-12">
+            {/* Bottom Button */}
+            <div className="relative z-10 text-center pb-6 sm:pb-12">
               <a
                 href="#bestsellers"
-                className="w-full py-3.5 bg-[#2c7650] hover:bg-[#37865d] text-white border dark:border-[#d4b56a]/40 border-transparent text-[12px] font-extrabold tracking-[0.16em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/60 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm"
+                className="w-full py-3 sm:py-3.5 bg-[#2c7650] hover:bg-[#37865d] text-white border dark:border-[#d4b56a]/40 border-transparent text-[11px] sm:text-[12px] font-extrabold tracking-[0.16em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/60 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm"
               >
                 VIEW MORE <ArrowRight className="w-4 h-4" />
               </a>

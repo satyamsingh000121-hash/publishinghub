@@ -29,8 +29,8 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
     <div className="fixed inset-0 z-50 overflow-hidden">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-xs" onClick={onClose} />
       
-      <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#070d0a] border-l border-[#d4b56a]/30 shadow-2xl p-6 flex flex-col justify-between">
+      <div className="absolute inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
+        <div className="w-full sm:w-screen sm:max-w-md bg-[#070d0a] border-l border-[#d4b56a]/30 shadow-2xl p-5 sm:p-6 flex flex-col justify-between">
           
           {/* Header */}
           <div>

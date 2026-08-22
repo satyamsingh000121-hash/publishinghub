@@ -17,8 +17,8 @@ export default function OfferBanner() {
       {/* ========================================================= */}
       {/* LEFT VISUAL: Realistic 3D Stacked Books with Open Book */}
       {/* ========================================================= */}
-      <div className="absolute -left-6 sm:left-0 md:left-6 lg:left-10 bottom-0 top-0 w-72 sm:w-96 md:w-[460px] lg:w-[500px] pointer-events-none flex items-end pb-2 z-10">
-        <div className="relative w-full h-[260px] sm:h-[300px] md:h-[340px]">
+      <div className="absolute -left-10 sm:left-0 md:left-6 lg:left-10 bottom-0 top-0 w-52 sm:w-80 md:w-[460px] lg:w-[500px] pointer-events-none flex items-end pb-2 z-10 opacity-20 sm:opacity-40 md:opacity-100 transition-opacity">
+        <div className="relative w-full h-[200px] sm:h-[280px] md:h-[340px]">
           <svg viewBox="0 0 520 360" className="w-full h-full dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)] drop-shadow-[0_12px_25px_rgba(147,51,234,0.12)]">
             <defs>
               {/* Dark mode leather gradients */}
@@ -76,7 +76,7 @@ export default function OfferBanner() {
               </linearGradient>
             </defs>
 
-            {/* Base Surface Shadow - Soft lavender in light mode, dark in dark mode */}
+            {/* Base Surface Shadow */}
             <ellipse cx="240" cy="340" rx="200" ry="14" className="dark:fill-black dark:opacity-85 fill-purple-900 opacity-10" />
 
             {/* BOOK 1 (Bottom Thick Volume) */}
@@ -168,11 +168,11 @@ export default function OfferBanner() {
       {/* ========================================================= */}
       {/* RIGHT VISUAL: Clean Ceramic Cup & Eucalyptus with Warm Glow */}
       {/* ========================================================= */}
-      <div className="absolute right-4 sm:right-8 md:right-12 lg:right-16 bottom-0 top-0 w-60 sm:w-72 md:w-80 pointer-events-none flex items-end justify-end pb-3 z-10">
-        <div className="relative w-full h-[220px] sm:h-[250px] flex items-end justify-end">
+      <div className="absolute -right-6 sm:right-4 md:right-12 lg:right-16 bottom-0 top-0 w-44 sm:w-60 md:w-80 pointer-events-none flex items-end justify-end pb-3 z-10 opacity-20 sm:opacity-40 md:opacity-100 transition-opacity">
+        <div className="relative w-full h-[180px] sm:h-[220px] md:h-[250px] flex items-end justify-end">
           
           {/* Natural Botanical Eucalyptus / Olive Branch */}
-          <div className="absolute right-14 sm:right-20 bottom-6 w-52 sm:w-64 h-40 sm:h-48 pointer-events-none">
+          <div className="absolute right-10 sm:right-20 bottom-6 w-40 sm:w-64 h-32 sm:h-48 pointer-events-none">
             <svg viewBox="0 0 240 180" className="w-full h-full">
               {/* Branch stem */}
               <path d="M10,165 Q80,125 155,85 T220,35" fill="none" className="dark:stroke-[#2c5a40] stroke-[#4f772d]" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
@@ -202,38 +202,28 @@ export default function OfferBanner() {
             </svg>
           </div>
 
-          {/* Candle Container with Soft, Clean Centered Flickering Glow */}
-          <div className="relative z-20 flex flex-col items-center mr-6 sm:mr-10 mb-2">
+          {/* Candle Container */}
+          <div className="relative z-20 flex flex-col items-center mr-4 sm:mr-10 mb-2">
             
-            {/* Flickering Ambient Warmth directly on Flame */}
+            {/* Flickering Ambient Warmth */}
             <div className="absolute -top-10 -left-6 -right-6 w-24 h-24 bg-[radial-gradient(circle,rgba(255,170,0,0.5)_0%,rgba(255,130,0,0.2)_50%,transparent_75%)] rounded-full blur-lg pointer-events-none animate-candle-glow" />
 
-            {/* Candle Flame with realistic flicker & dance animation */}
+            {/* Candle Flame */}
             <div className="relative mb-[-2px] flex flex-col items-center animate-candle-flame">
-              {/* Outer Golden Flame Body */}
-              <div className="relative z-10 w-6 h-11 bg-gradient-to-t from-[#ff4400] via-[#ffaa00] to-[#fffde0] rounded-[50%_50%_35%_35%] blur-[0.4px] shadow-[0_0_20px_#ff9900]" />
-              
-              {/* Inner Hot Blue-White Core */}
-              <div className="absolute bottom-1 z-20 w-2.5 h-4 bg-gradient-to-t from-[#2a66ff] via-[#ffffff] to-[#ffffff] rounded-[50%_50%_40%_40%]" />
-              
-              {/* Wick */}
+              <div className="relative z-10 w-5 sm:w-6 h-9 sm:h-11 bg-gradient-to-t from-[#ff4400] via-[#ffaa00] to-[#fffde0] rounded-[50%_50%_35%_35%] blur-[0.4px] shadow-[0_0_20px_#ff9900]" />
+              <div className="absolute bottom-1 z-20 w-2 sm:w-2.5 h-3.5 sm:h-4 bg-gradient-to-t from-[#2a66ff] via-[#ffffff] to-[#ffffff] rounded-[50%_50%_40%_40%]" />
               <div className="w-0.5 h-1.5 bg-[#111111] mt-[-1px] relative z-10" />
             </div>
 
-            {/* Translucent Glass Tumbler / Ceramic Cup */}
-            <div className="w-20 sm:w-22 h-20 sm:h-22 bg-gradient-to-b from-white/40 to-purple-200/50 border border-purple-300/60 shadow-[0_8px_20px_rgba(147,51,234,0.12)] dark:bg-[#161a18] dark:border-[#2c332e] dark:shadow-[-10px_15px_30px_rgba(0,0,0,0.95)] rounded-xl relative overflow-hidden flex flex-col justify-start p-1.5 backdrop-blur-md">
-              
-              {/* Glowing Wax Pool */}
-              <div className="w-full h-3.5 bg-gradient-to-r from-purple-100 via-amber-100 to-purple-100 dark:from-[#242b27] dark:via-[#f0d694] dark:to-[#1c221e] rounded-full border border-purple-200/50 dark:border-black/60 shadow-inner flex items-center justify-center">
+            {/* Translucent Glass Tumbler */}
+            <div className="w-16 sm:w-20 md:w-22 h-16 sm:h-20 md:h-22 bg-gradient-to-b from-white/40 to-purple-200/50 border border-purple-300/60 shadow-[0_8px_20px_rgba(147,51,234,0.12)] dark:bg-[#161a18] dark:border-[#2c332e] dark:shadow-[-10px_15px_30px_rgba(0,0,0,0.95)] rounded-xl relative overflow-hidden flex flex-col justify-start p-1.5 backdrop-blur-md">
+              <div className="w-full h-3 sm:h-3.5 bg-gradient-to-r from-purple-100 via-amber-100 to-purple-100 dark:from-[#242b27] dark:via-[#f0d694] dark:to-[#1c221e] rounded-full border border-purple-200/50 dark:border-black/60 shadow-inner flex items-center justify-center">
                 <div className="w-4/5 h-2 bg-gradient-to-r from-white via-amber-200 to-white dark:from-[#ebd69b] dark:via-[#ffffff] dark:to-[#dfc480] rounded-full blur-[0.3px]" />
               </div>
-
-              {/* Surface Glass Reflection */}
               <div className="absolute top-4 left-2 bottom-2 w-2 bg-gradient-to-r from-white/40 to-transparent rounded-full pointer-events-none" />
             </div>
 
-            {/* Base shadow in Dark Mode only */}
-            <div className="w-22 h-2.5 bg-black/90 blur-sm rounded-full -mt-0.5 dark:block hidden" />
+            <div className="w-18 sm:w-22 h-2.5 bg-black/90 blur-sm rounded-full -mt-0.5 dark:block hidden" />
           </div>
 
         </div>
@@ -242,20 +232,20 @@ export default function OfferBanner() {
       {/* ========================================================= */}
       {/* CENTER: Main Typography & Button */}
       {/* ========================================================= */}
-      <div className="container-custom relative z-20 text-center px-4 py-16 sm:py-20 max-w-[850px] mx-auto space-y-5">
-        <span className="text-[11px] sm:text-xs tracking-[0.32em] text-[#d4b56a] font-bold uppercase block">
+      <div className="container-custom relative z-20 text-center px-4 py-12 sm:py-20 max-w-[850px] mx-auto space-y-4 sm:space-y-5">
+        <span className="text-[10px] sm:text-xs tracking-[0.28em] sm:tracking-[0.32em] text-[#d4b56a] font-bold uppercase block">
           LIMITED TIME OFFER
         </span>
 
-        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-normal tracking-tight text-[#f2eee3] leading-[1.05] drop-shadow-md">
+        <h2 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-normal tracking-tight text-[#f2eee3] leading-[1.1] sm:leading-[1.05] drop-shadow-md">
           Get -30% purchase on <br />
           order over £299.00
         </h2>
 
-        <div className="pt-3">
+        <div className="pt-2 sm:pt-3">
           <a
             href="#bestsellers"
-            className="min-h-[46px] px-9 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/70 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm"
+            className="min-h-[44px] sm:min-h-[46px] px-7 sm:px-9 bg-[#2c7650] hover:bg-[#37865d] text-white text-[10px] sm:text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/70 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm"
           >
             EXPLORE NOW <ArrowRight className="w-3.5 h-3.5" />
           </a>

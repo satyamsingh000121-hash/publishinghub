@@ -79,11 +79,11 @@ export default function AboutSponsors() {
   const marqueeList = [...sponsors, ...sponsors, ...sponsors];
 
   return (
-    <section className="py-20 sm:py-28 dark:bg-[#050807] bg-white border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] relative overflow-hidden">
+    <section className="py-14 sm:py-24 dark:bg-[#050807] bg-white border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] relative overflow-hidden">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto mb-16 sm:mb-20">
-          <h2 className="font-display text-4xl sm:text-5xl font-medium dark:text-[#f2eee3] text-[#18181b] tracking-tight mb-3">
+        <div className="text-center max-w-xl mx-auto mb-10 sm:mb-16">
+          <h2 className="font-display text-3xl sm:text-5xl font-medium dark:text-[#f2eee3] text-[#18181b] tracking-tight mb-2 sm:mb-3">
             Sponsors &amp; affiliates
           </h2>
           <p className="text-xs sm:text-sm dark:text-[#888b83] text-[#71717a] font-sans">

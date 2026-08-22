@@ -7,9 +7,9 @@ export default function AboutVideoSection() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <section className="py-20 sm:py-28 dark:bg-[#040605] bg-white border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] relative overflow-hidden">
+    <section className="py-14 sm:py-24 dark:bg-[#040605] bg-white border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] relative overflow-hidden">
       <div className="container-custom">
-        <div className="flex items-center justify-center gap-4 sm:gap-8 lg:gap-12 max-w-6xl mx-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 lg:gap-12 max-w-6xl mx-auto">
           
           {/* Left Vertical Side Label */}
           <div className="hidden sm:flex flex-col items-center justify-center py-4 select-none">
@@ -25,7 +25,7 @@ export default function AboutVideoSection() {
           </div>
 
           {/* Center Main Video Player Container */}
-          <div className="flex-1 relative rounded-sm overflow-hidden border dark:border-[#f2eee3]/15 border-[#e9e1f5] dark:shadow-[0_25px_60px_rgba(0,0,0,0.9)] shadow-[0_15px_40px_rgba(147,51,234,0.12)] dark:bg-[#09100c] bg-white group">
+          <div className="flex-1 w-full relative rounded-sm overflow-hidden border dark:border-[#f2eee3]/15 border-[#e9e1f5] dark:shadow-[0_25px_60px_rgba(0,0,0,0.9)] shadow-[0_15px_40px_rgba(147,51,234,0.12)] dark:bg-[#09100c] bg-white group">
             <div className="relative aspect-[16/9] w-full overflow-hidden">
               
               {/* Direct YouTube Video Player */}
@@ -40,8 +40,8 @@ export default function AboutVideoSection() {
               />
 
               {/* Bottom Title Ribbon */}
-              <div className="absolute bottom-0 left-0 right-0 bg-[#9333ea] dark:bg-[#b2483b] py-2.5 sm:py-3.5 px-6 text-center border-t border-white/20 shadow-lg z-10 pointer-events-none">
-                <h3 className="font-display italic text-xl sm:text-2xl md:text-3xl text-white font-normal tracking-wide drop-shadow-md">
+              <div className="absolute bottom-0 left-0 right-0 bg-[#9333ea] dark:bg-[#b2483b] py-2 sm:py-3.5 px-4 sm:px-6 text-center border-t border-white/20 shadow-lg z-10 pointer-events-none">
+                <h3 className="font-display italic text-base sm:text-2xl md:text-3xl text-white font-normal tracking-wide drop-shadow-md">
                   How to make a Deal
                 </h3>
               </div>
@@ -62,8 +62,8 @@ export default function AboutVideoSection() {
 
         </div>
 
-        {/* Mobile vertical labels shown horizontally underneath for smaller screens */}
-        <div className="sm:hidden flex items-center justify-between text-[10px] tracking-[0.24em] text-[#888b83] font-bold uppercase pt-4 px-2">
+        {/* Mobile horizontal labels underneath on small screens */}
+        <div className="sm:hidden flex items-center justify-between text-[10px] tracking-[0.24em] text-[#888b83] font-bold uppercase pt-3 px-1">
           <span>WATCH A REVIEW</span>
           <span>BY JOHN LITTLE</span>
         </div>

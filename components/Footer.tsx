@@ -28,10 +28,10 @@ export default function Footer() {
       <div className="container-custom">
         
         {/* Main Footer 4 Columns Grid - Balanced Sweet Spot */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 py-14 sm:py-16 lg:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 py-10 sm:py-16 lg:py-20">
           
           {/* Column 1: Connect (4 cols) */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-4 space-y-3.5 sm:space-y-4">
             <h4 className="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">
               CONNECT
             </h4>
@@ -47,7 +47,7 @@ export default function Footer() {
             </div>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-2.5 pt-1.5">
+            <div className="flex items-center gap-2.5 pt-1">
               {[
                 { icon: MapPin, label: "Location" },
                 { icon: Twitter, label: "Twitter" },
@@ -68,7 +68,7 @@ export default function Footer() {
             </div>
 
             {/* Payment Method Badges */}
-            <div className="flex items-center gap-2 pt-2">
+            <div className="flex flex-wrap items-center gap-2 pt-2">
               {/* Visa */}
               <div className="px-2.5 py-1 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center">
                 <span className="text-[10px] font-black tracking-widest text-[#1a73e8] italic">

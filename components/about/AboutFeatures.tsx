@@ -90,30 +90,30 @@ export default function AboutFeatures() {
   ];
 
   return (
-    <section className="py-20 sm:py-24 dark:bg-[#050807] bg-[#faf7fd] border-b dark:border-[#f2eee3]/10 border-[#e9e1f5]">
+    <section className="py-14 sm:py-24 dark:bg-[#050807] bg-[#faf7fd] border-b dark:border-[#f2eee3]/10 border-[#e9e1f5]">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x dark:divide-[#f2eee3]/10 divide-[#e9e1f5] border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:bg-[#070d0a]/60 bg-white backdrop-blur-sm rounded-xs shadow-xs overflow-hidden">
           {features.map((item, idx) => (
             <div
               key={idx}
-              className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between group dark:hover:bg-[#0c1611]/80 hover:bg-[#faf5ff] transition-colors duration-300 relative"
+              className="p-6 sm:p-10 lg:p-12 flex flex-col justify-between group dark:hover:bg-[#0c1611]/80 hover:bg-[#faf5ff] transition-colors duration-300 relative"
             >
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Top Badge & Custom SVG Icon Row */}
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] tracking-[0.22em] font-extrabold uppercase px-3 py-1 dark:bg-[#123d2b] bg-[#f4ecfa] text-[#9333ea] dark:text-[#d4b56a] border dark:border-[#d4b56a]/30 border-[#e9d5ff] rounded-xs shadow-xs">
+                  <span className="text-[9px] sm:text-[10px] tracking-[0.22em] font-extrabold uppercase px-2.5 sm:px-3 py-1 dark:bg-[#123d2b] bg-[#f4ecfa] text-[#9333ea] dark:text-[#d4b56a] border dark:border-[#d4b56a]/30 border-[#e9d5ff] rounded-xs shadow-xs">
                     {item.badge}
                   </span>
                   
                   {/* Subtle Icon Glow Frame */}
-                  <div className="w-12 h-12 rounded-sm dark:bg-[#0e1c14] bg-[#faf5ff] border dark:border-[#d4b56a]/20 border-[#e9d5ff] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-sm dark:bg-[#0e1c14] bg-[#faf5ff] border dark:border-[#d4b56a]/20 border-[#e9d5ff] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                     {item.icon}
                   </div>
                 </div>
 
                 {/* Title and Description */}
                 <div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-medium dark:text-[#f2eee3] text-[#18181b] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors mb-3">
+                  <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-medium dark:text-[#f2eee3] text-[#18181b] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors mb-2 sm:mb-3">
                     {item.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#71717a] dark:text-[#9a9b94] font-light leading-relaxed">
@@ -123,7 +123,7 @@ export default function AboutFeatures() {
               </div>
 
               {/* Bottom View More Link */}
-              <div className="pt-8 sm:pt-10">
+              <div className="pt-6 sm:pt-10">
                 <a
                   href={item.linkHref}
                   className="inline-flex items-center gap-2 text-[11px] sm:text-xs font-bold tracking-[0.18em] uppercase text-[#9333ea] dark:text-[#d4b56a] group-hover:text-[#7e22ce] dark:group-hover:text-white transition-colors"

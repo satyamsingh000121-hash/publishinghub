@@ -24,9 +24,9 @@ export default function QuickViewModal({ book, onClose, onAddToCart }: QuickView
   if (!book) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
       <div
-        className="relative w-full max-w-2xl bg-[#0b1410] border border-[#d4b56a]/40 shadow-2xl p-6 md:p-8 rounded-sm overflow-hidden"
+        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar bg-[#0b1410] border border-[#d4b56a]/40 shadow-2xl p-5 sm:p-6 md:p-8 rounded-sm"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}

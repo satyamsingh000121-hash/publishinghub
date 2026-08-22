@@ -24,9 +24,9 @@ export default function EventsNewsletterSection() {
       <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#f2eee3]/10">
         
         {/* Left Panel: The Bookshop Events with Sunflower Engraving */}
-        <div className="relative p-10 sm:p-14 lg:p-20 bg-[#080e0b] flex flex-col justify-between min-h-[380px] lg:min-h-[440px] overflow-hidden group">
+        <div className="relative p-6 sm:p-12 lg:p-20 bg-[#080e0b] flex flex-col justify-between min-h-[360px] lg:min-h-[440px] overflow-hidden group">
           {/* Sunflower Botanical Background Watermark */}
-          <div className="absolute -top-6 right-0 w-72 h-72 sm:w-96 sm:h-96 opacity-15 pointer-events-none transform rotate-12 group-hover:rotate-6 transition-transform duration-700">
+          <div className="absolute -top-6 right-0 w-64 h-64 sm:w-96 sm:h-96 opacity-10 sm:opacity-15 pointer-events-none transform rotate-12 group-hover:rotate-6 transition-transform duration-700">
             <svg viewBox="0 0 200 200" className="w-full h-full text-[#d4b56a] fill-none stroke-current" strokeWidth="0.75">
               {/* Sunflower Center Disc */}
               <circle cx="100" cy="100" r="28" fill="#18231c" stroke="#d4b56a" strokeWidth="1" />
@@ -54,15 +54,15 @@ export default function EventsNewsletterSection() {
             </svg>
           </div>
 
-          <div className="relative z-10 space-y-4">
+          <div className="relative z-10 space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-[#d4b56a]" />
-              <span className="text-[11px] tracking-[0.3em] font-bold text-[#d4b56a] uppercase">
+              <span className="text-[10px] sm:text-[11px] tracking-[0.28em] font-bold text-[#d4b56a] uppercase">
                 UPCOMING EVENTS
               </span>
             </div>
 
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-[#f2eee3] leading-[1.02]">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#f2eee3] leading-[1.06] sm:leading-[1.02]">
               The Bookshop Events
             </h2>
 
@@ -71,21 +71,21 @@ export default function EventsNewsletterSection() {
             </p>
 
             {/* Event Highlights List */}
-            <div className="space-y-3 pt-3">
-              <div className="flex items-center gap-3 text-xs dark:bg-[#050807]/60 bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9e1f5] p-3 rounded-sm shadow-xs">
-                <span className="text-[#d4b56a] font-bold tracking-wider font-display text-sm">AUG 28</span>
+            <div className="space-y-2.5 sm:space-y-3 pt-2 sm:pt-3">
+              <div className="flex items-center gap-3 text-xs dark:bg-[#050807]/60 bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9e1f5] p-2.5 sm:p-3 rounded-sm shadow-xs">
+                <span className="text-[#d4b56a] font-bold tracking-wider font-display text-xs sm:text-sm">AUG 28</span>
                 <div className="w-[1px] h-4 dark:bg-[#f2eee3]/20 bg-[#e9e1f5]" />
-                <span className="dark:text-[#e2ded2] text-[#18181b] font-medium">Santosh Kumar: Author Reading &amp; Signing</span>
+                <span className="dark:text-[#e2ded2] text-[#18181b] font-medium text-[11px] sm:text-xs">Santosh Kumar: Author Reading &amp; Signing</span>
               </div>
-              <div className="flex items-center gap-3 text-xs dark:bg-[#050807]/60 bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9e1f5] p-3 rounded-sm shadow-xs">
-                <span className="text-[#d4b56a] font-bold tracking-wider font-display text-sm">SEP 05</span>
+              <div className="flex items-center gap-3 text-xs dark:bg-[#050807]/60 bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9e1f5] p-2.5 sm:p-3 rounded-sm shadow-xs">
+                <span className="text-[#d4b56a] font-bold tracking-wider font-display text-xs sm:text-sm">SEP 05</span>
                 <div className="w-[1px] h-4 dark:bg-[#f2eee3]/20 bg-[#e9e1f5]" />
-                <span className="dark:text-[#e2ded2] text-[#18181b] font-medium">Autumn Poetry &amp; Acoustic Evening</span>
+                <span className="dark:text-[#e2ded2] text-[#18181b] font-medium text-[11px] sm:text-xs">Autumn Poetry &amp; Acoustic Evening</span>
               </div>
             </div>
           </div>
 
-          <div className="relative z-10 pt-8">
+          <div className="relative z-10 pt-6 sm:pt-8">
             <a
               href="#bestsellers"
               className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] hover:text-white transition-colors"
@@ -96,18 +96,18 @@ export default function EventsNewsletterSection() {
         </div>
 
         {/* Right Panel: Stay In Touch with Our Updates / Newsletter */}
-        <div className="relative p-10 sm:p-14 lg:p-20 bg-[#0b1510] flex flex-col justify-between min-h-[380px] lg:min-h-[440px]">
+        <div className="relative p-6 sm:p-12 lg:p-20 bg-[#0b1510] flex flex-col justify-between min-h-[360px] lg:min-h-[440px]">
           {/* Subtle Mail Pattern overlay */}
           <div className="absolute top-10 right-10 opacity-10 pointer-events-none">
-            <Mail className="w-36 h-36 text-[#2c7650]" />
+            <Mail className="w-28 sm:w-36 h-28 sm:h-36 text-[#2c7650]" />
           </div>
 
-          <div className="relative z-10 space-y-4">
-            <span className="text-[11px] tracking-[0.3em] font-bold text-[#d4b56a] uppercase block">
+          <div className="relative z-10 space-y-3 sm:space-y-4">
+            <span className="text-[10px] sm:text-[11px] tracking-[0.28em] font-bold text-[#d4b56a] uppercase block">
               NEWSLETTER
             </span>
 
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-[#f2eee3] leading-[1.02]">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#f2eee3] leading-[1.06] sm:leading-[1.02]">
               Stay In Touch with Our Updates
             </h2>
 
@@ -115,10 +115,10 @@ export default function EventsNewsletterSection() {
               Newsletter to get in touch. Receive exclusive early access to curated editions, signed copies, and subscriber discounts.
             </p>
 
-            {/* Newsletter Form matching the requested fields */}
-            <form onSubmit={handleSubmit} className="pt-4 space-y-4 max-w-[480px]">
+            {/* Newsletter Form */}
+            <form onSubmit={handleSubmit} className="pt-2 sm:pt-4 space-y-3 sm:space-y-4 max-w-[480px]">
               <div>
-                <label htmlFor="newsletter-email" className="block text-xs text-[#888b83] uppercase tracking-wider mb-2 font-semibold">
+                <label htmlFor="newsletter-email" className="block text-[11px] sm:text-xs text-[#888b83] uppercase tracking-wider mb-1.5 sm:mb-2 font-semibold">
                   Email
                 </label>
                 <div className="relative">
@@ -129,7 +129,7 @@ export default function EventsNewsletterSection() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter Your Email"
                     required
-                    className="w-full h-12 bg-[#050807]/80 border border-[#f2eee3]/20 focus:border-[#d4b56a] px-4 text-sm text-[#f2eee3] placeholder-[#666a64] outline-none transition-colors rounded-none"
+                    className="w-full h-11 sm:h-12 bg-[#050807]/80 border border-[#f2eee3]/20 focus:border-[#d4b56a] px-3.5 sm:px-4 text-xs sm:text-sm text-[#f2eee3] placeholder-[#666a64] outline-none transition-colors rounded-none"
                   />
                 </div>
               </div>
@@ -137,7 +137,7 @@ export default function EventsNewsletterSection() {
               <div>
                 <button
                   type="submit"
-                  className="min-h-[46px] px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-xs font-bold tracking-[0.16em] uppercase transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/50 shadow-[0_6px_18px_rgba(147,51,234,0.25)] inline-flex items-center justify-center gap-2 rounded-sm"
+                  className="w-full sm:w-auto min-h-[44px] sm:min-h-[46px] px-7 sm:px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-xs font-bold tracking-[0.16em] uppercase transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/50 shadow-[0_6px_18px_rgba(147,51,234,0.25)] inline-flex items-center justify-center gap-2 rounded-sm"
                 >
                   {isSubscribed ? (
                     <span className="flex items-center gap-2 text-[#d4b56a]">
@@ -157,7 +157,7 @@ export default function EventsNewsletterSection() {
             </form>
           </div>
 
-          <div className="relative z-10 pt-6 text-[11px] text-[#646860]">
+          <div className="relative z-10 pt-4 sm:pt-6 text-[10px] sm:text-[11px] text-[#646860]">
             <p>We respect your privacy. Unsubscribe anytime with one click.</p>
           </div>
         </div>

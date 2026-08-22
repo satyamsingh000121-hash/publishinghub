@@ -108,15 +108,15 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
       <div className="container-custom">
         
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 pb-4 border-b border-[#f2eee3]/10">
-          <div>
-            <span className="text-[10px] tracking-[0.28em] text-[#d4b56a] font-bold uppercase block mb-2">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-10 pb-4 border-b border-[#f2eee3]/10">
+          <div className="w-full sm:w-auto">
+            <span className="text-[9px] sm:text-[10px] tracking-[0.28em] text-[#d4b56a] font-bold uppercase block mb-1.5 sm:mb-2">
               PEOPLE&apos;S CHOICE
             </span>
-            <div className="flex items-center gap-6 sm:gap-8 pt-1">
+            <div className="flex items-center gap-4 sm:gap-8 pt-1 overflow-x-auto no-scrollbar pb-1">
               <button
                 onClick={() => setActiveTab("bestseller")}
-                className={`font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors relative pb-2 ${
+                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${
                   activeTab === "bestseller" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
                 }`}
               >
@@ -128,7 +128,7 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
 
               <button
                 onClick={() => setActiveTab("sale")}
-                className={`font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors relative pb-2 ${
+                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${
                   activeTab === "sale" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
                 }`}
               >
@@ -140,7 +140,7 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
 
               <button
                 onClick={() => setActiveTab("featured")}
-                className={`font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors relative pb-2 ${
+                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${
                   activeTab === "featured" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
                 }`}
               >
@@ -160,19 +160,19 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
           </a>
         </div>
 
-        {/* Product Cards 4x2 Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Product Cards 2-Col Mobile / 4-Col Desktop Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           {filteredBooks.map((book) => (
             <div
               key={book.id}
-              className="group relative dark:bg-[#080d0a] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-4 pb-6 flex flex-col justify-between shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs"
+              className="group relative dark:bg-[#080d0a] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-2.5 sm:p-4 pb-4 sm:pb-6 flex flex-col justify-between shadow-xs hover:shadow-lg hover:shadow-purple-500/10 rounded-xs"
             >
               {/* Book Artwork Frame */}
               <div className="relative aspect-[3/4] w-full dark:bg-[#101612] bg-[#fbf8fe] overflow-hidden flex items-center justify-center border dark:border-black/40 border-[#f3e8ff] rounded-xs">
                 
                 {/* Sale Badge */}
                 {book.saleBadge && (
-                  <span className="absolute top-2 left-2 z-20 bg-[#2c7650] text-white text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 shadow-md">
+                  <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-20 bg-[#2c7650] text-white text-[7.5px] sm:text-[8px] font-extrabold tracking-wider uppercase px-1.5 sm:px-2 py-0.5 shadow-md">
                     {book.saleBadge}
                   </span>
                 )}
@@ -182,42 +182,42 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
                   <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace("by ", "")} />
                 </div>
 
-                {/* Quick Action Overlay on Hover */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-30">
+                {/* Quick Action Overlay on Hover / Mobile Touch */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 sm:gap-3 z-30">
                   <button
                     onClick={() => onAddToCart && onAddToCart(book.title)}
-                    className="w-10 h-10 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110"
                     title="Add to Cart"
                     aria-label="Add to cart"
                   >
-                    <ShoppingCart className="w-4 h-4" />
+                    <ShoppingCart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                   <button
                     onClick={() => onQuickView && onQuickView(book)}
-                    className="w-10 h-10 rounded-full bg-[#0b120f] border border-[#d4b56a] hover:bg-[#d4b56a] text-[#f2eee3] hover:text-[#050807] flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#0b120f] border border-[#d4b56a] hover:bg-[#d4b56a] text-[#f2eee3] hover:text-[#050807] flex items-center justify-center shadow-lg transition-transform hover:scale-110"
                     title="Quick View"
                     aria-label="Quick view"
                   >
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </div>
               </div>
 
               {/* Book Information */}
-              <div className="mt-4">
-                <h4 className="font-display text-lg font-medium text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors line-clamp-1 leading-snug">
+              <div className="mt-2.5 sm:mt-4">
+                <h4 className="font-display text-sm sm:text-lg font-medium text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors line-clamp-1 leading-snug">
                   {book.title}
                 </h4>
-                <p className="text-[11px] text-[#85877f] mt-0.5">
+                <p className="text-[10px] sm:text-[11px] text-[#85877f] mt-0.5 truncate">
                   {book.author}
                 </p>
-                <div className="flex items-center gap-2.5 mt-2">
+                <div className="flex items-center gap-2 mt-1.5 sm:mt-2">
                   {book.oldPrice && (
-                    <span className="text-xs text-[#656861] line-through font-normal">
+                    <span className="text-[11px] sm:text-xs text-[#656861] line-through font-normal">
                       {book.oldPrice}
                     </span>
                   )}
-                  <span className="text-xs font-semibold text-[#d4b56a]">
+                  <span className="text-[11px] sm:text-xs font-semibold text-[#d4b56a]">
                     {book.price}
                   </span>
                 </div>

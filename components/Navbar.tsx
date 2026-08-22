@@ -35,9 +35,9 @@ export default function Navbar({
   return (
     <>
       {/* Top Announcement Bar */}
-      <div className="bg-[#0d2a1d] text-[#f2eee3] text-[10px] tracking-[0.08em] uppercase py-2 px-4 border-b border-[#b89245]/40 flex items-center justify-center gap-4 text-center z-50 relative">
+      <div className="bg-[#0d2a1d] text-[#f2eee3] text-[9px] sm:text-[10px] tracking-[0.06em] sm:tracking-[0.08em] uppercase py-1.5 sm:py-2 px-3 sm:px-4 border-b border-[#b89245]/40 flex flex-wrap items-center justify-center gap-1.5 sm:gap-4 text-center z-50 relative">
         <span className="font-medium">
-          SUMMER SALE IS LIVE — Get Up To 30% OFF on Selected Books!
+          SUMMER SALE IS LIVE — Up To 30% OFF!
         </span>
         <a
           href="#bestsellers"
@@ -49,19 +49,19 @@ export default function Navbar({
 
       {/* Main Navigation Header */}
       <header className="sticky top-0 z-40 bg-[#050807]/95 backdrop-blur-md border-b border-[#f2eee3]/10 transition-all duration-300">
-        <div className="container-custom flex items-center justify-between min-h-[82px] gap-8">
+        <div className="container-custom flex items-center justify-between min-h-[64px] sm:min-h-[76px] lg:min-h-[82px] gap-2 sm:gap-6">
           
           {/* Brand Logo */}
-          <a href="/" className="flex items-center group select-none py-1">
+          <a href="/" className="flex items-center group select-none py-1 flex-shrink-0">
             <img
               src="/images/The-Publishing-Hub-Final-Logo-02-Photoroom.png"
               alt="The Publishing Hub"
-              className="brand-logo-img h-9 sm:h-11 w-auto max-w-[200px] sm:max-w-[240px] object-contain transition-all duration-300 group-hover:scale-105"
+              className="brand-logo-img h-7 sm:h-9 md:h-11 w-auto max-w-[140px] sm:max-w-[190px] md:max-w-[240px] object-contain transition-all duration-300 group-hover:scale-105"
             />
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center gap-8 xl:gap-10">
+          <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-9">
             {navItems.map((item) => {
               const isActive = activeTab === item.label;
               return (
@@ -90,70 +90,74 @@ export default function Navbar({
           </nav>
 
           {/* Right Action Icons */}
-          <div className="flex items-center gap-4 sm:gap-5 text-[#d9d5ca]">
+          <div className="flex items-center gap-2 xs:gap-3 sm:gap-4 text-[#d9d5ca]">
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full border border-[#f2eee3]/15 hover:border-[#d4b56a]/60 bg-[#f2eee3]/5 hover:bg-[#d4b56a]/15 text-[#d4b56a] hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center"
+              className="p-1.5 sm:p-2 rounded-full border border-[#f2eee3]/15 hover:border-[#d4b56a]/60 bg-[#f2eee3]/5 hover:bg-[#d4b56a]/15 text-[#d4b56a] hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center"
               title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
               aria-label="Toggle Theme"
             >
               {theme === "dark" ? (
-                <Sun className="w-[17px] h-[17px] text-[#e6c880] animate-spin-slow" />
+                <Sun className="w-4 h-4 sm:w-[17px] sm:h-[17px] text-[#e6c880]" />
               ) : (
-                <Moon className="w-[17px] h-[17px] text-[#123d2b]" />
+                <Moon className="w-4 h-4 sm:w-[17px] sm:h-[17px] text-[#9333ea]" />
               )}
             </button>
 
+            {/* Search Button */}
             <button
               onClick={onOpenSearch}
               className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
               title="Search Books"
               aria-label="Search"
             >
-              <Search className="w-[18px] h-[18px]" />
+              <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
             </button>
 
+            {/* Wishlist Button (Hidden on xs phones, visible in drawer) */}
             <a
               href="#wishlist"
-              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center"
+              className="hidden sm:flex p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative items-center"
               title="Wishlist"
               aria-label="Wishlist"
             >
-              <Heart className="w-[18px] h-[18px]" />
+              <Heart className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
               <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
                 0
               </span>
             </a>
 
+            {/* Cart Button */}
             <button
               onClick={onOpenCart}
               className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center"
               title="Shopping Cart"
               aria-label="Shopping Cart"
             >
-              <ShoppingBag className="w-[18px] h-[18px]" />
+              <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
               <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
                 {cartCount}
               </span>
             </button>
 
+            {/* Account Icon (Desktop & Tablet) */}
             <a
               href="#account"
-              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
+              className="hidden md:flex p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
               title="My Account"
               aria-label="Account"
             >
-              <User className="w-[18px] h-[18px]" />
+              <User className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
             </a>
 
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-1.5 text-[#f2eee3] hover:text-[#d4b56a]"
+              className="lg:hidden p-1.5 text-[#f2eee3] hover:text-[#d4b56a] transition-colors rounded-sm"
               aria-label="Toggle Menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
 
@@ -161,32 +165,60 @@ export default function Navbar({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#07100c] border-b border-[#f2eee3]/10 px-6 py-6 space-y-4">
+          <div className="lg:hidden bg-[#07100c]/98 backdrop-blur-xl border-b border-[#f2eee3]/10 px-6 py-6 space-y-4 animate-in slide-in-from-top-2 duration-200">
+            {/* Theme switch in drawer */}
             <div className="flex items-center justify-between pb-3 border-b border-[#f2eee3]/10">
               <span className="text-xs tracking-wider uppercase font-semibold text-[#dddcd5]">Theme</span>
               <button
                 onClick={toggleTheme}
-                className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#f2eee3]/20 text-[#d4b56a]"
+                className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#f2eee3]/20 text-[#d4b56a] hover:border-[#d4b56a]"
               >
-                {theme === "dark" ? <Sun className="w-4 h-4 text-[#e6c880]" /> : <Moon className="w-4 h-4" />}
+                {theme === "dark" ? <Sun className="w-4 h-4 text-[#e6c880]" /> : <Moon className="w-4 h-4 text-[#9333ea]" />}
                 <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
               </button>
             </div>
-            {navItems.map((item) => (
+
+            {/* Navigation links */}
+            <div className="space-y-1">
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => {
+                    setInternalActiveTab(item.label);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`flex items-center justify-between py-2.5 px-3 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors ${
+                    activeTab === item.label
+                      ? "text-[#d4b56a] bg-[#d4b56a]/10 font-bold"
+                      : "text-[#dddcd5] hover:text-[#d4b56a] hover:bg-[#f2eee3]/5"
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+                </a>
+              ))}
+            </div>
+
+            {/* Account and Wishlist links in mobile drawer */}
+            <div className="pt-3 border-t border-[#f2eee3]/10 grid grid-cols-2 gap-2">
               <a
-                key={item.label}
-                href={item.href}
-                onClick={() => {
-                  setInternalActiveTab(item.label);
-                  setMobileMenuOpen(false);
-                }}
-                className={`block py-2 text-xs font-semibold tracking-wider uppercase ${
-                  activeTab === item.label ? "text-[#d4b56a]" : "text-[#dddcd5]"
-                }`}
+                href="#wishlist"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
               >
-                {item.label}
+                <Heart className="w-3.5 h-3.5" />
+                <span>Wishlist (0)</span>
               </a>
-            ))}
+              <a
+                href="#account"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Account</span>
+              </a>
+            </div>
           </div>
         )}
       </header>
