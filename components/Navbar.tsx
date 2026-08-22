@@ -22,25 +22,42 @@ export default function Navbar({
   const activeTab = controlledActiveTab || internalActiveTab;
   const { theme, toggleTheme } = useTheme();
 
+  const leagueOptions = [
+    { label: "AS AN AUTHOR", href: "/join-the-league/author", role: "author" },
+    { label: "AS A PUBLISHER", href: "/join-the-league/publisher", role: "publisher" },
+    { label: "AS A DISTRIBUTOR", href: "/join-the-league/distributor", role: "distributor" },
+    { label: "AS A LITERARY AGENT", href: "/join-the-league/literary-agent", role: "literary-agent" },
+    { label: "AS A SPEAKER", href: "/join-the-league/speaker", role: "speaker" },
+    { label: "AS A THOUGHT LEADER", href: "/join-the-league/thought-leader", role: "thought-leader" },
+    { label: "AS A PRINTER", href: "/join-the-league/printer", role: "printer" },
+  ];
+
   const navItems = [
     { label: "HOME", href: "/" },
     { label: "ABOUT US", href: "/about" },
     { label: "SHOP", href: "/shop" },
     { label: "OUR OFFER", href: "/our-offer" },
-    { label: "EVENTS", href: "/events" },
+    { label: "EVENT", href: "/events" },
     { label: "CONTACT US", href: "/contact" },
-    { label: "EXTRA PAGES", href: "#", hasDropdown: true },
+    {
+      label: "JOIN THE LEAGUE",
+      href: "/join-the-league/author",
+      hasDropdown: true,
+      options: leagueOptions,
+    },
   ];
+
+  const [mobileLeagueOpen, setMobileLeagueOpen] = useState(false);
 
   return (
     <>
       {/* Top Announcement Bar */}
       <div className="bg-[#0d2a1d] text-[#f2eee3] text-[9px] sm:text-[10px] tracking-[0.06em] sm:tracking-[0.08em] uppercase py-1.5 sm:py-2 px-3 sm:px-4 border-b border-[#b89245]/40 flex flex-wrap items-center justify-center gap-1.5 sm:gap-4 text-center z-50 relative">
         <span className="font-medium">
-          SUMMER SALE IS LIVE — Up To 30% OFF!
+          SUMMER SALE IS LIVE — Get Up to 30% OFF on Selected Books!
         </span>
         <a
-          href="#bestsellers"
+          href="/shop"
           className="text-[#d4b56a] hover:text-white font-bold inline-flex items-center gap-1 transition-colors duration-200"
         >
           SHOP NOW <ArrowRight className="w-3 h-3" />
@@ -61,29 +78,50 @@ export default function Navbar({
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-9">
+          <nav className="hidden lg:flex items-center justify-center gap-5 xl:gap-8">
             {navItems.map((item) => {
-              const isActive = activeTab === item.label;
+              const isLeagueActive = activeTab === "JOIN THE LEAGUE" || activeTab?.startsWith("JOIN THE LEAGUE");
+              const isActive = item.hasDropdown ? isLeagueActive : activeTab === item.label;
+
               return (
                 <div key={item.label} className="relative py-7 group">
                   <a
                     href={item.href}
                     onClick={() => setInternalActiveTab(item.label)}
-                    className={`flex items-center gap-1 text-[11px] font-semibold tracking-[0.06em] uppercase transition-colors duration-200 ${
-                      isActive ? "text-[#f2eee3] font-bold" : "text-[#dddcd5] hover:text-[#d4b56a]"
+                    className={`flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.06em] uppercase transition-colors duration-200 ${
+                      isActive ? "text-[#d4b56a] font-bold" : "text-[#dddcd5] hover:text-[#d4b56a]"
                     }`}
                   >
-                    {item.label}
+                    <span>{item.label}</span>
                     {item.hasDropdown && (
-                      <ChevronDown className="w-3 h-3 text-[#d4b56a] transition-transform duration-200 group-hover:rotate-180" />
+                      <ChevronDown className="w-3.5 h-3.5 text-[#d4b56a] transition-transform duration-200 group-hover:rotate-180" />
                     )}
                   </a>
+
                   {/* Underline Active Indicator */}
                   <span
                     className={`absolute bottom-5 left-0 right-0 h-[2px] bg-[#d4b56a] transition-all duration-300 ${
                       isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
                     }`}
                   />
+
+                  {/* Dropdown Menu Popup (Matching User Image 1) */}
+                  {item.hasDropdown && (
+                    <div className="absolute top-[calc(100%-8px)] left-0 w-64 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                      <div className="dark:bg-[#070e0a] bg-white border dark:border-[#d4b56a]/30 border-[#e9e1f5] shadow-2xl rounded-xs py-2 px-1 divide-y dark:divide-[#f2eee3]/5 divide-[#f4f0fa]">
+                        {item.options?.map((subItem) => (
+                          <a
+                            key={subItem.label}
+                            href={subItem.href}
+                            onClick={() => setInternalActiveTab("JOIN THE LEAGUE")}
+                            className="block px-4 py-2.5 text-[11px] font-bold tracking-wider dark:text-[#c4c0b4] text-[#4b4e54] dark:hover:text-[#d4b56a] hover:text-[#9333ea] dark:hover:bg-[#0d1c14] hover:bg-[#faf5ff] transition-all duration-150 rounded-xs"
+                          >
+                            {subItem.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -141,7 +179,7 @@ export default function Navbar({
               </span>
             </button>
 
-            {/* Account Icon (Desktop & Tablet) */}
+            {/* Account Icon */}
             <a
               href="#account"
               className="hidden md:flex p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
@@ -180,24 +218,58 @@ export default function Navbar({
 
             {/* Navigation links */}
             <div className="space-y-1">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => {
-                    setInternalActiveTab(item.label);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`flex items-center justify-between py-2.5 px-3 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors ${
-                    activeTab === item.label
-                      ? "text-[#d4b56a] bg-[#d4b56a]/10 font-bold"
-                      : "text-[#dddcd5] hover:text-[#d4b56a] hover:bg-[#f2eee3]/5"
-                  }`}
-                >
-                  <span>{item.label}</span>
-                  <ArrowRight className="w-3.5 h-3.5 opacity-50" />
-                </a>
-              ))}
+              {navItems.map((item) => {
+                if (item.hasDropdown) {
+                  return (
+                    <div key={item.label} className="border-t border-[#f2eee3]/10 pt-1 mt-1">
+                      <button
+                        onClick={() => setMobileLeagueOpen(!mobileLeagueOpen)}
+                        className="w-full flex items-center justify-between py-2.5 px-3 rounded-sm text-xs font-semibold tracking-wider uppercase text-[#d4b56a] bg-[#d4b56a]/10"
+                      >
+                        <span>{item.label}</span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileLeagueOpen ? "rotate-180" : ""}`} />
+                      </button>
+
+                      {mobileLeagueOpen && (
+                        <div className="pl-4 pr-1 py-1 space-y-1 mt-1 border-l-2 border-[#d4b56a]/40 ml-2">
+                          {item.options?.map((sub) => (
+                            <a
+                              key={sub.label}
+                              href={sub.href}
+                              onClick={() => {
+                                setInternalActiveTab("JOIN THE LEAGUE");
+                                setMobileMenuOpen(false);
+                              }}
+                              className="block py-2 px-3 text-[11px] font-medium tracking-wide text-[#dddcd5] hover:text-[#d4b56a] hover:bg-[#f2eee3]/5 rounded-xs"
+                            >
+                              {sub.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => {
+                      setInternalActiveTab(item.label);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center justify-between py-2.5 px-3 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors ${
+                      activeTab === item.label
+                        ? "text-[#d4b56a] bg-[#d4b56a]/10 font-bold"
+                        : "text-[#dddcd5] hover:text-[#d4b56a] hover:bg-[#f2eee3]/5"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+                  </a>
+                );
+              })}
             </div>
 
             {/* Account and Wishlist links in mobile drawer */}

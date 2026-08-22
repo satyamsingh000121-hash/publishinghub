@@ -103,8 +103,9 @@ export default function Footer() {
                 { name: "About Us", href: "/about" },
                 { name: "Shop", href: "/shop" },
                 { name: "Our Offer", href: "/our-offer" },
-                { name: "Events", href: "/#events" },
-                { name: "Contact Us", href: "/#contact" },
+                { name: "Event", href: "/events" },
+                { name: "Contact Us", href: "/contact" },
+                { name: "Join The League", href: "/join-the-league/author" },
               ].map((link) => (
                 <li key={link.name}>
                   <a
