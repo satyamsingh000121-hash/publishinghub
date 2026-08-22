@@ -125,13 +125,18 @@ export default function Footer() {
               YOUR ACCOUNT
             </h4>
             <ul className="space-y-2.5 text-[13px] sm:text-sm">
-              {["Cart", "My Orders", "Wishlist", "Track Order"].map((link) => (
-                <li key={link}>
+              {[
+                { name: "Shop", href: "/shop" },
+                { name: "My Orders", href: "/my-account" },
+                { name: "My Account", href: "/my-account" },
+                { name: "Wishlist", href: "/my-account" },
+              ].map((link) => (
+                <li key={link.name}>
                   <a
-                    href="#"
+                    href={link.href}
                     className="text-[#888b83] hover:text-[#f2eee3] hover:translate-x-1 inline-block transition-all duration-200"
                   >
-                    {link}
+                    {link.name}
                   </a>
                 </li>
               ))}
@@ -206,8 +211,14 @@ export default function Footer() {
         </div>
 
         {/* Footer Bottom Bar */}
-        <div className="border-t border-[#f2eee3]/10 py-6 flex items-center justify-between gap-4 text-xs text-[#747870]">
-          <p>© 2026 The Publishing. All Rights Reserved.</p>
+        <div className="border-t border-[#f2eee3]/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#747870]">
+          <p>© 2026 The Publishing Hub. All Rights Reserved.</p>
+
+          <div className="flex items-center gap-4 text-[11px] sm:text-xs">
+            <a href="/refund_returns" className="hover:text-[#d4b56a] transition-colors">
+              Refund & Returns (Privacy Policy)
+            </a>
+          </div>
           
           <button
             onClick={scrollToTop}

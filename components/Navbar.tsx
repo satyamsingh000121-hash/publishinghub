@@ -9,6 +9,7 @@ interface NavbarProps {
   activeTab?: string;
   onOpenCart?: () => void;
   onOpenSearch?: () => void;
+  showAnnouncement?: boolean;
 }
 
 export default function Navbar({
@@ -16,8 +17,10 @@ export default function Navbar({
   activeTab: controlledActiveTab,
   onOpenCart,
   onOpenSearch,
+  showAnnouncement = true,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [announcementDismissed, setAnnouncementDismissed] = useState(false);
   const [internalActiveTab, setInternalActiveTab] = useState(controlledActiveTab || "HOME");
   const activeTab = controlledActiveTab || internalActiveTab;
   const { theme, toggleTheme } = useTheme();
@@ -52,17 +55,27 @@ export default function Navbar({
   return (
     <>
       {/* Top Announcement Bar */}
-      <div className="bg-[#0d2a1d] text-[#f2eee3] text-[9px] sm:text-[10px] tracking-[0.06em] sm:tracking-[0.08em] uppercase py-1.5 sm:py-2 px-3 sm:px-4 border-b border-[#b89245]/40 flex flex-wrap items-center justify-center gap-1.5 sm:gap-4 text-center z-50 relative">
-        <span className="font-medium">
-          SUMMER SALE IS LIVE — Get Up to 30% OFF on Selected Books!
-        </span>
-        <a
-          href="/shop"
-          className="text-[#d4b56a] hover:text-white font-bold inline-flex items-center gap-1 transition-colors duration-200"
-        >
-          SHOP NOW <ArrowRight className="w-3 h-3" />
-        </a>
-      </div>
+      {showAnnouncement && !announcementDismissed && (
+        <div className="bg-[#0d2a1d] text-[#f2eee3] text-[9px] sm:text-[10px] tracking-[0.06em] sm:tracking-[0.08em] uppercase py-1.5 sm:py-2 px-3 sm:px-4 border-b border-[#b89245]/40 flex flex-wrap items-center justify-center gap-1.5 sm:gap-4 text-center z-50 relative">
+          <span className="font-medium">
+            SUMMER SALE IS LIVE — Get Up to 30% OFF on Selected Books!
+          </span>
+          <a
+            href="/shop"
+            className="text-[#d4b56a] hover:text-white font-bold inline-flex items-center gap-1 transition-colors duration-200"
+          >
+            SHOP NOW <ArrowRight className="w-3 h-3" />
+          </a>
+          <button
+            onClick={() => setAnnouncementDismissed(true)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#d4b56a] hover:text-white p-1"
+            title="Dismiss Announcement"
+            aria-label="Dismiss Announcement"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
       {/* Main Navigation Header */}
       <header className="sticky top-0 z-40 bg-[#050807]/95 backdrop-blur-md border-b border-[#f2eee3]/10 transition-all duration-300">
@@ -181,7 +194,7 @@ export default function Navbar({
 
             {/* Account Icon */}
             <a
-              href="#account"
+              href="/my-account"
               className="hidden md:flex p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
               title="My Account"
               aria-label="Account"
@@ -283,7 +296,7 @@ export default function Navbar({
                 <span>Wishlist (0)</span>
               </a>
               <a
-                href="#account"
+                href="/my-account"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
               >

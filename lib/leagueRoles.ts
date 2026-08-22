@@ -7,7 +7,7 @@ export interface LeagueRoleData {
   description: string;
   highlights: string[];
 }
-
+    
 export const LEAGUE_ROLES: Record<string, LeagueRoleData> = {
   author: {
     slug: "author",

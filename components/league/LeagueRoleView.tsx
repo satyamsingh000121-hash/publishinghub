@@ -83,14 +83,14 @@ export default function LeagueRoleView({ currentRoleSlug }: LeagueRoleViewProps)
                   <ArrowRight className="w-4 h-4 text-white dark:text-[#d4b56a] transition-transform group-hover:translate-x-1" />
                 </button>
 
-                {/* Button 2: LOGIN/REGISTER */}
-                <button
-                  onClick={() => setModalMode("auth")}
+                {/* Button 2: LOGIN/REGISTER -> links to /my-account */}
+                <a
+                  href="/my-account"
                   className="w-full sm:w-auto min-h-[50px] px-8 sm:px-10 bg-white hover:bg-[#faf5ff] dark:bg-[#07140c] dark:hover:bg-[#0d2618] text-[#9333ea] dark:text-[#f2eee3] border border-[#9333ea] dark:border-[#d4b56a]/60 dark:hover:border-[#d4b56a] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-3 transition-all duration-200 hover:-translate-y-0.5 shadow-md cursor-pointer group"
                 >
                   <span>LOGIN/REGISTER</span>
                   <ArrowRight className="w-4 h-4 text-[#9333ea] dark:text-[#d4b56a] transition-transform group-hover:translate-x-1" />
-                </button>
+                </a>
               </div>
             </div>
           </div>
