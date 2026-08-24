@@ -42,9 +42,9 @@ export default function Hero() {
         {/* ========================================================= */}
         {/* LEFT CONTENT AREA: Buttery Smooth Crossfade Stack */}
         {/* ========================================================= */}
-        <div className="w-full lg:w-[48%] relative min-h-[440px] sm:min-h-[400px] md:min-h-[380px] flex flex-col justify-between">
+        <div className="w-full lg:w-[48%] relative min-h-[520px] sm:min-h-[500px] lg:min-h-[520px] flex flex-col justify-between">
           
-          <div className="relative w-full min-h-[360px] sm:min-h-[330px]">
+          <div className="relative w-full min-h-[440px] sm:min-h-[420px] lg:min-h-[430px]">
             
             {/* SLIDE 1 (Index 0) */}
             <div
@@ -54,7 +54,7 @@ export default function Hero() {
               }}
               className={`absolute inset-0 space-y-4 sm:space-y-6 ${
                 currentSlide === 0
-                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-10"
+                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
                   : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
               }`}
             >
@@ -90,16 +90,18 @@ export default function Hero() {
                 Explore our handpicked collection of inspiring literature, bestsellers, and timeless masterpieces.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4 relative z-30">
                 <a
-                  href="#bestsellers"
-                  className="min-h-[46px] sm:min-h-[50px] px-8 sm:px-10 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
+                  href="https://www.amazon.co.uk/dp/1399993070?ref=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&ref_=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&social_share=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&skipTwisterOG=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-8 sm:px-10 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
                 >
                   PURCHASE
                 </a>
                 <a
                   href="#bestsellers"
-                  className="min-h-[46px] sm:min-h-[50px] px-7 sm:px-9 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-7 sm:px-9 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
                 >
                   EXPLORE BOOKS
                 </a>
@@ -114,7 +116,7 @@ export default function Hero() {
               }}
               className={`absolute inset-0 space-y-4 sm:space-y-6 ${
                 currentSlide === 1
-                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-10"
+                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
                   : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
               }`}
             >
@@ -150,16 +152,18 @@ export default function Hero() {
                 Discover your next great read from our wide selection of bestselling books and award-winning authors.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4 relative z-30">
                 <a
-                  href="#bestsellers"
-                  className="min-h-[46px] sm:min-h-[50px] px-8 sm:px-9 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
+                  href="https://www.amazon.co.uk/dp/1399993070?ref=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&ref_=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&social_share=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&skipTwisterOG=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-8 sm:px-9 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
                 >
                   SHOP NOW
                 </a>
                 <a
                   href="#bestsellers"
-                  className="min-h-[46px] sm:min-h-[50px] px-7 sm:px-8 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-7 sm:px-8 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
                 >
                   VIEW COLLECTION
                 </a>
@@ -174,7 +178,7 @@ export default function Hero() {
               }}
               className={`absolute inset-0 space-y-4 sm:space-y-6 ${
                 currentSlide === 2
-                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-10"
+                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
                   : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
               }`}
             >
@@ -210,16 +214,18 @@ export default function Hero() {
                 Handcrafted hardcovers and premium leatherbound volumes designed for true bibliophiles.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4 relative z-30">
                 <a
-                  href="#bestsellers"
-                  className="min-h-[46px] sm:min-h-[50px] px-8 sm:px-10 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
+                  href="https://www.amazon.co.uk/dp/1399993070?ref=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&ref_=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&social_share=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&skipTwisterOG=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-8 sm:px-10 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
                 >
                   DISCOVER NOW
                 </a>
                 <a
                   href="#bestsellers"
-                  className="min-h-[46px] sm:min-h-[50px] px-7 sm:px-9 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-7 sm:px-9 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
                 >
                   VIEW COLLECTION
                 </a>
@@ -229,7 +235,7 @@ export default function Hero() {
           </div>
 
           {/* Slide Numbers / Indicator */}
-          <div className="pt-10 sm:pt-14 lg:pt-16 flex items-center gap-3 font-display relative z-20">
+          <div className="pt-4 sm:pt-6 flex items-center gap-3 font-display relative z-10">
             <span className="dark:text-[#f2eee3] text-[#18181b] text-lg sm:text-2xl font-bold tracking-wider transition-colors duration-300">
               {String(currentSlide + 1).padStart(2, "0")}
             </span>
@@ -259,7 +265,7 @@ export default function Hero() {
             {/* Soft Lilac Pedestal Glow (Light Mode Only) */}
             <div className="absolute -bottom-3 w-4/5 h-14 bg-purple-400/18 blur-2xl rounded-full pointer-events-none dark:hidden block" />
 
-            {/* SLIDE 1 VISUAL: 3D Yellow Edition */}
+            {/* SLIDE 1 VISUAL: 3D Yellow Edition (hero_section2.png) */}
             <div
               style={{
                 transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -278,14 +284,14 @@ export default function Hero() {
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
                 />
                 <img
-                  src="/images/hero44.png"
+                  src="/images/hero_section2.png"
                   alt="Visions to Victory - Hero Books Light"
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
                 />
               </div>
             </div>
 
-            {/* SLIDE 2 VISUAL: 3D Green Edition (Dark) / hero_section2.png (Light) */}
+            {/* SLIDE 2 VISUAL: 3D Green Edition (Dark) / hero44.png (Light) */}
             <div
               style={{
                 transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -304,7 +310,7 @@ export default function Hero() {
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
                 />
                 <img
-                  src="/images/hero_section2.png"
+                  src="/images/hero44.png"
                   alt="Visions to Victory - Light Edition"
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
                 />
