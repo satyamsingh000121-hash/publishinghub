@@ -10,7 +10,6 @@ import AuthorSection from "@/components/AuthorSection";
 import NewArrivalsSection from "@/components/NewArrivalsSection";
 import EventsNewsletterSection from "@/components/EventsNewsletterSection";
 import Footer from "@/components/Footer";
-import QuickViewModal from "@/components/QuickViewModal";
 import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { Check } from "lucide-react";
@@ -19,7 +18,6 @@ export default function Home() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [quickViewBook, setQuickViewBook] = useState<any>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleAddToCart = (title: string, price: string = "£18.00") => {
@@ -71,7 +69,6 @@ export default function Home() {
       {/* Bestseller Books Grid & Tabs */}
       <BestsellerSection
         onAddToCart={(title) => handleAddToCart(title)}
-        onQuickView={(book) => setQuickViewBook(book)}
       />
 
       {/* Limited Time Full-Width Offer Banner */}
@@ -92,12 +89,6 @@ export default function Home() {
       <Footer />
 
       {/* Modals & Drawers */}
-      <QuickViewModal
-        book={quickViewBook}
-        onClose={() => setQuickViewBook(null)}
-        onAddToCart={(title) => handleAddToCart(title)}
-      />
-
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}

@@ -9,7 +9,6 @@ import AboutTestimonials from "@/components/about/AboutTestimonials";
 import AboutVideoSection from "@/components/about/AboutVideoSection";
 import AboutSponsors from "@/components/about/AboutSponsors";
 import Footer from "@/components/Footer";
-import QuickViewModal from "@/components/QuickViewModal";
 import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { Check } from "lucide-react";
@@ -18,7 +17,6 @@ export default function AboutPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [quickViewBook, setQuickViewBook] = useState<any>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleAddToCart = (title: string, price: string = "£18.00") => {
@@ -84,12 +82,6 @@ export default function AboutPage() {
       <Footer />
 
       {/* Interactive Cart & Modals */}
-      <QuickViewModal
-        book={quickViewBook}
-        onClose={() => setQuickViewBook(null)}
-        onAddToCart={(title) => handleAddToCart(title)}
-      />
-
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}

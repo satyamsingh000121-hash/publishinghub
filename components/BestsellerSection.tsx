@@ -106,7 +106,7 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
   return (
     <section id="bestsellers" className="py-20 bg-[#050807] border-b border-[#f2eee3]/10">
       <div className="container-custom">
-        
+
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-10 pb-4 border-b border-[#f2eee3]/10">
           <div className="w-full sm:w-auto">
@@ -116,9 +116,8 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
             <div className="flex items-center gap-4 sm:gap-8 pt-1 overflow-x-auto no-scrollbar pb-1">
               <button
                 onClick={() => setActiveTab("bestseller")}
-                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${
-                  activeTab === "bestseller" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
-                }`}
+                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${activeTab === "bestseller" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
+                  }`}
               >
                 Bestseller Books
                 {activeTab === "bestseller" && (
@@ -128,9 +127,8 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
 
               <button
                 onClick={() => setActiveTab("sale")}
-                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${
-                  activeTab === "sale" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
-                }`}
+                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${activeTab === "sale" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
+                  }`}
               >
                 Sale
                 {activeTab === "sale" && (
@@ -140,9 +138,8 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
 
               <button
                 onClick={() => setActiveTab("featured")}
-                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${
-                  activeTab === "featured" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
-                }`}
+                className={`font-display text-xl sm:text-2xl md:text-3xl font-medium tracking-tight transition-colors relative pb-2 whitespace-nowrap ${activeTab === "featured" ? "text-[#f2eee3]" : "text-[#777970] hover:text-[#d9d5ca]"
+                  }`}
               >
                 Featured Books
                 {activeTab === "featured" && (
@@ -192,22 +189,24 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
                   >
                     <ShoppingCart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
-                  <button
-                    onClick={() => onQuickView && onQuickView(book)}
+                  <a
+                    href="/product"
                     className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#0b120f] border border-[#d4b56a] hover:bg-[#d4b56a] text-[#f2eee3] hover:text-[#050807] flex items-center justify-center shadow-lg transition-transform hover:scale-110"
-                    title="Quick View"
-                    aria-label="Quick view"
+                    title="View Product Details"
+                    aria-label="View product details"
                   >
                     <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </button>
+                  </a>
                 </div>
               </div>
 
               {/* Book Information */}
               <div className="mt-2.5 sm:mt-4">
-                <h4 className="font-display text-sm sm:text-lg font-medium text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors line-clamp-1 leading-snug">
-                  {book.title}
-                </h4>
+                <a href="/product" className="block">
+                  <h4 className="font-display text-sm sm:text-lg font-medium text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors line-clamp-1 leading-snug">
+                    {book.title}
+                  </h4>
+                </a>
                 <p className="text-[10px] sm:text-[11px] text-[#85877f] mt-0.5 truncate">
                   {book.author}
                 </p>

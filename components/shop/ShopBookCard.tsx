@@ -122,12 +122,12 @@ export default function ShopBookCard({
             >
               <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART
             </button>
-            <button
-              onClick={() => onQuickView?.(book)}
+            <a
+              href="/product"
               className="px-4 py-2 border border-[#d6d3d1] dark:border-[#f2eee3]/20 hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[#44403c] dark:text-[#dedacf] hover:text-[#9333ea] dark:hover:text-[#d4b56a] text-[10px] font-bold tracking-[0.14em] uppercase transition-colors flex items-center gap-1.5 rounded-[2px] cursor-pointer"
             >
-              <Eye className="w-3.5 h-3.5" /> QUICK VIEW
-            </button>
+              <Eye className="w-3.5 h-3.5" /> VIEW PRODUCT
+            </a>
           </div>
         </div>
       </div>
@@ -183,12 +183,12 @@ export default function ShopBookCard({
           >
             <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART
           </button>
-          <button
-            onClick={() => onQuickView?.(book)}
+          <a
+            href="/product"
             className="w-full py-2 bg-white hover:bg-[#f5f5f4] dark:bg-[#0d1611] dark:hover:bg-[#15231c] text-[#1c1917] dark:text-[#f2eee3] border border-[#e5e7eb] dark:border-[#27272a] hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[10px] font-bold tracking-[0.14em] uppercase transition-all shadow-md flex items-center justify-center gap-1.5 rounded-[2px] cursor-pointer"
           >
-            <Eye className="w-3.5 h-3.5" /> QUICK VIEW
-          </button>
+            <Eye className="w-3.5 h-3.5" /> VIEW PRODUCT
+          </a>
         </div>
       </div>
 

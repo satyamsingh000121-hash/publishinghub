@@ -3,6 +3,7 @@
 import React from "react";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
+import { PerspectiveBook } from "./PerspectiveBook";
 
 interface NewArrivalsSectionProps {
   onAddToCart?: (bookTitle: string) => void;
@@ -142,11 +143,11 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
                 key={book.id}
                 className="group relative dark:bg-[#060a08] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-2.5 sm:p-3 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-purple-500/10 rounded-xs"
               >
-                {/* Image Container */}
-                <div className="relative aspect-[3/4] w-full dark:bg-[#0d120f] bg-[#fbf8fe] overflow-hidden flex items-center justify-center rounded-xs border dark:border-black/40 border-[#f3e8ff]">
+                {/* Image Container with 3D Book Animation */}
+                <div className="relative aspect-[3/4] w-full flex items-center justify-center rounded-xs overflow-hidden">
                   
                   {/* Badges (SALE & HOT) */}
-                  <div className="absolute top-1.5 left-1.5 z-20 flex flex-col gap-1">
+                  <div className="absolute top-1.5 left-1.5 z-20 flex flex-col gap-1 pointer-events-none">
                     {book.saleBadge && (
                       <span className="bg-[#2c7650] text-white text-[7.5px] font-extrabold tracking-wider uppercase px-2 py-0.5 shadow">
                         {book.saleBadge}
@@ -159,15 +160,15 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
                     )}
                   </div>
 
-                  {/* Artwork Cover */}
-                  <div className="w-full h-full transform group-hover:scale-105 transition-transform duration-500">
+                  {/* 3D Perspective Animated Artwork Cover */}
+                  <PerspectiveBook>
                     <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace(/^(By|by)\s+/i, "")} />
-                  </div>
+                  </PerspectiveBook>
 
                   {/* Add to cart quick button */}
                   <button
                     onClick={() => onAddToCart && onAddToCart(book.title)}
-                    className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md"
+                    className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md z-30"
                     title="Add to cart"
                     aria-label="Add to cart"
                   >

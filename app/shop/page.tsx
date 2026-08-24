@@ -8,7 +8,6 @@ import ShopFilterBar from "@/components/shop/ShopFilterBar";
 import ShopSidebar, { FilterState } from "@/components/shop/ShopSidebar";
 import ShopBookCard, { BookItem } from "@/components/shop/ShopBookCard";
 import ShopPagination from "@/components/shop/ShopPagination";
-import QuickViewModal from "@/components/QuickViewModal";
 import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { Check, X } from "lucide-react";
@@ -589,12 +588,6 @@ export default function ShopPage() {
       <Footer />
 
       {/* Interactive Cart & Modals */}
-      <QuickViewModal
-        book={quickViewBook}
-        onClose={() => setQuickViewBook(null)}
-        onAddToCart={(title) => handleAddToCart(title)}
-      />
-
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
