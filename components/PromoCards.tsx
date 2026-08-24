@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default function PromoCards() {
@@ -37,12 +38,12 @@ export default function PromoCards() {
               </div>
 
               <div className="pt-2 sm:pt-3">
-                <a
-                  href="#bestsellers"
+                <Link
+                  href="/shop"
                   className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
                 >
                   DISCOVER MORE <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -74,12 +75,12 @@ export default function PromoCards() {
 
             {/* Bottom: PURCHASE >> */}
             <div className="relative z-10 pb-2">
-              <a
-                href="#bestsellers"
+              <Link
+                href="/shop"
                 className="inline-flex items-center gap-1 text-xs font-bold tracking-[0.18em] uppercase text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors"
               >
                 PURCHASE &gt;&gt;
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -106,12 +107,12 @@ export default function PromoCards() {
             </div>
 
             <div className="pt-3 sm:pt-4">
-              <a
-                href="#bestsellers"
+              <Link
+                href="/shop"
                 className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
               >
                 VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -125,12 +126,12 @@ export default function PromoCards() {
               </h3>
 
               <div>
-                <a
-                  href="#bestsellers"
+                <Link
+                  href="/shop"
                   className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
                 >
                   VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -159,12 +160,12 @@ export default function PromoCards() {
               </div>
 
               <div className="pt-2 sm:pt-3">
-                <a
-                  href="#bestsellers"
+                <Link
+                  href="/shop"
                   className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
                 >
                   VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -204,12 +205,12 @@ export default function PromoCards() {
 
             {/* Bottom: Link */}
             <div className="relative z-10 pt-3 sm:pt-4">
-              <a
-                href="#bestsellers"
+              <Link
+                href="/shop"
                 className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
               >
                 VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </a>
+              </Link>
             </div>
           </div>
 

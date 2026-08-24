@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default function AboutFeatures() {
@@ -11,7 +12,7 @@ export default function AboutFeatures() {
       description:
         '"Visions to Victory" is an inspiring journey from dreams to triumph. The author beautifully captures the essence of perseverance, resilience, and strategic thinking, making it a compelling read for aspiring achievers.',
       linkText: "VIEW MORE",
-      linkHref: "#",
+      linkHref: "/shop",
       // Custom Gold Quill on Notepad SVG Icon
       icon: (
         <svg viewBox="0 0 48 48" className="w-10 h-10 text-[#d4b56a]" fill="none" stroke="currentColor">
@@ -36,7 +37,7 @@ export default function AboutFeatures() {
       description:
         "Discover the most inspiring stories of triumph and resilience, showcasing visionary leaders and their paths to success. Unlock the secrets to turning dreams into victorious realities.",
       linkText: "VIEW MORE",
-      linkHref: "#",
+      linkHref: "/shop",
       // Custom Gold Lightbulb / Inspiration SVG Icon
       icon: (
         <svg viewBox="0 0 48 48" className="w-10 h-10 text-[#d4b56a]" fill="none" stroke="currentColor">
@@ -66,7 +67,7 @@ export default function AboutFeatures() {
       description:
         'Explore "Visions to Victory," a compelling journey of triumph, resilience, and transformation. Delve into inspiring stories that illuminate the path from challenges to success. Discover your own victory within!',
       linkText: "VIEW MORE",
-      linkHref: "#",
+      linkHref: "/shop",
       // Custom Gold Open Book SVG Icon
       icon: (
         <svg viewBox="0 0 48 48" className="w-10 h-10 text-[#d4b56a]" fill="none" stroke="currentColor">
@@ -124,12 +125,12 @@ export default function AboutFeatures() {
 
               {/* Bottom View More Link */}
               <div className="pt-6 sm:pt-10">
-                <a
+                <Link
                   href={item.linkHref}
                   className="inline-flex items-center gap-2 text-[11px] sm:text-xs font-bold tracking-[0.18em] uppercase text-[#9333ea] dark:text-[#d4b56a] group-hover:text-[#7e22ce] dark:group-hover:text-white transition-colors"
                 >
                   {item.linkText} <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                </a>
+                </Link>
               </div>
             </div>
           ))}

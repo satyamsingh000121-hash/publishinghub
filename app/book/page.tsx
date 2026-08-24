@@ -47,7 +47,7 @@ export default function SingleBookPage() {
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <main className="min-h-screen bg-[#050807] text-[#f2eee3] flex flex-col justify-between selection:bg-[#b89245] selection:text-[#050807]">
+    <main className="min-h-screen bg-white dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] flex flex-col justify-between selection:bg-[#b89245] selection:text-white transition-colors duration-300">
       {/* Top Navigation */}
       <Navbar
         cartCount={totalCartCount}
@@ -56,7 +56,7 @@ export default function SingleBookPage() {
       />
 
       {/* Main Single Book Product View */}
-      <div className="pt-2">
+      <div className="flex-1">
         <BookDetailView onAddToCart={handleAddToCart} />
       </div>
 
