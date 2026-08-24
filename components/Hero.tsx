@@ -229,33 +229,35 @@ export default function Hero() {
           </div>
 
           {/* Slide Numbers / Indicator */}
-          <div className="pt-4 sm:pt-8 flex items-center gap-3 font-display">
-            <span className="text-[#f2eee3] text-lg sm:text-2xl font-bold tracking-wider">
+          <div className="pt-10 sm:pt-14 lg:pt-16 flex items-center gap-3 font-display relative z-20">
+            <span className="dark:text-[#f2eee3] text-[#18181b] text-lg sm:text-2xl font-bold tracking-wider transition-colors duration-300">
               {String(currentSlide + 1).padStart(2, "0")}
             </span>
-            <div className="w-12 sm:w-16 h-[2px] bg-[#d4b56a]/60 relative overflow-hidden">
+            <div className="w-12 sm:w-16 h-[2px] dark:bg-[#d4b56a]/40 bg-[#9333ea]/20 relative overflow-hidden rounded-full">
               <div
-                className="absolute inset-0 bg-[#d4b56a] transition-all duration-700"
+                className="absolute inset-0 dark:bg-[#d4b56a] bg-[#9333ea] transition-all duration-700"
                 style={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
               />
             </div>
-            <span className="text-[#9a9b94] text-base sm:text-xl">{String(totalSlides).padStart(2, "0")}</span>
+            <span className="dark:text-[#9a9b94] text-[#71717a] text-base sm:text-xl font-medium transition-colors duration-300">
+              {String(totalSlides).padStart(2, "0")}
+            </span>
           </div>
         </div>
 
         {/* ========================================================= */}
         {/* RIGHT 3D VISUAL AREA: Buttery Smooth Crossfade Stack */}
         {/* ========================================================= */}
-        <div className="w-full lg:w-[52%] relative flex items-center justify-center min-h-[300px] sm:min-h-[420px] lg:min-h-[500px]">
+        <div className="w-full lg:w-[52%] relative flex items-center justify-center min-h-[320px] sm:min-h-[420px] lg:min-h-[490px]">
           
-          <div className="relative w-full max-w-[480px] sm:max-w-[520px] lg:max-w-[560px] h-[280px] sm:h-[420px] lg:h-[480px] flex items-center justify-center">
+          <div className="relative w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[600px] h-[300px] sm:h-[420px] lg:h-[480px] flex items-center justify-center">
             
             {/* Ambient Lighting (Dark Mode Only) */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,rgba(212,181,106,0.18),rgba(20,70,45,0.22)_42%,transparent_70%)] pointer-events-none blur-2xl dark:block hidden" />
-            <div className="absolute -bottom-4 w-4/5 h-16 bg-black/90 blur-2xl rounded-full pointer-events-none dark:block hidden" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,181,106,0.18),rgba(20,70,45,0.22)_45%,transparent_70%)] pointer-events-none blur-3xl dark:block hidden" />
+            <div className="absolute -bottom-5 w-4/5 h-16 bg-black/90 blur-2xl rounded-full pointer-events-none dark:block hidden" />
             
             {/* Soft Lilac Pedestal Glow (Light Mode Only) */}
-            <div className="absolute -bottom-2 w-3/4 h-12 bg-purple-400/15 blur-xl rounded-full pointer-events-none dark:hidden block" />
+            <div className="absolute -bottom-3 w-4/5 h-14 bg-purple-400/18 blur-2xl rounded-full pointer-events-none dark:hidden block" />
 
             {/* SLIDE 1 VISUAL: 3D Yellow Edition */}
             <div
@@ -273,12 +275,17 @@ export default function Hero() {
                 <img
                   src="/images/hero_section2.png"
                   alt="Visions to Victory - Hero Books"
-                  className="w-full h-full max-h-[280px] sm:max-h-[420px] lg:max-h-[490px] object-contain dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] drop-shadow-[0_12px_24px_rgba(147,51,234,0.14)] transform scale-100 hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
+                />
+                <img
+                  src="/images/hero44.png"
+                  alt="Visions to Victory - Hero Books Light"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
                 />
               </div>
             </div>
 
-            {/* SLIDE 2 VISUAL: 3D Green Edition */}
+            {/* SLIDE 2 VISUAL: 3D Green Edition (Dark) / hero_section2.png (Light) */}
             <div
               style={{
                 transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -294,7 +301,12 @@ export default function Hero() {
                 <img
                   src="/images/hero4.png"
                   alt="Visions to Victory - Green Edition"
-                  className="w-full h-full max-h-[280px] sm:max-h-[420px] lg:max-h-[490px] object-contain dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] drop-shadow-[0_12px_24px_rgba(147,51,234,0.14)] transform scale-100 hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
+                />
+                <img
+                  src="/images/hero_section2.png"
+                  alt="Visions to Victory - Light Edition"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
                 />
               </div>
             </div>
@@ -315,7 +327,7 @@ export default function Hero() {
                 <img
                   src="/images/hero5.png"
                   alt="Visions to Victory - Collector's Edition"
-                  className="w-full h-full max-h-[280px] sm:max-h-[420px] lg:max-h-[490px] object-contain dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] drop-shadow-[0_12px_24px_rgba(147,51,234,0.14)] transform scale-100 hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700"
                 />
               </div>
             </div>
@@ -323,7 +335,7 @@ export default function Hero() {
           </div>
 
           {/* Carousel Next / Prev Controls */}
-          <div className="absolute bottom-0 sm:bottom-2 right-0 flex items-center gap-2 z-30">
+          <div className="absolute bottom-0 right-0 flex items-center gap-2 z-30">
             <button
               onClick={handlePrev}
               className="w-9 h-9 sm:w-10 sm:h-10 border dark:border-[#f2eee3]/20 border-[#e9e1f5] dark:hover:border-[#d4b56a] hover:border-[#9333ea] dark:bg-[#050807]/90 bg-white dark:hover:bg-[#0d2a1d] hover:bg-[#faf5ff] dark:text-[#f2eee3] text-[#9333ea] flex items-center justify-center transition-all duration-300 shadow-sm hover:-translate-x-0.5 rounded-sm"
