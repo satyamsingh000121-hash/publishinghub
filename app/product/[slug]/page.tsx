@@ -1,31 +1,60 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState, use } from "react";
+import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDetailView from "@/components/BookDetailView";
 import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { getBookBySlug } from "@/lib/books";
+import { Check } from "lucide-react";
 
-function ProductDetailContent() {
-  const searchParams = useSearchParams();
-  const slugParam = searchParams.get("slug") || searchParams.get("id") || "a-poem-for-every-night";
-  const bookData = getBookBySlug(slugParam);
+interface ProductPageProps {
+  params: Promise<{ slug: string }> | { slug: string };
+}
+
+export default function DynamicProductPage(props: ProductPageProps) {
+  // Support both Promise params (Next 15) and standard useParams
+  const routeParams = useParams();
+  let rawSlug = "";
+
+  if (routeParams?.slug) {
+    rawSlug = Array.isArray(routeParams.slug) ? routeParams.slug[0] : routeParams.slug;
+  } else if (props?.params) {
+    // If params is a promise
+    if (typeof (props.params as Promise<{ slug: string }>).then === "function") {
+      try {
+        const unwrapped = use(props.params as Promise<{ slug: string }>);
+        rawSlug = unwrapped.slug;
+      } catch {
+        rawSlug = "a-poem-for-every-night";
+      }
+    } else {
+      rawSlug = (props.params as { slug: string }).slug || "";
+    }
+  }
+
+  const slug = rawSlug || "a-poem-for-every-night";
+  const bookData = getBookBySlug(slug);
 
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
-      id: "cart-1",
+      id: "cart-initial",
       title: bookData.title,
-      price: bookData.price || "£22.00",
+      price: bookData.price || "£20.00",
       quantity: 1,
     },
   ]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const handleAddToCart = (title: string = bookData.title, price: string = bookData.price || "£22.00", quantity: number = 1) => {
+  const handleAddToCart = (
+    title: string = bookData.title,
+    price: string = bookData.price || "£20.00",
+    quantity: number = 1
+  ) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.title === title);
       if (existing) {
@@ -43,6 +72,11 @@ function ProductDetailContent() {
         },
       ];
     });
+
+    setToastMessage(`"${title}" added to cart!`);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
     setIsCartOpen(true);
   };
 
@@ -54,6 +88,14 @@ function ProductDetailContent() {
 
   return (
     <main className="min-h-screen bg-white dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] flex flex-col justify-between selection:bg-[#b89245] selection:text-white transition-colors duration-300">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1e3527] text-white border border-[#2c7650] px-4 py-3 rounded-[2px] shadow-2xl flex items-center gap-2.5 animate-bounce text-xs font-semibold">
+          <Check className="w-4 h-4 text-[#d4b56a]" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
       {/* Top Navigation */}
       <Navbar
         cartCount={totalCartCount}
@@ -64,7 +106,7 @@ function ProductDetailContent() {
       {/* Main Single Book Product View */}
       <div className="flex-1">
         <BookDetailView
-          key={bookData.slug || slugParam}
+          key={bookData.slug || slug}
           book={bookData}
           onAddToCart={handleAddToCart}
         />
@@ -87,13 +129,5 @@ function ProductDetailContent() {
         onClose={() => setIsSearchOpen(false)}
       />
     </main>
-  );
-}
-
-export default function ProductDetailPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-[#050807] text-[#f2eee3] flex items-center justify-center">Loading book details...</div>}>
-      <ProductDetailContent />
-    </Suspense>
   );
 }

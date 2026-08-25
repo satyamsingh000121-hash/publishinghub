@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Eye, ShoppingBag } from "lucide-react";
+import { getBookSlug } from "@/lib/books";
 
 export interface BookItem {
   id: string;
+  slug?: string;
   title: string;
   author: string;
   price: string;
@@ -33,6 +36,8 @@ export default function ShopBookCard({
   onQuickView,
 }: ShopBookCardProps) {
   const [imageError, setImageError] = useState(false);
+  const bookSlug = getBookSlug(book);
+  const productUrl = `/product/${bookSlug}`;
 
   // Render Badge helper
   const renderBadges = () => {
@@ -62,7 +67,10 @@ export default function ShopBookCard({
     return (
       <div className="flex flex-col sm:flex-row items-center gap-6 p-5 sm:p-6 bg-white dark:bg-[#080e0a] border border-[#e5e7eb] dark:border-[#f2eee3]/10 hover:border-[#9333ea]/50 dark:hover:border-[#d4b56a]/40 transition-all duration-200 rounded-[2px] group">
         {/* Book Cover Thumbnail */}
-        <div className="relative w-32 sm:w-40 aspect-[3/4] flex-shrink-0 bg-[#f5f5f4] dark:bg-[#0c1611] rounded-[2px] overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 shadow-sm">
+        <Link
+          href={productUrl}
+          className="relative w-32 sm:w-40 aspect-[3/4] flex-shrink-0 bg-[#f5f5f4] dark:bg-[#0c1611] rounded-[2px] overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 shadow-sm block cursor-pointer"
+        >
           {renderBadges()}
 
           {book.image && !imageError ? (
@@ -82,7 +90,7 @@ export default function ShopBookCard({
               </span>
             </div>
           )}
-        </div>
+        </Link>
 
         {/* Book Details */}
         <div className="flex-1 space-y-2.5 text-center sm:text-left">
@@ -99,9 +107,11 @@ export default function ShopBookCard({
           </div>
 
           {/* Title */}
-          <h3 className="font-display text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#9333ea] dark:group-hover:text-[#e6c880] transition-colors leading-tight">
-            {book.title}
-          </h3>
+          <Link href={productUrl} className="block cursor-pointer">
+            <h3 className="font-display text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#9333ea] dark:group-hover:text-[#e6c880] transition-colors leading-tight">
+              {book.title}
+            </h3>
+          </Link>
 
           {/* Author */}
           <p className="text-[11px] text-[#78716c] dark:text-[#888b83] tracking-wide">
@@ -122,12 +132,12 @@ export default function ShopBookCard({
             >
               <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART
             </button>
-            <a
-              href="/product"
+            <Link
+              href={productUrl}
               className="px-4 py-2 border border-[#d6d3d1] dark:border-[#f2eee3]/20 hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[#44403c] dark:text-[#dedacf] hover:text-[#9333ea] dark:hover:text-[#d4b56a] text-[10px] font-bold tracking-[0.14em] uppercase transition-colors flex items-center gap-1.5 rounded-[2px] cursor-pointer"
             >
               <Eye className="w-3.5 h-3.5" /> VIEW PRODUCT
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -147,33 +157,35 @@ export default function ShopBookCard({
         <div className="absolute top-0 left-0 bottom-0 w-3 bg-gradient-to-r from-black/15 via-black/5 to-transparent pointer-events-none z-10" />
 
         {/* Cover Content */}
-        {book.image && !imageError ? (
-          <img
-            src={book.image}
-            alt={book.title}
-            onError={() => setImageError(true)}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        ) : (
-          /* Graceful Fallback Book Cover Design */
-          <div className="w-full h-full flex flex-col justify-between p-5 bg-[#faf8f5] dark:bg-[#0e1712] border border-[#e7e3da] dark:border-[#27272a]">
-            <div className="text-left">
-              <span className="text-[7px] tracking-[0.25em] text-[#9333ea] dark:text-[#d4b56a] uppercase font-semibold block">
-                PUBLISHING HUB
-              </span>
+        <Link href={productUrl} className="block w-full h-full cursor-pointer">
+          {book.image && !imageError ? (
+            <img
+              src={book.image}
+              alt={book.title}
+              onError={() => setImageError(true)}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            /* Graceful Fallback Book Cover Design */
+            <div className="w-full h-full flex flex-col justify-between p-5 bg-[#faf8f5] dark:bg-[#0e1712] border border-[#e7e3da] dark:border-[#27272a]">
+              <div className="text-left">
+                <span className="text-[7px] tracking-[0.25em] text-[#9333ea] dark:text-[#d4b56a] uppercase font-semibold block">
+                  PUBLISHING HUB
+                </span>
+              </div>
+              <div className="py-2">
+                <h4 className="font-display text-base sm:text-lg font-medium text-[#1c1917] dark:text-[#f2eee3] leading-snug">
+                  {book.title}
+                </h4>
+              </div>
+              <div>
+                <span className="text-[8px] tracking-wider text-[#78716c] dark:text-[#9a9b94] uppercase block">
+                  {book.author}
+                </span>
+              </div>
             </div>
-            <div className="py-2">
-              <h4 className="font-display text-base sm:text-lg font-medium text-[#1c1917] dark:text-[#f2eee3] leading-snug">
-                {book.title}
-              </h4>
-            </div>
-            <div>
-              <span className="text-[8px] tracking-wider text-[#78716c] dark:text-[#9a9b94] uppercase block">
-                {book.author}
-              </span>
-            </div>
-          </div>
-        )}
+          )}
+        </Link>
 
         {/* Quick Action Overlay on Hover */}
         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2.5 p-4 z-20 backdrop-blur-[1.5px]">
@@ -183,12 +195,12 @@ export default function ShopBookCard({
           >
             <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART
           </button>
-          <a
-            href="/product"
+          <Link
+            href={productUrl}
             className="w-full py-2 bg-white hover:bg-[#f5f5f4] dark:bg-[#0d1611] dark:hover:bg-[#15231c] text-[#1c1917] dark:text-[#f2eee3] border border-[#e5e7eb] dark:border-[#27272a] hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[10px] font-bold tracking-[0.14em] uppercase transition-all shadow-md flex items-center justify-center gap-1.5 rounded-[2px] cursor-pointer"
           >
             <Eye className="w-3.5 h-3.5" /> VIEW PRODUCT
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -205,9 +217,11 @@ export default function ShopBookCard({
         </div>
 
         {/* Book Title in Serif */}
-        <h3 className="font-display text-[16px] sm:text-[17px] font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-1">
-          {book.title}
-        </h3>
+        <Link href={productUrl} className="block cursor-pointer">
+          <h3 className="font-display text-[16px] sm:text-[17px] font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-1">
+            {book.title}
+          </h3>
+        </Link>
 
         {/* Author */}
         <p className="text-[11px] text-[#78716c] dark:text-[#888b83] font-normal tracking-wide uppercase">

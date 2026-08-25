@@ -19,87 +19,138 @@ import {
   Minus,
   Globe,
   Youtube,
+  Search,
 } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 import BookOpenCard from "./BookOpenCard";
 import bookStyles from "./BookOpenCard.module.css";
+import { getBookSlug } from "@/lib/books";
+
+export interface BookDetailData {
+  title?: string;
+  category?: string;
+  price?: string;
+  image?: string;
+  summary?: string;
+  description?: string;
+  authorName?: string;
+  authorImage?: string;
+  authorQuote?: string;
+  authorBooks?: AuthorBook[];
+  relatedBooks?: RelatedBook[];
+}
 
 export interface BookDetailViewProps {
+  book?: BookDetailData;
   onAddToCart?: (title: string, price?: string, quantity?: number) => void;
   onBack?: () => void;
 }
 
-export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewProps) {
+interface AuthorBook {
+  id: string;
+  image: string;
+  title: string;
+  price: string;
+  oldPrice?: string;
+  badge?: string;
+}
+
+interface RelatedBook {
+  id: string;
+  image: string;
+  title: string;
+  author: string;
+  price: string;
+  oldPrice?: string;
+  badge?: string;
+  badgeType?: "sale" | "hot";
+}
+
+export default function BookDetailView({ book, onAddToCart, onBack }: BookDetailViewProps) {
   const [quantity, setQuantity] = useState<number>(1);
   const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [addedAlert, setAddedAlert] = useState<boolean>(false);
+  const [authorSlide, setAuthorSlide] = useState<number>(0);
+  const [relatedSlide, setRelatedSlide] = useState<number>(0);
 
   // Author's other books (Matching exact reference image)
-  const authorBooks = [
+  const authorBooks: AuthorBook[] = [
     {
       id: "auth-1",
-      image: "/images/Newest2.webp",
-      title: "A Poem for Every night",
-      price: "£22.00",
+      image: "/images/shop9.jpg",
+      title: "TRIO - Sarah Tolmie",
+      price: "£21.00",
     },
     {
       id: "auth-2",
-      image: "/images/Newest4.webp",
-      title: "Life of PI",
-      price: "£12.00",
-    },
-    {
-      id: "auth-3",
-      image: "/images/shop2.jpg",
-      title: "All this has nothing to do with Me",
-      badge: "HOT",
-      price: "£20.00",
+      image: "/images/shop7.webp",
+      title: "The Summer of ImpossibleThings",
+      price: "£24.00",
     },
   ];
 
-  // Related products
-  const relatedBooks = [
+  // Related products (Matching exact reference image)
+  const relatedBooks: RelatedBook[] = [
     {
       id: "rel-1",
-      coverId: "bestseller-4",
-      title: "All this has nothing to do with Me",
-      badge: "HOT",
-      badgeColor: "bg-[#d9482b]",
-      price: "£16.00",
-    },
-    {
-      id: "rel-2",
-      coverId: "arrival-5",
-      title: "Life of Pi",
-      price: "£16.00",
-    },
-    {
-      id: "rel-3",
-      coverId: "bestseller-2",
-      title: "The Dark",
-      price: "£17.00",
-    },
-    {
-      id: "rel-4",
-      coverId: "bestseller-5",
-      title: "Enemy - of the Quietist",
+      image: "/images/shop6.jpg",
+      title: "The DARK",
+      author: "By SAVANNA WALKER",
       price: "£18.00",
     },
     {
-      id: "rel-5",
-      coverId: "bestseller-3",
-      title: "Ghosts of the Dark",
+      id: "rel-2",
+      image: "/images/Newest1.webp",
+      title: "Henry & The Good Dog",
+      author: "By MESHO BUVAHR, SAVANNA WALKER",
+      price: "£22.00",
+      oldPrice: "£25.00",
       badge: "SALE",
-      badgeColor: "bg-[#2c7650]",
-      price: "£16.00",
-      oldPrice: "£20.00",
+      badgeType: "sale",
+    },
+    {
+      id: "rel-3",
+      image: "/images/shop2.jpg",
+      title: "All this has nothing to do with Me",
+      author: "By BHUZUN NAHLAM, HOF NURGIN",
+      price: "£20.00",
+      badge: "HOT",
+      badgeType: "hot",
+    },
+    {
+      id: "rel-4",
+      image: "/images/shop4.jpg",
+      title: "Dear Brain",
+      author: "By MESHO BUVAHR, TE SORKAZ",
+      price: "£18.00",
+      oldPrice: "£21.00",
+      badge: "SALE",
+      badgeType: "sale",
     },
   ];
 
+  const currentTitle = book?.title || "A Poem for Every night";
+  const currentCategory = book?.category || "POETRY";
+  const currentPrice = book?.price || "£22.00";
+  const currentImage = book?.image || "/images/Newest2.webp";
+  const currentSummary =
+    book?.summary ||
+    "Be inspired, soothed and delighted by a poem for every night of the year, chosen by the award-winning poet and author Allie Esiri.";
+  const currentDescription =
+    book?.description ||
+    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.";
+  const currentAuthorName = book?.authorName || "Chai lam";
+  const currentAuthorImage = book?.authorImage || "/images/author-01.jpg";
+  const currentAuthorQuote =
+    book?.authorQuote ||
+    "“My books are marked down because most of them are marked with a on the edge by publishers.”";
+  const authorBooksList = book?.authorBooks || authorBooks;
+  const relatedBooksList = book?.relatedBooks || relatedBooks;
+
   const handleAddToCart = () => {
     if (onAddToCart) {
-      onAddToCart("A Poem for Every night", "£22.00", quantity);
+      onAddToCart(currentTitle, currentPrice, quantity);
     }
     setAddedAlert(true);
     setTimeout(() => setAddedAlert(false), 3000);
@@ -135,14 +186,14 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
                     <div className={bookStyles.pageContent}>
                       <div className="space-y-1 border-b border-[#e2d8c3] pb-1.5">
                         <span className="text-[7.5px] tracking-[0.22em] font-bold text-[#9333ea] dark:text-[#d4b56a] uppercase block">
-                          POETRY
+                          {currentCategory}
                         </span>
                         <h3 className="font-display text-xs font-semibold text-[#18181b] leading-tight">
-                          A Poem for Every night
+                          {currentTitle}
                         </h3>
                       </div>
                       <p className="font-display italic text-[8.5px] text-[#555] leading-relaxed line-clamp-6">
-                        &ldquo;Be inspired, soothed and delighted by a poem for every night of the year, chosen by the award-winning poet and author Allie Esiri.&rdquo;
+                        &ldquo;{currentSummary}&rdquo;
                       </p>
                       <div className="text-[7.5px] font-display text-[#888] pt-1 text-right border-t border-[#e2d8c3]/50">
                         Page 1 • The Publishing Hub
@@ -155,10 +206,31 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
                 <div className={bookStyles.cover}>
                   {/* Front Face: Book Artwork Image */}
                   <div className={bookStyles.frontFace}>
+                    {/* Ribbon Badges on main book cover */}
+                    {book?.badge && (
+                      <div className="absolute top-0 left-0 z-30 flex flex-col gap-1 pointer-events-none">
+                        {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
+                          <span
+                            className="bg-[#56ab84] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                          >
+                            SALE
+                          </span>
+                        )}
+                        {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
+                          <span
+                            className="bg-[#e05638] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                          >
+                            HOT
+                          </span>
+                        )}
+                      </div>
+                    )}
                     <div className={bookStyles.spineHighlight} aria-hidden="true" />
                     <img
-                      src="/images/Newest2.webp"
-                      alt="A Poem for Every night"
+                      src={currentImage}
+                      alt={currentTitle}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -185,12 +257,12 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
           <div className="md:col-span-7 space-y-5">
             {/* Category Tag */}
             <span className="text-[11px] font-bold tracking-[0.25em] text-[#9333ea] dark:text-[#d4b56a] uppercase block">
-              POETRY
+              {currentCategory}
             </span>
 
             {/* Book Title */}
             <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[#18181b] dark:text-[#f2eee3] leading-tight">
-              A Poem for Every night
+              {currentTitle}
             </h1>
 
             {/* Ratings */}
@@ -207,13 +279,18 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
 
             {/* Summary */}
             <p className="text-xs sm:text-sm text-[#52525b] dark:text-[#babcb2] leading-relaxed max-w-xl">
-              Be inspired, soothed and delighted by a poem for every night of the year, chosen by the award-winning poet and author Allie Esiri.
+              {currentSummary}
             </p>
 
             {/* Price & In Stock status */}
             <div className="flex items-center gap-4 pt-1">
+              {book?.originalPrice && (
+                <span className="font-display text-lg sm:text-xl text-[#999] line-through font-normal">
+                  {book.originalPrice}
+                </span>
+              )}
               <span className="font-display text-2xl sm:text-3xl font-semibold text-[#18181b] dark:text-[#f2eee3]">
-                £22.00
+                {currentPrice}
               </span>
               <div className="flex items-center gap-1.5 text-xs text-[#16a34a] font-semibold bg-[#16a34a]/10 px-2.5 py-1 rounded-full border border-[#16a34a]/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
@@ -323,8 +400,8 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
                 {/* Author Portrait Image */}
                 <div className="w-48 sm:w-56 aspect-[4/5] relative z-10 overflow-hidden shadow-md">
                   <img
-                    src="/images/testimonial-01.jpg"
-                    alt="Hof Nurgin"
+                    src={currentAuthorImage}
+                    alt={currentAuthorName}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -332,7 +409,7 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
 
               {/* Author Name */}
               <h3 className="font-display text-2xl sm:text-3xl font-medium dark:text-[#f2eee3] text-[#2c3e50] mt-5">
-                Hof Nurgin
+                {currentAuthorName}
               </h3>
 
               {/* 5 Circular Social Icons */}
@@ -370,54 +447,117 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
               </div>
             </div>
 
-            {/* Right: Quote at top + 3 Standalone Large Books */}
+            {/* Right: Quote at top + Standalone Large Books */}
             <div className="lg:col-span-8 flex flex-col justify-between">
               {/* Quote */}
               <div className="text-center mb-8 px-2">
-                <p className="font-display italic text-base sm:text-lg md:text-xl dark:text-[#d4b56a] text-[#4a5568] max-w-xl mx-auto leading-relaxed">
-                  &ldquo;My books are marked down because most of them are marked with a on the edge by publishers.&rdquo;
+                <p className="font-display italic text-base sm:text-lg md:text-xl dark:text-[#f2eee3] text-[#4a5568] max-w-xl mx-auto leading-relaxed">
+                  &ldquo;{currentAuthorQuote}&rdquo;
                 </p>
               </div>
 
-              {/* 3 Books Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 items-start">
-                {authorBooks.map((b) => (
-                  <div
-                    key={b.id}
-                    className="flex flex-col items-center text-center group cursor-pointer"
-                  >
-                    {/* Standalone Book Cover (no card background) */}
-                    <div className="relative w-full max-w-[210px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] dark:shadow-[0_18px_35px_rgba(0,0,0,0.7)] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] dark:group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-2 transition-all duration-300">
-                      
-                      {/* HOT Ribbon Banner on top-left of book cover */}
-                      {b.badge && (
-                        <span className="absolute top-0 left-0 z-20 bg-[#e05638] text-white text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider shadow-sm">
-                          {b.badge}
-                        </span>
-                      )}
+              <div
+                className={`items-start min-h-[340px] ${
+                  authorBooksList.length <= 2
+                    ? "flex justify-center gap-8 sm:gap-12 flex-wrap"
+                    : "grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7"
+                }`}
+              >
+                {authorBooksList.slice(authorSlide * 3, (authorSlide + 1) * 3).map((b) => {
+                  const targetSlug = b.slug || getBookSlug(b);
+                  return (
+                    <Link
+                      key={b.id}
+                      href={`/product/${targetSlug}`}
+                      className="flex flex-col items-center text-center group cursor-pointer animate-in fade-in duration-300"
+                    >
+                      {/* Standalone Book Cover (no card background) */}
+                      <div className="relative w-full max-w-[210px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] dark:shadow-[0_18px_35px_rgba(0,0,0,0.7)] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] dark:group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-2 transition-all duration-300">
+                        
+                        {/* Ribbon Badges on top-left of book cover */}
+                        {b.badge && (
+                          <div className="absolute top-0 left-0 z-20 flex flex-col gap-1 pointer-events-none">
+                            {(b.badge === "SALE" || b.badge === "SALE_AND_HOT") && (
+                              <span
+                                className="bg-[#56ab84] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                              >
+                                SALE
+                              </span>
+                            )}
+                            {(b.badge === "HOT" || b.badge === "SALE_AND_HOT") && (
+                              <span
+                                className="bg-[#e05638] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                              >
+                                HOT
+                              </span>
+                            )}
+                          </div>
+                        )}
 
-                      {/* Spine Gradient Overlay */}
-                      <div className="absolute top-0 left-0 bottom-0 w-[6%] bg-gradient-to-r from-black/35 via-black/10 to-transparent z-10 pointer-events-none" />
+                        {/* Spine Gradient Overlay */}
+                        <div className="absolute top-0 left-0 bottom-0 w-[6%] bg-gradient-to-r from-black/35 via-black/10 to-transparent z-10 pointer-events-none" />
 
-                      <img
-                        src={b.image}
-                        alt={b.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                        <img
+                          src={b.image}
+                          alt={b.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
 
-                    {/* Price on top of Title */}
-                    <div className="mt-3.5 space-y-1">
-                      <span className="text-xs sm:text-[13px] font-semibold text-[#b89245] dark:text-[#d4b56a] block">
-                        {b.price}
-                      </span>
-                      <h4 className="font-display text-sm sm:text-[15px] dark:text-[#f2eee3] text-[#2c3e50] font-normal leading-snug group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">
-                        {b.title}
-                      </h4>
-                    </div>
-                  </div>
-                ))}
+                      {/* Price on top of Title */}
+                      <div className="mt-3.5 space-y-1">
+                        <div className="flex items-center justify-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#b89245] dark:text-[#d4b56a]">
+                          {b.oldPrice && (
+                            <span className="text-[#a1a1aa] dark:text-[#71717a] line-through font-normal">
+                              {b.oldPrice}
+                            </span>
+                          )}
+                          <span>{b.price}</span>
+                        </div>
+                        <h4 className="font-display text-sm sm:text-[15px] dark:text-[#f2eee3] text-[#2c3e50] font-normal leading-snug group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">
+                          {b.title}
+                        </h4>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
+
+              {/* Author Carousel Arrows / Pagination */}
+              {Math.ceil(authorBooksList.length / 3) > 1 && (
+                <div className="flex justify-center items-center gap-2.5 pt-6">
+                  {Array.from({ length: Math.ceil(authorBooksList.length / 3) }).map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setAuthorSlide(idx)}
+                      aria-label={`Author Slide ${idx + 1}`}
+                      className={`cursor-pointer transition-all duration-300 ${
+                        authorSlide === idx
+                          ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
+                          : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+              {authorBooksList.length <= 2 && (
+                <div className="flex justify-center items-center gap-2.5 pt-6">
+                  <button
+                    aria-label="Previous"
+                    className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
+                  >
+                    &lt;
+                  </button>
+                  <button
+                    aria-label="Next"
+                    className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
+                  >
+                    &gt;
+                  </button>
+                </div>
+              )}
             </div>
 
           </div>
@@ -427,43 +567,46 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
         {/* ========================================================================= */}
         {/* SECTION 3: TABS (DESCRIPTION & REVIEWS)                                   */}
         {/* ========================================================================= */}
-        <section className="space-y-6 bg-white dark:bg-transparent">
-          <div className="flex justify-center items-center gap-8 border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] pb-3">
+        <section className="space-y-8 max-w-4xl mx-auto pt-6">
+          {/* Tab Selection */}
+          <div className="flex items-center justify-center gap-12 border-b dark:border-[#f2eee3]/10 border-gray-200">
             <button
               onClick={() => setActiveTab("description")}
-              className={`font-display text-base sm:text-lg font-medium transition-colors relative pb-2 ${activeTab === "description" ? "dark:text-[#d4b56a] text-[#9333ea]" : "dark:text-[#777970] text-[#71717a] hover:opacity-80"
-                }`}
+              className={`pb-4 text-base font-display transition-all relative ${
+                activeTab === "description"
+                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
+                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+              }`}
             >
               Description
-              {activeTab === "description" && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] dark:bg-[#b89245] bg-[#9333ea]" />
-              )}
             </button>
             <button
               onClick={() => setActiveTab("reviews")}
-              className={`font-display text-base sm:text-lg font-medium transition-colors relative pb-2 ${activeTab === "reviews" ? "dark:text-[#d4b56a] text-[#9333ea]" : "dark:text-[#777970] text-[#71717a] hover:opacity-80"
-                }`}
+              className={`pb-4 text-base font-display transition-all relative ${
+                activeTab === "reviews"
+                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
+                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+              }`}
             >
-              Reviews (128)
-              {activeTab === "reviews" && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] dark:bg-[#b89245] bg-[#9333ea]" />
-              )}
+              Reviews (1)
             </button>
           </div>
 
-          <div className="max-w-3xl mx-auto text-xs sm:text-sm dark:text-[#babcb2] text-[#52525b] leading-relaxed text-center space-y-4">
+          {/* Tab Contents */}
+          <div className="py-4 text-center">
             {activeTab === "description" ? (
-              <p>
-                A beautiful collection of 365 poems – one for every night of the year. Featuring classic verses and contemporary favourites, this book offers inspiration, comfort, and delight for readers everywhere. Beautifully hardbound with foil embossed lettering and an archival bookmark ribbon.
+              <p className="text-xs sm:text-[13px] leading-relaxed dark:text-[#9d9f96] text-[#71717a] max-w-3xl mx-auto">
+                {currentDescription}
               </p>
             ) : (
-              <div className="space-y-3 text-left dark:bg-[#080d0a] bg-[#faf5ff] p-5 border dark:border-[#f2eee3]/10 border-[#e9e1f5] rounded-[2px]">
-                <div className="flex items-center justify-between border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] pb-2">
-                  <span className="font-semibold dark:text-[#f2eee3] text-[#18181b]">Sophia Turner</span>
-                  <div className="flex dark:text-[#d4b56a] text-[#9333ea]">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
+              <div className="space-y-4 max-w-2xl mx-auto text-left bg-[#f8f9fa] dark:bg-[#121815] p-6 rounded-lg border dark:border-white/5 border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h5 className="font-semibold text-sm dark:text-white text-gray-900">Sarah Jenkins</h5>
+                    <p className="text-[11px] text-gray-400">Verified Reader — 2 weeks ago</p>
+                  </div>
+                  <div className="flex text-[#b89245] text-xs">
+                    {"★".repeat(5)}
                   </div>
                 </div>
                 <p className="text-xs dark:text-[#9d9f96] text-[#71717a]">
@@ -476,59 +619,139 @@ export default function BookDetailView({ onAddToCart, onBack }: BookDetailViewPr
 
 
         {/* ========================================================================= */}
-        {/* SECTION 4: RELATED PRODUCTS                                               */}
+        {/* SECTION 4: RELATED PRODUCTS (MATCHING REFERENCE CAROUSEL)                 */}
         {/* ========================================================================= */}
-        <section className="space-y-8 pt-10 border-t dark:border-[#f2eee3]/10 border-[#e9e1f5] bg-white dark:bg-transparent">
-          <div className="text-center">
-            <h2 className="font-display text-3xl sm:text-4xl font-medium dark:text-[#d4b56a] text-[#9333ea]">
+        <section className="space-y-12 sm:space-y-16 pt-16 pb-12 sm:pt-24 sm:pb-20 border-t dark:border-[#f2eee3]/10 border-[#e9e1f5] bg-white dark:bg-transparent">
+          {/* Centered Section Heading */}
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold dark:text-[#f2eee3] text-[#2c3e50] tracking-tight">
               Related products
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
-            {relatedBooks.map((b) => (
-              <div
-                key={b.id}
-                className="group dark:bg-[#080d0a] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#d4b56a]/60 hover:border-[#9333ea] p-3 sm:p-3.5 flex flex-col justify-between rounded-[3px] transition-all duration-300 shadow-xs hover:shadow-lg hover:-translate-y-1"
-              >
-                <div className="relative aspect-[3/4.2] w-full overflow-hidden dark:bg-[#0d1612] bg-[#fbf8fe] rounded-[2px] flex items-center justify-center shadow-inner">
-                  {b.badge && (
-                    <span
-                      className={`absolute top-1.5 left-1.5 z-20 text-white text-[8px] font-extrabold uppercase px-1.5 py-0.5 shadow-sm rounded-[1px] ${b.badgeColor}`}
-                    >
-                      {b.badge}
-                    </span>
-                  )}
-                  <div className="w-full h-full transform group-hover:scale-105 transition-transform duration-500">
-                    <BookCoverArt id={b.coverId} title={b.title} />
-                  </div>
-                </div>
-                <div className="mt-3 text-center space-y-1">
-                  <h4 className="font-display text-xs sm:text-sm dark:text-[#f2eee3] text-[#18181b] dark:group-hover:text-[#d4b56a] group-hover:text-[#9333ea] transition-colors line-clamp-1 font-medium">
-                    {b.title}
-                  </h4>
-                  <div className="flex items-center justify-center gap-1.5 text-xs">
-                    <span className="font-bold dark:text-[#d4b56a] text-[#9333ea]">
-                      {b.price}
-                    </span>
-                    {b.oldPrice && (
-                      <span className="dark:text-[#656861] text-[#a1a1aa] line-through text-[11px]">
-                        {b.oldPrice}
-                      </span>
+          {/* Book Grid Showcase per Slide */}
+          <div
+            className={`items-start min-h-[380px] ${
+              relatedBooksList.length <= 2
+                ? "flex justify-center gap-8 sm:gap-12 flex-wrap max-w-3xl mx-auto"
+                : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-6xl mx-auto"
+            }`}
+          >
+            {relatedBooksList.slice(relatedSlide * 4, (relatedSlide + 1) * 4).map((b) => {
+              const targetSlug = b.slug || getBookSlug(b);
+              return (
+                <Link
+                  key={b.id}
+                  href={`/product/${targetSlug}`}
+                  className="group flex flex-col items-center text-center cursor-pointer animate-in fade-in duration-300"
+                >
+                  {/* Standalone Book Cover (No Card Box) */}
+                  <div className="relative w-full max-w-[240px] aspect-[3/4.3] overflow-hidden rounded-[2px] shadow-[0_10px_25px_rgba(0,0,0,0.15)] dark:shadow-[0_16px_35px_rgba(0,0,0,0.7)] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] dark:group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-2 transition-all duration-300">
+                    
+                    {/* Top Ribbon Badges */}
+                    {b.badge && (
+                      <div className="absolute top-0 left-0 z-20 flex flex-col gap-1 pointer-events-none">
+                        {(b.badge === "SALE" || b.badge === "SALE_AND_HOT" || (b.badgeType === "sale" && b.badge !== "HOT")) && (
+                          <span
+                            className="bg-[#56ab84] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                          >
+                            SALE
+                          </span>
+                        )}
+                        {(b.badge === "HOT" || b.badge === "SALE_AND_HOT" || (b.badgeType === "hot" && b.badge !== "SALE")) && (
+                          <span
+                            className="bg-[#e05638] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                          >
+                            HOT
+                          </span>
+                        )}
+                      </div>
                     )}
+
+                    {/* Spine Shadow Gradient Overlay */}
+                    <div className="absolute top-0 left-0 bottom-0 w-[6%] bg-gradient-to-r from-black/35 via-black/10 to-transparent z-10 pointer-events-none" />
+
+                    {/* Book Image */}
+                    <img
+                      src={b.image}
+                      alt={b.title}
+                      className="w-full h-full object-cover"
+                    />
+
+                    {/* Hover Floating Action Buttons (Cart & Search) */}
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-20">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (onAddToCart) onAddToCart(b.title, b.price, 1);
+                          setAddedAlert(true);
+                          setTimeout(() => setAddedAlert(false), 3000);
+                        }}
+                        aria-label="Add to cart"
+                        title="Add to cart"
+                        className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                      </button>
+                      <span
+                        className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
+                        aria-label="View book"
+                        title="View book"
+                      >
+                        <Search className="w-4 h-4" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+
+                  {/* Information Block Below Book Cover */}
+                  <div className="mt-4 space-y-1">
+                    {/* Price on Top */}
+                    <div className="flex items-center justify-center gap-2 text-xs sm:text-[13px]">
+                      {b.oldPrice && (
+                        <span className="text-[#a1a1aa] dark:text-[#71717a] line-through font-normal">
+                          {b.oldPrice}
+                        </span>
+                      )}
+                      <span className="font-semibold text-[#b89245] dark:text-[#d4b56a]">
+                        {b.price}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h4 className="font-display text-base sm:text-[17px] dark:text-[#f2eee3] text-[#2c3e50] font-normal leading-snug group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">
+                      {b.title}
+                    </h4>
+
+                    {/* Author */}
+                    <p className="text-[10.5px] uppercase tracking-wider text-[#71717a] dark:text-[#9d9f96] font-medium">
+                      {b.author}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Carousel Pagination Dots */}
-          <div className="flex justify-center gap-2 pt-2">
-            <span className="w-2 h-2 rounded-full dark:bg-[#d4b56a] bg-[#9333ea]" />
-            <span className="w-2 h-2 rounded-full dark:bg-[#d4b56a]/30 bg-[#9333ea]/30" />
-            <span className="w-2 h-2 rounded-full dark:bg-[#d4b56a]/30 bg-[#9333ea]/30" />
-            <span className="w-2 h-2 rounded-full dark:bg-[#d4b56a]/30 bg-[#9333ea]/30" />
-          </div>
+          {Math.ceil(relatedBooksList.length / 4) > 1 && (
+            <div className="flex justify-center items-center gap-2.5 pt-4">
+              {Array.from({ length: Math.ceil(relatedBooksList.length / 4) }).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setRelatedSlide(idx)}
+                  aria-label={`Slide ${idx + 1}`}
+                  className={`cursor-pointer transition-all duration-300 ${
+                    relatedSlide === idx
+                      ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
+                      : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </section>
 
       </div>

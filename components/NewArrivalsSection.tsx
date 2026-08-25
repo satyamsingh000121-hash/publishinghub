@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 import { PerspectiveBook } from "./PerspectiveBook";
+import { getBookSlug } from "@/lib/books";
 
 interface NewArrivalsSectionProps {
   onAddToCart?: (bookTitle: string) => void;
@@ -29,7 +31,7 @@ const NEW_ARRIVALS = [
   {
     id: "a3",
     coverId: "arrival-3",
-    title: "A Poem for Every night",
+    title: "A Poem for Every Night",
     author: "By CHAI IAM, HOF NURGIN",
     price: "£22.00",
   },
@@ -127,79 +129,86 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
 
             {/* Bottom Button */}
             <div className="relative z-10 text-center pb-6 sm:pb-12">
-              <a
-                href="#bestsellers"
-                className="w-full py-3 sm:py-3.5 bg-[#2c7650] hover:bg-[#37865d] text-white border dark:border-[#d4b56a]/40 border-transparent text-[11px] sm:text-[12px] font-extrabold tracking-[0.16em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/60 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm"
+              <Link
+                href="/shop"
+                className="w-full py-3 sm:py-3.5 bg-[#2c7650] hover:bg-[#37865d] text-white border dark:border-[#d4b56a]/40 border-transparent text-[11px] sm:text-[12px] font-extrabold tracking-[0.16em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/60 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm cursor-pointer"
               >
                 VIEW MORE <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
             </div>
           </div>
 
           {/* Right 4x2 Grid of New Arrival Book Cards (9 columns on lg) */}
           <div className="lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-            {NEW_ARRIVALS.map((book) => (
-              <div
-                key={book.id}
-                className="group relative dark:bg-[#060a08] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-2.5 sm:p-3 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-purple-500/10 rounded-xs"
-              >
-                {/* Image Container with 3D Book Animation */}
-                <div className="relative aspect-[3/4] w-full flex items-center justify-center rounded-xs overflow-hidden">
-                  
-                  {/* Badges (SALE & HOT) */}
-                  <div className="absolute top-1.5 left-1.5 z-20 flex flex-col gap-1 pointer-events-none">
-                    {book.saleBadge && (
-                      <span className="bg-[#2c7650] text-white text-[7.5px] font-extrabold tracking-wider uppercase px-2 py-0.5 shadow">
-                        {book.saleBadge}
-                      </span>
-                    )}
-                    {book.hotBadge && (
-                      <span className="bg-[#d9482b] text-white text-[7.5px] font-extrabold tracking-wider uppercase px-2 py-0.5 shadow">
-                        {book.hotBadge}
-                      </span>
-                    )}
+            {NEW_ARRIVALS.map((book) => {
+              const productUrl = `/product/${getBookSlug(book)}`;
+              return (
+                <div
+                  key={book.id}
+                  className="group relative dark:bg-[#060a08] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:hover:border-[#b89245]/50 hover:border-[#9333ea] transition-all duration-300 p-2.5 sm:p-3 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-purple-500/10 rounded-xs"
+                >
+                  {/* Image Container with 3D Book Animation */}
+                  <div className="relative aspect-[3/4] w-full flex items-center justify-center rounded-xs overflow-hidden">
+                    
+                    {/* Badges (SALE & HOT) */}
+                    <div className="absolute top-1.5 left-1.5 z-20 flex flex-col gap-1 pointer-events-none">
+                      {book.saleBadge && (
+                        <span className="bg-[#2c7650] text-white text-[7.5px] font-extrabold tracking-wider uppercase px-2 py-0.5 shadow">
+                          {book.saleBadge}
+                        </span>
+                      )}
+                      {book.hotBadge && (
+                        <span className="bg-[#d9482b] text-white text-[7.5px] font-extrabold tracking-wider uppercase px-2 py-0.5 shadow">
+                          {book.hotBadge}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* 3D Perspective Animated Artwork Cover with Link */}
+                    <Link href={productUrl} className="w-full h-full block cursor-pointer">
+                      <PerspectiveBook>
+                        <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace(/^(By|by)\s+/i, "")} />
+                      </PerspectiveBook>
+                    </Link>
+
+                    {/* Add to cart quick button */}
+                    <button
+                      onClick={() => onAddToCart && onAddToCart(book.title)}
+                      className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md z-30 cursor-pointer"
+                      title="Add to cart"
+                      aria-label="Add to cart"
+                    >
+                      <ShoppingCart className="w-3 h-3" />
+                    </button>
                   </div>
 
-                  {/* 3D Perspective Animated Artwork Cover */}
-                  <PerspectiveBook>
-                    <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace(/^(By|by)\s+/i, "")} />
-                  </PerspectiveBook>
-
-                  {/* Add to cart quick button */}
-                  <button
-                    onClick={() => onAddToCart && onAddToCart(book.title)}
-                    className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md z-30"
-                    title="Add to cart"
-                    aria-label="Add to cart"
-                  >
-                    <ShoppingCart className="w-3 h-3" />
-                  </button>
-                </div>
-
-                {/* Title, Author & Price */}
-                <div className="mt-2.5 text-center">
-                  {/* Price at top of info */}
-                  <div className="flex items-center justify-center gap-1.5 text-[11px] mb-1">
-                    {book.oldPrice && (
-                      <span className="text-[#656861] line-through">
-                        {book.oldPrice}
+                  {/* Title, Author & Price */}
+                  <div className="mt-2.5 text-center">
+                    {/* Price at top of info */}
+                    <div className="flex items-center justify-center gap-1.5 text-[11px] mb-1">
+                      {book.oldPrice && (
+                        <span className="text-[#656861] line-through">
+                          {book.oldPrice}
+                        </span>
+                      )}
+                      <span className="font-semibold text-[#d4b56a]">
+                        {book.price}
                       </span>
-                    )}
-                    <span className="font-semibold text-[#d4b56a]">
-                      {book.price}
-                    </span>
+                    </div>
+
+                    <Link href={productUrl} className="block cursor-pointer">
+                      <h4 className="font-display text-xs sm:text-[13px] font-medium text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-2 min-h-[32px]">
+                        {book.title}
+                      </h4>
+                    </Link>
+                    <p className="text-[9px] text-[#85877f] truncate mt-1">
+                      {book.author}
+                    </p>
                   </div>
 
-                  <h4 className="font-display text-xs sm:text-[13px] font-medium text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-2 min-h-[32px]">
-                    {book.title}
-                  </h4>
-                  <p className="text-[9px] text-[#85877f] truncate mt-1">
-                    {book.author}
-                  </p>
                 </div>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>

@@ -98,6 +98,7 @@ const ALL_SHOP_BOOKS: BookItem[] = [
   },
   {
     id: "shop-8",
+    slug: "enemy-jake-gyllenhaal",
     title: "Enemy — Jake Gyllenhaal",
     author: "By BRUCE SANG",
     price: "£18.00",
@@ -109,6 +110,7 @@ const ALL_SHOP_BOOKS: BookItem[] = [
   },
   {
     id: "shop-9",
+    slug: "ghosts-afraid-of-the-dark",
     title: "Ghosts Around of the Dark",
     author: "By MESHO BUVAHR",
     price: "£16.00",
@@ -121,6 +123,7 @@ const ALL_SHOP_BOOKS: BookItem[] = [
   },
   {
     id: "shop-10",
+    slug: "henry-and-the-good-dog",
     title: "Henry & The Good Dog",
     author: "By MESHO BUVAHR",
     price: "£17.00",
@@ -133,6 +136,7 @@ const ALL_SHOP_BOOKS: BookItem[] = [
   },
   {
     id: "shop-11",
+    slug: "life-of-pi",
     title: "Life of Pi",
     author: "By YANN MARTEL",
     price: "£16.00",
@@ -145,15 +149,17 @@ const ALL_SHOP_BOOKS: BookItem[] = [
   },
   {
     id: "shop-12",
-    title: "Dreams of the War",
-    author: "By SUN TZU",
+    slug: "peter-and-the-wolf",
+    title: "Peter and the Wolf",
+    author: "By JOHN WALKER",
     price: "£18.00",
+    originalPrice: "£40.00",
     numericPrice: 18.0,
     badge: "SALE",
     category: "Non-fiction",
     availability: "on-sale",
     image: "/images/book_section2.png",
-    description: "Timeless strategic wisdom and historical reflections on conflict, harmony, and leadership.",
+    description: "A timeless symphonic and narrative tale of courage, nature, and adventure.",
   },
   {
     id: "shop-13",
