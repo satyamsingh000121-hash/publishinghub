@@ -25,45 +25,14 @@ import BookCoverArt from "./BookCoverArt";
 import BookOpenCard from "./BookOpenCard";
 import bookStyles from "./BookOpenCard.module.css";
 import { getBookSlug } from "@/lib/books";
+import type { BookDetailData, AuthorBook, RelatedBook } from "@/lib/books";
 
-export interface BookDetailData {
-  title?: string;
-  category?: string;
-  price?: string;
-  image?: string;
-  summary?: string;
-  description?: string;
-  authorName?: string;
-  authorImage?: string;
-  authorQuote?: string;
-  authorBooks?: AuthorBook[];
-  relatedBooks?: RelatedBook[];
-}
+export type { BookDetailData, AuthorBook, RelatedBook };
 
 export interface BookDetailViewProps {
   book?: BookDetailData;
   onAddToCart?: (title: string, price?: string, quantity?: number) => void;
   onBack?: () => void;
-}
-
-interface AuthorBook {
-  id: string;
-  image: string;
-  title: string;
-  price: string;
-  oldPrice?: string;
-  badge?: string;
-}
-
-interface RelatedBook {
-  id: string;
-  image: string;
-  title: string;
-  author: string;
-  price: string;
-  oldPrice?: string;
-  badge?: string;
-  badgeType?: "sale" | "hot";
 }
 
 export default function BookDetailView({ book, onAddToCart, onBack }: BookDetailViewProps) {
