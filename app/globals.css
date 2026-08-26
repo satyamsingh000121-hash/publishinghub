@@ -527,5 +527,86 @@ html.light .drawer-surface {
   color: #18181b !important;
 }
 
+/* =========================================================================
+   ADMIN DASHBOARD THEME SYSTEM (LIGHT / DARK SWITCHING)
+   ========================================================================= */
+.admin-layout-bg {
+  background-color: #FBF9FE;
+  color: #1E293B;
+}
+html.dark .admin-layout-bg {
+  background-color: #0B0F19 !important;
+  color: #F8FAFC !important;
+}
 
+.admin-card {
+  background-color: #FFFFFF;
+  border: 1px solid #F1F0F5;
+  color: #1E293B;
+}
+html.dark .admin-card {
+  background-color: #1E293B !important;
+  border: 1px solid #334155 !important;
+  color: #F8FAFC !important;
+}
 
+.admin-header-bg {
+  background-color: #FFFFFF;
+  border-color: #EAE5F2;
+}
+html.dark .admin-header-bg {
+  background-color: #0F172A !important;
+  border-color: #1E293B !important;
+}
+
+.admin-sidebar-bg {
+  background-color: #FFFFFF;
+  border-color: #EAE5F2;
+}
+html.dark .admin-sidebar-bg {
+  background-color: #0F172A !important;
+  border-color: #1E293B !important;
+}
+
+.admin-input-bg {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  color: #1E293B;
+}
+html.dark .admin-input-bg {
+  background-color: #1E293B !important;
+  border: 1px solid #334155 !important;
+  color: #F8FAFC !important;
+}
+
+.admin-text-primary {
+  color: #1E293B;
+}
+html.dark .admin-text-primary {
+  color: #F8FAFC !important;
+}
+
+.admin-text-secondary {
+  color: #64748B;
+}
+html.dark .admin-text-secondary {
+  color: #94A3B8 !important;
+}
+
+.admin-date-badge {
+  background-color: #FAF8FF;
+  border: 1px solid #F1F0F5;
+}
+html.dark .admin-date-badge {
+  background-color: #0F172A !important;
+  border: 1px solid #334155 !important;
+}
+
+.admin-pill-bg {
+  background-color: #FAF5FF;
+  border: 1px solid #F3E8FF;
+}
+html.dark .admin-pill-bg {
+  background-color: rgba(124, 58, 237, 0.18) !important;
+  border: 1px solid rgba(124, 58, 237, 0.35) !important;
+}
