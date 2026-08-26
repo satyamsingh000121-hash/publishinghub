@@ -57,6 +57,7 @@ function ProductDetailContent() {
       {/* Top Navigation */}
       <Navbar
         cartCount={totalCartCount}
+        activeTab="SHOP"
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />

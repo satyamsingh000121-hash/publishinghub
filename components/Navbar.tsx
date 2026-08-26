@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Heart, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -19,10 +20,32 @@ export default function Navbar({
   onOpenSearch,
   showAnnouncement = true,
 }: NavbarProps) {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [announcementDismissed, setAnnouncementDismissed] = useState(false);
-  const [internalActiveTab, setInternalActiveTab] = useState(controlledActiveTab || "HOME");
-  const activeTab = controlledActiveTab || internalActiveTab;
+
+  const getAutoActiveTab = (path: string | null): string => {
+    if (!path) return "HOME";
+    if (path === "/") return "HOME";
+    if (path.startsWith("/about")) return "ABOUT US";
+    if (
+      path.startsWith("/shop") ||
+      path.startsWith("/product") ||
+      path.startsWith("/book") ||
+      path.startsWith("/a-teaspoon")
+    ) {
+      return "SHOP";
+    }
+    if (path.startsWith("/our-offer")) return "OUR OFFER";
+    if (path.startsWith("/events") || path.startsWith("/event")) return "EVENT";
+    if (path.startsWith("/contact")) return "CONTACT US";
+    if (path.startsWith("/join-the-league")) return "JOIN THE LEAGUE";
+    return "";
+  };
+
+  const autoActiveTab = getAutoActiveTab(pathname);
+  const [internalActiveTab, setInternalActiveTab] = useState<string>("");
+  const activeTab = controlledActiveTab || autoActiveTab || internalActiveTab || "HOME";
   const { theme, toggleTheme } = useTheme();
 
   const leagueOptions = [
@@ -94,7 +117,9 @@ export default function Navbar({
           <nav className="hidden lg:flex items-center justify-center gap-5 xl:gap-8">
             {navItems.map((item) => {
               const isLeagueActive = activeTab === "JOIN THE LEAGUE" || activeTab?.startsWith("JOIN THE LEAGUE");
-              const isActive = item.hasDropdown ? isLeagueActive : activeTab === item.label;
+              const isActive = item.hasDropdown
+                ? isLeagueActive
+                : activeTab === item.label || (item.label === "EVENT" && activeTab === "EVENTS");
 
               return (
                 <div key={item.label} className="relative py-7 group">
@@ -264,6 +289,8 @@ export default function Navbar({
                   );
                 }
 
+                const isItemActive = item.label === activeTab || (item.label === "EVENT" && activeTab === "EVENTS");
+
                 return (
                   <a
                     key={item.label}
@@ -273,7 +300,7 @@ export default function Navbar({
                       setMobileMenuOpen(false);
                     }}
                     className={`flex items-center justify-between py-2.5 px-3 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors ${
-                      activeTab === item.label
+                      isItemActive
                         ? "text-[#d4b56a] bg-[#d4b56a]/10 font-bold"
                         : "text-[#dddcd5] hover:text-[#d4b56a] hover:bg-[#f2eee3]/5"
                     }`}

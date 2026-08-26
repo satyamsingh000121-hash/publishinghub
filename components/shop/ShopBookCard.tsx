@@ -39,23 +39,32 @@ export default function ShopBookCard({
   const bookSlug = getBookSlug(book);
   const productUrl = `/product/${bookSlug}`;
 
-  // Render Badge helper
+  // Render Badge helper (Matching Image 1 ribbon tags)
   const renderBadges = () => {
     if (!book.badge) return null;
     return (
-      <div className="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1 pointer-events-none">
+      <div className="absolute top-2 left-0 z-20 flex flex-col gap-1 pointer-events-none">
         {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
-          <span className="bg-[#9333ea] dark:bg-[#2c7650] text-white text-[9px] font-bold tracking-widest px-2 py-0.5 uppercase shadow-xs rounded-[1px]">
+          <span
+            className="bg-[#56ab84] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+          >
             SALE
           </span>
         )}
         {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
-          <span className="bg-[#c2410c] text-white text-[9px] font-bold tracking-widest px-2 py-0.5 uppercase shadow-xs rounded-[1px]">
+          <span
+            className="bg-[#e05638] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+          >
             HOT
           </span>
         )}
         {(book.badge === "NEW" || book.badge === "SALE_AND_NEW") && (
-          <span className="bg-[#df5a29] text-white text-[9px] font-bold tracking-widest px-2 py-0.5 uppercase shadow-xs rounded-[1px]">
+          <span
+            className="bg-[#df5a29] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+          >
             NEW
           </span>
         )}
@@ -207,7 +216,7 @@ export default function ShopBookCard({
       {/* Book Metadata Below Cover matching reference design */}
       <div className="pt-3.5 space-y-1 w-full text-center">
         {/* Price (with originalPrice strikethrough if on sale) */}
-        <div className="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#9333ea] dark:text-[#d4b56a]">
+        <div className="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#b89245] dark:text-[#d4b56a]">
           {book.originalPrice && (
             <span className="text-[#a8a29e] line-through font-normal text-xs">
               {book.originalPrice}
@@ -218,7 +227,7 @@ export default function ShopBookCard({
 
         {/* Book Title in Serif */}
         <Link href={productUrl} className="block cursor-pointer">
-          <h3 className="font-display text-[16px] sm:text-[17px] font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-1">
+          <h3 className="font-display text-[16px] sm:text-[17px] font-normal text-[#1c1917] dark:text-[#f2eee3] group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors leading-snug line-clamp-1">
             {book.title}
           </h3>
         </Link>

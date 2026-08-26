@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         String    @default("USER") // USER | ADMIN
+  avatar       String?
+  phoneNumber  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  orders       Order[]
+  carts        Cart[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  title         String
+  author        String
+  authorName    String?
+  authorImage   String?
+  authorQuote   String?
+  price         String
+  numericPrice  Float
+  originalPrice String?
+  badge         String?
+  category      String
+  categoryId    String?
+  categoryRel   Category? @relation(fields: [categoryId], references: [id])
+  availability  String    @default("in-stock")
+  image         String
+  coverId       String?
+  summary       String?
+  description   String?
+  stock         Int       @default(100)
+  featured      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+}
+
+model Cart {
+  id          String     @id @default(cuid())
+  userId      String?
+  sessionId   String?    @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int      @default(1)
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?
+  orderNumber     String      @unique
+  totalAmount     Float
+  status          String      @default("PENDING") // PENDING | PROCESSING | SHIPPED | DELIVERED | CANCELLED
+  paymentStatus   String      @default("UNPAID")  // UNPAID | PAID | REFUNDED | FAILED
+  paymentMethod   String      @default("CARD")
+  shippingAddress String
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user            User?       @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  orderId      String
+  productId    String
+  productTitle String
+  productImage String
+  price        Float
+  quantity     Int
+  createdAt    DateTime @default(now())
+
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product      Product  @relation(fields: [productId], references: [id])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        String
+  time        String
+  location    String
+  description String
+  image       String?
+  price       String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Offer {
+  id              String   @id @default(cuid())
+  title           String
+  code            String   @unique
+  discountPercent Float
+  validUntil      DateTime
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model NewsletterSubscriber {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+  isActive     Boolean  @default(true)
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    String   @default("UNREAD") // UNREAD | READ | REPLIED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

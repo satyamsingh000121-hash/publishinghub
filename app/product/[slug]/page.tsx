@@ -99,6 +99,7 @@ export default function DynamicProductPage(props: ProductPageProps) {
       {/* Top Navigation */}
       <Navbar
         cartCount={totalCartCount}
+        activeTab="SHOP"
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />

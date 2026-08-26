@@ -43,74 +43,79 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const [authorSlide, setAuthorSlide] = useState<number>(0);
   const [relatedSlide, setRelatedSlide] = useState<number>(0);
 
-  // Author's other books (Matching exact reference image)
+  // Author's other books (Matching exact reference image 2)
   const authorBooks: AuthorBook[] = [
     {
       id: "auth-1",
-      image: "/images/shop9.jpg",
-      title: "TRIO - Sarah Tolmie",
-      price: "£21.00",
+      image: "/images/book_section1.png",
+      title: "Sam & Dave dig a Hole",
+      author: "By MAC BARNETT",
+      price: "£14.00",
+      oldPrice: "£18.00",
+      badge: "SALE",
+      slug: "sam-and-dave-dig-a-hole",
     },
     {
       id: "auth-2",
-      image: "/images/shop7.webp",
-      title: "The Summer of ImpossibleThings",
-      price: "£24.00",
+      image: "/images/book_section4.webp",
+      title: "The Assault",
+      author: "By Harry Mulisch",
+      price: "£19.00",
+      slug: "the-assault",
     },
   ];
 
-  // Related products (Matching exact reference image)
+  // Related products (Matching exact reference image 2)
   const relatedBooks: RelatedBook[] = [
     {
       id: "rel-1",
+      image: "/images/shop4.jpg",
+      title: "Dear Brain",
+      author: "By MESHO BUVAHR, TE SORKAZ",
+      price: "£13.00",
+      oldPrice: "£16.00",
+      badge: "SALE",
+      badgeType: "sale",
+      slug: "dear-brain",
+    },
+    {
+      id: "rel-2",
       image: "/images/shop6.jpg",
       title: "The DARK",
       author: "By SAVANNA WALKER",
       price: "£18.00",
-    },
-    {
-      id: "rel-2",
-      image: "/images/Newest1.webp",
-      title: "Henry & The Good Dog",
-      author: "By MESHO BUVAHR, SAVANNA WALKER",
-      price: "£22.00",
-      oldPrice: "£25.00",
-      badge: "SALE",
-      badgeType: "sale",
+      slug: "the-dark",
     },
     {
       id: "rel-3",
-      image: "/images/shop2.jpg",
-      title: "All this has nothing to do with Me",
-      author: "By BHUZUN NAHLAM, HOF NURGIN",
-      price: "£20.00",
-      badge: "HOT",
-      badgeType: "hot",
+      image: "/images/book_section5.webp",
+      title: "Enemy — Jake Gyllenhaal",
+      author: "By SERO GLAN",
+      price: "£18.00",
+      slug: "enemy-jake-gyllenhaal",
     },
     {
       id: "rel-4",
-      image: "/images/shop4.jpg",
-      title: "Dear Brain",
-      author: "By MESHO BUVAHR, TE SORKAZ",
-      price: "£18.00",
-      oldPrice: "£21.00",
-      badge: "SALE",
-      badgeType: "sale",
+      image: "/images/Newest2.webp",
+      title: "A Poem for Every night",
+      author: "By CHAI IAM, HOF NURGIN",
+      price: "£22.00",
+      slug: "a-poem-for-every-night",
     },
   ];
 
-  const currentTitle = book?.title || "A Poem for Every night";
-  const currentCategory = book?.category || "POETRY";
-  const currentPrice = book?.price || "£22.00";
-  const currentImage = book?.image || "/images/Newest2.webp";
+  const currentTitle = book?.title || "The Night Ocean";
+  const currentCategory = book?.category || "CHILDREN'S";
+  const currentPrice = book?.price || "£16.00";
+  const currentImage = book?.image || "/images/book_section3.webp";
   const currentSummary =
     book?.summary ||
-    "Be inspired, soothed and delighted by a poem for every night of the year, chosen by the award-winning poet and author Allie Esiri.";
+    "The classic musical fairy tale brought alive with rich, dramatic artwork and enchanting prose.";
   const currentDescription =
     book?.description ||
     "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.";
-  const currentAuthorName = book?.authorName || "Chai lam";
-  const currentAuthorImage = book?.authorImage || "/images/author-01.jpg";
+  const currentAuthorName = book?.authorName || "Si Modarsk";
+  const currentAuthorImage = book?.authorImage || "/images/author-02.jpg";
   const currentAuthorQuote =
     book?.authorQuote ||
     "“My books are marked down because most of them are marked with a on the edge by publishers.”";
@@ -345,10 +350,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         {/* ========================================================================= */}
         {/* SECTION 2: MEET THE AUTHOR (EXACT DESIGN MATCH)                           */}
         {/* ========================================================================= */}
-        <section className="pt-8 sm:pt-12 space-y-8 sm:space-y-10 bg-white dark:bg-transparent">
+        <section className="bg-[#faf8f5] dark:bg-[#080e0b] border border-[#eee7db] dark:border-[#16241c] py-10 sm:py-14 px-6 sm:px-10 rounded-[2px] space-y-8 sm:space-y-10">
           {/* Centered Heading */}
           <div className="text-center">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl dark:text-[#f2eee3] text-[#2c3e50] font-normal tracking-tight">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl dark:text-[#f2eee3] text-[#1c1917] font-normal tracking-tight">
               Meet The Author
             </h2>
           </div>
@@ -360,14 +365,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               <div className="relative">
                 {/* Diagonal striped decorative accent pattern behind top-right of image */}
                 <div
-                  className="absolute -top-3 -right-4 w-20 h-40 opacity-20 dark:opacity-10 pointer-events-none -z-0"
+                  className="absolute -top-3 -right-3 w-16 h-36 opacity-30 dark:opacity-20 pointer-events-none -z-0"
                   style={{
-                    backgroundImage: "repeating-linear-gradient(-45deg, #71717a 0, #71717a 1px, transparent 0, transparent 7px)",
+                    backgroundImage: "repeating-linear-gradient(-45deg, #71717a 0, #71717a 1.5px, transparent 0, transparent 6px)",
                   }}
                 />
 
                 {/* Author Portrait Image */}
-                <div className="w-48 sm:w-56 aspect-[4/5] relative z-10 overflow-hidden shadow-md">
+                <div className="w-44 sm:w-52 aspect-[3.8/5] relative z-10 overflow-hidden shadow-md rounded-[1px]">
                   <img
                     src={currentAuthorImage}
                     alt={currentAuthorName}
@@ -377,41 +382,41 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               </div>
 
               {/* Author Name */}
-              <h3 className="font-display text-2xl sm:text-3xl font-medium dark:text-[#f2eee3] text-[#2c3e50] mt-5">
+              <h3 className="font-display text-2xl sm:text-3xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-5">
                 {currentAuthorName}
               </h3>
 
               {/* 5 Circular Social Icons */}
-              <div className="flex items-center gap-2.5 mt-4">
+              <div className="flex items-center gap-2 mt-4 text-gray-500 dark:text-[#a1a1aa]">
                 <button
                   aria-label="Facebook"
-                  className="w-8 h-8 rounded-full border dark:border-white/15 border-gray-300 dark:hover:border-[#d4b56a] hover:border-gray-600 dark:text-[#aaa] text-gray-500 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors"
+                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
                 >
                   <Facebook className="w-3.5 h-3.5" />
                 </button>
                 <button
                   aria-label="Twitter"
-                  className="w-8 h-8 rounded-full border dark:border-white/15 border-gray-300 dark:hover:border-[#d4b56a] hover:border-gray-600 dark:text-[#aaa] text-gray-500 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors"
+                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
                 >
                   <Twitter className="w-3.5 h-3.5" />
                 </button>
                 <button
                   aria-label="Pinterest"
-                  className="w-8 h-8 rounded-full border dark:border-white/15 border-gray-300 dark:hover:border-[#d4b56a] hover:border-gray-600 dark:text-[#aaa] text-gray-500 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors font-bold text-xs"
+                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors font-bold text-[11px]"
                 >
                   P
                 </button>
                 <button
-                  aria-label="Website"
-                  className="w-8 h-8 rounded-full border dark:border-white/15 border-gray-300 dark:hover:border-[#d4b56a] hover:border-gray-600 dark:text-[#aaa] text-gray-500 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors"
+                  aria-label="Instagram"
+                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
                 >
-                  <Globe className="w-3.5 h-3.5" />
+                  <Instagram className="w-3.5 h-3.5" />
                 </button>
                 <button
-                  aria-label="YouTube"
-                  className="w-8 h-8 rounded-full border dark:border-white/15 border-gray-300 dark:hover:border-[#d4b56a] hover:border-gray-600 dark:text-[#aaa] text-gray-500 hover:text-black dark:hover:text-white flex items-center justify-center transition-colors"
+                  aria-label="LinkedIn"
+                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
                 >
-                  <Youtube className="w-3.5 h-3.5" />
+                  <Linkedin className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -420,7 +425,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             <div className="lg:col-span-8 flex flex-col justify-between">
               {/* Quote */}
               <div className="text-center mb-8 px-2">
-                <p className="font-display italic text-base sm:text-lg md:text-xl dark:text-[#f2eee3] text-[#4a5568] max-w-xl mx-auto leading-relaxed">
+                <p className="font-display italic text-sm sm:text-base md:text-lg dark:text-[#d4d1c9] text-[#4b5563] max-w-xl mx-auto leading-relaxed">
                   &ldquo;{currentAuthorQuote}&rdquo;
                 </p>
               </div>
@@ -441,14 +446,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       className="flex flex-col items-center text-center group cursor-pointer animate-in fade-in duration-300"
                     >
                       {/* Standalone Book Cover (no card background) */}
-                      <div className="relative w-full max-w-[210px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] dark:shadow-[0_18px_35px_rgba(0,0,0,0.7)] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] dark:group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-2 transition-all duration-300">
+                      <div className="relative w-full max-w-[200px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-[0_8px_20px_rgba(0,0,0,0.12)] dark:shadow-[0_16px_30px_rgba(0,0,0,0.6)] group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.22)] dark:group-hover:shadow-[0_22px_45px_rgba(0,0,0,0.85)] transform group-hover:-translate-y-1.5 transition-all duration-300">
                         
                         {/* Ribbon Badges on top-left of book cover */}
                         {b.badge && (
                           <div className="absolute top-0 left-0 z-20 flex flex-col gap-1 pointer-events-none">
                             {(b.badge === "SALE" || b.badge === "SALE_AND_HOT") && (
                               <span
-                                className="bg-[#56ab84] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                className="bg-[#56ab84] text-white text-[9px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
                                 style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
                               >
                                 SALE
@@ -456,7 +461,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                             )}
                             {(b.badge === "HOT" || b.badge === "SALE_AND_HOT") && (
                               <span
-                                className="bg-[#e05638] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                className="bg-[#e05638] text-white text-[9px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
                                 style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
                               >
                                 HOT
@@ -479,13 +484,13 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       <div className="mt-3.5 space-y-1">
                         <div className="flex items-center justify-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#b89245] dark:text-[#d4b56a]">
                           {b.oldPrice && (
-                            <span className="text-[#a1a1aa] dark:text-[#71717a] line-through font-normal">
+                            <span className="text-[#a1a1aa] dark:text-[#71717a] line-through font-normal text-xs">
                               {b.oldPrice}
                             </span>
                           )}
                           <span>{b.price}</span>
                         </div>
-                        <h4 className="font-display text-sm sm:text-[15px] dark:text-[#f2eee3] text-[#2c3e50] font-normal leading-snug group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">
+                        <h4 className="font-display text-sm sm:text-[15px] dark:text-[#f2eee3] text-[#1c1917] font-normal leading-snug group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">
                           {b.title}
                         </h4>
                       </div>
@@ -495,24 +500,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               </div>
 
               {/* Author Carousel Arrows / Pagination */}
-              {Math.ceil(authorBooksList.length / 3) > 1 && (
-                <div className="flex justify-center items-center gap-2.5 pt-6">
-                  {Array.from({ length: Math.ceil(authorBooksList.length / 3) }).map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setAuthorSlide(idx)}
-                      aria-label={`Author Slide ${idx + 1}`}
-                      className={`cursor-pointer transition-all duration-300 ${
-                        authorSlide === idx
-                          ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
-                          : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
-                      }`}
-                    />
-                  ))}
-                </div>
-              )}
-              {authorBooksList.length <= 2 && (
-                <div className="flex justify-center items-center gap-2.5 pt-6">
+              {authorBooksList.length <= 2 ? (
+                <div className="flex justify-center items-center gap-2 pt-6">
                   <button
                     aria-label="Previous"
                     className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
@@ -525,6 +514,39 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   >
                     &gt;
                   </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-3 pt-6">
+                  <div className="flex justify-center items-center gap-2">
+                    {Array.from({ length: Math.ceil(authorBooksList.length / 3) }).map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setAuthorSlide(idx)}
+                        aria-label={`Author Slide ${idx + 1}`}
+                        className={`cursor-pointer transition-all duration-300 ${
+                          authorSlide === idx
+                            ? "w-2.5 h-2.5 rounded-full border-2 border-[#d95338] bg-transparent"
+                            : "w-2 h-2 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex justify-center items-center gap-2">
+                    <button
+                      onClick={() => setAuthorSlide((prev) => (prev > 0 ? prev - 1 : 0))}
+                      aria-label="Previous"
+                      className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
+                    >
+                      &lt;
+                    </button>
+                    <button
+                      onClick={() => setAuthorSlide((prev) => (prev + 1 < Math.ceil(authorBooksList.length / 3) ? prev + 1 : prev))}
+                      aria-label="Next"
+                      className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
+                    >
+                      &gt;
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -557,7 +579,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
               }`}
             >
-              Reviews (1)
+              Reviews (0)
             </button>
           </div>
 
@@ -568,19 +590,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 {currentDescription}
               </p>
             ) : (
-              <div className="space-y-4 max-w-2xl mx-auto text-left bg-[#f8f9fa] dark:bg-[#121815] p-6 rounded-lg border dark:border-white/5 border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h5 className="font-semibold text-sm dark:text-white text-gray-900">Sarah Jenkins</h5>
-                    <p className="text-[11px] text-gray-400">Verified Reader — 2 weeks ago</p>
-                  </div>
-                  <div className="flex text-[#b89245] text-xs">
-                    {"★".repeat(5)}
-                  </div>
-                </div>
-                <p className="text-xs dark:text-[#9d9f96] text-[#71717a]">
-                  &ldquo;An extraordinary bedside companion. Each poem brings peace and a wonderful end to a busy day.&rdquo;
-                </p>
+              <div className="py-6 text-center text-xs text-gray-500 dark:text-gray-400">
+                There are no reviews yet for this book.
               </div>
             )}
           </div>
@@ -590,10 +601,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         {/* ========================================================================= */}
         {/* SECTION 4: RELATED PRODUCTS (MATCHING REFERENCE CAROUSEL)                 */}
         {/* ========================================================================= */}
-        <section className="space-y-12 sm:space-y-16 pt-16 pb-12 sm:pt-24 sm:pb-20 border-t dark:border-[#f2eee3]/10 border-[#e9e1f5] bg-white dark:bg-transparent">
+        <section className="space-y-10 sm:space-y-14 pt-10 pb-8 sm:pt-16 sm:pb-14 border-t dark:border-[#f2eee3]/10 border-[#e9e1f5]">
           {/* Centered Section Heading */}
-          <div className="text-center mb-12 sm:mb-16 md:mb-20">
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold dark:text-[#f2eee3] text-[#2c3e50] tracking-tight">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-normal dark:text-[#f2eee3] text-[#1c1917] tracking-tight">
               Related products
             </h2>
           </div>

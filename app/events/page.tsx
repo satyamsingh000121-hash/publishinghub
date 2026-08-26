@@ -110,10 +110,10 @@ export default function EventsPage() {
         </div>
       )}
 
-      {/* Top Navbar with activeTab="EVENTS" */}
+      {/* Top Navbar with activeTab="EVENT" */}
       <Navbar
         cartCount={totalCartCount}
-        activeTab="EVENTS"
+        activeTab="EVENT"
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />
