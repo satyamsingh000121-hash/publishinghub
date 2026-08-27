@@ -214,7 +214,7 @@ const ALL_SHOP_BOOKS: BookItem[] = [
     price: "£12.00",
     numericPrice: 12.0,
     badge: "HOT",
-    category: "Fiction",
+    category: "For Kid",
     availability: "hot",
     image: "/images/Newest3.webp",
     description: "A poetic and inspiring fable about following destiny across mystical landscapes and unexpected friendships.",

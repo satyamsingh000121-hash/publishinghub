@@ -17,6 +17,7 @@ export interface RelatedBook {
   price: string;
   slug?: string;
   oldPrice?: string;
+  originalPrice?: string;
   badge?: string;
   badgeType?: "sale" | "hot";
 }
@@ -1288,19 +1289,19 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
     title: "The Journey of Dreams",
     author: "By BHUZUN NAHLAM, JOHN WALKER",
     authorName: "Bhuzun Nahlam",
-    authorImage: "/images/author-01.jpg",
-    authorQuote: "“Dreams are the blueprints of tomorrow waiting for human courage to bring them to life.”",
+    authorImage: "/images/author-03.jpg",
+    authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
     price: "£12.00",
     numericPrice: 12.0,
     badge: "HOT",
-    category: "Fiction",
-    availability: "hot",
+    category: "For Kid",
+    availability: "in-stock",
     image: "/images/Newest3.webp",
     coverId: "arrival-4",
     summary:
       "A poetic and inspiring fable about following destiny across mystical landscapes and unexpected friendships.",
     description:
-      "The Journey of Dreams is an allegorical tale about a young voyager searching for an ancient city made of light. Along the way, he encounters teachers, obstacles, and the profound truth that the journey itself is the prize.",
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
     authorBooks: [
       {
         id: "jd-1",
@@ -1309,30 +1310,49 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
         price: "£20.00",
         slug: "all-this-has-nothing-to-do-with-me",
       },
-      {
-        id: "jd-2",
-        image: "/images/Newest2.webp",
-        title: "A Poem for Every Night",
-        price: "£22.00",
-        slug: "a-poem-for-every-night",
-      },
     ],
     relatedBooks: [
       {
         id: "rel-1",
-        image: "/images/book_section1.png",
-        title: "The Journey of Visions to Victory",
-        author: "By SANTOSH KUMAR MISHRA",
-        price: "£35.00",
-        slug: "the-journey-of-visions-to-victory",
+        image: "/images/Newest1.webp",
+        title: "Henry & The Good Dog",
+        author: "By MESHO BUVAHR, SAVANNA WALKER",
+        price: "£22.00",
+        oldPrice: "£25.00",
+        originalPrice: "£25.00",
+        badge: "SALE",
+        slug: "henry-and-the-good-dog",
       },
       {
         id: "rel-2",
+        image: "/images/shop2.jpg",
+        title: "All this has nothing to do with Me",
+        author: "By BHUZUN NAHLAM, HOF NURGIN",
+        price: "£20.00",
+        badge: "HOT",
+        slug: "all-this-has-nothing-to-do-with-me",
+      },
+      {
+        id: "rel-3",
         image: "/images/book_section3.webp",
         title: "The Night Ocean",
         author: "By SERO GLAN, SI MODARSK",
         price: "£22.00",
+        oldPrice: "£25.00",
+        originalPrice: "£25.00",
+        badge: "SALE",
         slug: "the-night-ocean",
+      },
+      {
+        id: "rel-4",
+        image: "/images/shop4.jpg",
+        title: "Dear Brain",
+        author: "By MESHO BUVAHR, TE SORKAZ",
+        price: "£18.00",
+        oldPrice: "£21.00",
+        originalPrice: "£21.00",
+        badge: "SALE",
+        slug: "dear-brain",
       },
     ],
   },
@@ -2169,23 +2189,23 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
   },
   {
     id: "shop-30",
-    slug: "the-journey-of-dreams",
-    title: "The Journey of Dreams",
-    author: "By BHUZUN NAHLAM, JOHN WALKER",
-    authorName: "Bhuzun Nahlam",
+    slug: "peter-and-the-wolf",
+    title: "Peter and the Wolf",
+    author: "By SERO GLAN, SI MODARSK",
+    authorName: "Sero Glan",
     authorImage: "/images/author-01.jpg",
-    authorQuote: "“Dreams are the blueprints of tomorrow waiting for human courage to bring them to life.”",
-    price: "£12.00",
-    numericPrice: 12.0,
-    badge: "HOT",
+    authorQuote: "“Stories create windows into unknown worlds where bravery and music conquer fear.”",
+    price: "£14.00",
+    numericPrice: 14.0,
+    badge: "SALE",
     category: "Fiction",
-    availability: "hot",
+    availability: "in-stock",
     image: "/images/Newest7.webp",
-    coverId: "arrival-4",
+    coverId: "peter-and-the-wolf",
     summary:
-      "A poetic and inspiring fable about following destiny across mystical landscapes and unexpected friendships.",
+      "A classic and captivating musical tale following young Peter and his woodland companions.",
     description:
-      "The Journey of Dreams is an allegorical tale about a young voyager searching for an ancient city made of light. Along the way, he encounters teachers, obstacles, and the profound truth that the journey itself is the prize.",
+      "Peter and the Wolf tells the thrilling story of courage and resourcefulness in the quiet countryside, bringing classic storytelling to life with timeless charm.",
     authorBooks: [
       {
         id: "jd-1",
@@ -2319,7 +2339,7 @@ ALL_BOOKS_DATABASE.forEach((b) => {
 });
 
 // Extra alias mappings
-SLUG_MAP.set("the-journey-of-dreams", SLUG_MAP.get("the-journey-of-dreams") || SLUG_MAP.get("shop-17")!);
+SLUG_MAP.set("the-journey-of-dreams", SLUG_MAP.get("shop-17")!);
 SLUG_MAP.set("the-journey-of-visions-to-victory", SLUG_MAP.get("the-journey-of-visions-to-victory") || SLUG_MAP.get("shop-18")!);
 SLUG_MAP.set("the-night-ocean", SLUG_MAP.get("the-night-ocean") || SLUG_MAP.get("peter-and-the-wolf")!);
 SLUG_MAP.set("henry-the-good-dog", SLUG_MAP.get("henry-and-the-good-dog")!);
