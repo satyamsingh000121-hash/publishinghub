@@ -670,374 +670,743 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
     authorBooks: [
       {
         id: "mb-1",
+
         image: "/images/Newest2.webp",
+
         title: "A Poem for Every night",
+
         price: "£22.00",
+
         slug: "a-poem-for-every-night",
       },
+
+
       {
+
         id: "mb-2",
+
         image: "/images/Newest4.webp",
+
         title: "Life of Pi",
+
         price: "£12.00",
+
         slug: "life-of-pi",
+
       },
+
       {
+
         id: "mb-3",
+
         image: "/images/shop2.jpg",
+
         title: "All this has nothing to do with Me",
+
         price: "£20.00",
+
         badge: "HOT",
+
         slug: "all-this-has-nothing-to-do-with-me",
+
       },
     ],
+
+
     relatedBooks: [
+
       {
+
         id: "rel-1",
+
         image: "/images/Newest4.webp",
+
         title: "Life of Pi",
+
         author: "By HANA KIM, HOF NURGIN",
+
         price: "£12.00",
+
         slug: "life-of-pi",
+
       },
+
       {
+
         id: "rel-2",
+
         image: "/images/Newest3.webp",
+
         title: "The Journey of Dreams",
+
         author: "By BHUZUN NAHLAM, JOHN WALKER",
+
         price: "£12.00",
+
         badge: "HOT",
+
         badgeType: "hot",
+
         slug: "the-journey-of-dreams",
+
       },
+
       {
+
         id: "rel-3",
+
         image: "/images/Newest1.webp",
+
         title: "Henry & The Good Dog",
+
         author: "By MESHO BUVAHR, SAVANNA WALKER",
+
         oldPrice: "£25.00",
+
         price: "£22.00",
+
         badge: "SALE",
+
         badgeType: "sale",
+
         slug: "henry-and-the-good-dog",
+
       },
+
       {
+
         id: "rel-4",
+
         image: "/images/shop5.jpg",
+
         title: "The Carrot Hunt",
+
         author: "By NOREEN HARRIS, MESHO BUVAHR",
+
         price: "£19.00",
+
         slug: "the-carrot-plan",
-      },
-    ],
-  },
-  {
-    id: "shop-10",
-    slug: "henry-and-the-good-dog",
-    title: "Henry & The Good Dog",
-    author: "By Mesho Buvahr, Savanna Walker",
-    authorName: "Mesho Buvahr",
-    authorImage: "/images/author-06 (1).jpg",
-    authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
-    price: "£22.00",
-    originalPrice: "£25.00",
-    numericPrice: 22.0,
-    badge: "SALE",
-    category: "For Kid",
-    availability: "on-sale",
-    image: "/images/Newest1.webp",
-    coverId: "arrival-2",
-    summary:
-      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
-    description:
-      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
-    authorBooks: [
-      {
-        id: "hd-1",
-        image: "/images/shop5.jpg",
-        title: "The Carrot Hunt",
-        price: "£19.00",
-        slug: "the-carrot-plan",
-      },
-      {
-        id: "hd-2",
-        image: "/images/shop4.jpg",
-        title: "Dear Brain",
-        oldPrice: "£18.00",
-        price: "£14.00",
-        badge: "SALE",
-        slug: "dear-brain",
-      },
-      {
-        id: "hd-3",
-        image: "/images/book_section4.webp",
-        title: "The Assault",
-        price: "£19.00",
-        slug: "the-assault",
-      },
-    ],
-    relatedBooks: [
-      {
-        id: "rel-1",
-        image: "/images/book_section3.webp",
-        title: "The Night Ocean",
-        author: "By SERO GLAN, SI MODARSK",
-        oldPrice: "£25.00",
-        price: "£22.00",
-        badge: "SALE",
-        badgeType: "sale",
-        slug: "the-night-ocean",
-      },
-      {
-        id: "rel-2",
-        image: "/images/Newest4.webp",
-        title: "Life of Pi",
-        author: "By HANA KIM, HOF NURGIN",
-        price: "£12.00",
-        slug: "life-of-pi",
-      },
-      {
-        id: "rel-3",
-        image: "/images/Newest2.webp",
-        title: "A Poem for Every night",
-        author: "By CHAI IAM, HOF NURGIN",
-        price: "£22.00",
-        slug: "a-poem-for-every-night",
-      },
-      {
-        id: "rel-4",
-        image: "/images/shop8.jpg",
-        title: "Ghost’s Afraid of the Dark",
-        author: "By HOF NURGIN, MESHO BUVAHR",
-        oldPrice: "£15.00",
-        price: "£12.00",
-        badge: "SALE",
-        badgeType: "sale",
-        slug: "ghosts-afraid-of-the-dark",
-      },
-    ],
-  },
-  {
-    id: "shop-11",
-    slug: "life-of-pi",
-    title: "Life of Pi",
-    author: "By Hana Kim, Hof Nurgin",
-    authorName: "Hof Nurgin",
-    authorImage: "/images/author-07.jpg",
-    authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
-    price: "£12.00",
-    numericPrice: 12.0,
-    category: "For Kid",
-    availability: "in-stock",
-    image: "/images/Newest4.webp",
-    coverId: "arrival-5",
-    summary:
-      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
-    description:
-      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
-    authorBooks: [
-      {
-        id: "lp-1",
-        image: "/images/Newest2.webp",
-        title: "A Poem for Every night",
-        price: "£22.00",
-        slug: "a-poem-for-every-night",
-      },
-      {
-        id: "lp-2",
-        image: "/images/shop2.jpg",
-        title: "All this has nothing to do with Me",
-        price: "£20.00",
-        badge: "HOT",
-        slug: "all-this-has-nothing-to-do-with-me",
-      },
-      {
-        id: "lp-3",
-        image: "/images/shop8.jpg",
-        title: "Ghost’s Afraid of the Dark",
-        oldPrice: "£15.00",
-        price: "£12.00",
-        badge: "SALE",
-        slug: "ghosts-afraid-of-the-dark",
-      },
-    ],
-    relatedBooks: [
-      {
-        id: "rel-1",
-        image: "/images/book_section3.webp",
-        title: "The Night Ocean",
-        author: "By SERO GLAN, SI MODARSK",
-        oldPrice: "£25.00",
-        price: "£22.00",
-        badge: "SALE",
-        badgeType: "sale",
-        slug: "the-night-ocean",
-      },
-      {
-        id: "rel-2",
-        image: "/images/shop5.jpg",
-        title: "The Carrot Hunt",
-        author: "By NOREEN HARRIS, MESHO BUVAHR",
-        price: "£19.00",
-        slug: "the-carrot-plan",
-      },
-      {
-        id: "rel-3",
-        image: "/images/shop2.jpg",
-        title: "All this has nothing to do with Me",
-        author: "By BHUZUN NAHLAM, HOF NURGIN",
-        price: "£20.00",
-        badge: "HOT",
-        badgeType: "hot",
-        slug: "all-this-has-nothing-to-do-with-me",
-      },
-      {
-        id: "rel-4",
-        image: "/images/shop8.jpg",
-        title: "Ghost’s Afraid of the Dark",
-        author: "By HOF NURGIN, MESHO BUVAHR",
-        oldPrice: "£15.00",
-        price: "£12.00",
-        badge: "SALE",
-        badgeType: "sale",
-        slug: "ghosts-afraid-of-the-dark",
-      },
-    ],
-  },
-  {
-    id: "shop-12",
-    slug: "peter-and-the-wolf",
-    title: "Peter and the Wolf",
-    author: "By John Walker",
-    authorName: "John Walker",
-    authorImage: "/images/author-08 (1).jpg",
-    authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
-    price: "£22.00",
-    originalPrice: "£40.00",
-    numericPrice: 22.0,
-    badge: "SALE_AND_HOT",
-    category: "Biography",
-    availability: "on-sale",
-    image: "/images/book_section2.png",
-    coverId: "bestseller-2",
-    summary:
-      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
-    description:
-      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
-    authorBooks: [
-      {
-        id: "jw-1",
-        image: "/images/Newest3.webp",
-        title: "The Journey of Dreams",
-        price: "£12.00",
-        badge: "HOT",
-        slug: "the-journey-of-dreams",
-      },
-    ],
-    relatedBooks: [
-      {
-        id: "rel-1",
-        image: "/images/book_section1.png",
-        title: "The Journey of Visions toVictory",
-        author: "By SANTOSH KUMAR MISHRA",
-        price: "£35.00",
-        slug: "the-journey-of-visions-to-victory",
-      },
-      {
-        id: "rel-2",
-        image: "/images/book_section5.webp",
-        title: "Enemy — Jake Gyllenhaal",
-        author: "By SERO GLAN",
-        price: "£18.00",
-        slug: "enemy-jake-gyllenhaal",
-      },
-      {
-        id: "rel-3",
-        image: "/images/shop7.webp",
-        title: "The Summer of Impossible Things",
-        author: "By CHAI IAM, HOF NURGIN",
-        price: "£24.00",
-        slug: "the-summer-of-impossible-things",
-      },
-      {
-        id: "rel-4",
-        image: "/images/book_section7.webp",
-        title: "Bulle & Pelle",
-        author: "By SAVANNA WALKER",
-        oldPrice: "£19.00",
-        price: "£16.00",
-        badge: "SALE_AND_HOT",
-        badgeType: "sale",
-        slug: "bulle-and-pelle",
-      },
-      {
-        id: "rel-5",
-        image: "/images/book_section3.webp",
-        title: "The Night Ocean",
-        author: "By SERO GLAN, SI MODARSK",
-        oldPrice: "£25.00",
-        price: "£22.00",
-        badge: "SALE",
-        badgeType: "sale",
-        slug: "the-night-ocean",
-      },
-      {
-        id: "rel-6",
-        image: "/images/book_section4.webp",
-        title: "The Assault",
-        author: "By MESHO BUVAHR, SI MODARSK",
-        price: "£19.00",
-        slug: "the-assault",
-      },
-    ],
-  },
-  {
-    id: "shop-13",
-    slug: "some-bodies-is-not-broken",
-    title: "Some Bodies is Not Broken",
-    author: "By STEPHANIE FOO",
-    authorName: "Stephanie Foo",
-    authorImage: "/images/author-02.jpg",
-    authorQuote: "“Healing is not about erasing the scars; it is about building a life so vast that the scars become part of your strength.”",
-    price: "£14.00",
-    numericPrice: 14.0,
-    badge: "SALE",
-    category: "Fiction",
-    availability: "on-sale",
-    image: "/images/Newest6.webp",
-    coverId: "arrival-6",
-    summary:
-      "A deeply moving memoir about healing complex trauma, embracing vulnerability, and discovering resilience and wholeness.",
-    description:
-      "Some Bodies is Not Broken is an unflinching, hopeful investigation into personal healing and generational triumph. Drawing on investigative journalism, scientific research, and raw memoirs, Stephanie Foo offers an unforgettable guide to emotional freedom.",
-    authorBooks: [
-      {
-        id: "sf-1",
-        image: "/images/book_section3.webp",
-        title: "The Night Ocean",
-        price: "£22.00",
-        slug: "the-night-ocean",
-      },
-      {
-        id: "sf-1",
-        image: "/images/book_section4.webp",
-        title: "The Assault",
-        price: "£19.00",
-        slug: "the-assault",
-      },
-    ],
-    relatedBooks: [
-      {
-        id: "rel-1",
-        image: "/images/shop9.jpg",
-        title: "TRIO – Sarah Tolmie",
-        author: "by Chai Iam, Savanna Walker",
-        price: "£21.00",
-        slug: "TRIO – Sarah Tolmie",
+
       },
 
     ],
   },
+
+
+  {
+
+    id: "shop-10",
+
+    slug: "henry-and-the-good-dog",
+
+    title: "Henry & The Good Dog",
+
+    author: "By Mesho Buvahr, Savanna Walker",
+
+    authorName: "Mesho Buvahr",
+
+    authorImage: "/images/author-06 (1).jpg",
+
+    authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
+
+    price: "£22.00",
+
+    originalPrice: "£25.00",
+
+    numericPrice: 22.0,
+
+    badge: "SALE",
+
+    category: "For Kid",
+
+    availability: "on-sale",
+
+    image: "/images/Newest1.webp",
+
+    coverId: "arrival-2",
+
+    summary:
+
+      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
+
+    description:
+
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
+
+    authorBooks: [
+
+      {
+
+        id: "hd-1",
+
+        image: "/images/shop5.jpg",
+
+        title: "The Carrot Hunt",
+
+        price: "£19.00",
+
+        slug: "the-carrot-plan",
+
+      },
+
+      {
+
+        id: "hd-2",
+
+        image: "/images/shop4.jpg",
+
+        title: "Dear Brain",
+
+        oldPrice: "£18.00",
+
+        price: "£14.00",
+
+        badge: "SALE",
+
+        slug: "dear-brain",
+
+      },
+
+      {
+
+        id: "hd-3",
+
+        image: "/images/book_section4.webp",
+
+        title: "The Assault",
+
+        price: "£19.00",
+
+        slug: "the-assault",
+
+      },
+
+    ],
+
+    relatedBooks: [
+
+      {
+
+        id: "rel-1",
+
+        image: "/images/book_section3.webp",
+
+        title: "The Night Ocean",
+
+        author: "By SERO GLAN, SI MODARSK",
+
+        oldPrice: "£25.00",
+
+        price: "£22.00",
+
+        badge: "SALE",
+
+        badgeType: "sale",
+
+        slug: "the-night-ocean",
+
+      },
+
+      {
+
+        id: "rel-2",
+
+        image: "/images/Newest4.webp",
+
+        title: "Life of Pi",
+
+        author: "By HANA KIM, HOF NURGIN",
+
+        price: "£12.00",
+
+        slug: "life-of-pi",
+
+      },
+
+      {
+
+        id: "rel-3",
+
+        image: "/images/Newest2.webp",
+
+        title: "A Poem for Every night",
+
+        author: "By CHAI IAM, HOF NURGIN",
+
+        price: "£22.00",
+
+        slug: "a-poem-for-every-night",
+
+      },
+
+      {
+
+        id: "rel-4",
+
+        image: "/images/shop8.jpg",
+
+        title: "Ghost’s Afraid of the Dark",
+
+        author: "By HOF NURGIN, MESHO BUVAHR",
+
+        oldPrice: "£15.00",
+
+        price: "£12.00",
+
+        badge: "SALE",
+
+        badgeType: "sale",
+
+        slug: "ghosts-afraid-of-the-dark",
+
+      },
+
+    ],
+
+  },
+
+  {
+
+    id: "shop-11",
+
+    slug: "life-of-pi",
+
+    title: "Life of Pi",
+
+    author: "By Hana Kim, Hof Nurgin",
+
+    authorName: "Hof Nurgin",
+
+    authorImage: "/images/author-07.jpg",
+
+    authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
+
+    price: "£12.00",
+
+    numericPrice: 12.0,
+
+    category: "For Kid",
+
+    availability: "in-stock",
+
+    image: "/images/Newest4.webp",
+
+    coverId: "arrival-5",
+
+    summary:
+
+      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
+
+    description:
+
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
+
+    authorBooks: [
+
+      {
+
+        id: "lp-1",
+
+        image: "/images/Newest2.webp",
+
+        title: "A Poem for Every night",
+
+        price: "£22.00",
+
+        slug: "a-poem-for-every-night",
+
+      },
+
+      {
+
+        id: "lp-2",
+
+        image: "/images/shop2.jpg",
+
+        title: "All this has nothing to do with Me",
+
+        price: "£20.00",
+
+        badge: "HOT",
+
+        slug: "all-this-has-nothing-to-do-with-me",
+
+      },
+
+      {
+
+        id: "lp-3",
+
+        image: "/images/shop8.jpg",
+
+        title: "Ghost’s Afraid of the Dark",
+
+        oldPrice: "£15.00",
+
+        price: "£12.00",
+
+        badge: "SALE",
+
+        slug: "ghosts-afraid-of-the-dark",
+
+      },
+
+    ],
+
+    relatedBooks: [
+
+      {
+
+        id: "rel-1",
+
+        image: "/images/book_section3.webp",
+
+        title: "The Night Ocean",
+
+        author: "By SERO GLAN, SI MODARSK",
+
+        oldPrice: "£25.00",
+
+        price: "£22.00",
+
+        badge: "SALE",
+
+        badgeType: "sale",
+
+        slug: "the-night-ocean",
+
+      },
+
+      {
+
+        id: "rel-2",
+
+        image: "/images/shop5.jpg",
+
+        title: "The Carrot Hunt",
+
+        author: "By NOREEN HARRIS, MESHO BUVAHR",
+
+        price: "£19.00",
+
+        slug: "the-carrot-plan",
+
+      },
+
+      {
+
+        id: "rel-3",
+
+        image: "/images/shop2.jpg",
+
+        title: "All this has nothing to do with Me",
+
+        author: "By BHUZUN NAHLAM, HOF NURGIN",
+
+        price: "£20.00",
+
+        badge: "HOT",
+
+        badgeType: "hot",
+
+        slug: "all-this-has-nothing-to-do-with-me",
+
+      },
+
+      {
+
+        id: "rel-4",
+
+        image: "/images/shop8.jpg",
+
+        title: "Ghost’s Afraid of the Dark",
+
+        author: "By HOF NURGIN, MESHO BUVAHR",
+
+        oldPrice: "£15.00",
+
+        price: "£12.00",
+
+        badge: "SALE",
+
+        badgeType: "sale",
+
+        slug: "ghosts-afraid-of-the-dark",
+
+      },
+
+    ],
+
+  },
+
+  {
+
+    id: "shop-12",
+
+    slug: "peter-and-the-wolf",
+
+    title: "Peter and the Wolf",
+
+    author: "By John Walker",
+
+    authorName: "John Walker",
+
+    authorImage: "/images/author-08 (1).jpg",
+
+    authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
+
+    price: "£22.00",
+
+    originalPrice: "£40.00",
+
+    numericPrice: 22.0,
+
+    badge: "SALE_AND_HOT",
+
+    category: "Biography",
+
+    availability: "on-sale",
+
+    image: "/images/book_section2.png",
+
+    coverId: "bestseller-2",
+
+    summary:
+
+      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
+
+    description:
+
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
+
+    authorBooks: [
+
+      {
+
+        id: "jw-1",
+
+        image: "/images/Newest3.webp",
+
+        title: "The Journey of Dreams",
+
+        price: "£12.00",
+
+        badge: "HOT",
+
+        slug: "the-journey-of-dreams",
+
+      },
+
+    ],
+
+    relatedBooks: [
+
+      {
+
+        id: "rel-1",
+
+        image: "/images/book_section1.png",
+
+        title: "The Journey of Visions toVictory",
+
+        author: "By SANTOSH KUMAR MISHRA",
+
+        price: "£35.00",
+
+        slug: "the-journey-of-visions-to-victory",
+
+      },
+
+      {
+
+        id: "rel-2",
+
+        image: "/images/book_section5.webp",
+
+        title: "Enemy — Jake Gyllenhaal",
+
+        author: "By SERO GLAN",
+
+        price: "£18.00",
+
+        slug: "enemy-jake-gyllenhaal",
+
+      },
+
+      {
+
+        id: "rel-3",
+
+        image: "/images/shop7.webp",
+
+        title: "The Summer of Impossible Things",
+
+        author: "By CHAI IAM, HOF NURGIN",
+
+        price: "£24.00",
+
+        slug: "the-summer-of-impossible-things",
+
+      },
+
+      {
+
+        id: "rel-4",
+
+        image: "/images/book_section7.webp",
+
+        title: "Bulle & Pelle",
+
+        author: "By SAVANNA WALKER",
+
+        oldPrice: "£19.00",
+
+        price: "£16.00",
+
+        badge: "SALE_AND_HOT",
+
+        badgeType: "sale",
+
+        slug: "bulle-and-pelle",
+
+      },
+
+      {
+
+        id: "rel-5",
+
+        image: "/images/book_section3.webp",
+
+        title: "The Night Ocean",
+
+        author: "By SERO GLAN, SI MODARSK",
+
+        oldPrice: "£25.00",
+
+        price: "£22.00",
+
+        badge: "SALE",
+
+        badgeType: "sale",
+
+        slug: "the-night-ocean",
+
+      },
+
+      {
+
+        id: "rel-6",
+
+        image: "/images/book_section4.webp",
+
+        title: "The Assault",
+
+        author: "By MESHO BUVAHR, SI MODARSK",
+
+        price: "£19.00",
+
+        slug: "the-assault",
+
+      },
+
+    ],
+
+  },
+
+  {
+
+    id: "shop-13",
+
+    slug: "some-bodies-is-not-broken",
+
+    title: "Some Bodies is Not Broken",
+
+    author: "By STEPHANIE FOO",
+
+    authorName: "Stephanie Foo",
+
+    authorImage: "/images/author-02.jpg",
+
+    authorQuote: "“Healing is not about erasing the scars; it is about building a life so vast that the scars become part of your strength.”",
+
+    price: "£14.00",
+
+    numericPrice: 14.0,
+
+    badge: "SALE",
+
+    category: "Fiction",
+
+    availability: "on-sale",
+
+    image: "/images/Newest6.webp",
+
+    coverId: "arrival-6",
+
+    summary:
+
+      "A deeply moving memoir about healing complex trauma, embracing vulnerability, and discovering resilience and wholeness.",
+
+    description:
+
+      "Some Bodies is Not Broken is an unflinching, hopeful investigation into personal healing and generational triumph. Drawing on investigative journalism, scientific research, and raw memoirs, Stephanie Foo offers an unforgettable guide to emotional freedom.",
+
+    authorBooks: [
+
+      {
+
+        id: "sf-1",
+
+        image: "/images/book_section3.webp",
+
+        title: "The Night Ocean",
+
+        price: "£22.00",
+
+        slug: "the-night-ocean",
+
+      },
+
+      {
+
+        id: "sf-1",
+
+        image: "/images/book_section4.webp",
+
+        title: "The Assault",
+
+        price: "£19.00",
+
+        slug: "the-assault",
+
+      },
+
+    ],
+
+    relatedBooks: [
+
+      {
+
+        id: "rel-1",
+
+        image: "/images/shop9.jpg",
+
+        title: "TRIO – Sarah Tolmie",
+
+        author: "by Chai Iam, Savanna Walker",
+
+        price: "£21.00",
+
+        slug: "TRIO – Sarah Tolmie",
+
+      },
+
+
+    ],
+
+  },
+
+
   {
     id: "shop-14",
     slug: "the-minds-mastery",
@@ -1129,158 +1498,311 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
         slug: "when-the-doves-disappeared",
       },
     ],
+
   },
+
   {
+
     id: "shop-15",
+
     slug: "the-carrot-plan",
+
     title: "The Carrot Hunt",
+
     author: "By NOREEN HARRIS",
+
     authorName: "Noreen Harris",
+
     authorImage: "/images/author-10.jpg",
+
     authorQuote: "“Great dreams grow from the smallest seeds of patience, kindness, and collaboration.”",
+
     price: "£15.00",
+
     numericPrice: 15.0,
+
     category: "Children's",
+
     availability: "in-stock",
+
     image: "/images/shop5.jpg",
+
     coverId: "shop5",
+
     summary:
+
       "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
+
     description:
+
       "The Carrot Plan is an enchanting children's book following a clever family of woodland rabbits who band together to cultivate the most miraculous vegetable garden their forest has ever seen.",
+
     authorBooks: [
+
       {
+
         id: "nh-1",
+
         image: "/images/Newest1.webp",
+
         title: "Henry & The Good Dog",
+
         price: "£17.00",
+
         slug: "henry-and-the-good-dog",
+
       },
+
     ],
+
     relatedBooks: [
+
       {
+
         id: "rel-1",
+
         image: "/images/book_section1.png",
+
         title: "Sam & Dave Dig a Hole",
+
         author: "By MAC BARNETT",
+
         price: "£14.00",
+
         slug: "sam-and-dave-dig-a-hole",
+
       },
+
       {
+
         id: "rel-2",
+
         image: "/images/Newest1.webp",
+
         title: "Henry & The Good Dog",
+
         author: "By MESHO BUVAHR",
+
         price: "£17.00",
+
         slug: "henry-and-the-good-dog",
+
       },
+
       {
+
         id: "rel-3",
+
         image: "/images/Newest5.webp",
+
         title: "Bulle und Pelle",
+
         author: "By OSCAR OULLIÈRE",
+
         price: "£14.00",
+
         slug: "bulle-und-pelle",
+
       },
+
       {
+
         id: "rel-4",
+
         image: "/images/book_section3.webp",
+
         title: "Peter and the Wolf",
+
         author: "By SERGEI PROKOFIEV",
+
         price: "£16.00",
+
         slug: "peter-and-the-wolf",
+
       },
+
     ],
+
   },
+
   {
+
     id: "shop-16",
+
     slug: "the-dark",
+
     title: "The D.A.R.K",
+
     author: "By MESHO BUVAHR",
+
     authorName: "Mesho Buvahr",
+
     authorImage: "/images/author-02.jpg",
+
     authorQuote: "“My books are marked down because most of them are marked with a on the edge by publishers.”",
+
     price: "£18.00",
+
     numericPrice: 17.0,
+
     category: "Fiction",
+
     availability: "in-stock",
+
     image: "/images/shop6.jpg",
+
     coverId: "shop6",
+
     summary:
+
       "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur erit qui in ea voluptate",
+
     description:
+
       "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
+
     authorBooks: [
-      
+
+
+
       {
+
         id: "mb-3",
+
         image: "/images/Newest1.webp",
+
         title: "Henry & The Good Dog",
+
         price: "£22.00",
+
         slug: "Henry & The Good Dog",
+
       },
+
       {
+
         id: "mb-4",
+
         image: "/images/shop3.jpg",
+
         title: "Creative Life",
+
         price: "£16.00",
+
         slug: "Creative Life",
+
       },
+
       {
+
         id: "mb-5",
+
         image: "/images/shop1.jpg",
+
         title: "A Teaspoon of Earth and Sea",
+
         price: "£20.00",
+
         slug: "A Teaspoon of Earth and Sea",
+
       },
+
       {
+
         id: "mb-6",
+
         image: "/images/shop9.jpg",
+
         title: "TRIO - Sarah Tolmie",
+
         price: "£21.00",
+
         slug: "TRIO - Sarah Tolmie",
+
       },
+
       {
+
         id: "mb-7",
+
         image: "/images/book_section7.webp",
+
         title: "Bulle & Pelle",
+
         price: "£16.00",
+
         slug: "Bulle & Pelle",
+
       },
     ],
+
+
     relatedBooks: [
+
       {
+
         id: "rel-1",
+
         image: "/images/shop8.jpg",
+
         title: "Ghosts Around of the Dark",
+
         author: "By MESHO BUVAHR",
+
         price: "£16.00",
+
         slug: "ghosts-around-of-the-dark",
+
       },
+
       {
+
         id: "rel-2",
+
         image: "/images/book_section6.webp",
+
         title: "The Night I Died",
+
         author: "By HOF NURGIN",
+
         price: "£20.00",
+
         slug: "the-night-i-died",
+
       },
+
       {
+
         id: "rel-3",
+
         image: "/images/book_section5.webp",
+
         title: "Enemy — Jake Gyllenhaal",
+
         author: "By BRUCE SANG",
+
         price: "£18.00",
+
         slug: "enemy-jake-gyllenhaal",
+
       },
+
       {
+
         id: "rel-4",
+
         image: "/images/Newest4.webp",
+
         title: "Life of Pi",
+
         author: "By YANN MARTEL",
+
         price: "£16.00",
+
         slug: "life-of-pi",
+
       },
+
     ],
   },
   {

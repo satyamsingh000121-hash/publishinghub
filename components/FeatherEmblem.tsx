@@ -84,7 +84,7 @@ export default function FeatherEmblem({
 
           {/* 3. Outer Dashed Gold Ring */}
           <circle
-            cx="150"
+            cx="150" 
             cy="150"
             r="128"
             fill="none"
@@ -171,3 +171,4 @@ export default function FeatherEmblem({
     </div>
   );
 }
+  
