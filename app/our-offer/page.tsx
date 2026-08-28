@@ -74,38 +74,38 @@ const PACKAGES: PackageOffer[] = [
       },
     ],
   },
-  // {
-  //   id: "collaborative-launch",
-  //   title: "The Collaborative Launch Packages",
-  //   subtitle:
-  //     "GET YOUR BOOK OUT IN JUST 3 MONTHS—COLLABORATE WITH OUR EXPERTS FOR SUCCESS!",
-  //   price: "£ 10,000",
-  //   points: [
-  //     {
-  //       text: "Get your book launched in just 3 months with tailored guidance and support.",
-  //     },
-  //     {
-  //       text: "The Collaborative Launch Package is ideal for ambitious entrepreneurs.",
-  //     },
-  //     {
-  //       text: "This package combines personalized coaching and expert assistance to fast-track your book's release.",
-  //     },
-  //     {
-  //       subHeading:
-  //         "A dedicated team will help you navigate the following processes in just 3 months:",
-  //       subPoints: ["Writing", "Editing", "Marketing"],
-  //     },
-  //     {
-  //       text: "Includes in-depth manuscript feedback and a customized marketing strategy.",
-  //     },
-  //     {
-  //       text: "Offers invaluable insights from industry professionals.",
-  //     },
-  //     {
-  //       text: "Perfect for those who want hands-on support while ensuring their unique voice shines through in their book.",
-  //     },
-  //   ],
-  // },
+  {
+    id: "collaborative-launch",
+    title: "The Collaborative Launch Packages",
+    subtitle:
+      "GET YOUR BOOK OUT IN JUST 3 MONTHS—COLLABORATE WITH OUR EXPERTS FOR SUCCESS!",
+    price: "£ 10,000",
+    points: [
+      {
+        text: "Get your book launched in just 3 months with tailored guidance and support.",
+      },
+      {
+        text: "The Collaborative Launch Package is ideal for ambitious entrepreneurs.",
+      },
+      {
+        text: "This package combines personalized coaching and expert assistance to fast-track your book's release.",
+      },
+      {
+        subHeading:
+          "A dedicated team will help you navigate the following processes in just 3 months:",
+        subPoints: ["Writing", "Editing", "Marketing"],
+      },
+      {
+        text: "Includes in-depth manuscript feedback and a customized marketing strategy.",
+      },
+      {
+        text: "Offers invaluable insights from industry professionals.",
+      },
+      {
+        text: "Perfect for those who want hands-on support while ensuring their unique voice shines through in their book.",
+      },
+    ],
+  },
   // {
   //   id: "vip-experience",
   //   title: "Thoughts Leaders VIP Experience Package",
