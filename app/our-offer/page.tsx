@@ -42,38 +42,38 @@ const PACKAGES: PackageOffer[] = [
       },
     ],
   },
-  // {
-  //   id: "authors-accelerator",
-  //   title: "Authors Accelerator Package",
-  //   subtitle:
-  //     "LAUNCH YOUR BOOK IN 6 MONTHS— FAST-TRACK YOUR DREAMS WITH OUR EXPERT GUIDANCE!",
-  //   price: "£ 5,000",
-  //   points: [
-  //     {
-  //       text: "Launch your book in 6 months with extensive support and self-driven control.",
-  //     },
-  //     {
-  //       text: "The Accelerator Package is designed for driven entrepreneurs seeking a faster path to publishing.",
-  //     },
-  //     {
-  //       subHeading: "This 6-month intensive program includes:",
-  //       subPoints: [
-  //         "Access to a detailed course",
-  //         "Group coaching",
-  //         "Hands-on tools",
-  //       ],
-  //     },
-  //     {
-  //       text: "Allows you to bring your book to life quickly while staying in control of the process.",
-  //     },
-  //     {
-  //       text: "Includes continued post-launch support for an additional 6 months to ensure the book's success.",
-  //     },
-  //     {
-  //       text: "Perfect for those who want to maintain control but desire the momentum to efficiently publish their book.",
-  //     },
-  //   ],
-  // },
+  {
+    id: "authors-accelerator",
+    title: "Authors Accelerator Package",
+    subtitle:
+      "LAUNCH YOUR BOOK IN 6 MONTHS— FAST-TRACK YOUR DREAMS WITH OUR EXPERT GUIDANCE!",
+    price: "£ 5,000",
+    points: [
+      {
+        text: "Launch your book in 6 months with extensive support and self-driven control.",
+      },
+      {
+        text: "The Accelerator Package is designed for driven entrepreneurs seeking a faster path to publishing.",
+      },
+      {
+        subHeading: "This 6-month intensive program includes:",
+        subPoints: [
+          "Access to a detailed course",
+          "Group coaching",
+          "Hands-on tools",
+        ],
+      },
+      {
+        text: "Allows you to bring your book to life quickly while staying in control of the process.",
+      },
+      {
+        text: "Includes continued post-launch support for an additional 6 months to ensure the book's success.",
+      },
+      {
+        text: "Perfect for those who want to maintain control but desire the momentum to efficiently publish their book.",
+      },
+    ],
+  },
   // {
   //   id: "collaborative-launch",
   //   title: "The Collaborative Launch Packages",
