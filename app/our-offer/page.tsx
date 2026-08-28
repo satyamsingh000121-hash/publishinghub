@@ -106,39 +106,39 @@ const PACKAGES: PackageOffer[] = [
       },
     ],
   },
-  // {
-  //   id: "vip-experience",
-  //   title: "Thoughts Leaders VIP Experience Package",
-  //   subtitle:
-  //     "EXPERIENCE EFFORTLESS PUBLISHING – LET US TURN VISION INTO A BESTSELLER!",
-  //   price: "£ 18,000",
-  //   points: [
-  //     {
-  //       text: "Let us handle everything for you in just 3 months for a seamless publishing journey.",
-  //     },
-  //     {
-  //       text: "The VIP Experience Package is the ultimate solution for entrepreneurs seeking a hassle-free path to publishing their book.",
-  //     },
-  //     {
-  //       subHeading:
-  //         "Our expert team will manage every aspect of your book's creation, including:",
-  //       subPoints: [
-  //         "Ghostwriting and editing",
-  //         "Cover design",
-  //         "Marketing",
-  //       ],
-  //     },
-  //     {
-  //       text: "Enjoy personalized support, professional-quality production, and a comprehensive book launch campaign.",
-  //     },
-  //     {
-  //       text: "Everything is tailored to position you as an authority in your industry.",
-  //     },
-  //     {
-  //       text: "Ideal for entrepreneurs who want to focus on their business while we bring their vision to life effortlessly.",
-  //     },
-  //   ],
-  // },
+  {
+    id: "vip-experience",
+    title: "Thoughts Leaders VIP Experience Package",
+    subtitle:
+      "EXPERIENCE EFFORTLESS PUBLISHING – LET US TURN VISION INTO A BESTSELLER!",
+    price: "£ 18,000",
+    points: [
+      {
+        text: "Let us handle everything for you in just 3 months for a seamless publishing journey.",
+      },
+      {
+        text: "The VIP Experience Package is the ultimate solution for entrepreneurs seeking a hassle-free path to publishing their book.",
+      },
+      {
+        subHeading:
+          "Our expert team will manage every aspect of your book's creation, including:",
+        subPoints: [
+          "Ghostwriting and editing",
+          "Cover design",
+          "Marketing",
+        ],
+      },
+      {
+        text: "Enjoy personalized support, professional-quality production, and a comprehensive book launch campaign.",
+      },
+      {
+        text: "Everything is tailored to position you as an authority in your industry.",
+      },
+      {
+        text: "Ideal for entrepreneurs who want to focus on their business while we bring their vision to life effortlessly.",
+      },
+    ],
+  },
 ];
 
 export default function OurOfferPage() {
