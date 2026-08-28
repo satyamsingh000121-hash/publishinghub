@@ -8,7 +8,8 @@ import OfferCard, { PackageOffer } from "@/components/offers/OfferCard";
 import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import SmokyText from "@/components/SmokyText";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
+import PlanModal from "@/components/offers/PlanModal";
 
 const PACKAGES: PackageOffer[] = [
   {
@@ -41,103 +42,103 @@ const PACKAGES: PackageOffer[] = [
       },
     ],
   },
-  {
-    id: "authors-accelerator",
-    title: "Authors Accelerator Package",
-    subtitle:
-      "LAUNCH YOUR BOOK IN 6 MONTHS— FAST-TRACK YOUR DREAMS WITH OUR EXPERT GUIDANCE!",
-    price: "£ 5,000",
-    points: [
-      {
-        text: "Launch your book in 6 months with extensive support and self-driven control.",
-      },
-      {
-        text: "The Accelerator Package is designed for driven entrepreneurs seeking a faster path to publishing.",
-      },
-      {
-        subHeading: "This 6-month intensive program includes:",
-        subPoints: [
-          "Access to a detailed course",
-          "Group coaching",
-          "Hands-on tools",
-        ],
-      },
-      {
-        text: "Allows you to bring your book to life quickly while staying in control of the process.",
-      },
-      {
-        text: "Includes continued post-launch support for an additional 6 months to ensure the book's success.",
-      },
-      {
-        text: "Perfect for those who want to maintain control but desire the momentum to efficiently publish their book.",
-      },
-    ],
-  },
-  {
-    id: "collaborative-launch",
-    title: "The Collaborative Launch Packages",
-    subtitle:
-      "GET YOUR BOOK OUT IN JUST 3 MONTHS—COLLABORATE WITH OUR EXPERTS FOR SUCCESS!",
-    price: "£ 10,000",
-    points: [
-      {
-        text: "Get your book launched in just 3 months with tailored guidance and support.",
-      },
-      {
-        text: "The Collaborative Launch Package is ideal for ambitious entrepreneurs.",
-      },
-      {
-        text: "This package combines personalized coaching and expert assistance to fast-track your book's release.",
-      },
-      {
-        subHeading:
-          "A dedicated team will help you navigate the following processes in just 3 months:",
-        subPoints: ["Writing", "Editing", "Marketing"],
-      },
-      {
-        text: "Includes in-depth manuscript feedback and a customized marketing strategy.",
-      },
-      {
-        text: "Offers invaluable insights from industry professionals.",
-      },
-      {
-        text: "Perfect for those who want hands-on support while ensuring their unique voice shines through in their book.",
-      },
-    ],
-  },
-  {
-    id: "vip-experience",
-    title: "Thoughts Leaders VIP Experience Package",
-    subtitle:
-      "EXPERIENCE EFFORTLESS PUBLISHING – LET US TURN VISION INTO A BESTSELLER!",
-    price: "£ 18,000",
-    points: [
-      {
-        text: "Let us handle everything for you in just 3 months for a seamless publishing journey.",
-      },
-      {
-        text: "The VIP Experience Package is the ultimate solution for entrepreneurs seeking a hassle-free path to publishing their book.",
-      },
-      {
-        subHeading:
-          "Our expert team will manage every aspect of your book's creation, including:",
-        subPoints: [
-          "Ghostwriting and editing",
-          "Cover design",
-          "Marketing",
-        ],
-      },
-      {
-        text: "Enjoy personalized support, professional-quality production, and a comprehensive book launch campaign.",
-      },
-      {
-        text: "Everything is tailored to position you as an authority in your industry.",
-      },
-      {
-        text: "Ideal for entrepreneurs who want to focus on their business while we bring their vision to life effortlessly.",
-      },
-    ],
-  },
+  // {
+  //   id: "authors-accelerator",
+  //   title: "Authors Accelerator Package",
+  //   subtitle:
+  //     "LAUNCH YOUR BOOK IN 6 MONTHS— FAST-TRACK YOUR DREAMS WITH OUR EXPERT GUIDANCE!",
+  //   price: "£ 5,000",
+  //   points: [
+  //     {
+  //       text: "Launch your book in 6 months with extensive support and self-driven control.",
+  //     },
+  //     {
+  //       text: "The Accelerator Package is designed for driven entrepreneurs seeking a faster path to publishing.",
+  //     },
+  //     {
+  //       subHeading: "This 6-month intensive program includes:",
+  //       subPoints: [
+  //         "Access to a detailed course",
+  //         "Group coaching",
+  //         "Hands-on tools",
+  //       ],
+  //     },
+  //     {
+  //       text: "Allows you to bring your book to life quickly while staying in control of the process.",
+  //     },
+  //     {
+  //       text: "Includes continued post-launch support for an additional 6 months to ensure the book's success.",
+  //     },
+  //     {
+  //       text: "Perfect for those who want to maintain control but desire the momentum to efficiently publish their book.",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: "collaborative-launch",
+  //   title: "The Collaborative Launch Packages",
+  //   subtitle:
+  //     "GET YOUR BOOK OUT IN JUST 3 MONTHS—COLLABORATE WITH OUR EXPERTS FOR SUCCESS!",
+  //   price: "£ 10,000",
+  //   points: [
+  //     {
+  //       text: "Get your book launched in just 3 months with tailored guidance and support.",
+  //     },
+  //     {
+  //       text: "The Collaborative Launch Package is ideal for ambitious entrepreneurs.",
+  //     },
+  //     {
+  //       text: "This package combines personalized coaching and expert assistance to fast-track your book's release.",
+  //     },
+  //     {
+  //       subHeading:
+  //         "A dedicated team will help you navigate the following processes in just 3 months:",
+  //       subPoints: ["Writing", "Editing", "Marketing"],
+  //     },
+  //     {
+  //       text: "Includes in-depth manuscript feedback and a customized marketing strategy.",
+  //     },
+  //     {
+  //       text: "Offers invaluable insights from industry professionals.",
+  //     },
+  //     {
+  //       text: "Perfect for those who want hands-on support while ensuring their unique voice shines through in their book.",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: "vip-experience",
+  //   title: "Thoughts Leaders VIP Experience Package",
+  //   subtitle:
+  //     "EXPERIENCE EFFORTLESS PUBLISHING – LET US TURN VISION INTO A BESTSELLER!",
+  //   price: "£ 18,000",
+  //   points: [
+  //     {
+  //       text: "Let us handle everything for you in just 3 months for a seamless publishing journey.",
+  //     },
+  //     {
+  //       text: "The VIP Experience Package is the ultimate solution for entrepreneurs seeking a hassle-free path to publishing their book.",
+  //     },
+  //     {
+  //       subHeading:
+  //         "Our expert team will manage every aspect of your book's creation, including:",
+  //       subPoints: [
+  //         "Ghostwriting and editing",
+  //         "Cover design",
+  //         "Marketing",
+  //       ],
+  //     },
+  //     {
+  //       text: "Enjoy personalized support, professional-quality production, and a comprehensive book launch campaign.",
+  //     },
+  //     {
+  //       text: "Everything is tailored to position you as an authority in your industry.",
+  //     },
+  //     {
+  //       text: "Ideal for entrepreneurs who want to focus on their business while we bring their vision to life effortlessly.",
+  //     },
+  //   ],
+  // },
 ];
 
 export default function OurOfferPage() {
@@ -237,54 +238,11 @@ export default function OurOfferPage() {
       <Footer />
 
       {/* Plan Selection Confirmation Modal */}
-      {selectedPlan && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fadeIn">
-          <div className="relative w-full max-w-lg dark:bg-[#09120d] bg-white border dark:border-[#d4b56a]/50 border-[#e9e1f5] rounded-lg p-6 sm:p-8 shadow-2xl space-y-6">
-            <div className="flex items-start justify-between border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] pb-4">
-              <div>
-                <span className="text-[10px] tracking-[0.24em] dark:text-[#d4b56a] text-[#9333ea] font-bold uppercase block">
-                  SELECTED PUBLISHING PLAN
-                </span>
-                <h3 className="font-display text-2xl dark:text-[#f2eee3] text-[#18181b] font-medium mt-1">
-                  {selectedPlan.title}
-                </h3>
-              </div>
-              <button
-                onClick={() => setSelectedPlan(null)}
-                className="dark:text-[#888b83] text-[#71717a] hover:text-[#18181b] dark:hover:text-white transition-colors"
-                aria-label="Close"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <p className="text-xs dark:text-[#9a9d95] text-[#71717a]">
-                {selectedPlan.subtitle}
-              </p>
-              <div className="p-4 dark:bg-[#050a07] bg-[#faf5ff] border dark:border-[#f2eee3]/10 border-[#e9d5ff] rounded-sm flex items-center justify-between">
-                <span className="text-xs dark:text-[#dedacf] text-[#18181b] font-semibold">Total Package Investment</span>
-                <span className="font-display text-2xl dark:text-[#d4b56a] text-[#9333ea] font-bold">{selectedPlan.price}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                onClick={() => setSelectedPlan(null)}
-                className="px-5 py-2.5 border dark:border-[#f2eee3]/20 border-[#e9e1f5] hover:border-[#9333ea] dark:hover:border-[#888b83] text-xs font-semibold dark:text-[#dedacf] text-[#71717a] rounded-sm transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleConfirmPlan}
-                className="px-6 py-2.5 dark:bg-[#2c7650] bg-[#9333ea] hover:bg-[#7e22ce] dark:hover:bg-[#37865d] text-white text-xs font-bold tracking-wider uppercase rounded-sm transition-colors shadow-lg"
-              >
-                Confirm Plan
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <PlanModal
+        plan={selectedPlan}
+        onClose={() => setSelectedPlan(null)}
+        onConfirm={handleConfirmPlan}
+      />
 
       {/* Drawers and Search Modal */}
       <CartDrawer
