@@ -26,16 +26,16 @@ export default function Footer() {
   return (
     <footer className="bg-[#040605] border-t border-[#f2eee3]/10 text-[#888b83]">
       <div className="container-custom">
-        
+
         {/* Main Footer 4 Columns Grid - Balanced Sweet Spot */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 py-10 sm:py-16 lg:py-20">
-          
+
           {/* Column 1: Connect (4 cols) */}
           <div className="lg:col-span-4 space-y-3.5 sm:space-y-4">
             <h4 className="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">
               CONNECT
             </h4>
-            
+
             <div className="space-y-1.5 text-[#9a9b94] leading-relaxed text-[13px] sm:text-sm">
               <p>32 Bishop Road,</p>
               <p>Birmingham, B15 1AA</p>
@@ -219,7 +219,7 @@ export default function Footer() {
               Refund & Returns (Privacy Policy)
             </a>
           </div>
-          
+
           <button
             onClick={scrollToTop}
             className="w-8 h-8 rounded-sm dark:bg-[#123d2b] bg-[#9333ea] hover:bg-[#7e22ce] dark:hover:bg-[#2c7650] text-white flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-md"

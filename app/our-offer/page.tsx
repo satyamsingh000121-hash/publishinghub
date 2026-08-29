@@ -9,7 +9,6 @@ import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import SmokyText from "@/components/SmokyText";
 import { Check } from "lucide-react";
-import PlanModal from "@/components/offers/PlanModal";
 
 const PACKAGES: PackageOffer[] = [
   {
@@ -145,30 +144,23 @@ export default function OurOfferPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<PackageOffer | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleSelectPlan = (plan: PackageOffer) => {
-    setSelectedPlan(plan);
-  };
-
-  const handleConfirmPlan = () => {
-    if (selectedPlan) {
-      setCartItems((prev) => [
-        ...prev,
-        {
-          id: Math.random().toString(),
-          title: selectedPlan.title,
-          price: selectedPlan.price,
-          quantity: 1,
-        },
-      ]);
-      setToastMessage(`"${selectedPlan.title}" selected successfully!`);
-      setSelectedPlan(null);
-      setTimeout(() => {
-        setToastMessage(null);
-      }, 3000);
-    }
+    setCartItems((prev) => [
+      ...prev,
+      {
+        id: Math.random().toString(),
+        title: plan.title,
+        price: plan.price,
+        quantity: 1,
+      },
+    ]);
+    setIsCartOpen(true);
+    setToastMessage(`"${plan.title}" added to cart!`);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
   };
 
   const handleRemoveItem = (id: string) => {
@@ -236,13 +228,6 @@ export default function OurOfferPage() {
 
       {/* Site Footer */}
       <Footer />
-
-      {/* Plan Selection Confirmation Modal */}
-      <PlanModal
-        plan={selectedPlan}
-        onClose={() => setSelectedPlan(null)}
-        onConfirm={handleConfirmPlan}
-      />
 
       {/* Drawers and Search Modal */}
       <CartDrawer
