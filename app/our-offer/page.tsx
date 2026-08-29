@@ -14,6 +14,7 @@ const PACKAGES: PackageOffer[] = [
   {
     id: "writers-legacy",
     title: "Writers Legacy Package",
+    link: "/our-offer/writers-legacy",
     subtitle:
       "YOUR PATH TO PUBLISHING BEGINS HERE- NURTURE YOUR BOOK IDEA AT YOUR OWN PACE!",
     price: "£ 3,000",
