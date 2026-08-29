@@ -561,10 +561,10 @@ export default function AuthorsAcceleratorPage() {
                         {/* Header */}
                         <div className="text-center space-y-3">
                             <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal text-white tracking-tight leading-tight">
-                                Everything You Need to Write and Publish at Your Own<br className="hidden sm:inline" /> Pace
+                               Fast-Track Your Book Publishing Journey in<br className="hidden sm:inline" /> 6 Months
                             </h3>
                             <p className="text-xs sm:text-sm md:text-base text-[#9a9d95] max-w-2xl mx-auto">
-                                Comprehensive tools, guidance, and support tailored for your writing journey.
+                                Packed with tools and support for a focused, efficient publishing experience.
                             </p>
                         </div>
 
