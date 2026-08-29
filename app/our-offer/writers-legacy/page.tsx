@@ -38,6 +38,8 @@ export default function WritersLegacyPage() {
         lastName: "",
         email: "",
         phone: "",
+        businessName: "",
+        franchiseType: "",
         bookDetails: "",
         helpCategory: "",
         additionalHelp: "",
@@ -60,6 +62,8 @@ export default function WritersLegacyPage() {
                 lastName: "",
                 email: "",
                 phone: "",
+                businessName: "",
+                franchiseType: "",
                 bookDetails: "",
                 helpCategory: "",
                 additionalHelp: "",
@@ -251,13 +255,13 @@ export default function WritersLegacyPage() {
                                     onClick={() => setIsVideoPlaying(true)}
                                 >
                                     <Image
-                                        src="/images/ChatGPT Image Aug 29, 2026, 01_26_43 PM.png"
-                                        alt="Watch Visions of Victory Video"
+                                        src="/images/video_img.png"
+                                        alt="Watch Video"
                                         fill
                                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                     <div className="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors" />
-                                    
+
                                     {/* Play Button Overlay matching screenshot exactly (White circular outline with white play triangle) */}
                                     <div className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full border-[3.5px] border-white/90 bg-black/20 backdrop-blur-[2px] flex items-center justify-center shadow-[0_0_35px_rgba(255,255,255,0.4)] group-hover:scale-110 group-hover:border-white group-hover:bg-black/35 transition-all duration-300">
                                         <Play className="w-8 h-8 sm:w-10 sm:h-10 text-white fill-white ml-1.5 drop-shadow-md" />
@@ -282,30 +286,33 @@ export default function WritersLegacyPage() {
                         </div>
                     </div>
                 </section>
+            </div>
 
-                {/* 7. QUICK ACTION CALLBACK STRIP */}
-                <section className="rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 shrink-0 rounded-full border border-[#d4b56a] flex items-center justify-center text-[#d4b56a] bg-[#050b08]">
-                            <PenTool className="w-6 h-6" />
-                        </div>
-                        <div>
-                            <h4 className="font-display text-lg sm:text-xl font-medium text-[#d4b56a]">
-                                Start Your Writing Journey with Us!
-                            </h4>
-                            <p className="text-xs text-[#9a9d95] mt-1">
-                                Request a call back to learn how we can help you turn your ideas into a published book at your own pace.
-                            </p>
-                        </div>
+            {/* 7. QUICK ACTION CALLBACK BANNER (100% FULL WIDTH END-TO-END) */}
+            <section className="w-full relative overflow-hidden border-y border-[#1e3b2b]/90 bg-[#0b1c14] py-12 sm:py-16 shadow-[0_20px_50px_rgba(0,0,0,0.8)] my-4">
+                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4 sm:space-y-5">
+                    <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium text-white tracking-tight drop-shadow-sm">
+                        Start Your Writing Journey with Us!
+                    </h3>
+                    <p className="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed">
+                        Request a call back to learn how we can help you turn your ideas into a published book at your own pace.
+                    </p>
+                    <div className="pt-2 flex justify-center">
+                        <button
+                            type="button"
+                            className="inline-flex items-center gap-3 px-8 sm:px-9 py-3.5 sm:py-4 bg-[#e67e22] hover:bg-[#d35400] text-white text-sm sm:text-base font-bold rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
+                        >
+                            <span>Request A Call Back</span>
+                            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform">
+                                <ChevronRight className="w-4 h-4 stroke-[3]" />
+                            </div>
+                        </button>
                     </div>
-                    <button
-                        type="button"
-                        className="shrink-0 inline-flex items-center gap-2 px-6 py-3 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-wider uppercase rounded-[3px] transition-colors cursor-pointer"
-                    >
-                        <span>REQUEST A CALLBACK</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                </section>
+                </div>
+            </section>
+
+            {/* CONTAINER FOR REMAINING SECTIONS */}
+            <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 sm:space-y-10">
 
                 {/* 8. INQUIRY FORM SECTION ("Embark on Your Writing Journey Today!") */}
                 <section className="grid lg:grid-cols-12 gap-8 rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12">
@@ -318,16 +325,25 @@ export default function WritersLegacyPage() {
                             Submit Your Inquiry to Learn How We Can Help You Write Your Book at Your Own Pace.
                         </p>
                         <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
-                            At The Publishing Hub, we&apos;re committed to providing the resources, coaching, and community you need to bring your story to life. Let&apos;s make your book a reality.
+                            Are you ready to turn your ideas into a published book while enjoying the flexibility to work at your own pace? The Writer’s Legacy Package offers you a 12-month program tailored to help you bring your vision to life.
+                        </p>
+                        <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
+                            With access to an in-depth course, group coaching, ready-made templates, and a supportive author community, this package is ideal for individuals seeking a structured yet relaxed writing journey.
+                        </p>
+                        <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
+                            Whether you’re just starting or need guidance to refine your ideas, we’re here to provide expert support every step of the way.
+                        </p>
+                        <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
+                            Submit your inquiry today, and our team will provide all the information you need to get started. Together, we can turn your dream of becoming an author into reality!
                         </p>
 
                         <div className="pt-4 border-t border-[#1e3b2b] space-y-2 text-xs text-[#dedacf]">
                             <p>
-                                Call us at:{" "}
+                                Call us on:{" "}
                                 <a href="tel:+4401214967890" className="text-[#d4b56a] hover:underline font-semibold">
-                                    +44 0121 496 7890
+                                    +02380 970305
                                 </a>{" "}
-                                or email us at:
+                                (we are open 9AM-5PM, Monday-Friday)
                             </p>
                             <p>
                                 <a href="mailto:hello@thepublishinghub.com" className="text-[#d4b56a] hover:underline font-semibold">
@@ -338,23 +354,23 @@ export default function WritersLegacyPage() {
                         </div>
                     </div>
 
-                    {/* Right: Form */}
-                    <div className="lg:col-span-7 bg-[#050b08] p-6 sm:p-8 rounded-xl border border-[#1e3b2b]">
-                        <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-[#d4b56a] mb-6 text-center sm:text-left">
-                            INQUIRY FORM - APPLY NOW
+                    {/* Right: Form (EXPANDED HEIGHT & SPACIOUS GAPS) */}
+                    <div className="lg:col-span-7 bg-[#050b08] p-8 sm:p-10 lg:p-12 rounded-2xl border border-[#1e3b2b] shadow-2xl">
+                        <h4 className="text-xl sm:text-2xl font-bold tracking-[0.2em] uppercase text-[#d4b56a] mb-8 text-center drop-shadow-sm">
+                            ENQUIRY FORM - APPLY NOW
                         </h4>
 
                         {formSubmitted ? (
-                            <div className="py-12 text-center space-y-3">
-                                <CheckCircle2 className="w-12 h-12 text-[#d4b56a] mx-auto animate-pulse" />
-                                <h5 className="font-display text-xl text-[#f2eee3]">Inquiry Submitted!</h5>
-                                <p className="text-xs text-[#9a9d95]">
+                            <div className="py-16 text-center space-y-4">
+                                <CheckCircle2 className="w-14 h-14 text-[#d4b56a] mx-auto animate-pulse" />
+                                <h5 className="font-display text-2xl text-[#f2eee3]">Inquiry Submitted!</h5>
+                                <p className="text-sm text-[#9a9d95]">
                                     Our publishing consultants will contact you within 24 hours.
                                 </p>
                             </div>
                         ) : (
-                            <form onSubmit={handleFormSubmit} className="space-y-4">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <form onSubmit={handleFormSubmit} className="space-y-5 sm:space-y-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <input
                                         type="text"
                                         required
@@ -362,7 +378,7 @@ export default function WritersLegacyPage() {
                                         value={formData.firstName}
                                         onChange={handleInputChange}
                                         placeholder="First Name*"
-                                        className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
                                     />
                                     <input
                                         type="text"
@@ -371,78 +387,78 @@ export default function WritersLegacyPage() {
                                         value={formData.lastName}
                                         onChange={handleInputChange}
                                         placeholder="Last Name*"
-                                        className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <input
-                                        type="email"
-                                        required
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        placeholder="Email Address*"
-                                        className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
-                                    />
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <input
                                         type="tel"
                                         required
                                         name="phone"
                                         value={formData.phone}
                                         onChange={handleInputChange}
-                                        placeholder="Phone Number*"
-                                        className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        placeholder="Mobile Number*"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                    />
+                                    <input
+                                        type="text"
+                                        required
+                                        name="businessName"
+                                        value={formData.businessName}
+                                        onChange={handleInputChange}
+                                        placeholder="Business Name*"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
                                     />
                                 </div>
 
                                 <input
-                                    type="text"
-                                    name="bookDetails"
-                                    value={formData.bookDetails}
+                                    type="email"
+                                    required
+                                    name="email"
+                                    value={formData.email}
                                     onChange={handleInputChange}
-                                    placeholder="Tell us About Your Book*"
-                                    className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                    placeholder="Email Address*"
+                                    className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
                                 />
 
-                                <select
-                                    name="helpCategory"
-                                    value={formData.helpCategory}
-                                    onChange={handleInputChange}
-                                    aria-label="What Can We Help You With"
-                                    className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-[#9a9d95] outline-none focus:border-[#d4b56a] transition-colors"
-                                >
-                                    <option value="">What Can We Help You With?*</option>
-                                    <option value="ghostwriting">Ghostwriting & Manuscript Creation</option>
-                                    <option value="editing">Proofreading & Structural Editing</option>
-                                    <option value="publishing">Full Self-Publishing Package</option>
-                                    <option value="marketing">Book Launch & Author Marketing</option>
-                                </select>
+                                <div className="space-y-2">
+                                    <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
+                                        Franchise Type*
+                                    </label>
+                                    <select
+                                        required
+                                        name="franchiseType"
+                                        value={formData.franchiseType}
+                                        onChange={handleInputChange}
+                                        aria-label="Franchise Type"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white outline-none focus:border-[#d4b56a] transition-colors cursor-pointer"
+                                    >
+                                        <option value="">—Please choose an option—</option>
+                                        <option value="Associate Franchise">Associate Franchise</option>
+                                        <option value="Partner Franchise">Partner Franchise</option>
+                                        <option value="Business Owner Franchise">Business Owner Franchise</option>
+                                        <option value="Regional Franchise">Regional Franchise</option>
+                                    </select>
+                                </div>
 
                                 <textarea
-                                    rows={2}
-                                    name="additionalHelp"
-                                    value={formData.additionalHelp}
-                                    onChange={handleInputChange}
-                                    placeholder="What's Your Additional Help? (Fill in any additional help)*"
-                                    className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
-                                />
-
-                                <textarea
-                                    rows={3}
+                                    rows={4}
                                     name="comments"
                                     value={formData.comments}
                                     onChange={handleInputChange}
                                     placeholder="Write any comments here"
-                                    className="w-full px-4 py-3 bg-[#0a1811] border border-[#1e3b2b] rounded text-xs text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                    className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
                                 />
 
-                                <button
-                                    type="submit"
-                                    className="w-full py-3.5 bg-[#d4b56a] hover:bg-[#c59e4b] text-[#050807] font-bold text-xs tracking-widest uppercase rounded transition-colors shadow-md cursor-pointer"
-                                >
-                                    SUBMIT
-                                </button>
+                                <div className="pt-2">
+                                    <button
+                                        type="submit"
+                                        className="w-full py-4 sm:py-4.5 bg-[#e67e22] hover:bg-[#d35400] text-white font-bold text-sm tracking-widest uppercase rounded-md transition-all duration-200 shadow-xl cursor-pointer active:scale-95"
+                                    >
+                                        SUBMIT
+                                    </button>
+                                </div>
                             </form>
                         )}
                     </div>
