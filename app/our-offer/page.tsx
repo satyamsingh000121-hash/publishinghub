@@ -45,6 +45,7 @@ const PACKAGES: PackageOffer[] = [
   {
     id: "authors-accelerator",
     title: "Authors Accelerator Package",
+    link: "/our-offer/authors-accelerator",
     subtitle:
       "LAUNCH YOUR BOOK IN 6 MONTHS— FAST-TRACK YOUR DREAMS WITH OUR EXPERT GUIDANCE!",
     price: "£ 5,000",
