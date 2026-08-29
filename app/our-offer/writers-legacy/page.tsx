@@ -468,7 +468,7 @@ export default function WritersLegacyPage() {
                 <section className="grid md:grid-cols-12 gap-8 lg:gap-12 items-center rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12 lg:p-16 min-h-[460px] md:min-h-[500px]">
                     <div className="md:col-span-5 h-[340px] sm:h-[400px] md:h-[460px] lg:h-[500px] rounded-xl overflow-hidden border border-[#1e3b2b] relative bg-black/40">
                         <Image
-                            src="/images/author-03.jpg"
+                            src="/images/ChatGPT Image Aug 29, 2026, 03_06_26 PM.png"
                             alt="Comprehensive Training and Support"
                             fill
                             className="object-cover hover:scale-105 transition-transform duration-500"
@@ -482,10 +482,16 @@ export default function WritersLegacyPage() {
                             Empowering You with the Knowledge and Tools to Launch Your Book Successfully.
                         </h4>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            Our training programs and support resources are designed to guide you from idea to publication. From writing techniques to publishing strategies, we ensure you have everything you need to succeed.
+                            The journey to publishing your book doesn’t have to be overwhelming. With the Writer’s Legacy Package, you’ll receive all the training and support needed to bring your book to life at your own pace.
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            With expert coaches and hands-on assistance, we ensure you have everything you need to succeed.
+                            Over the course of 12 months, you’ll have access to a complete course covering every step of the writing and publishing process. Our group coaching sessions provide hands-on guidance, while customizable templates simplify the process of structuring your manuscript. You’ll also join an author community where you can share experiences, ask questions, and stay motivated.
+                        </p>
+                        <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
+                            From refining your ideas to navigating the technical aspects of publishing, this package ensures you’re never alone on your journey.
+                        </p>
+                        <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
+                            We equip you with the skills, strategies, and support to confidently prepare your book for launch. Whether you’re a first-time writer or someone with a clear vision, we’re here to guide you every step of the way.
                         </p>
                         <div className="pt-3">
                             <button
@@ -498,124 +504,174 @@ export default function WritersLegacyPage() {
                         </div>
                     </div>
                 </section>
+            </div>
 
-                {/* 10. OPPORTUNITY BANNER */}
-                <section className="rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-10 flex flex-col items-center text-center space-y-4">
-                    <div className="w-14 h-14 rounded-full border border-[#d4b56a] flex items-center justify-center text-[#d4b56a] bg-[#050b08]">
-                        <TrendingUp className="w-6 h-6" />
+            {/* 10. OPPORTUNITY BANNER (100% FULL WIDTH END-TO-END) */}
+            <section className="w-full relative overflow-hidden border-y border-[#1e3b2b]/90 bg-[#0b1c14] py-14 sm:py-20 shadow-[0_20px_50px_rgba(0,0,0,0.8)] my-4">
+                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center space-y-6">
+                    {/* Animated Golden Icon with Glow Ring */}
+                    <div className="relative group">
+                        <div className="absolute -inset-2 rounded-full bg-[#d4b56a]/25 blur-lg animate-pulse" />
+                        <div className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-[#d4b56a] flex items-center justify-center text-[#d4b56a] bg-[#050b08] shadow-[0_0_30px_rgba(212,181,106,0.35)] transition-all duration-300 group-hover:scale-110 group-hover:border-[#f5e2b3]">
+                            <TrendingUp className="w-7 h-7 sm:w-8 sm:h-8 animate-bounce stroke-[2.5]" style={{ animationDuration: "2.2s" }} />
+                        </div>
                     </div>
-                    <h3 className="font-display text-xl sm:text-2xl font-normal text-[#d4b56a] max-w-3xl leading-snug">
-                        An Opportunity That Not Only Provides An Additional Stream Of Income But Also Feeds Another Business.
+
+                    {/* Enhanced Headline with Premium Typography (EXACTLY 2 LINES) */}
+                    <h3 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-medium leading-snug max-w-5xl mx-auto tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#fae8be] via-[#d4b56a] to-[#c59e4b] drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+                        An Opportunity That Not Only Provides An Additional Stream Of Income<br className="hidden sm:inline" /> But Also Feeds Another Business.
                     </h3>
-                    <p className="text-xs sm:text-sm text-[#9a9d95] max-w-2xl leading-relaxed">
-                        Join The Publishing Hub and become a part of our mission to empower authors and entrepreneurs. SMC with our affiliate program is the perfect opportunity to grow your income while helping others turn their ideas into published books.
+                    <p className="text-sm sm:text-base text-[#9a9d95] max-w-2xl mx-auto leading-relaxed">
+                        As the “go-to” people, Regional Directors play a prominent role. Besides increasing your income, SNG will also allow you to promote and sell your products and services more effectively because it will connect you with more local and national businesses.
                     </p>
                     <div className="pt-2">
                         <button
                             type="button"
-                            className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#d4b56a] hover:bg-[#c59e4b] text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-colors cursor-pointer shadow-md"
+                            className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#d4b56a] hover:bg-[#c59e4b] text-[#050807] text-xs sm:text-sm font-bold tracking-widest uppercase rounded-[3px] transition-all duration-200 cursor-pointer shadow-xl active:scale-95"
                         >
-                            <span>SCHEDULE A FACE-TO-FACE FIGHT NOW</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
+                            <span>
+                                SCHEDULE A FACE-TO-FACE RIGHT NOW</span>
+                            <ArrowRight className="w-4 h-4" />
                         </button>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                {/* 11. 4-COLUMN VALUE PROPS GRID ("Everything You Need to Write and Publish at Your Own Pace") */}
-                <section className="rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12 text-center">
-                    <h3 className="font-display text-2xl sm:text-3xl font-medium text-[#f2eee3] mb-2">
-                        Everything You Need to Write and Publish at Your Own Pace
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[#9a9d95] mb-10 max-w-2xl mx-auto">
-                        Comprehensive resources, expert guidance, and a supportive community for your writing journey.
-                    </p>
+            {/* CONTAINER FOR SECTIONS 11 & 12 */}
+            <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 sm:space-y-10">
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-                        {[
-                            {
-                                icon: PenTool,
-                                title: "Flexible Writing Support",
-                                desc: "12 months of expert guidance to help you write at your own pace.",
-                            },
-                            {
-                                icon: Users,
-                                title: "Expert Coaching",
-                                desc: "Access to professional coaches to refine your ideas and manuscript.",
-                            },
-                            {
-                                icon: BookOpen,
-                                title: "Publishing Resources",
-                                desc: "Tools, templates, and guides to simplify the publishing process.",
-                            },
-                            {
-                                icon: Share2,
-                                title: "Community & Support",
-                                desc: "Join our community of aspiring authors for encouragement and collaboration.",
-                            },
-                        ].map((item, idx) => (
-                            <div
-                                key={idx}
-                                className="p-6 rounded-xl bg-[#050b08] border border-[#1e3b2b]/60 space-y-3 flex flex-col items-center text-center"
-                            >
-                                <div className="w-12 h-12 rounded-full border border-[#d4b56a] flex items-center justify-center text-[#d4b56a]">
-                                    <item.icon className="w-5 h-5" />
-                                </div>
-                                <h4 className="font-display text-base font-semibold text-[#dedacf]">
-                                    {item.title}
-                                </h4>
-                                <p className="text-xs text-[#888b83] leading-relaxed">
-                                    {item.desc}
+                {/* 11. 2-COLUMN FEATURE SECTION (MATCHING REFERENCE IMAGE 1) */}
+                <section className="relative rounded-2xl border border-[#1e3b2b] bg-[#07130c] overflow-hidden p-8 sm:p-12 lg:p-16 shadow-2xl">
+                    {/* Subtle Background Image Overlay */}
+                    <div className="absolute inset-0 z-0 opacity-15 pointer-events-none">
+                        <Image
+                            src="/images/author-01.jpg"
+                            alt="Background decoration"
+                            fill
+                            className="object-cover object-center filter grayscale brightness-125"
+                        />
+                        <div className="absolute inset-0 bg-[#07130c]/85" />
+                    </div>
+
+                    <div className="relative z-10 max-w-5xl mx-auto space-y-8">
+                        {/* Header */}
+                        <div className="text-center space-y-3">
+                            <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal text-white tracking-tight leading-tight">
+                                Everything You Need to Write and Publish at Your Own<br className="hidden sm:inline" /> Pace
+                            </h3>
+                            <p className="text-xs sm:text-sm md:text-base text-[#9a9d95] max-w-2xl mx-auto">
+                                Comprehensive tools, guidance, and support tailored for your writing journey.
+                            </p>
+                        </div>
+
+                        {/* 2-Column Content List */}
+                        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 pt-4 text-xs sm:text-sm text-[#dedacf] leading-relaxed">
+                            {/* Left Column */}
+                            <div className="space-y-4">
+                                <p className="text-[#f2eee3] font-medium">
+                                    The Writer’s Legacy Package is designed to give you all the tools and resources you need to write and publish your book over 12 months at a relaxed pace. Here’s what’s included:
+                                </p>
+                                <p>
+                                    <strong className="text-white font-semibold">Complete Writing and Publishing Course:</strong> Step-by-step guidance on everything from structuring your ideas to self-publishing your book.
+                                </p>
+                                <p>
+                                    <strong className="text-white font-semibold">Group Coaching Sessions:</strong> Regular coaching calls to keep you motivated and help address challenges along the way.
+                                </p>
+                                <p>
+                                    <strong className="text-white font-semibold">Customizable Templates:</strong> Easy-to-use templates to streamline the writing process and enhance organization.
                                 </p>
                             </div>
-                        ))}
-                    </div>
 
-                    <div className="mt-10">
-                        <button
-                            type="button"
-                            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#d4b56a] hover:bg-[#c59e4b] text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-colors cursor-pointer shadow-md"
-                        >
-                            <span>READ MORE</span>
-                            <PlusCircle className="w-4 h-4" />
-                        </button>
-                    </div>
-                </section>
+                            {/* Right Column */}
+                            <div className="space-y-4">
+                                <p>
+                                    <strong className="text-white font-semibold">Access to an Author Community:</strong> Connect with like-minded authors for inspiration, advice, and collaboration.
+                                </p>
+                                <p>
+                                    <strong className="text-white font-semibold">Expert Support:</strong> Dedicated guidance to help refine your manuscript and navigate the publishing process.
+                                </p>
+                                <p className="pt-2 text-[#9a9d95]">
+                                    This package is perfect for aspiring authors who want to build their book at their own pace while benefiting from expert support and a collaborative community.
+                                </p>
+                            </div>
+                        </div>
 
-                {/* 12. BOTTOM CTA BANNER ("Got your book idea?") */}
-                <section className="grid md:grid-cols-12 rounded-2xl border border-[#1e3b2b] bg-[#07130c] overflow-hidden items-center shadow-sm">
-                    <div className="md:col-span-4 h-[200px] md:h-full relative min-h-[180px] bg-black/40">
-                        <Image
-                            src="/images/author-02.jpg"
-                            alt="Published author"
-                            fill
-                            className="object-cover"
-                        />
-                    </div>
-
-                    <div className="md:col-span-4 p-6 sm:p-8 space-y-2 border-b md:border-b-0 md:border-r border-[#1e3b2b]">
-                        <h4 className="font-display text-xl sm:text-2xl font-normal text-[#d4b56a]">
-                            Got your book idea?
-                        </h4>
-                        <p className="text-xs text-[#9a9d95] leading-relaxed">
-                            Let&apos;s help you bring it to life. Take the first step toward becoming a published author today.
-                        </p>
-                    </div>
-
-                    <div className="md:col-span-4 p-6 sm:p-8 space-y-4 text-center md:text-left">
-                        <p className="text-xs font-medium text-[#dedacf]">
-                            Are you interested in staring a Publishing Your Book 1-2-1 with us?
-                        </p>
-                        <button
-                            type="button"
-                            className="w-full py-3 px-4 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-[11px] font-bold tracking-wider uppercase rounded-[3px] transition-colors cursor-pointer"
-                        >
-                            SCHEDULE A FACE-TO-FACE FIGHT RIGHT NOW
-                        </button>
+                        {/* Centered Action Button */}
+                        <div className="pt-4 flex justify-center">
+                            <button
+                                type="button"
+                                className="inline-flex items-center gap-3 px-8 py-3.5 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
+                            >
+                                <span>READ MORE</span>
+                                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform">
+                                    <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </section>
-
             </div>
 
+            {/* 12. BOTTOM CTA FULL-WIDTH BANNER (GREEN CARD ON BOTTOM LINE) */}
+            <section className="relative w-full min-h-[320px] sm:min-h-[360px] flex items-end justify-center mt-6 sm:mt-8 mb-44 sm:mb-56 md:mb-64">
+                {/* Full-bleed Background Image with Bottom Line */}
+                <div className="absolute inset-0 z-0 overflow-hidden border-y border-[#1e3b2b]/90 bg-[#07130c]">
+                    <Image
+                        src="/images/author-01.jpg"
+                        alt="Smiling Author Background"
+                        fill
+                        className="object-cover object-[center_15%] brightness-95 contrast-105"
+                    />
+                    <div className="absolute inset-0 bg-black/30 backdrop-brightness-95" />
+                </div>
+
+                {/* Floating Centered Dark Card Positioned Exactly on the Bottom Line */}
+                <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 translate-y-1/2">
+                    <div className="relative rounded-xl border border-[#1e3b2b]/90 bg-[#0b1c14] backdrop-blur-md p-6 sm:p-8 md:p-9 shadow-[0_25px_60px_rgba(0,0,0,0.9)]">
+                        <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
+                            {/* Left Column */}
+                            <div className="space-y-2.5 text-left md:pr-4">
+                                <h4 className="text-sm sm:text-base font-semibold text-white">
+                                    Got your voucher code?
+                                </h4>
+                                <p className="text-xs sm:text-sm text-white/90 leading-relaxed">
+                                    Let&apos;s bring your story to Life. Take the next step and book your discovery call today!
+                                </p>
+                                <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
+                                    Let&apos;s explore how we can help you achieve your goals.
+                                </p>
+                            </div>
+
+                            {/* Right Column */}
+                            <div className="flex flex-col items-center justify-center text-center space-y-3 md:pl-4">
+                                <p className="text-xs sm:text-sm font-medium text-white/95 leading-snug">
+                                    Are you interested in starting a Publishing Your Book ?
+                                </p>
+                                <p className="text-xs sm:text-sm font-semibold text-white">
+                                    Let&apos;s talk!
+                                </p>
+                                <div className="pt-1 w-full flex justify-center">
+                                    <button
+                                        type="button"
+                                        className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
+                                    >
+                                        <span>SCHEDULE A FACE-TO-FACE RIGHT NOW</span>
+                                        <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform shrink-0">
+                                            <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Perfectly Centered Vertical Divider Line */}
+                        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-[70%] bg-white/20" />
+                    </div>
+                </div>
+            </section>
+
+            {/* 13. FOOTER */}
+            <Footer />
 
             {/* DRAWERS & MODALS */}
             <CartDrawer
