@@ -613,16 +613,16 @@ export default function WritersLegacyPage() {
             </div>
 
             {/* 12. BOTTOM CTA FULL-WIDTH BANNER (GREEN CARD ON BOTTOM LINE) */}
-            <section className="relative w-full min-h-[320px] sm:min-h-[360px] flex items-end justify-center mt-6 sm:mt-8 mb-44 sm:mb-56 md:mb-64">
+            <section className="relative w-full min-h-[400px] sm:min-h-[480px] lg:min-h-[520px] flex items-end justify-center mt-6 sm:mt-8 mb-44 sm:mb-56 md:mb-64">
                 {/* Full-bleed Background Image with Bottom Line */}
                 <div className="absolute inset-0 z-0 overflow-hidden border-y border-[#1e3b2b]/90 bg-[#07130c]">
                     <Image
-                        src="/images/author-01.jpg"
+                        src="/images/2222.png"
                         alt="Smiling Author Background"
                         fill
-                        className="object-cover object-[center_15%] brightness-95 contrast-105"
+                        className="object-cover object-top brightness-95 contrast-105"
                     />
-                    <div className="absolute inset-0 bg-black/30 backdrop-brightness-95" />
+                    <div className="absolute inset-0 bg-black/20 backdrop-brightness-95" />
                 </div>
 
                 {/* Floating Centered Dark Card Positioned Exactly on the Bottom Line */}
