@@ -78,6 +78,7 @@ const PACKAGES: PackageOffer[] = [
   {
     id: "collaborative-launch",
     title: "The Collaborative Launch Packages",
+    link: "/our-offer/collaborative-launch",
     subtitle:
       "GET YOUR BOOK OUT IN JUST 3 MONTHS—COLLABORATE WITH OUR EXPERTS FOR SUCCESS!",
     price: "£ 10,000",
