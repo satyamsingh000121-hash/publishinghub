@@ -146,13 +146,13 @@ export default function Navbar({
                   {/* Dropdown Menu Popup (Matching User Image 1) */}
                   {item.hasDropdown && (
                     <div className="absolute top-[calc(100%-8px)] left-0 w-64 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
-                      <div className="dark:bg-[#070e0a] bg-white border dark:border-[#d4b56a]/30 border-[#e9e1f5] shadow-2xl rounded-xs py-2 px-1 divide-y dark:divide-[#f2eee3]/5 divide-[#f4f0fa]">
+                      <div className="dark:bg-[#070e0a] bg-white border dark:border-[#d4b56a]/40 border-[#d8b4fe] shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.8)] rounded-md py-2 px-1.5 divide-y dark:divide-[#f2eee3]/10 divide-[#f3e8ff]">
                         {item.options?.map((subItem) => (
                           <a
                             key={subItem.label}
                             href={subItem.href}
                             onClick={() => setInternalActiveTab("JOIN THE LEAGUE")}
-                            className="block px-4 py-2.5 text-[11px] font-bold tracking-wider dark:text-[#c4c0b4] text-[#4b4e54] dark:hover:text-[#d4b56a] hover:text-[#9333ea] dark:hover:bg-[#0d1c14] hover:bg-[#faf5ff] transition-all duration-150 rounded-xs"
+                            className="block px-4 py-2.5 text-xs font-bold tracking-wider dark:text-[#f2eee3] text-[#1e1b4b] dark:hover:text-[#d4b56a] hover:text-[#9333ea] dark:hover:bg-[#0d1c14] hover:bg-[#faf5ff] transition-all duration-150 rounded-sm"
                           >
                             {subItem.label}
                           </a>

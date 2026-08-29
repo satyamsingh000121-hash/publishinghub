@@ -263,14 +263,238 @@ body {
 html.light,
 html.light body,
 html.light main {
-  background-color: #ffffff !important;
-  color: #18181b !important;
+  background-color: #ffffff;
+  color: #18181b;
 }
 
 /* Sections in Light Mode */
 html.light section {
+  background-color: #ffffff;
+  border-color: #e9e1f5;
+}
+
+/* Ensure text-white and text on dark image banners/overlays always remains white in Light Mode */
+html.light .text-white,
+html.light .text-white\/95,
+html.light .text-white\/90,
+html.light .text-white\/80,
+html.light .text-white\/70,
+html.light [class*="text-white"] {
+  color: #ffffff !important;
+}
+
+/* All Orange Primary CTA Buttons & Submit Buttons in Light Mode */
+html.light .bg-\[\#e67e22\],
+html.light button.bg-\[\#e67e22\],
+html.light a.bg-\[\#e67e22\],
+html.light button[type="submit"],
+html.light button[type="submit"].bg-\[\#e67e22\] {
+  background-color: #e67e22 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 8px 24px rgba(230, 126, 34, 0.35) !important;
+}
+
+html.light .bg-\[\#e67e22\]:hover,
+html.light button.bg-\[\#e67e22\]:hover,
+html.light a.bg-\[\#e67e22\]:hover,
+html.light button[type="submit"]:hover {
+  background-color: #d35400 !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 28px rgba(211, 84, 0, 0.45) !important;
+}
+
+html.light .bg-\[\#e67e22\] *,
+html.light button.bg-\[\#e67e22\] *,
+html.light a.bg-\[\#e67e22\] *,
+html.light button[type="submit"] * {
+  color: #ffffff !important;
+}
+
+/* Secondary Gold / Purple Outline Buttons across whole site in Light Mode */
+html.light button.border-\[\#d4b56a\],
+html.light a.border-\[\#d4b56a\],
+html.light .border-\[\#d4b56a\] button {
+  border-color: #9333ea !important;
+  color: #7e22ce !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.08) !important;
+}
+
+html.light button.border-\[\#d4b56a\]:hover,
+html.light a.border-\[\#d4b56a\]:hover {
+  background-color: #9333ea !important;
+  color: #ffffff !important;
+  border-color: #9333ea !important;
+  box-shadow: 0 4px 16px rgba(147, 51, 234, 0.3) !important;
+}
+
+html.light button.border-\[\#d4b56a\] span,
+html.light a.border-\[\#d4b56a\] span,
+html.light button.border-\[\#d4b56a\] svg,
+html.light a.border-\[\#d4b56a\] svg {
+  color: #7e22ce !important;
+}
+
+html.light button.border-\[\#d4b56a\]:hover span,
+html.light a.border-\[\#d4b56a\]:hover span,
+html.light button.border-\[\#d4b56a\]:hover svg,
+html.light a.border-\[\#d4b56a\]:hover svg {
+  color: #ffffff !important;
+}
+
+/* Full-Width Statement Banners (Opportunity & Callback Banners) in Light Mode */
+html.light section.bg-\[\#0b1c14\] {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #faf5ff 100%) !important;
+  border-color: #e9d5ff !important;
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.05) !important;
+}
+
+html.light section.bg-\[\#0b1c14\] h3 {
+  background: none !important;
+  -webkit-text-fill-color: #18181b !important;
+  color: #18181b !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+html.light section.bg-\[\#0b1c14\] p {
+  color: #52525b !important;
+}
+
+/* Icon in Opportunity Banner */
+html.light section.bg-\[\#0b1c14\] .border-\[\#d4b56a\] {
+  border-color: #9333ea !important;
+  background-color: #ffffff !important;
+  color: #9333ea !important;
+  box-shadow: 0 0 25px rgba(147, 51, 234, 0.25) !important;
+}
+
+html.light section.bg-\[\#0b1c14\] .border-\[\#d4b56a\] svg {
+  color: #9333ea !important;
+  stroke: #9333ea !important;
+}
+
+html.light section.bg-\[\#0b1c14\] .bg-\[\#d4b56a\]\/25 {
+  background-color: rgba(147, 51, 234, 0.15) !important;
+}
+
+/* Schedule / Action button in Opportunity Banner */
+html.light section.bg-\[\#0b1c14\] button.bg-\[\#d4b56a\],
+html.light section.bg-\[\#0b1c14\] a.bg-\[\#d4b56a\] {
+  background-color: #9333ea !important;
+  color: #ffffff !important;
+  border-color: #9333ea !important;
+}
+
+html.light section.bg-\[\#0b1c14\] button.bg-\[\#d4b56a\]:hover,
+html.light section.bg-\[\#0b1c14\] a.bg-\[\#d4b56a\]:hover {
+  background-color: #7e22ce !important;
+}
+
+html.light section.bg-\[\#0b1c14\] button.bg-\[\#d4b56a\] span,
+html.light section.bg-\[\#0b1c14\] button.bg-\[\#d4b56a\] svg {
+  color: #ffffff !important;
+}
+
+/* Video action buttons (Request A Call Back / Book A Video Call) in Light Mode */
+html.light button.bg-\[\#050b08\],
+html.light a.bg-\[\#050b08\],
+html.light .bg-\[\#050b08\] button {
+  background-color: #faf5ff !important;
+  border-color: #d8b4fe !important;
+  color: #7e22ce !important;
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.06) !important;
+}
+
+html.light button.bg-\[\#050b08\]:hover,
+html.light a.bg-\[\#050b08\]:hover,
+html.light .bg-\[\#050b08\] button:hover {
+  background-color: #9333ea !important;
+  border-color: #9333ea !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25) !important;
+}
+
+/* Bottom Floating CTA Card (Section 12) in Light Mode */
+html.light div.bg-\[\#0b1c14\] {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-color: #e9e1f5 !important;
+  box-shadow: 0 20px 50px rgba(147, 51, 234, 0.12) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+html.light div.bg-\[\#0b1c14\] h4,
+html.light div.bg-\[\#0b1c14\] p {
+  color: #18181b !important;
+}
+
+html.light div.bg-\[\#0b1c14\] p.text-white\/80,
+html.light div.bg-\[\#0b1c14\] p.text-white\/90 {
+  color: #52525b !important;
+}
+
+html.light div.bg-\[\#0b1c14\] .bg-white\/20 {
+  background-color: #e9e1f5 !important;
+}
+
+/* Package pages card containers in Light Mode */
+html.light section.bg-\[\#07130c\],
+html.light div.bg-\[\#07130c\],
+html.light div.bg-\[\#050b08\],
+html.light div.bg-\[\#060d09\] {
   background-color: #ffffff !important;
   border-color: #e9e1f5 !important;
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.04) !important;
+}
+
+/* Section 11 (2-Column Feature Card) in Light Mode */
+html.light section.overflow-hidden.bg-\[\#07130c\] {
+  background-color: #ffffff !important;
+  border-color: #e9e1f5 !important;
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.05) !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] .bg-\[\#07130c\]\/85 {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] h3 {
+  color: #18181b !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] p,
+html.light section.overflow-hidden.bg-\[\#07130c\] span {
+  color: #3f3f46 !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] strong {
+  color: #18181b !important;
+  font-weight: 700 !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] p.text-\[\#9a9d95\] {
+  color: #71717a !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\],
+html.light section.overflow-hidden.bg-\[\#07130c\] a.bg-\[\#e67e22\] {
+  background-color: #e67e22 !important;
+  color: #ffffff !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] span,
+html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div {
+  color: #ffffff !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div.bg-white {
+  background-color: #ffffff !important;
+  color: #e67e22 !important;
+}
+
+html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div.bg-white svg {
+  stroke: #e67e22 !important;
 }
 
 /* 1. Hero Section in Light Mode */
@@ -487,20 +711,31 @@ html.light .border-\[\#b89245\] {
 /* Inputs & Forms */
 html.light input,
 html.light select,
+html.light select option,
 html.light textarea {
   background-color: #ffffff !important;
   color: #18181b !important;
   border-color: #e9e1f5 !important;
+}
+html.light select option {
+  background-color: #ffffff !important;
+  color: #18181b !important;
+  padding: 8px 12px !important;
+}
+html.light label {
+  color: #18181b !important;
+  font-weight: 600 !important;
 }
 html.light input:focus,
 html.light select:focus,
 html.light textarea:focus {
   border-color: #9333ea !important;
   outline-color: #9333ea !important;
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.15) !important;
 }
 html.light input::placeholder,
 html.light textarea::placeholder {
-  color: #a1a1aa !important;
+  color: #71717a !important;
 }
 
 /* Book Spine 3D in Light Mode */
