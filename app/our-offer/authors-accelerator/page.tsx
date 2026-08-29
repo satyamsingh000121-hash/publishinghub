@@ -573,29 +573,29 @@ export default function AuthorsAcceleratorPage() {
                             {/* Left Column */}
                             <div className="space-y-4">
                                 <p className="text-[#f2eee3] font-medium">
-                                    The Authors Accelerator Package is designed to give you all the tools and resources you need to write and publish your book over 6 months at a relaxed pace. Here’s what’s included:
+                                   The Authors Accelerator Package is designed for driven individuals ready to publish their book in just six months. Here’s what you’ll get:
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Complete Writing and Publishing Course:</strong> Step-by-step guidance on everything from structuring your ideas to self-publishing your book.
+                                    <strong className="text-white font-semibold">Comprehensive Course:</strong> A detailed curriculum that takes you through every step of the publishing process.
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Group Coaching Sessions:</strong> Regular coaching calls to keep you motivated and help address challenges along the way.
+                                    <strong className="text-white font-semibold">Group Coaching:</strong> Personalized feedback and accountability to keep you on track.
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Customizable Templates:</strong> Easy-to-use templates to streamline the writing process and enhance organization.
+                                    <strong className="text-white font-semibold">Hands-On Tools:</strong> Resources and checklists to streamline writing, editing, and marketing.
                                 </p>
                             </div>
 
                             {/* Right Column */}
                             <div className="space-y-4">
                                 <p>
-                                    <strong className="text-white font-semibold">Access to an Author Community:</strong> Connect with like-minded authors for inspiration, advice, and collaboration.
+                                    <strong className="text-white font-semibold">Post-Launch Support:</strong> Six months of additional guidance to help your book thrive after publication.
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Expert Support:</strong> Dedicated guidance to help refine your manuscript and navigate the publishing process.
+                                    <strong className="text-white font-semibold">Publishing Expertise: </strong> Learn to maintain control of your book’s journey while receiving professional support.
                                 </p>
                                 <p className="pt-2 text-[#9a9d95]">
-                                    This package is perfect for aspiring authors who want to build their book at their own pace while benefiting from expert support and a collaborative community.
+                                 This package is ideal for authors who want to combine speed and quality to achieve their publishing goals efficiently.
                                 </p>
                             </div>
                         </div>
