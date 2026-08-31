@@ -471,7 +471,7 @@ export default function CollaborativeLaunchPage() {
                     </div>
                     <div className="md:col-span-7 space-y-6">
                         <h3 className="font-display text-3xl sm:text-4xl lg:text-[40px] font-normal text-[#d4b56a] leading-tight">
-                            Expert Training and Hands-On Support for Your Book Launch
+                           Effortless Training and End-to-End Support for Visionary Leaders
                         </h3>
                         <h4 className="text-sm sm:text-base font-semibold text-[#dedacf]">
                             Partnering with You to Achieve a Polished and Successful Publication.
