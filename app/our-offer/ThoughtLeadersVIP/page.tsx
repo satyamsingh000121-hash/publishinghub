@@ -121,15 +121,15 @@ export default function CollaborativeLaunchPage() {
 
                     <div className="relative z-10 max-w-5xl lg:max-w-6xl mx-auto space-y-4 sm:space-y-6 px-4">
                         <span className="inline-block text-sm sm:text-base font-normal font-serif text-white tracking-wide">
-                            Collaborative Launch Package                        </span>
+                          Thought Leaders VIP Experience Package
+                    </span>
 
                         <h2 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-[46px] font-medium text-white leading-tight drop-shadow-md">
-                            Your Book. Our Expertise. Publish in Just 3 Months!
+                           Effortless Publishing for Visionaries – Let Us Build Your Bestseller
                         </h2>
 
                         <p className="text-xs sm:text-sm md:text-base text-white/95 font-medium max-w-3xl mx-auto leading-relaxed drop-shadow-sm">
-                            Partner with our experts to write, edit, and launch your book in record time
-
+                           From concept to bestseller—let us handle everything so you can focus on your vision.
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-3 sm:pt-4">
@@ -145,7 +145,7 @@ export default function CollaborativeLaunchPage() {
                                 className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95"
                             >
                                 <Search className="w-4 h-4 text-white stroke-[2.5]" />
-                                <span>Partner with Us and Publish Fast!</span>
+                                <span>Let’s Create Your Bestseller!</span>
                             </button>
                         </div>
                     </div>
