@@ -567,13 +567,13 @@ export default function CollaborativeLaunchPage() {
                                    The Thought Leaders VIP Experience Package is a premium, all-inclusive solution for busy professionals and entrepreneurs. Here’s what’s included:
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Personalized Coaching:</strong>Work closely with professionals to refine your book and prepare it for publishing.
+                                    <strong className="text-white font-semibold">Ghostwriting and Editing: </strong>A dedicated team crafts and refines your book to perfection.
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Manuscript Feedback:</strong> In-depth critique and editing to ensure a high-quality final product.
+                                    <strong className="text-white font-semibold">Custom Cover Design:</strong>Professional-quality design to make your book stand out.
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Custom Marketing Strategy:</strong>Guidance on positioning your book for success in the market.
+                                    <strong className="text-white font-semibold">Comprehensive Marketing:</strong> A tailored launch campaign to position your book for success.
                                 </p>
                             </div>
 
