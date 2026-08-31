@@ -167,7 +167,7 @@ export default function Footer() {
                 </p>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-xs font-semibold text-[#d4b56a]">
-                    £19.00
+                    £35.00
                   </span>
                   <span className="text-[11px] text-[#656861] line-through">
                     £29.00
@@ -205,7 +205,7 @@ export default function Footer() {
                   Thank you for subscribing to our book club newsletter!
                 </p>
               )}
-            </form>
+             </form>
           </div>
 
         </div>
