@@ -111,6 +111,7 @@ const PACKAGES: PackageOffer[] = [
   {
     id: "vip-experience",
     title: "Thoughts Leaders VIP Experience Package",
+    link: "/our-offer/ThoughtLeadersVIP",
     subtitle:
       "EXPERIENCE EFFORTLESS PUBLISHING – LET US TURN VISION INTO A BESTSELLER!",
     price: "£ 18,000",

@@ -76,6 +76,13 @@ export default function CollaborativeLaunchPage() {
         setCartItems((prev) => prev.filter((item) => item.id !== id));
     };
 
+    const scrollToForm = () => {
+        const formElement = document.getElementById("enquiry-form");
+        if (formElement) {
+            formElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
+
     const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     return (
@@ -135,6 +142,7 @@ export default function CollaborativeLaunchPage() {
                         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-3 sm:pt-4">
                             <button
                                 type="button"
+                                onClick={scrollToForm}
                                 className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95"
                             >
                                 <Check className="w-4 h-4 text-white stroke-[3]" />
@@ -142,6 +150,7 @@ export default function CollaborativeLaunchPage() {
                             </button>
                             <button
                                 type="button"
+                                onClick={scrollToForm}
                                 className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95"
                             >
                                 <Search className="w-4 h-4 text-white stroke-[2.5]" />
@@ -290,14 +299,15 @@ export default function CollaborativeLaunchPage() {
             <section className="w-full relative overflow-hidden border-y border-[#1e3b2b]/90 bg-[#0b1c14] py-12 sm:py-16 shadow-[0_20px_50px_rgba(0,0,0,0.8)] my-4">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4 sm:space-y-5">
                     <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium text-white tracking-tight drop-shadow-sm">
-                        Publish Your Book in Record Time!
+                        Start Your Writing Journey with Us!
                     </h3>
                     <p className="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed">
-                        Request a call back to find out how we can collaborate to bring your book to life in just 3 months.
+                        Request a call back to learn how we can help you turn your ideas into a published book at your own pace.
                     </p>
                     <div className="pt-2 flex justify-center">
                         <button
                             type="button"
+                            onClick={scrollToForm}
                             className="inline-flex items-center gap-3 px-8 sm:px-9 py-3.5 sm:py-4 bg-[#e67e22] hover:bg-[#d35400] text-white text-sm sm:text-base font-bold rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
                         >
                             <span>Request A Call Back</span>
@@ -313,7 +323,7 @@ export default function CollaborativeLaunchPage() {
             <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 sm:space-y-10">
 
                 {/* 8. INQUIRY FORM SECTION ("Embark on Your Writing Journey Today!") */}
-                <section className="grid lg:grid-cols-12 gap-8 rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12">
+                <section id="enquiry-form" className="grid lg:grid-cols-12 gap-8 rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12 scroll-mt-24">
                     {/* Left: Info */}
                     <div className="lg:col-span-5 space-y-6">
                         <h3 className="font-display text-2xl sm:text-3xl font-normal text-[#d4b56a] leading-tight">

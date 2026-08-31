@@ -76,6 +76,13 @@ export default function AuthorsAcceleratorPage() {
         setCartItems((prev) => prev.filter((item) => item.id !== id));
     };
 
+    const scrollToForm = () => {
+        const formElement = document.getElementById("enquiry-form");
+        if (formElement) {
+            formElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
+
     const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     return (
@@ -135,6 +142,7 @@ export default function AuthorsAcceleratorPage() {
                         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-3 sm:pt-4">
                             <button
                                 type="button"
+                                onClick={scrollToForm}
                                 className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95"
                             >
                                 <Check className="w-4 h-4 text-white stroke-[3]" />
@@ -142,6 +150,7 @@ export default function AuthorsAcceleratorPage() {
                             </button>
                             <button
                                 type="button"
+                                onClick={scrollToForm}
                                 className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95"
                             >
                                 <Search className="w-4 h-4 text-white stroke-[2.5]" />
@@ -295,6 +304,7 @@ export default function AuthorsAcceleratorPage() {
                     <div className="pt-2 flex justify-center">
                         <button
                             type="button"
+                            onClick={scrollToForm}
                             className="inline-flex items-center gap-3 px-8 sm:px-9 py-3.5 sm:py-4 bg-[#e67e22] hover:bg-[#d35400] text-white text-sm sm:text-base font-bold rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
                         >
                             <span>Request A Call Back</span>
@@ -310,7 +320,7 @@ export default function AuthorsAcceleratorPage() {
             <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 sm:space-y-10">
 
                 {/* 8. INQUIRY FORM SECTION ("Embark on Your Writing Journey Today!") */}
-                <section className="grid lg:grid-cols-12 gap-8 rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12">
+                <section id="enquiry-form" className="grid lg:grid-cols-12 gap-8 rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12 scroll-mt-24">
                     {/* Left: Info */}
                     <div className="lg:col-span-5 space-y-6">
                         <h3 className="font-display text-2xl sm:text-3xl font-normal text-[#d4b56a] leading-tight">
