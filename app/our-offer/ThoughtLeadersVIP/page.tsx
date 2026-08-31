@@ -517,7 +517,7 @@ export default function CollaborativeLaunchPage() {
                         An Opportunity That Not Only Provides An Additional Stream Of Income <br className="hidden sm:inline" />But Also Feeds Another Business.
                     </h3>
                     <p className="text-sm sm:text-base text-[#9a9d95] max-w-2xl mx-auto leading-relaxed">
-                        As the “go-to” people, Regional Directors play a prominent role. Besides increasing your income, The publishing hub will also allow you to promote and sell your products and services more effectively because it will connect you with more local and national businesses.
+                     As the “go-to” people, Regional Directors play a prominent role. Besides increasing your income, SNG will also allow you to promote and sell your products and services more effectively because it will connect you with more local and national businesses.
                     </p>
                     <div className="pt-2">
                         <button
