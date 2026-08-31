@@ -580,10 +580,10 @@ export default function CollaborativeLaunchPage() {
                             {/* Right Column */}
                             <div className="space-y-4">
                                 <p>
-                                    <strong className="text-white font-semibold">Hands-On Assistance:</strong>Support for writing, editing, and navigating the publishing process.
+                                    <strong className="text-white font-semibold">End-to-End Management: </strong>From concept to publication, every detail is handled for you.
                                 </p>
                                 <p>
-                                    <strong className="text-white font-semibold">Accelerated Timeline: </strong>Publish a polished and professional book in just three months.
+                                    <strong className="text-white font-semibold">Personalized Guidance:</strong>Ensure your vision is reflected in a high-quality, market-ready book.
                                 </p>
                                 <p className="pt-2 text-[#9a9d95]">
                                    This package is ideal for entrepreneurs and visionaries seeking rapid results without compromising on quality.
