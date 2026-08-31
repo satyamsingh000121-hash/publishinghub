@@ -4,6 +4,8 @@ import { ProductValidator } from "@/backend/validators/product.validator";
 import { requireRole } from "@/backend/middleware/auth.middleware";
 import { successResponse, errorResponse, forbiddenResponse, serverErrorResponse } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const categories = await ProductService.getCategories();

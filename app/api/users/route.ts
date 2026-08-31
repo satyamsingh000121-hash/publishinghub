@@ -3,6 +3,8 @@ import { requireRole } from "@/backend/middleware/auth.middleware";
 import { UserService } from "@/backend/services/user.service";
 import { successResponse, forbiddenResponse, serverErrorResponse } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     // Only Admin can list all users

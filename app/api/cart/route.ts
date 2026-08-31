@@ -4,6 +4,8 @@ import { OrderService } from "@/backend/services/order.service";
 import { OrderValidator } from "@/backend/validators/order.validator";
 import { successResponse, errorResponse, serverErrorResponse } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const authUser = await authenticateRequest(req);

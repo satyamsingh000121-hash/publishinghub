@@ -10,6 +10,8 @@ import {
   serverErrorResponse,
 } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const authUser = await authenticateRequest(req);
