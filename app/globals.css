@@ -283,11 +283,10 @@ html.light [class*="text-white"] {
   color: #ffffff !important;
 }
 
-/* All Orange Primary CTA Buttons & Submit Buttons in Light Mode */
+/* All Orange Primary CTA Buttons in Light Mode */
 html.light .bg-\[\#e67e22\],
 html.light button.bg-\[\#e67e22\],
 html.light a.bg-\[\#e67e22\],
-html.light button[type="submit"],
 html.light button[type="submit"].bg-\[\#e67e22\] {
   background-color: #e67e22 !important;
   color: #ffffff !important;
@@ -298,7 +297,7 @@ html.light button[type="submit"].bg-\[\#e67e22\] {
 html.light .bg-\[\#e67e22\]:hover,
 html.light button.bg-\[\#e67e22\]:hover,
 html.light a.bg-\[\#e67e22\]:hover,
-html.light button[type="submit"]:hover {
+html.light button[type="submit"].bg-\[\#e67e22\]:hover {
   background-color: #d35400 !important;
   color: #ffffff !important;
   box-shadow: 0 10px 28px rgba(211, 84, 0, 0.45) !important;
@@ -307,7 +306,7 @@ html.light button[type="submit"]:hover {
 html.light .bg-\[\#e67e22\] *,
 html.light button.bg-\[\#e67e22\] *,
 html.light a.bg-\[\#e67e22\] *,
-html.light button[type="submit"] * {
+html.light button[type="submit"].bg-\[\#e67e22\] * {
   color: #ffffff !important;
 }
 
@@ -682,7 +681,7 @@ html.light div.bg-\[\#0d2a1d\] a {
 
 /* Brand Logo */
 html.light .brand-logo-img {
-  filter: hue-rotate(185deg) saturate(3) brightness(0.65) !important;
+  filter: none !important;
 }
 
 /* Borders */

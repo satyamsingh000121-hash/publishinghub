@@ -160,11 +160,11 @@ export default function MyAccountPage() {
                 </div>
 
                 {/* Log In Button */}
-                <div className="pt-2">
+                <div className="pt-3">
                   <button
                     type="submit"
                     disabled={isLoggingIn}
-                    className="min-h-[48px] px-8 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#184a32] dark:hover:bg-[#206644] text-white dark:text-[#f2eee3] border border-[#7e22ce] dark:border-[#276643] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md cursor-pointer group"
+                    className="min-h-[48px] px-8 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#184a32] dark:hover:bg-[#206644] text-white dark:text-[#f2eee3] border border-[#7e22ce] dark:border-[#276643] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer group active:scale-98"
                   >
                     {isLoggingIn ? (
                       <span className="animate-pulse">LOGGING IN...</span>
@@ -178,7 +178,7 @@ export default function MyAccountPage() {
                 </div>
 
                 {/* Lost Password Link */}
-                <div className="pt-1">
+                <div className="pt-3">
                   <a
                     href="#forgot-password"
                     onClick={(e) => {
@@ -186,7 +186,7 @@ export default function MyAccountPage() {
                       setToastMessage("Password reset link request panel will open soon.");
                       setTimeout(() => setToastMessage(null), 3500);
                     }}
-                    className="text-xs sm:text-[13px] dark:text-[#d4b56a] text-[#7e22ce] hover:underline font-serif italic"
+                    className="inline-block text-xs sm:text-[13px] dark:text-[#d4b56a] text-[#7e22ce] dark:hover:text-[#fae8be] hover:text-[#9333ea] hover:underline font-serif italic transition-colors"
                   >
                     Lost your password?
                   </a>
@@ -243,11 +243,11 @@ export default function MyAccountPage() {
                 </div>
 
                 {/* Register Button */}
-                <div className="pt-2">
+                <div className="pt-3">
                   <button
                     type="submit"
                     disabled={isRegistering}
-                    className="min-h-[48px] px-8 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#184a32] dark:hover:bg-[#206644] text-white dark:text-[#f2eee3] border border-[#7e22ce] dark:border-[#276643] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md cursor-pointer group"
+                    className="min-h-[48px] px-8 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#184a32] dark:hover:bg-[#206644] text-white dark:text-[#f2eee3] border border-[#7e22ce] dark:border-[#276643] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer group active:scale-98"
                   >
                     {isRegistering ? (
                       <span className="animate-pulse">REGISTERING...</span>

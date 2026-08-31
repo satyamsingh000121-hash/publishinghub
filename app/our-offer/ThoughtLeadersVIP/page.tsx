@@ -237,13 +237,15 @@ export default function CollaborativeLaunchPage() {
             </p>
 
             <div className="pt-4">
-              <button
-                type="button"
+              <a
+                href="https://calendly.com/santoshuk/publishing_discovery?month=2026-08"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md"
               >
                 <span>BOOK A CALL NOW</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </a>
             </div>
           </div>
 
@@ -281,16 +283,19 @@ export default function CollaborativeLaunchPage() {
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
+                onClick={scrollToForm}
                 className="py-3.5 px-4 border border-[#1e3b2b] bg-[#050b08] hover:border-[#d4b56a] hover:text-[#d4b56a] text-[#dedacf] text-xs font-bold tracking-wider uppercase rounded-[3px] text-center transition-colors cursor-pointer"
               >
                 Request A Call Back
               </button>
-              <button
-                type="button"
-                className="py-3.5 px-4 border border-[#1e3b2b] bg-[#050b08] hover:border-[#d4b56a] hover:text-[#d4b56a] text-[#dedacf] text-xs font-bold tracking-wider uppercase rounded-[3px] text-center transition-colors cursor-pointer"
+              <a
+                href="https://calendly.com/santoshuk/publishing_discovery?month=2026-08"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3.5 px-4 border border-[#1e3b2b] bg-[#050b08] hover:border-[#d4b56a] hover:text-[#d4b56a] text-[#dedacf] text-xs font-bold tracking-wider uppercase rounded-[3px] text-center transition-colors cursor-pointer inline-flex items-center justify-center"
               >
                 Book A Video Call
-              </button>
+              </a>
             </div>
           </div>
         </section>
@@ -530,14 +535,15 @@ export default function CollaborativeLaunchPage() {
             As the “go-to” people, Regional Directors play a prominent role. Besides increasing your income, SNG will also allow you to promote and sell your products and services more effectively because it will connect you with more local and national businesses.
           </p>
           <div className="pt-2">
-            <button
-              type="button"
+            <a
+              href="https://calendly.com/santoshuk/publishing_discovery?month=2026-08"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#d4b56a] hover:bg-[#c59e4b] text-[#050807] text-xs sm:text-sm font-bold tracking-widest uppercase rounded-[3px] transition-all duration-200 cursor-pointer shadow-xl active:scale-95"
             >
-              <span>
-                SCHEDULE A FACE-TO-FACE RIGHT NOW</span>
+              <span>SCHEDULE A FACE-TO-FACE RIGHT NOW</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -656,15 +662,17 @@ export default function CollaborativeLaunchPage() {
                   Let&apos;s talk!
                 </p>
                 <div className="pt-1 w-full flex justify-center">
-                  <button
-                    type="button"
+                  <a
+                    href="https://calendly.com/santoshuk/publishing_discovery?month=2026-08"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
                   >
                     <span>SCHEDULE A FACE-TO-FACE RIGHT NOW</span>
                     <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform shrink-0">
                       <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

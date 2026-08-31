@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Heart, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
+import SearchModal from "@/components/SearchModal";
 
 interface NavbarProps {
   cartCount?: number;
@@ -23,6 +24,15 @@ export default function Navbar({
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [announcementDismissed, setAnnouncementDismissed] = useState(false);
+  const [isInternalSearchOpen, setIsInternalSearchOpen] = useState(false);
+
+  const handleOpenSearch = () => {
+    if (onOpenSearch) {
+      onOpenSearch();
+    } else {
+      setIsInternalSearchOpen(true);
+    }
+  };
 
   const getAutoActiveTab = (path: string | null): string => {
     if (!path) return "HOME";
@@ -183,8 +193,8 @@ export default function Navbar({
 
             {/* Search Button */}
             <button
-              onClick={onOpenSearch}
-              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
+              onClick={handleOpenSearch}
+              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
               title="Search Books"
               aria-label="Search"
             >
@@ -312,28 +322,53 @@ export default function Navbar({
               })}
             </div>
 
-            {/* Account and Wishlist links in mobile drawer */}
-            <div className="pt-3 border-t border-[#f2eee3]/10 grid grid-cols-2 gap-2">
-              <a
-                href="#wishlist"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
+            {/* Search, Account and Wishlist links in mobile drawer */}
+            <div className="pt-3 border-t border-[#f2eee3]/10 space-y-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleOpenSearch();
+                }}
+                className="w-full flex items-center justify-between py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a] hover:border-[#d4b56a]/40 bg-[#f2eee3]/5 transition-colors cursor-pointer"
               >
-                <Heart className="w-3.5 h-3.5" />
-                <span>Wishlist (0)</span>
-              </a>
-              <a
-                href="/my-account"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
-              >
-                <User className="w-3.5 h-3.5" />
-                <span>Account</span>
-              </a>
+                <span className="flex items-center gap-2">
+                  <Search className="w-3.5 h-3.5 text-[#d4b56a]" />
+                  <span>Search Books</span>
+                </span>
+                <ArrowRight className="w-3 h-3 opacity-50" />
+              </button>
+
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href="#wishlist"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
+                >
+                  <Heart className="w-3.5 h-3.5" />
+                  <span>Wishlist (0)</span>
+                </a>
+                <a
+                  href="/my-account"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  <span>Account</span>
+                </a>
+              </div>
             </div>
           </div>
         )}
       </header>
+
+      {/* Internal Search Modal for all pages without external handler */}
+      {!onOpenSearch && (
+        <SearchModal
+          isOpen={isInternalSearchOpen}
+          onClose={() => setIsInternalSearchOpen(false)}
+        />
+      )}
     </>
   );
 }
