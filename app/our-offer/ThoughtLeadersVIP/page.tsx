@@ -200,7 +200,7 @@ export default function CollaborativeLaunchPage() {
             </p>
             <div className="pt-4">
               <a
-                href="/images/DOWNLOAD.pdf"
+                href="/images/DOWNLOAD18,000.pdf"
                 download="Writers-Legacy-Brochure.pdf"
                 className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md"
               >

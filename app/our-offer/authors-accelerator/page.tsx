@@ -199,13 +199,14 @@ export default function AuthorsAcceleratorPage() {
                             Get the momentum you need to publish your book and establish yourself as an authority in your field.
                         </p>
                         <div className="pt-4">
-                            <button
-                                type="button"
+                            <a
+                                href="/images/DOWNLOAD5000.pdf"
+                                download="Writers-Legacy-Brochure.pdf"
                                 className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md"
                             >
                                 <span>DOWNLOAD THE BROCHURE</span>
                                 <ArrowRight className="w-4 h-4" />
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -577,7 +578,7 @@ export default function AuthorsAcceleratorPage() {
                         {/* Header */}
                         <div className="text-center space-y-3">
                             <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal text-white tracking-tight leading-tight">
-                               Fast-Track Your Book Publishing Journey in<br className="hidden sm:inline" /> 6 Months
+                                Fast-Track Your Book Publishing Journey in<br className="hidden sm:inline" /> 6 Months
                             </h3>
                             <p className="text-xs sm:text-sm md:text-base text-[#9a9d95] max-w-2xl mx-auto">
                                 Packed with tools and support for a focused, efficient publishing experience.
@@ -589,7 +590,7 @@ export default function AuthorsAcceleratorPage() {
                             {/* Left Column */}
                             <div className="space-y-4">
                                 <p className="text-[#f2eee3] font-medium">
-                                   The Authors Accelerator Package is designed for driven individuals ready to publish their book in just six months. Here’s what you’ll get:
+                                    The Authors Accelerator Package is designed for driven individuals ready to publish their book in just six months. Here’s what you’ll get:
                                 </p>
                                 <p>
                                     <strong className="text-white font-semibold">Comprehensive Course:</strong> A detailed curriculum that takes you through every step of the publishing process.
@@ -611,7 +612,7 @@ export default function AuthorsAcceleratorPage() {
                                     <strong className="text-white font-semibold">Publishing Expertise: </strong> Learn to maintain control of your book’s journey while receiving professional support.
                                 </p>
                                 <p className="pt-2 text-[#9a9d95]">
-                                 This package is ideal for authors who want to combine speed and quality to achieve their publishing goals efficiently.
+                                    This package is ideal for authors who want to combine speed and quality to achieve their publishing goals efficiently.
                                 </p>
                             </div>
                         </div>
