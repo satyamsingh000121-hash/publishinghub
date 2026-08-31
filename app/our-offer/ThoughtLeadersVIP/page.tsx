@@ -92,14 +92,14 @@ export default function CollaborativeLaunchPage() {
             <section className="border-b border-[#1e3b2b]/60 bg-[#060d09] py-8 sm:py-10">
                 <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-normal text-[#f2eee3] tracking-tight">
-                        Collaborative Launch Package
+                       Thought Leaders VIP Experience Package
                     </h1>
                     <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#888b83]">
                         <Link href="/" className="hover:text-[#d4b56a] transition-colors">
                             Home
                         </Link>
                         <span className="text-[#888b83]/60">/</span>
-                        <span className="text-[#d4b56a]">Collaborative Launch Package</span>
+                        <span className="text-[#d4b56a]">Thought Leaders VIP Experience Package</span>
                     </nav>
                 </div>
             </section>
