@@ -178,16 +178,16 @@ export default function CollaborativeLaunchPage() {
                 <section className="grid md:grid-cols-12 gap-8 lg:gap-12 items-center rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12 lg:p-16 min-h-[460px] md:min-h-[520px]">
                     <div className="md:col-span-6 space-y-6">
                         <h3 className="font-display text-3xl sm:text-4xl lg:text-[42px] font-normal text-[#d4b56a] leading-tight">
-                            Your Book. Our Expertise. Published in 3 Months.
+                         Effortless Publishing for Visionaries.
                         </h3>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            The Collaborative Launch Package is the perfect solution for ambitious entrepreneurs and professionals looking to publish a book quickly while maintaining their unique voice.
+                            Let us bring your vision to life with the Thought Leaders VIP Experience Package.
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            In just three months, our team will guide you through the writing, editing, and marketing process.
+                           This premium offering is designed for entrepreneurs who want to publish their book with zero hassle. Our team takes care of everything—from ghostwriting and editing to cover design, marketing, and launch strategy. 
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            With personalized coaching, manuscript feedback, and a custom marketing strategy, we’ll ensure your book is polished and ready for the world. It’s the fastest and most efficient way to collaborate with industry experts and get your story published.
+                           In just three months, your book will be professionally crafted, published, and positioned as a bestseller. With a focus on quality and customization, this package ensures your book reflects your expertise and elevates your brand. Perfect for busy thought leaders ready to make an impact without sacrificing their time.
                         </p>
                         <div className="pt-4">
                             <button
@@ -214,16 +214,16 @@ export default function CollaborativeLaunchPage() {
                 <section className="grid md:grid-cols-12 gap-8 lg:gap-12 items-center rounded-2xl border border-[#1e3b2b] bg-[#07130c] p-8 sm:p-12 lg:p-16 min-h-[460px] md:min-h-[520px]">
                     <div className="md:col-span-6 space-y-6">
                         <h3 className="font-display text-3xl sm:text-4xl lg:text-[42px] font-normal text-[#d4b56a] leading-tight">
-                            Your Book Published in Just 3 Months!
+                           Effortless Publishing, Fully Managed for You.
                         </h3>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            Do you want to publish your book quickly with the help of a professional team?
+                           Want to publish your book without lifting a finger? The Thought Leaders VIP Experience Package is a premium, all-inclusive service that takes care of every aspect of your book’s creation, from ghostwriting to marketing. 
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            The Collaborative Launch Package is your answer! Book a free call today to learn how our personalized coaching, manuscript feedback, and marketing expertise can help you bring your book to life in just three months.
+                          Book a video call with our team to discuss your vision and discover how we can create a professionally crafted, bestseller-worthy book for you.
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            We’ll discuss your goals, answer your questions, and explore how we can collaborate to create a polished, market-ready book that reflects your unique voice. Don’t wait—schedule your call now!.
+                           On this call, we’ll outline the process, answer your questions, and ensure this package is the perfect fit for your needs. Focus on your business while we handle the rest.
                         </p>
 
                         <div className="pt-4">
@@ -290,10 +290,11 @@ export default function CollaborativeLaunchPage() {
             <section className="w-full relative overflow-hidden border-y border-[#1e3b2b]/90 bg-[#0b1c14] py-12 sm:py-16 shadow-[0_20px_50px_rgba(0,0,0,0.8)] my-4">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4 sm:space-y-5">
                     <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium text-white tracking-tight drop-shadow-sm">
-                        Publish Your Book in Record Time!
+                       Effortless Publishing for Visionaries!
+
                     </h3>
                     <p className="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed">
-                        Request a call back to find out how we can collaborate to bring your book to life in just 3 months.
+                       Request a call back to discuss how we can handle everything and deliver a bestseller-worthy book for you.
                     </p>
                     <div className="pt-2 flex justify-center">
                         <button
@@ -317,22 +318,19 @@ export default function CollaborativeLaunchPage() {
                     {/* Left: Info */}
                     <div className="lg:col-span-5 space-y-6">
                         <h3 className="font-display text-2xl sm:text-3xl font-normal text-[#d4b56a] leading-tight">
-                            Publish Your Book in Just 3 Months!
+                           Effortless Publishing for Visionaries!
                         </h3>
                         <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
-                            Submit Your Inquiry to See How We Can Bring Your Vision to Life with Expert Support.
+                            Submit Your Inquiry to Learn How We Can Create Your Bestseller for You.
                         </p>
                         <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
-                            Looking for a team of experts to guide you through the publishing process?
+                           For busy professionals and entrepreneurs, the Thought Leaders VIP Experience Package offers a seamless, hands-off publishing solution.
                         </p>
                         <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
-                            The Collaborative Launch Package is designed for ambitious individuals who want to write, edit, and publish their book in just three months. This package combines personalized coaching, detailed manuscript feedback, and a tailored marketing strategy to ensure your book is polished, professional, and ready for success.
+                           In just three months, our team will manage every aspect of your book’s creation, including ghostwriting, editing, cover design, and marketing. Tailored to your unique vision, this package ensures that your book is not only professionally crafted but also strategically positioned to elevate your brand and authority.
                         </p>
                         <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
-                            Whether you’re an entrepreneur, professional, or creative visionary, our team will work with you to bring your unique voice to the world.
-                        </p>
-                        <p className="text-xs sm:text-sm text-[#9a9d95] leading-relaxed">
-                            Submit your inquiry today to learn more about how we can help you achieve your publishing goals on an accelerated timeline!
+                            Submit your inquiry today to discuss how we can handle every detail of your publishing journey. Focus on your business while we turn your ideas into a high-quality, bestseller-worthy book!
                         </p>
                         <div className="pt-4 border-t border-[#1e3b2b] space-y-2 text-xs text-[#dedacf]">
                             <p>
