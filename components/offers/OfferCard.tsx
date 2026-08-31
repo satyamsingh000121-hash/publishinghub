@@ -96,14 +96,14 @@ export default function OfferCard({ offer, onSelectPlan }: OfferCardProps) {
         {offer.link ? (
           <Link
             href={offer.link}
-            className="block w-full py-3 px-6 dark:bg-[#08120c] bg-white hover:bg-[#9333ea] dark:hover:bg-[#d4b56a] dark:text-[#d4b56a] text-[#9333ea] hover:text-white dark:hover:text-[#050807] dark:border-[#d4b56a]/70 border-[#9333ea] hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-[2px] shadow-md hover:shadow-lg text-center"
+            className="block w-full py-3.5 px-6 bg-[#9333ea] hover:bg-[#7e22ce] text-white dark:bg-[#08120c] dark:hover:bg-[#d4b56a] dark:text-[#d4b56a] dark:hover:text-[#050807] border border-[#7e22ce] dark:border-[#d4b56a]/70 dark:hover:border-[#d4b56a] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-[3px] shadow-md hover:shadow-lg text-center cursor-pointer active:scale-98"
           >
             SELECT PLAN
           </Link>
         ) : (
           <button
             onClick={() => onSelectPlan?.(offer)}
-            className="w-full py-3 px-6 dark:bg-[#08120c] bg-white hover:bg-[#9333ea] dark:hover:bg-[#d4b56a] dark:text-[#d4b56a] text-[#9333ea] hover:text-white dark:hover:text-[#050807] dark:border-[#d4b56a]/70 border-[#9333ea] hover:border-[#9333ea] dark:hover:border-[#d4b56a] text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-[2px] shadow-md hover:shadow-lg"
+            className="w-full py-3.5 px-6 bg-[#9333ea] hover:bg-[#7e22ce] text-white dark:bg-[#08120c] dark:hover:bg-[#d4b56a] dark:text-[#d4b56a] dark:hover:text-[#050807] border border-[#7e22ce] dark:border-[#d4b56a]/70 dark:hover:border-[#d4b56a] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-[3px] shadow-md hover:shadow-lg text-center cursor-pointer active:scale-98"
           >
             SELECT PLAN
           </button>

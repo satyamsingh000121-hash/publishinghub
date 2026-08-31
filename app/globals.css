@@ -278,8 +278,7 @@ html.light .text-white,
 html.light .text-white\/95,
 html.light .text-white\/90,
 html.light .text-white\/80,
-html.light .text-white\/70,
-html.light [class*="text-white"] {
+html.light .text-white\/70 {
   color: #ffffff !important;
 }
 
