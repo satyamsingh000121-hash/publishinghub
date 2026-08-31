@@ -474,19 +474,19 @@ export default function CollaborativeLaunchPage() {
                            Effortless Training and End-to-End Support for Visionary Leaders
                         </h3>
                         <h4 className="text-sm sm:text-base font-semibold text-[#dedacf]">
-                            Partnering with You to Achieve a Polished and Successful Publication.
+                            Allowing You to Focus on Your Vision While We Handle Every Detail of Your Book Launch.
                         </h4>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            When time is of the essence, the Collaborative Launch Package offers tailored training and hands-on support to help you publish your book in just three months.
+                           The Thought Leaders VIP Experience Package is designed for busy professionals who want to publish a book without the hassle of managing the details.
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            With this package, you’ll collaborate closely with our team of experts to streamline the writing, editing, and marketing processes. We provide detailed manuscript feedback to ensure your book meets professional standards and offer customized training to guide you through the critical steps of publishing.
+                           With this premium package, our team takes care of everything—ghostwriting, editing, cover design, and marketing—while also providing you with insights and guidance to ensure your book aligns perfectly with your vision.
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            Additionally, we design a personalized marketing strategy to position your book for success in the marketplace.
+                           We’ll walk you through the process, offering tailored support where needed, and equip you with the knowledge to leverage your book as a powerful tool for personal and professional growth.
                         </p>
                         <p className="text-sm sm:text-base text-[#9a9d95] leading-relaxed">
-                            This package is ideal for entrepreneurs and creatives who value expert guidance but still want their unique voice to shine through. From concept to launch, we’ll equip you with the tools and support to create a high-quality book in record time.
+                           This package ensures that every element of your book is handled with precision and expertise, positioning it for maximum impact. From initial concept to bestseller status, our team delivers a seamless experience that saves you time while amplifying your authority.
                         </p>
                         <div className="pt-3">
                             <button
