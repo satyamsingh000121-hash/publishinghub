@@ -552,10 +552,10 @@ export default function CollaborativeLaunchPage() {
                         {/* Header */}
                         <div className="text-center space-y-3">
                             <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-normal text-white tracking-tight leading-tight">
-                                Bring Your Book to Life in Just 3 Months <br className="hidden sm:inline" />with Expert Help
+                               Effortless Publishing Tailored for<br className="hidden sm:inline" />Visionaries
                             </h3>
                             <p className="text-xs sm:text-sm md:text-base text-[#9a9d95] max-w-2xl mx-auto">
-                                Professional guidance and collaboration to ensure a polished, successful book.
+                               Everything you need to create a bestseller, managed entirely by experts.
                             </p>
                         </div>
 
@@ -564,7 +564,7 @@ export default function CollaborativeLaunchPage() {
                             {/* Left Column */}
                             <div className="space-y-4">
                                 <p className="text-[#f2eee3] font-medium">
-                                    The Collaborative Launch Package is tailored for ambitious individuals who want to publish their book quickly while benefiting from expert support. Here’s what’s included:
+                                   The Thought Leaders VIP Experience Package is a premium, all-inclusive solution for busy professionals and entrepreneurs. Here’s what’s included:
                                 </p>
                                 <p>
                                     <strong className="text-white font-semibold">Personalized Coaching:</strong>Work closely with professionals to refine your book and prepare it for publishing.
