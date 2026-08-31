@@ -199,13 +199,14 @@ export default function WritersLegacyPage() {
                             Perfect for entrepreneurs, professionals, and storytellers seeking to leave their mark.
                         </p>
                         <div className="pt-4">
-                            <button
-                                type="button"
+                            <a
+                                href="/images/DOWNLOAD.pdf"
+                                download="Writers-Legacy-Brochure.pdf"
                                 className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md"
                             >
                                 <span>DOWNLOAD THE BROCHURE</span>
                                 <ArrowRight className="w-4 h-4" />
-                            </button>
+                            </a>
                         </div>
                     </div>
 

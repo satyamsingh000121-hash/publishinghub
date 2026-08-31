@@ -199,13 +199,14 @@ export default function CollaborativeLaunchPage() {
               In just three months, your book will be professionally crafted, published, and positioned as a bestseller. With a focus on quality and customization, this package ensures your book reflects your expertise and elevates your brand. Perfect for busy thought leaders ready to make an impact without sacrificing their time.
             </p>
             <div className="pt-4">
-              <button
-                type="button"
+              <a
+                href="/images/DOWNLOAD.pdf"
+                download="Writers-Legacy-Brochure.pdf"
                 className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md"
               >
                 <span>DOWNLOAD THE BROCHURE</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </a>
             </div>
           </div>
 

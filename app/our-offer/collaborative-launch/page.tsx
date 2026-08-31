@@ -199,13 +199,14 @@ export default function CollaborativeLaunchPage() {
                             With personalized coaching, manuscript feedback, and a custom marketing strategy, we’ll ensure your book is polished and ready for the world. It’s the fastest and most efficient way to collaborate with industry experts and get your story published.
                         </p>
                         <div className="pt-4">
-                            <button
-                                type="button"
+                            <a
+                                href="/images/DOWNLOAD.pdf"
+                                download="Writers-Legacy-Brochure.pdf"
                                 className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md"
                             >
                                 <span>DOWNLOAD THE BROCHURE</span>
                                 <ArrowRight className="w-4 h-4" />
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -598,7 +599,7 @@ export default function CollaborativeLaunchPage() {
                                     <strong className="text-white font-semibold">Accelerated Timeline: </strong>Publish a polished and professional book in just three months.
                                 </p>
                                 <p className="pt-2 text-[#9a9d95]">
-                                   This package is ideal for entrepreneurs and visionaries seeking rapid results without compromising on quality.
+                                    This package is ideal for entrepreneurs and visionaries seeking rapid results without compromising on quality.
                                 </p>
                             </div>
                         </div>
