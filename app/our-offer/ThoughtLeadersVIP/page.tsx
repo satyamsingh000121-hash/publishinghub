@@ -586,7 +586,7 @@ export default function CollaborativeLaunchPage() {
                                     <strong className="text-white font-semibold">Personalized Guidance:</strong>Ensure your vision is reflected in a high-quality, market-ready book.
                                 </p>
                                 <p className="pt-2 text-[#9a9d95]">
-                                   This package is ideal for entrepreneurs and visionaries seeking rapid results without compromising on quality.
+                               This package is perfect for leaders who want to focus on their business while leaving their publishing journey in expert hands.
                                 </p>
                             </div>
                         </div>
