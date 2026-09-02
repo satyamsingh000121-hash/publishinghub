@@ -87,7 +87,7 @@ export default function AboutSponsors() {
             Sponsors &amp; affiliates
           </h2>
           <p className="text-xs sm:text-sm dark:text-[#888b83] text-[#71717a] font-sans">
-            Trusted partners, publishers, and independent literary guilds.
+            Lorem ipsum dolor sit amet conse ctetur adipisicing elit,
           </p>
         </div>
       </div>
