@@ -74,28 +74,43 @@ export default function Footer() {
             </div>
 
             {/* Payment Method Badges */}
-            <div className="flex flex-wrap items-center gap-2 pt-2">
-              {/* Visa */}
-              <div className="px-2.5 py-1 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center">
-                <span className="text-[10px] font-black tracking-widest text-[#1a73e8] italic">
-                  VISA
-                </span>
-              </div>
-              {/* Mastercard */}
-              <div className="px-2.5 py-1 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center gap-0.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#eb001b] inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#f79e1b] -ml-1.5 inline-block opacity-90" />
-              </div>
-              {/* Maestro / Cirrus */}
-              <div className="px-2.5 py-1 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center gap-0.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#00a2e5] inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#eb001b] -ml-1.5 inline-block opacity-90" />
-              </div>
-              {/* American Express */}
-              <div className="px-2.5 py-1 bg-[#006fcf] rounded-sm text-[9px] font-bold text-white tracking-tighter">
-                AMEX
-              </div>
-            </div>
+        <div className="flex flex-wrap items-center gap-2 pt-2">
+
+  {/* Visa */}
+  <div className="w-16 h-8 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center">
+    <a href="/">
+      <span className="text-[10px] font-black tracking-widest text-[#1a73e8] italic">
+        VISA
+      </span>
+    </a>
+  </div>
+
+  {/* Mastercard */}
+  <div className="w-16 h-8 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center">
+    <a href="/" className="flex items-center">
+      <span className="w-3.5 h-3.5 rounded-full bg-[#eb001b] inline-block" />
+      <span className="w-3.5 h-3.5 rounded-full bg-[#f79e1b] -ml-1.5 inline-block opacity-90" />
+    </a>
+  </div>
+
+  {/* Maestro / Cirrus */}
+  <div className="w-16 h-8 dark:bg-[#1a1f1c] bg-[#faf5ff] border dark:border-white/10 border-[#e9e1f5] rounded-sm flex items-center justify-center">
+    <a href="/" className="flex items-center">
+      <span className="w-3.5 h-3.5 rounded-full bg-[#00a2e5] inline-block" />
+      <span className="w-3.5 h-3.5 rounded-full bg-[#eb001b] -ml-1.5 inline-block opacity-90" />
+    </a>
+  </div>
+
+  {/* American Express */}
+  <div className="w-16 h-8 bg-[#006fcf] rounded-sm flex items-center justify-center">
+    <a href="/">
+      <span className="text-[9px] font-bold text-white tracking-tighter">
+        AMEX
+      </span>
+    </a>
+  </div>
+
+</div>
           </div>
 
           {/* Column 2: Quick Links (2.5 cols) */}
@@ -216,7 +231,7 @@ export default function Footer() {
 
         {/* Footer Bottom Bar */}
         <div className="border-t border-[#f2eee3]/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#747870]">
-          <p>© 2026 The Publishing Hub. All Rights Reserved.</p>
+          <p>© 2024 thepublishinghub. All Right Reserved.</p>
 
           <div className="flex items-center gap-4 text-[11px] sm:text-xs">
             <a href="/refund_returns" className="hover:text-[#d4b56a] transition-colors">
