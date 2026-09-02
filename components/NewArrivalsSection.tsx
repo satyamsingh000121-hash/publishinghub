@@ -112,7 +112,7 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
                 Sale <span className="text-[#d4b56a]">-25%</span>
               </h3>
               <span className="text-[10px] sm:text-xs tracking-[0.24em] font-extrabold text-[#c0d4c8] dark:text-[#c0d4c8] uppercase block mt-2">
-                ON ORDER OVER £150
+                ON ORDER OVER £100
               </span>
             </div>
 
