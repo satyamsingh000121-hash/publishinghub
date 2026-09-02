@@ -33,7 +33,7 @@ export default function PromoCards() {
                   <span className="italic font-normal text-[#d9d5ca]">For All Ages</span>
                 </h3>
                 <p className="text-[#9a9b94] text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed font-light">
-                  Explore a world of stories with our diverse book collection for all ages. From timeless classics to modern favorites, explore books for children, teens, and adults.
+                  Explore a world of stories with our diverse book collection for all ages. From enchanting picture books for kids to engaging novels for teens and adults, we have something for every reader. Find the perfect book to inspire, educate, and entertain in our carefully curated selection.
                 </p>
               </div>
 
@@ -42,7 +42,7 @@ export default function PromoCards() {
                   href="/shop"
                   className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
                 >
-                  DISCOVER MORE <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  CLICK HERE <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function PromoCards() {
                 href="/shop"
                 className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
               >
-                VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+               PURCHASE <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function PromoCards() {
                   href="/shop"
                   className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
                 >
-                  VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  PURCHASE <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -164,7 +164,7 @@ export default function PromoCards() {
                   href="/shop"
                   className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
                 >
-                  VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  PURCHASE <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function PromoCards() {
                 href="/shop"
                 className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.16em] uppercase text-[#d4b56a] group-hover:text-white transition-colors"
               >
-                VIEW BOOK <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                PURCHASE <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </div>

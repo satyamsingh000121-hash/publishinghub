@@ -13,7 +13,7 @@ import {
   Share2,
   Instagram,
   Linkedin,
-  Check,
+  Check, 
   ChevronRight,
   Plus,
   Minus,

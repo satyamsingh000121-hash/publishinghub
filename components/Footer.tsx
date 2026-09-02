@@ -37,12 +37,12 @@ export default function Footer() {
             </h4>
 
             <div className="space-y-1.5 text-[#9a9b94] leading-relaxed text-[13px] sm:text-sm">
-              <p>32 Bishop Road,</p>
-              <p>Birmingham, B15 1AA</p>
-              <p>United Kingdom</p>
-              <p className="pt-1.5 text-[#f2eee3] font-medium">(+44) 0121 496 7890</p>
+              <p>12 Shirley road,</p>
+              <p>Southampton, United</p>
+              <p>Kingdom, SO15 3EU</p>
+              <p className="pt-1.5 text-[#f2eee3] font-medium">(+44) 7454 675398</p>
               <p className="text-[#d4b56a] hover:underline cursor-pointer">
-                hello@thepublishing.com
+                hello@thepublishinghub.co.uk
               </p>
             </div>
 
@@ -94,13 +94,13 @@ export default function Footer() {
 
           {/* Column 2: Quick Links (2.5 cols) */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">
+            <h4 className="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-[#d4b56a] uppercase">     
               QUICK LINKS
             </h4>
             <ul className="space-y-2.5 text-[13px] sm:text-sm">
               {[
-                { name: "Home", href: "/" },
-                { name: "About Us", href: "/about" },
+                { name: "Home", href: "/" },        
+                { name: "About Us", href: "/about" },  
                 { name: "Shop", href: "/shop" },
                 { name: "Our Offer", href: "/our-offer" },
                 { name: "Event", href: "/events" },
@@ -163,15 +163,13 @@ export default function Footer() {
                   Visions of Victory
                 </h5>
                 <p className="text-[11px] text-[#888b83]">
-                  The Journey of a Young Entrepreneur
+                  The Journey of Visions to Victory
                 </p>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-xs font-semibold text-[#d4b56a]">
                     £35.00
                   </span>
-                  <span className="text-[11px] text-[#656861] line-through">
-                    £29.00
-                  </span>
+                  
                 </div>
               </div>
             </div>
