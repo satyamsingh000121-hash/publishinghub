@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronUp, MapPin, Twitter, Mail, Linkedin, Check } from "lucide-react";
+import { ChevronUp, MapPin, Twitter, Mail, Linkedin, Check, Facebook, Instagram } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 
 export default function Footer() {
@@ -41,28 +41,34 @@ export default function Footer() {
               <p>Southampton, United</p>
               <p>Kingdom, SO15 3EU</p>
               <p className="pt-1.5 text-[#f2eee3] font-medium">(+44) 7454 675398</p>
-              <p className="text-[#d4b56a] hover:underline cursor-pointer">
+              <a
+                href="mailto:hello@thepublishinghub.co.uk"
+                className="text-[#d4b56a] hover:underline cursor-pointer"
+              >
                 hello@thepublishinghub.co.uk
-              </p>
+              </a>
             </div>
 
             {/* Social Icons */}
             <div className="flex items-center gap-2.5 pt-1">
               {[
-                { icon: MapPin, label: "Location" },
-                { icon: Twitter, label: "Twitter" },
-                { icon: Linkedin, label: "LinkedIn" },
-                { icon: Mail, label: "Email" },
+                { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/people/The-Publishing-Hub/61566538916782/" },
+                { icon: Twitter, label: "Twitter", href: "https://x.com/santoshmgeecon?mx=2" },
+                { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/the_publishing_hub99/" },
+                { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/the-publishing-hub-a55a06305/" },
               ].map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <button
+                  <a
                     key={idx}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-8 h-8 rounded-full dark:bg-[#0d1410] bg-[#faf5ff] border dark:border-[#f2eee3]/15 border-[#e9e1f5] dark:hover:border-[#d4b56a] hover:border-[#9333ea] dark:text-[#d9d5ca] text-[#71717a] hover:text-[#9333ea] flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-xs"
                     aria-label={item.label}
                   >
                     <Icon className="w-3.5 h-3.5" />
-                  </button>
+                  </a>
                 );
               })}
             </div>
