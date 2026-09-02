@@ -15,7 +15,7 @@ interface Book {
   oldPrice?: string;
   saleBadge?: string;
   category: string;
-}
+}    
 
 interface BestsellerSectionProps {
   onAddToCart?: (bookTitle: string) => void;
