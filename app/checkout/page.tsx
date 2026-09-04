@@ -34,12 +34,17 @@ export default function CheckoutPage() {
   const [couponMessage, setCouponMessage] = useState("");
 
   // =========================
-  // PAYMENT
+  // PAYMENT & CONTACT (LINK)
   // =========================
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvc, setCvc] = useState("");
   const [cardName, setCardName] = useState("");
+  const [linkOpen, setLinkOpen] = useState(true);
+  const [saveInfoEmail, setSaveInfoEmail] = useState("");
+  const [saveInfoPhone, setSaveInfoPhone] = useState("");
+  const [saveInfoName, setSaveInfoName] = useState("");
+  const [savedSuccessMsg, setSavedSuccessMsg] = useState("");
 
   // =========================
   // ORDER DATA
@@ -136,23 +141,38 @@ export default function CheckoutPage() {
         <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
 
           {/* =========================
-              LOGIN LINK
+              TOP NOTICES (COUPON & LOGIN)
           ========================= */}
-          <div className="mb-4 text-center">
-            <button
-              type="button"
-              onClick={() => setShowLogin(!showLogin)}
-              className="text-sm font-medium text-[#d4b56a] transition duration-300 hover:text-[#f2eee3]"
-            >
-              {showLogin ? "Close login" : "Click here to login"}
-            </button>
+          <div className="mb-8 flex flex-col justify-between gap-4 border-b border-[#1e3b2b]/60 pb-6 sm:flex-row sm:items-center">
+            <p className="text-sm text-[#8d9790]">
+              Have a coupon?{" "}
+              <button
+                type="button"
+                onClick={() => setShowCoupon(!showCoupon)}
+                className="font-medium text-[#d4b56a] transition hover:text-[#f2eee3]"
+              >
+                {showCoupon
+                  ? "Close coupon"
+                  : "Click here to enter your code"}
+              </button>
+            </p>
+
+            <div>
+              <button
+                type="button"
+                onClick={() => setShowLogin(!showLogin)}
+                className="text-sm font-medium text-[#d4b56a] transition duration-300 hover:text-[#f2eee3]"
+              >
+                {showLogin ? "Close login" : "Click here to login"}
+              </button>
+            </div>
           </div>
 
           {/* =========================
               LOGIN FORM
           ========================= */}
           {showLogin && (
-            <div className="mx-auto mb-8 max-w-5xl rounded-2xl border border-[#1e3b2b] bg-[#08140e] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-8">
+            <div className="mb-8 rounded-2xl border border-[#1e3b2b] bg-[#08140e] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-8">
 
               <div className="mb-7">
                 <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.22em] text-[#d4b56a]">
@@ -231,28 +251,10 @@ export default function CheckoutPage() {
           )}
 
           {/* =========================
-              COUPON LINK
-          ========================= */}
-          <div className="mx-auto mb-12 max-w-5xl">
-            <p className="text-sm text-[#8d9790]">
-              Have a coupon?{" "}
-              <button
-                type="button"
-                onClick={() => setShowCoupon(!showCoupon)}
-                className="font-medium text-[#d4b56a] transition hover:text-[#f2eee3]"
-              >
-                {showCoupon
-                  ? "Close coupon"
-                  : "Click here to enter your code"}
-              </button>
-            </p>
-          </div>
-
-          {/* =========================
               COUPON FORM
           ========================= */}
           {showCoupon && (
-            <div className="mx-auto mb-12 max-w-5xl rounded-2xl border border-[#1e3b2b] bg-[#08140e] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-8">
+            <div className="mb-8 rounded-2xl border border-[#1e3b2b] bg-[#08140e] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-8">
 
               <div className="mb-5">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#d4b56a]">
@@ -568,101 +570,147 @@ export default function CheckoutPage() {
                     <div className="mt-4 h-px w-20 bg-[#d4b56a]" />
                   </div>
 
-                  <div className="overflow-hidden rounded-2xl border border-[#1e3b2b] bg-[#08140e] shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+                  {/* =========================
+                      ORDER SUMMARY CARD
+                  ========================= */}
+                  <div className="rounded-2xl border border-[#1e3b2b] bg-[#08140e] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-8">
 
-                    {/* ORDER ITEMS */}
-                    <div className="p-6 sm:p-8">
+                    <div className="mb-5 flex items-center justify-between border-b border-[#1e3b2b] pb-4">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d4b56a]">
+                        Product
+                      </span>
 
-                      <div className="mb-5 flex items-center justify-between border-b border-[#1e3b2b] pb-4">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d4b56a]">
-                          Product
-                        </span>
-
-                        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d4b56a]">
-                          Total
-                        </span>
-                      </div>
-
-                      <div className="space-y-5">
-
-                        {orderItems.map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex items-start justify-between gap-5"
-                          >
-                            <div>
-                              <p className="text-sm text-[#f2eee3]">
-                                {item.name}
-                              </p>
-
-                              <p className="mt-1 text-xs text-[#7e8981]">
-                                × {item.quantity}
-                              </p>
-                            </div>
-
-                            <span className="whitespace-nowrap text-sm text-[#d4b56a]">
-                              £{item.price.toFixed(2)}
-                            </span>
-                          </div>
-                        ))}
-
-                      </div>
-
-                      {/* SUBTOTAL */}
-                      <div className="mt-7 border-t border-[#1e3b2b] pt-5">
-
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-[#8d9790]">
-                            Subtotal
-                          </span>
-
-                          <span className="text-sm text-[#f2eee3]">
-                            £{subtotal.toFixed(2)}
-                          </span>
-                        </div>
-
-                      </div>
-
-                      {/* TOTAL */}
-                      <div className="mt-4 flex items-center justify-between border-t border-[#294333] pt-5">
-
-                        <span className="font-display text-xl text-[#f2eee3]">
-                          Total
-                        </span>
-
-                        <span className="font-display text-2xl text-[#d4b56a]">
-                          £{total.toFixed(2)}
-                        </span>
-
-                      </div>
-
+                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d4b56a]">
+                        Total
+                      </span>
                     </div>
 
-                    {/* =========================
-                        PAYMENT
-                    ========================= */}
-                    <div className="border-t border-[#1e3b2b] bg-[#07110c] p-6 sm:p-8">
+                    <div className="space-y-5">
+                      {orderItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-start justify-between gap-5"
+                        >
+                          <div>
+                            <p className="text-sm text-[#f2eee3]">
+                              {item.name}
+                            </p>
 
-                      <div className="mb-6">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d4b56a]">
-                          Secure Payment
+                            <p className="mt-1 text-xs text-[#7e8981]">
+                              × {item.quantity}
+                            </p>
+                          </div>
+
+                          <span className="whitespace-nowrap text-sm text-[#d4b56a]">
+                            £{item.price.toFixed(2)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* SUBTOTAL */}
+                    <div className="mt-7 border-t border-[#1e3b2b] pt-5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-[#8d9790]">
+                          Subtotal
                         </span>
 
-                        <h3 className="mt-2 font-display text-2xl text-[#f2eee3]">
-                          Card Details
-                        </h3>
+                        <span className="text-sm text-[#f2eee3]">
+                          £{subtotal.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* TOTAL */}
+                    <div className="mt-4 flex items-center justify-between border-t border-[#294333] pt-5">
+                      <span className="font-display text-xl text-[#f2eee3]">
+                        Total
+                      </span>
+
+                      <span className="font-display text-2xl text-[#d4b56a]">
+                        £{total.toFixed(2)}
+                      </span>
+                    </div>
+
+                  </div>
+
+                  {/* =========================
+                      PAYMENT / CARD DETAILS CARD
+                  ========================= */}
+                  {/* =========================
+                      PAYMENT / CARD DETAILS CARD
+                  ========================= */}
+                  <div className="mt-8">
+
+                    {/* CREDIT / DEBIT CARDS TAB HEADER */}
+                    <div className="flex items-center justify-between px-2 pb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold tracking-wide text-[#f2eee3]">
+                          Credit/Debit Cards
+                        </span>
                       </div>
 
-                      {/* CARD PREVIEW */}
-                      <div className="mb-6 rounded-xl border border-[#294333] bg-gradient-to-br from-[#10291d] to-[#07110c] p-5">
+                      <div className="flex items-center gap-1.5">
+                        {/* AMEX */}
+                        <div className="flex h-5 items-center justify-center rounded bg-[#006FCF] px-1.5 text-[8px] font-black tracking-wider text-white shadow-sm">
+                          AMEX
+                        </div>
+                        {/* DISCOVER */}
+                        <div className="flex h-5 items-center justify-center rounded bg-[#231F20] px-1.5 text-[8px] font-bold text-white shadow-sm">
+                          <span className="text-[#F47216]">DISC</span>OVER
+                        </div>
+                        {/* VISA */}
+                        <div className="flex h-5 items-center justify-center rounded bg-[#1A1F71] px-1.5 text-[9px] font-extrabold italic tracking-wider text-white shadow-sm">
+                          VISA
+                        </div>
+                        {/* MASTERCARD */}
+                        <div className="flex h-5 items-center justify-center rounded bg-[#222] px-1.5 shadow-sm">
+                          <span className="h-3 w-3 -mr-1 rounded-full bg-[#EB001B]" />
+                          <span className="h-3 w-3 rounded-full bg-[#F79E1B]/90" />
+                        </div>
+                      </div>
+                    </div>
 
+                    {/* TAB POINTER ARROW */}
+                    <div className="relative pl-6">
+                      <div className="h-0 w-0 border-x-[7px] border-b-[7px] border-x-transparent border-b-[#1e3b2b]" />
+                    </div>
+
+                    {/* MAIN PAYMENT BOX */}
+                    <div className="rounded-2xl border border-[#1e3b2b] bg-[#08140e] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-7">
+
+                      {/* SECURE FAST CHECKOUT WITH LINK */}
+                      <button
+                        type="button"
+                        onClick={() => setLinkOpen(!linkOpen)}
+                        className="mb-6 flex w-full items-center justify-between rounded-lg bg-[#0d261b]/80 px-3.5 py-2.5 text-xs font-semibold text-emerald-400 transition hover:bg-[#0d261b]"
+                      >
+                        <span className="flex items-center gap-2">
+                          <svg className="h-4 w-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v2H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-1V6a4 4 0 00-4-4zm2 6V6a2 2 0 10-4 0v2h4zm-3 5a1 1 0 112 0v2a1 1 0 11-2 0v-2z" clipRule="evenodd" />
+                          </svg>
+                          Secure, fast checkout with Link
+                        </span>
+
+                        <svg
+                          className={`h-4 w-4 text-emerald-400 transition-transform duration-200 ${linkOpen ? "rotate-180" : ""}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {/* CARD PREVIEW */}
+                      <div className="mb-6 rounded-xl border border-[#294333] bg-gradient-to-br from-[#10291d] to-[#07110c] p-5 shadow-inner">
                         <div className="flex items-start justify-between">
                           <div>
                             <p className="text-[9px] uppercase tracking-[0.2em] text-[#8d9790]">
                               Publishing Hub
                             </p>
 
-                            <p className="mt-5 text-lg tracking-[0.18em] text-[#f2eee3]">
+                            <p className="mt-4 text-base sm:text-lg tracking-[0.18em] text-[#f2eee3] font-mono">
                               {cardNumber
                                 ? cardNumber
                                     .replace(/\s/g, "")
@@ -672,19 +720,19 @@ export default function CheckoutPage() {
                             </p>
                           </div>
 
-                          <div className="text-xl text-[#d4b56a]">
+                          <div className="text-lg font-bold tracking-widest text-[#d4b56a]">
                             CARD
                           </div>
                         </div>
 
-                        <div className="mt-6 flex items-end justify-between">
+                        <div className="mt-5 flex items-end justify-between">
                           <div>
                             <p className="text-[8px] uppercase tracking-[0.18em] text-[#6e7971]">
                               Card Holder
                             </p>
 
                             <p className="mt-1 text-xs uppercase text-[#d5d9d5]">
-                              {cardName || "YOUR NAME"}
+                              {cardName || saveInfoName || "YOUR NAME"}
                             </p>
                           </div>
 
@@ -693,123 +741,212 @@ export default function CheckoutPage() {
                               Expires
                             </p>
 
-                            <p className="mt-1 text-xs text-[#d5d9d5]">
+                            <p className="mt-1 text-xs text-[#d5d9d5] font-mono">
                               {expiry || "MM / YY"}
                             </p>
                           </div>
                         </div>
-
                       </div>
 
                       {/* CARD NUMBER */}
-                      <div className="mb-5">
-                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-[#c6cbc7]">
-                          Card Number
+                      <div className="mb-4">
+                        <label className="mb-1.5 block text-xs font-medium text-[#c6cbc7]">
+                          Card number
                         </label>
 
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          value={cardNumber}
-                          onChange={(e) =>
-                            setCardNumber(e.target.value)
-                          }
-                          placeholder="1234 1234 1234 1234"
-                          className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-4 py-3.5 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a] focus:ring-1 focus:ring-[#d4b56a]"
-                        />
+                        <div className="relative">
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={cardNumber}
+                            onChange={(e) => setCardNumber(e.target.value)}
+                            placeholder="1234 1234 1234 1234"
+                            className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-4 py-3 pr-28 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a] focus:ring-1 focus:ring-[#d4b56a]"
+                          />
+
+                          {/* CARD BRAND ICONS INSIDE INPUT */}
+                          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                            <span className="rounded bg-[#1A1F71] px-1 py-0.5 text-[7px] font-black italic text-white">VISA</span>
+                            <div className="flex rounded bg-[#222] px-1 py-0.5">
+                              <span className="h-2.5 w-2.5 -mr-1 rounded-full bg-[#EB001B]" />
+                              <span className="h-2.5 w-2.5 rounded-full bg-[#F79E1B]" />
+                            </div>
+                            <span className="rounded bg-[#006FCF] px-1 py-0.5 text-[7px] font-bold text-white">AMEX</span>
+                          </div>
+                        </div>
                       </div>
 
-                      {/* CARD NAME */}
-                      <div className="mb-5">
-                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-[#c6cbc7]">
-                          Cardholder Name
-                        </label>
-
-                        <input
-                          type="text"
-                          value={cardName}
-                          onChange={(e) =>
-                            setCardName(e.target.value)
-                          }
-                          placeholder="Name on card"
-                          className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-4 py-3.5 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a] focus:ring-1 focus:ring-[#d4b56a]"
-                        />
-                      </div>
-
-                      {/* EXPIRY + CVC */}
-                      <div className="grid gap-5 sm:grid-cols-2">
-
+                      {/* EXPIRY & CVC */}
+                      <div className="grid grid-cols-2 gap-3.5 mb-4">
                         <div>
-                          <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-[#c6cbc7]">
-                            Expiration Date
+                          <label className="mb-1.5 block text-xs font-medium text-[#c6cbc7]">
+                            Expiration date
                           </label>
 
                           <input
                             type="text"
                             value={expiry}
-                            onChange={(e) =>
-                              setExpiry(e.target.value)
-                            }
+                            onChange={(e) => setExpiry(e.target.value)}
                             placeholder="MM / YY"
-                            className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-4 py-3.5 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a] focus:ring-1 focus:ring-[#d4b56a]"
+                            className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-4 py-3 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a] focus:ring-1 focus:ring-[#d4b56a]"
                           />
                         </div>
 
                         <div>
-                          <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-[#c6cbc7]">
-                            Security Code
+                          <label className="mb-1.5 block text-xs font-medium text-[#c6cbc7]">
+                            Security code
+                          </label>
+
+                          <div className="relative">
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              value={cvc}
+                              onChange={(e) => setCvc(e.target.value)}
+                              placeholder="CVC"
+                              className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-4 py-3 pr-10 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a] focus:ring-1 focus:ring-[#d4b56a]"
+                            />
+
+                            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#7e8981]">
+                              <svg className="h-5 w-6" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <rect x="1" y="2" width="22" height="14" rx="2" stroke="currentColor"/>
+                                <line x1="1" y1="6" x2="23" y2="6" stroke="currentColor"/>
+                                <rect x="4" y="10" width="5" height="3" fill="currentColor"/>
+                                <text x="14" y="13" fontSize="5" fill="currentColor" fontFamily="sans-serif" stroke="none">123</text>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                   
+
+                      {/* ========================================================
+                          SAVE MY INFORMATION FOR FASTER CHECKOUT (CONTACT FORM)
+                      ======================================================== */}
+                      <div className="rounded-xl border border-[#1e3b2b] bg-[#06110a] p-4 sm:p-5">
+                        <div className="mb-4">
+                          <span className="inline-block rounded border border-[#294333] bg-[#08140e] px-2 py-0.5 text-[10px] font-semibold text-[#8d9790]">
+                            Optional
+                          </span>
+
+                          <h4 className="mt-2 text-sm font-semibold text-[#f2eee3]">
+                            Save my information for faster checkout
+                          </h4>
+                        </div>
+
+                        {/* EMAIL */}
+                        <div className="mb-3.5">
+                          <label className="mb-1 block text-xs text-[#8d9790]">
+                            Email
+                          </label>
+
+                          <input
+                            type="email"
+                            value={saveInfoEmail}
+                            onChange={(e) => setSaveInfoEmail(e.target.value)}
+                            placeholder="you@example.com"
+                            className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-3.5 py-2.5 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a]"
+                          />
+                        </div>
+
+                        {/* MOBILE NUMBER */}
+                        <div className="mb-3.5">
+                          <label className="mb-1 block text-xs text-[#8d9790]">
+                            Mobile number
+                          </label>
+
+                          <div className="flex rounded-lg border border-[#294333] bg-[#050b08] focus-within:border-[#d4b56a]">
+                            <div className="flex items-center gap-1.5 border-r border-[#294333] px-3 py-2 text-sm text-[#f2eee3]">
+                              <span className="text-base leading-none">🇮🇳</span>
+                              <span className="text-xs text-[#8d9790]">⌵</span>
+                            </div>
+
+                            <input
+                              type="tel"
+                              value={saveInfoPhone}
+                              onChange={(e) => setSaveInfoPhone(e.target.value)}
+                              placeholder="081234 56789"
+                              className="w-full bg-transparent px-3.5 py-2.5 text-sm text-[#f2eee3] outline-none placeholder:text-[#59645d]"
+                            />
+                          </div>
+                        </div>
+
+                        {/* FULL NAME */}
+                        <div className="mb-4">
+                          <label className="mb-1 block text-xs text-[#8d9790]">
+                            Full name
                           </label>
 
                           <input
                             type="text"
-                            inputMode="numeric"
-                            value={cvc}
-                            onChange={(e) =>
-                              setCvc(e.target.value)
-                            }
-                            placeholder="CVC"
-                            className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-4 py-3.5 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a] focus:ring-1 focus:ring-[#d4b56a]"
+                            value={saveInfoName}
+                            onChange={(e) => setSaveInfoName(e.target.value)}
+                            placeholder="First and last name"
+                            className="w-full rounded-lg border border-[#294333] bg-[#050b08] px-3.5 py-2.5 text-sm text-[#f2eee3] outline-none transition placeholder:text-[#59645d] focus:border-[#d4b56a]"
                           />
                         </div>
 
-                      </div>
-
-                      {/* SECURE MESSAGE */}
-                      <div className="mt-6 rounded-lg border border-[#1e3b2b] bg-[#050b08] p-4">
-
-                        <div className="flex gap-3">
-
-                          <div className="mt-0.5 text-[#d4b56a]">
-                            ✓
-                          </div>
-
-                          <div>
-                            <p className="text-xs font-semibold text-[#f2eee3]">
-                              Secure checkout
-                            </p>
-
-                            <p className="mt-1 text-[11px] leading-5 text-[#7e8981]">
-                              Your payment information is protected
-                              during checkout.
-                            </p>
-                          </div>
-
+                        {/* LINK DISCLAIMER */}
+                        <div className="mb-4">
+                          <p className="text-[11px] leading-relaxed text-[#7e8981]">
+                            <span className="mr-1 inline-flex shrink-0 items-center gap-1 font-bold text-[#00D66F] whitespace-nowrap">
+                              <svg className="h-3 w-3" viewBox="0 0 16 16" fill="currentColor">
+                                <circle cx="8" cy="8" r="7.5" fill="#00D66F" />
+                                <path d="M6 4.5l4.5 3.5-4.5 3.5v-7z" fill="#050b08" />
+                              </svg>
+                              <span>link</span>
+                            </span>
+                            • By providing phone number and email, you agree to create an account subject to Link's{" "}
+                            <a
+                              href="https://link.com/terms"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#a5b0a7] underline transition hover:text-[#d4b56a]"
+                            >
+                              Terms
+                            </a>{" "}
+                            and{" "}
+                            <a
+                              href="https://link.com/privacy"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#a5b0a7] underline transition hover:text-[#d4b56a]"
+                            >
+                              Privacy Policy
+                            </a>.
+                          </p>
                         </div>
 
-                      </div>
+                        {/* SAVE TO ACCOUNT BUTTON */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSavedSuccessMsg("Information saved to account for faster checkout.");
+                            setTimeout(() => setSavedSuccessMsg(""), 4000);
+                          }}
+                          className="text-xs font-semibold text-[#d4b56a] transition hover:text-[#f2eee3]"
+                        >
+                          Save to account
+                        </button>
 
+                        {savedSuccessMsg && (
+                          <p className="mt-2 text-xs text-emerald-400">
+                            ✓ {savedSuccessMsg}
+                          </p>
+                        )}
+                      </div>
                       {/* PLACE ORDER */}
                       <button
                         type="submit"
-                        className="mt-6 w-full rounded-md border border-[#d4b56a] bg-[#d4b56a] px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-[#050b08] transition duration-300 hover:bg-transparent hover:text-[#d4b56a]"
+                        className="mt-6 w-full rounded-md border border-[#d4b56a] bg-[#d4b56a] px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-[#050b08] transition duration-300 hover:bg-transparent hover:text-[#d4b56a]"
                       >
                         Place Order — £{total.toFixed(2)}
                       </button>
 
-                      <p className="mt-4 text-center text-[10px] leading-5 text-[#69746d]">
-                        Your personal data will be used to process your
-                        order and support your experience throughout this
-                        website.
+                      {/* PRIVACY DISCLAIMER */}
+                      <p className="mt-4 text-center text-[11px] leading-5 text-[#69746d]">
+                        Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our [privacy_policy href="privacy-policy"].               
                       </p>
 
                     </div>
