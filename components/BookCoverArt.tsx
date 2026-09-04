@@ -212,7 +212,7 @@ export default function BookCoverArt({ id, title, author, className = "" }: Book
           <div className="absolute top-0 left-0 bottom-0 w-3 bg-gradient-to-r from-black/30 to-transparent pointer-events-none" />
         </div>
       );
-
+          
     case "hero-green-book":
     default:
       return (
