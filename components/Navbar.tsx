@@ -215,17 +215,31 @@ export default function Navbar({
             </a>
 
             {/* Cart Button */}
-            <button
-              onClick={onOpenCart}
-              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center"
-              title="Shopping Cart"
-              aria-label="Shopping Cart"
-            >
-              <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-              <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
-                {cartCount}
-              </span>
-            </button>
+            {onOpenCart ? (
+              <button
+                onClick={onOpenCart}
+                className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center cursor-pointer"
+                title="Shopping Cart"
+                aria-label="Shopping Cart"
+              >
+                <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
+                  {cartCount}
+                </span>
+              </button>
+            ) : (
+              <a
+                href="/cart"
+                className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center cursor-pointer"
+                title="Your Cart"
+                aria-label="Your Cart"
+              >
+                <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
+                  {cartCount}
+                </span>
+              </a>
+            )}
 
             {/* Account Icon */}
             <a
@@ -339,19 +353,27 @@ export default function Navbar({
                 <ArrowRight className="w-3 h-3 opacity-50" />
               </button>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
+                <a
+                  href="/cart"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs border border-[#f2eee3]/15 rounded-sm text-[#d4b56a] hover:border-[#d4b56a] bg-[#d4b56a]/10 font-semibold"
+                >
+                  <ShoppingBag className="w-3.5 h-3.5" />
+                  <span>Cart ({cartCount})</span>
+                </a>
                 <a
                   href="#wishlist"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
+                  className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
                 >
                   <Heart className="w-3.5 h-3.5" />
-                  <span>Wishlist (0)</span>
+                  <span>Wishlist</span>
                 </a>
                 <a
                   href="/my-account"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
+                  className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
                 >
                   <User className="w-3.5 h-3.5" />
                   <span>Account</span>
