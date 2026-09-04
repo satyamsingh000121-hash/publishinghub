@@ -465,16 +465,13 @@ export default function CartPage() {
                     UPDATE CART
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      alert(`Proceeding to secure checkout! Grand Total: £${grandTotal.toFixed(2)}`);
-                    }}
+                  <Link
+                    href="/checkout"
                     className="h-[46px] px-7 bg-purple-600 hover:bg-purple-700 text-white dark:bg-gradient-to-r dark:from-[#dcae48] dark:to-[#f1c661] dark:text-[#07100c] rounded-lg text-[11px] font-black tracking-[0.12em] flex items-center justify-center gap-3 transition shadow-lg shadow-purple-500/20"
                   >
                     PROCEED TO CHECKOUT
                     <ArrowRight size={16} />
-                  </button>
+                  </Link>
                 </div>
               </div>
 
@@ -608,16 +605,13 @@ export default function CartPage() {
                   </div>
 
                   <div className="mt-7">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        alert(`Proceeding to checkout with ${totalCartCount} item(s)! Total: £${grandTotal.toFixed(2)}`);
-                      }}
+                    <Link
+                      href="/checkout"
                       className="w-full h-[48px] bg-purple-600 hover:bg-purple-700 text-white dark:bg-gradient-to-r dark:from-[#dcae48] dark:to-[#f1c661] dark:text-[#07100c] rounded-xl text-xs font-black tracking-[0.14em] flex items-center justify-center gap-3 transition shadow-xl shadow-purple-500/20"
                     >
                       PROCEED TO CHECKOUT
                       <ArrowRight size={16} />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

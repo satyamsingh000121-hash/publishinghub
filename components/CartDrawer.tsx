@@ -110,12 +110,13 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
                   VIEW FULL CART PAGE
                 </Link>
 
-                <button
-                  onClick={() => alert("Proceeding to checkout with " + items.length + " item(s)!")}
+                <Link
+                  href="/checkout"
+                  onClick={onClose}
                   className="w-full min-h-[44px] bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#2c7650] dark:hover:bg-[#37865d] text-white text-xs font-bold tracking-wider uppercase flex items-center justify-center gap-2 transition-colors rounded-[2px] shadow-md cursor-pointer"
                 >
                   PROCEED TO CHECKOUT <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
             </div>
           )}
