@@ -234,7 +234,7 @@ export default function OfferBanner() {
       {/* ========================================================= */}
       <div className="container-custom relative z-20 text-center px-4 py-12 sm:py-20 max-w-[850px] mx-auto space-y-4 sm:space-y-5">
         <span className="text-[10px] sm:text-xs tracking-[0.28em] sm:tracking-[0.32em] text-[#d4b56a] font-bold uppercase block">
-          WHAT'S HOT IN AUGUST
+          WHAT&apos;S HOT IN AUGUST
         </span>
 
         <h2 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-normal tracking-tight text-[#f2eee3] leading-[1.1] sm:leading-[1.05] drop-shadow-md">
