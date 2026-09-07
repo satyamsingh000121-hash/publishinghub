@@ -52,7 +52,7 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
               </Link>
               <button onClick={onClose} className="text-[#71717a] hover:text-[#18181b] dark:text-[#888b83] dark:hover:text-[#f2eee3] cursor-pointer">
                 <X className="w-5 h-5" />
-              </button>
+              </button>   
             </div>
 
             {/* Cart Items */}
