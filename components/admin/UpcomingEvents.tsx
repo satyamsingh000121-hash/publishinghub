@@ -2,10 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { MapPin, Clock } from "lucide-react";
 
-interface EventItem {
+export interface EventItem {
   id: string;
-  month: string;
-  day: string;
+  month?: string;
+  day?: string;
+  date?: string;
   title: string;
   location: string;
   time: string;
@@ -38,7 +39,24 @@ const defaultEvents: EventItem[] = [
   },
 ];
 
-export default function UpcomingEvents() {
+export default function UpcomingEvents({ events }: { events?: EventItem[] }) {
+  const rawList = events && events.length > 0 ? events : defaultEvents;
+
+  const displayList = rawList.map((evt) => {
+    let m = evt.month;
+    let d = evt.day;
+    if ((!m || !d) && evt.date) {
+      const parts = evt.date.trim().split(" ");
+      m = parts[0] || "EVT";
+      d = parts[1] || "01";
+    }
+    return {
+      ...evt,
+      month: m || "EVT",
+      day: d || "01",
+    };
+  });
+
   return (
     <div className="admin-card rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] h-full flex flex-col justify-between transition-colors">
       {/* Header */}
@@ -56,13 +74,10 @@ export default function UpcomingEvents() {
 
       {/* Events List */}
       <div className="space-y-3.5 my-auto">
-        {defaultEvents.map((evt) => (
-          <div
-            key={evt.id}
-            className="flex items-center gap-3.5"
-          >
+        {displayList.map((evt) => (
+          <div key={evt.id} className="flex items-center gap-3.5 group">
             {/* Date Block */}
-            <div className="w-11 h-12 rounded-xl admin-date-badge flex flex-col items-center justify-center flex-shrink-0 text-center">
+            <div className="w-11 h-12 rounded-xl admin-date-badge flex flex-col items-center justify-center flex-shrink-0 text-center transition-transform group-hover:scale-105">
               <span className="text-[9.5px] uppercase font-bold text-[#8B5CF6] dark:text-[#C4B5FD] leading-none">
                 {evt.month}
               </span>
@@ -73,7 +88,7 @@ export default function UpcomingEvents() {
 
             {/* Event Info */}
             <div className="min-w-0 flex-1">
-              <h4 className="text-[13px] font-bold admin-text-primary truncate leading-tight">
+              <h4 className="text-[13px] font-bold admin-text-primary truncate leading-tight group-hover:text-[#8B5CF6] transition-colors">
                 {evt.title}
               </h4>
               <div className="flex items-center gap-3.5 text-[11px] admin-text-secondary mt-1">

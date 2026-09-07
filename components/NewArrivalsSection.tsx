@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
@@ -81,6 +81,31 @@ const NEW_ARRIVALS = [
 ];
 
 export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionProps) {
+  const [items, setItems] = useState<any[]>(NEW_ARRIVALS);
+
+  useEffect(() => {
+    fetch("/api/products?limit=8")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          const mapped = json.data.map((p: any, idx: number) => ({
+            id: p.id,
+            slug: p.slug,
+            coverId: p.coverId || `arrival-${(idx % 8) + 1}`,
+            title: p.title,
+            author: p.author,
+            price: p.price,
+            oldPrice: p.originalPrice || undefined,
+            saleBadge: p.badge?.toLowerCase().includes("sale") ? p.badge : undefined,
+            image: p.image,
+          }));
+
+          setItems(mapped.slice(0, 8));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="py-14 sm:py-20 bg-[#080d0a] border-b border-[#f2eee3]/10">
       <div className="container-custom">
@@ -140,7 +165,7 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
 
           {/* Right 4x2 Grid of New Arrival Book Cards (9 columns on lg) */}
           <div className="lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-            {NEW_ARRIVALS.map((book) => {
+            {items.map((book) => {
               const productUrl = `/product/${getBookSlug(book)}`;
               return (
                 <div
@@ -166,9 +191,15 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
 
                     {/* 3D Perspective Animated Artwork Cover with Link */}
                     <Link href={productUrl} className="w-full h-full block cursor-pointer">
-                      <PerspectiveBook>
-                        <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace(/^(By|by)\s+/i, "")} />
-                      </PerspectiveBook>
+                      {book.image ? (
+                        <div className="w-full h-full relative overflow-hidden flex items-center justify-center">
+                          <img src={book.image} alt={book.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        </div>
+                      ) : (
+                        <PerspectiveBook>
+                          <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace(/^(By|by)\s+/i, "")} />
+                        </PerspectiveBook>
+                      )}
                     </Link>
 
                     {/* Add to cart quick button */}

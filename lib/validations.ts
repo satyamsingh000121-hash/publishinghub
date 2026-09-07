@@ -41,6 +41,14 @@ export const CreateProductSchema = z.object({
   description: z.string().optional(),
   stock: z.number().int().nonnegative().optional().default(100),
   featured: z.boolean().optional().default(false),
+  isbn: z.string().optional(),
+  publisher: z.string().optional(),
+  publicationDate: z.string().optional(),
+  pages: z.number().int().positive().optional().nullable(),
+  language: z.string().optional(),
+  format: z.string().optional(),
+  rating: z.number().optional(),
+  reviewCount: z.number().int().nonnegative().optional(),
 });
 
 export const UpdateProductSchema = CreateProductSchema.partial();

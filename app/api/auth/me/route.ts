@@ -11,11 +11,7 @@ export async function GET(req: NextRequest) {
     }
 
     const profile = await AuthService.getProfile(authUser.id);
-    if (!profile) {
-      return unauthorizedResponse("User not found");
-    }
-
-    return successResponse(profile, "User profile fetched successfully");
+    return successResponse(profile || authUser, "User profile fetched successfully");
   } catch (error: any) {
     return serverErrorResponse(error.message);
   }

@@ -31,12 +31,15 @@ export type { BookDetailData, AuthorBook, RelatedBook };
 
 export interface BookDetailViewProps {
   book?: BookDetailData;
-  onAddToCart?: (title: string, price?: string, quantity?: number) => void;
+  onAddToCart?: (title: string, price?: string, quantity?: number, id?: string, image?: string) => void;
   onBack?: () => void;
 }
 
 export default function BookDetailView({ book, onAddToCart, onBack }: BookDetailViewProps) {
-  const [quantity, setQuantity] = useState<number>(1);
+  const isOutOfStock = (book?.stock !== undefined && book?.stock <= 0) || book?.availability === "out-of-stock";
+  const maxStock = book?.stock && book.stock > 0 ? book.stock : 99;
+
+  const [quantity, setQuantity] = useState<number>(isOutOfStock ? 0 : 1);
   const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [addedAlert, setAddedAlert] = useState<boolean>(false);
@@ -134,8 +137,9 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const relatedBooksList = book?.relatedBooks || relatedBooks;
 
   const handleAddToCart = () => {
+    if (isOutOfStock) return;
     if (onAddToCart) {
-      onAddToCart(currentTitle, currentPrice, quantity);
+      onAddToCart(currentTitle, currentPrice, quantity, book?.id, currentImage);
     }
     setAddedAlert(true);
     setTimeout(() => setAddedAlert(false), 3000);
@@ -254,11 +258,16 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             <div className="flex items-center gap-2">
               <div className="flex text-[#9333ea] dark:text-[#d4b56a]">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-current" />
+                  <Star
+                    key={i}
+                    className={`w-4 h-4 ${
+                      i < Math.round(book?.rating || 5) ? "fill-current" : "opacity-30"
+                    }`}
+                  />
                 ))}
               </div>
               <span className="text-xs text-[#71717a] dark:text-[#9d9f96] ml-1">
-                ( 128 reviews )
+                ( {book?.reviewCount ?? 128} reviews )
               </span>
             </div>
 
@@ -277,29 +286,42 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               <span className="font-display text-2xl sm:text-3xl font-semibold text-[#18181b] dark:text-[#f2eee3]">
                 {currentPrice}
               </span>
-              <div className="flex items-center gap-1.5 text-xs text-[#16a34a] font-semibold bg-[#16a34a]/10 px-2.5 py-1 rounded-full border border-[#16a34a]/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
-                In Stock
-              </div>
+              {isOutOfStock ? (
+                <div className="flex items-center gap-1.5 text-xs text-[#ef4444] font-semibold bg-[#ef4444]/10 px-2.5 py-1 rounded-full border border-[#ef4444]/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#ef4444]" />
+                  Out of Stock
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 text-xs text-[#16a34a] font-semibold bg-[#16a34a]/10 px-2.5 py-1 rounded-full border border-[#16a34a]/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
+                  In Stock {book?.stock ? `(${book.stock} units)` : ""}
+                </div>
+              )}
             </div>
 
             {/* Quantity Selector + Add to Cart Button */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               {/* Quantity Stepper */}
-              <div className="flex items-center border border-[#e9e1f5] dark:border-[#d4b56a]/40 bg-[#faf5ff] dark:bg-[#0a120e] rounded-[2px] h-11 px-2">
+              <div
+                className={`flex items-center border border-[#e9e1f5] dark:border-[#d4b56a]/40 bg-[#faf5ff] dark:bg-[#0a120e] rounded-[2px] h-11 px-2 ${
+                  isOutOfStock ? "opacity-50 pointer-events-none" : ""
+                }`}
+              >
                 <button
+                  disabled={isOutOfStock || quantity <= 1}
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-7 h-full flex items-center justify-center text-[#9333ea] dark:text-[#d4b56a] hover:opacity-80 transition-opacity"
+                  className="w-7 h-full flex items-center justify-center text-[#9333ea] dark:text-[#d4b56a] hover:opacity-80 transition-opacity disabled:opacity-30"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="w-3.5 h-3.5" />
                 </button>
                 <span className="w-9 text-center font-display text-sm font-semibold text-[#18181b] dark:text-[#f2eee3]">
-                  {quantity}
+                  {isOutOfStock ? 0 : quantity}
                 </span>
                 <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="w-7 h-full flex items-center justify-center text-[#9333ea] dark:text-[#d4b56a] hover:opacity-80 transition-opacity"
+                  disabled={isOutOfStock || quantity >= maxStock}
+                  onClick={() => setQuantity((q) => Math.min(maxStock, q + 1))}
+                  className="w-7 h-full flex items-center justify-center text-[#9333ea] dark:text-[#d4b56a] hover:opacity-80 transition-opacity disabled:opacity-30"
                   aria-label="Increase quantity"
                 >
                   <Plus className="w-3.5 h-3.5" />
@@ -309,9 +331,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               {/* Purple Add To Cart Button */}
               <button
                 onClick={handleAddToCart}
-                className="flex-1 min-w-[200px] h-11 bg-[#9333ea] hover:bg-[#7e22ce] text-white text-xs font-extrabold tracking-[0.18em] uppercase flex items-center justify-center gap-2 rounded-[2px] transition-all shadow-lg hover:shadow-purple-500/25 active:scale-[0.99]"
+                disabled={isOutOfStock}
+                className={`flex-1 min-w-[200px] h-11 text-xs font-extrabold tracking-[0.18em] uppercase flex items-center justify-center gap-2 rounded-[2px] transition-all shadow-lg ${
+                  isOutOfStock
+                    ? "bg-gray-400 text-white cursor-not-allowed opacity-60 shadow-none"
+                    : "bg-[#9333ea] hover:bg-[#7e22ce] text-white hover:shadow-purple-500/25 active:scale-[0.99] cursor-pointer"
+                }`}
               >
-                <ShoppingCart className="w-4 h-4" /> ADD TO CART
+                <ShoppingCart className="w-4 h-4" /> {isOutOfStock ? "OUT OF STOCK" : "ADD TO CART"}
               </button>
             </div>
 
@@ -597,9 +624,39 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           {/* Tab Contents */}
           <div className="py-4 text-center">
             {activeTab === "description" ? (
-              <p className="text-xs sm:text-[13px] leading-relaxed dark:text-[#9d9f96] text-[#71717a] max-w-3xl mx-auto">
-                {currentDescription}
-              </p>
+              <div className="space-y-6 max-w-3xl mx-auto">
+                <p className="text-xs sm:text-[13px] leading-relaxed dark:text-[#9d9f96] text-[#71717a]">
+                  {currentDescription}
+                </p>
+                {(book?.isbn || book?.publisher || book?.pages || book?.format || book?.language) && (
+                  <div className="pt-6 border-t border-gray-100 dark:border-[#f2eee3]/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+                    {book.isbn && (
+                      <div>
+                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">ISBN</span>
+                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.isbn}</span>
+                      </div>
+                    )}
+                    {book.publisher && (
+                      <div>
+                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">Publisher</span>
+                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.publisher}</span>
+                      </div>
+                    )}
+                    {book.pages && (
+                      <div>
+                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">Pages</span>
+                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.pages} pages</span>
+                      </div>
+                    )}
+                    {book.format && (
+                      <div>
+                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">Format</span>
+                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.format}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="py-6 text-center text-xs text-gray-500 dark:text-gray-400">
                 There are no reviews yet for this book.

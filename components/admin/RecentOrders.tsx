@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-interface RecentOrderItem {
+export interface RecentOrderItem {
   id: string;
   orderNumber: string;
   bookTitle: string;
@@ -48,6 +48,36 @@ const defaultOrders: RecentOrderItem[] = [
 export default function RecentOrders({ orders }: { orders?: RecentOrderItem[] }) {
   const displayList = orders && orders.length > 0 ? orders : defaultOrders;
 
+  const renderBadge = (status: string) => {
+    const s = status.toLowerCase();
+    if (s === "completed" || s === "delivered") {
+      return (
+        <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#10B981] dark:text-[#34D399] bg-[#ECFDF5] dark:bg-[#064E3B]/30">
+          Completed
+        </span>
+      );
+    }
+    if (s === "processing" || s === "shipped") {
+      return (
+        <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#8B5CF6] dark:text-[#C4B5FD] bg-[#F5F3FF] dark:bg-[#7C3AED]/20">
+          Processing
+        </span>
+      );
+    }
+    if (s === "pending") {
+      return (
+        <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#F59E0B] dark:text-[#FBBF24] bg-[#FFFBEB] dark:bg-[#78350F]/30">
+          Pending
+        </span>
+      );
+    }
+    return (
+      <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium text-gray-500 bg-gray-100 dark:bg-gray-800">
+        {status}
+      </span>
+    );
+  };
+
   return (
     <div className="admin-card rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] h-full flex flex-col justify-between transition-colors">
       {/* Header */}
@@ -56,7 +86,7 @@ export default function RecentOrders({ orders }: { orders?: RecentOrderItem[] })
           Recent Orders
         </h3>
         <Link
-          href="/admin"
+          href="/admin/books"
           className="text-xs font-semibold text-[#8B5CF6] dark:text-[#A78BFA] hover:text-[#7C3AED] transition-colors"
         >
           View All
@@ -68,14 +98,14 @@ export default function RecentOrders({ orders }: { orders?: RecentOrderItem[] })
         {displayList.slice(0, 4).map((item) => (
           <div
             key={item.id}
-            className="py-3 flex items-center justify-between gap-3"
+            className="py-3 flex items-center justify-between gap-3 hover:bg-gray-50/50 dark:hover:bg-[#1E293B]/40 rounded-lg px-1 transition-colors"
           >
             {/* Order Code & Book Title */}
-            <div className="min-w-0">
-              <span className="text-[12px] font-semibold admin-text-secondary block leading-tight">
+            <div className="min-w-0 max-w-[150px] sm:max-w-[180px]">
+              <span className="text-[11.5px] font-semibold text-[#8B5CF6] dark:text-[#C4B5FD] block leading-tight">
                 {item.orderNumber}
               </span>
-              <h4 className="text-[13px] font-bold admin-text-primary truncate mt-0.5">
+              <h4 className="text-[13px] font-bold admin-text-primary truncate mt-0.5" title={item.bookTitle}>
                 {item.bookTitle}
               </h4>
             </div>
@@ -86,21 +116,13 @@ export default function RecentOrders({ orders }: { orders?: RecentOrderItem[] })
             </div>
 
             {/* Amount */}
-            <div className="text-[13px] font-bold admin-text-primary whitespace-nowrap min-w-[45px] text-right">
+            <div className="text-[13px] font-bold admin-text-primary whitespace-nowrap min-w-[50px] text-right">
               £{item.totalAmount.toFixed(2)}
             </div>
 
             {/* Status Badge */}
             <div className="min-w-[75px] text-right">
-              {item.status.toLowerCase() === "completed" || item.status.toLowerCase() === "delivered" ? (
-                <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#10B981] dark:text-[#34D399] bg-[#ECFDF5] dark:bg-[#064E3B]/30">
-                  Completed
-                </span>
-              ) : (
-                <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#8B5CF6] dark:text-[#C4B5FD] bg-[#F5F3FF] dark:bg-[#7C3AED]/20">
-                  Processing
-                </span>
-              )}
+              {renderBadge(item.status)}
             </div>
           </div>
         ))}

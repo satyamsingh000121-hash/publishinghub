@@ -9,6 +9,7 @@ export interface CartItem {
   title: string;
   price: string;
   quantity: number;
+  image?: string;
 }
 
 interface CartDrawerProps {
@@ -75,9 +76,16 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
                     key={item.id}
                     className="flex items-center justify-between bg-[#faf7fd] dark:bg-[#0b1410] p-3 border border-[#e9e1f5] dark:border-[#f2eee3]/10 rounded-[2px]"
                   >
-                    <div>
-                      <h5 className="font-display text-sm font-medium text-[#18181b] dark:text-[#f2eee3]">{item.title}</h5>
-                      <p className="text-xs text-[#9333ea] dark:text-[#d4b56a] mt-0.5 font-semibold">{item.price} × {item.quantity}</p>
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      {item.image && (
+                        <div className="w-10 h-13 rounded overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-800 border border-[#e9e1f5] dark:border-[#f2eee3]/10" style={{ width: "40px", height: "52px" }}>
+                          <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <h5 className="font-display text-sm font-medium text-[#18181b] dark:text-[#f2eee3] truncate">{item.title}</h5>
+                        <p className="text-xs text-[#9333ea] dark:text-[#d4b56a] mt-0.5 font-semibold">{item.price} × {item.quantity}</p>
+                      </div>
                     </div>
                     <button
                       onClick={() => onRemoveItem(item.id)}

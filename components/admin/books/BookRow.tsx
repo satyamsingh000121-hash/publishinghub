@@ -7,6 +7,10 @@ import {
   Edit2,
   Trash2,
   Sparkles,
+  ExternalLink,
+  GripVertical,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 
 export interface BookItemData {
@@ -22,26 +26,56 @@ export interface BookItemData {
   image: string;
   badge?: string | null;
   featured?: boolean;
+  displayOrder?: number | null;
   summary?: string | null;
   description?: string | null;
+  originalPrice?: string | null;
+  isbn?: string | null;
+  publisher?: string | null;
+  pages?: number | null;
+  format?: string | null;
 }
 
 interface BookRowProps {
   book: BookItemData;
+  index: number;
+  totalBooks: number;
+  displayNumber?: number;
   isSelected: boolean;
   onToggleSelect: (id: string) => void;
   onView: (book: BookItemData) => void;
   onEdit: (book: BookItemData) => void;
   onDelete: (book: BookItemData) => void;
+  onMoveUp?: (index: number) => void;
+  onMoveDown?: (index: number) => void;
+  onDragStart?: (e: React.DragEvent, index: number) => void;
+  onDragOver?: (e: React.DragEvent, index: number) => void;
+  onDragEnd?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent, index: number) => void;
+  isDragging?: boolean;
+  isDragOver?: boolean;
+  openUpwards?: boolean;
 }
 
 export default function BookRow({
   book,
+  index,
+  totalBooks,
+  displayNumber,
   isSelected,
   onToggleSelect,
   onView,
   onEdit,
   onDelete,
+  onMoveUp,
+  onMoveDown,
+  onDragStart,
+  onDragOver,
+  onDragEnd,
+  onDrop,
+  isDragging = false,
+  isDragOver = false,
+  openUpwards = false,
 }: BookRowProps) {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -49,9 +83,57 @@ export default function BookRow({
   const isFeatured = book.featured;
 
   return (
-    <tr className="hover:bg-gray-50/60 dark:hover:bg-[#334155]/20 transition-colors group">
+    <tr
+      draggable
+      onDragStart={(e) => onDragStart?.(e, index)}
+      onDragOver={(e) => onDragOver?.(e, index)}
+      onDragEnd={onDragEnd}
+      onDrop={(e) => onDrop?.(e, index)}
+      className={`transition-all duration-150 group ${
+        isDragging
+          ? "opacity-30 bg-[#8B5CF6]/10 scale-[0.99] border-dashed border-[#8B5CF6]"
+          : isDragOver
+          ? "border-t-2 border-[#8B5CF6] bg-[#8B5CF6]/10"
+          : "hover:bg-gray-50/60 dark:hover:bg-[#334155]/20"
+      }`}
+    >
+      {/* Drag Handle & Ordering */}
+      <td className="py-3.5 pl-3 pr-1 w-16 text-center select-none">
+        <div className="flex items-center justify-center gap-1">
+          <div
+            title="Click and drag up or down to reorder"
+            className="p-1 text-gray-400 hover:text-[#8B5CF6] cursor-grab active:cursor-grabbing hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors flex items-center"
+          >
+            <GripVertical className="w-4 h-4" />
+            <span className="text-[10px] font-semibold text-gray-400 min-w-[18px] text-right">
+              {displayNumber ?? index + 1}
+            </span>
+          </div>
+          <div className="flex flex-col opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              type="button"
+              disabled={index === 0}
+              onClick={() => onMoveUp?.(index)}
+              title="Move Up"
+              className="p-0.5 text-gray-400 hover:text-[#8B5CF6] disabled:opacity-20 disabled:hover:text-gray-400 cursor-pointer disabled:cursor-not-allowed"
+            >
+              <ChevronUp className="w-3 h-3" />
+            </button>
+            <button
+              type="button"
+              disabled={index === totalBooks - 1}
+              onClick={() => onMoveDown?.(index)}
+              title="Move Down"
+              className="p-0.5 text-gray-400 hover:text-[#8B5CF6] disabled:opacity-20 disabled:hover:text-gray-400 cursor-pointer disabled:cursor-not-allowed"
+            >
+              <ChevronDown className="w-3 h-3" />
+            </button>
+          </div>
+        </div>
+      </td>
+
       {/* Checkbox */}
-      <td className="py-3.5 pl-4 pr-2 w-10">
+      <td className="py-3.5 pl-2 pr-2 w-10">
         <input
           type="checkbox"
           checked={isSelected}
@@ -75,6 +157,34 @@ export default function BookRow({
                 (e.target as HTMLImageElement).src = "/images/shop1.jpg";
               }}
             />
+            {book.badge && (
+              <div className="absolute top-0.5 left-0 z-10 flex flex-col gap-0.5 pointer-events-none">
+                {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
+                  <span
+                    className="bg-[#56ab84] text-white text-[6.5px] font-bold px-1 py-0.2 uppercase"
+                    style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                  >
+                    SALE
+                  </span>
+                )}
+                {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
+                  <span
+                    className="bg-[#e05638] text-white text-[6.5px] font-bold px-1 py-0.2 uppercase"
+                    style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                  >
+                    HOT
+                  </span>
+                )}
+                {(book.badge === "NEW" || book.badge === "SALE_AND_NEW") && (
+                  <span
+                    className="bg-[#df5a29] text-white text-[6.5px] font-bold px-1 py-0.2 uppercase"
+                    style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                  >
+                    NEW
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Title & Badge */}
@@ -83,6 +193,34 @@ export default function BookRow({
               <h4 className="text-[13.5px] font-bold admin-text-primary truncate leading-tight group-hover:text-[#8B5CF6] transition-colors">
                 {book.title}
               </h4>
+              {book.badge && (
+                <div className="inline-flex items-center gap-1">
+                  {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
+                    <span
+                      className="bg-[#56ab84] text-white text-[8px] font-bold px-1.5 py-0.2 uppercase tracking-wider"
+                      style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                    >
+                      SALE
+                    </span>
+                  )}
+                  {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
+                    <span
+                      className="bg-[#e05638] text-white text-[8px] font-bold px-1.5 py-0.2 uppercase tracking-wider"
+                      style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                    >
+                      HOT
+                    </span>
+                  )}
+                  {(book.badge === "NEW" || book.badge === "SALE_AND_NEW") && (
+                    <span
+                      className="bg-[#df5a29] text-white text-[8px] font-bold px-1.5 py-0.2 uppercase tracking-wider"
+                      style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                    >
+                      NEW
+                    </span>
+                  )}
+                </div>
+              )}
               {isFeatured && (
                 <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[10px] font-bold bg-[#FAF5FF] dark:bg-[#7C3AED]/20 text-[#8B5CF6] dark:text-[#C4B5FD] border border-[#F3E8FF] dark:border-[#7C3AED]/30">
                   <Sparkles className="w-2.5 h-2.5" />
@@ -137,59 +275,102 @@ export default function BookRow({
         )}
       </td>
 
-      {/* Actions (Three dots + Dropdown) */}
+      {/* Actions (Quick Edit, Quick Delete, More Popover) */}
       <td className="py-3.5 pr-4 pl-2 text-right relative">
-        <div className="inline-block text-left">
+        <div className="inline-flex items-center justify-end gap-1">
+          {/* Quick Edit */}
           <button
-            onClick={() => setShowMenu(!showMenu)}
-            aria-label="Book actions"
-            className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+            type="button"
+            onClick={() => onEdit(book)}
+            title="Edit Book"
+            aria-label="Edit Book"
+            className="p-1.5 text-gray-400 hover:text-[#8B5CF6] dark:hover:text-[#A78BFA] rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
           >
-            <MoreVertical className="w-4 h-4" />
+            <Edit2 className="w-4 h-4" />
           </button>
 
-          {/* Action Popover Menu */}
-          {showMenu && (
-            <>
-              <div
-                className="fixed inset-0 z-20"
-                onClick={() => setShowMenu(false)}
-              />
-              <div className="absolute right-0 mt-1 w-36 admin-card rounded-xl shadow-xl py-1.5 z-30 animate-in fade-in duration-100 text-left text-xs">
-                <button
-                  onClick={() => {
-                    setShowMenu(false);
-                    onView(book);
-                  }}
-                  className="w-full flex items-center gap-2 px-3.5 py-2 admin-text-primary hover:bg-gray-50 dark:hover:bg-[#334155] cursor-pointer"
+          {/* Quick Delete */}
+          <button
+            type="button"
+            onClick={() => onDelete(book)}
+            title="Delete Book"
+            aria-label="Delete Book"
+            className="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+
+          {/* More Actions Popover */}
+          <div className="relative inline-block text-left">
+            <button
+              type="button"
+              onClick={() => setShowMenu(!showMenu)}
+              aria-label="More book actions"
+              className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+
+            {/* Action Popover Menu */}
+            {showMenu && (
+              <>
+                <div
+                  className="fixed inset-0 z-20"
+                  onClick={() => setShowMenu(false)}
+                />
+                <div
+                  className={`absolute right-0 ${
+                    openUpwards ? "bottom-full mb-1" : "top-full mt-1"
+                  } w-40 admin-card rounded-xl shadow-2xl py-1.5 z-40 border border-gray-100 dark:border-gray-700/80 animate-in fade-in duration-100 text-left text-xs`}
                 >
-                  <Eye className="w-3.5 h-3.5 text-[#94A3B8]" />
-                  <span>View Details</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setShowMenu(false);
-                    onEdit(book);
-                  }}
-                  className="w-full flex items-center gap-2 px-3.5 py-2 admin-text-primary hover:bg-gray-50 dark:hover:bg-[#334155] cursor-pointer"
-                >
-                  <Edit2 className="w-3.5 h-3.5 text-[#94A3B8]" />
-                  <span>Edit Book</span>
-                </button>
-                <div className="h-[1px] bg-gray-100 dark:bg-gray-700 my-1" />
-                <button
-                  onClick={() => {
-                    setShowMenu(false);
-                    onDelete(book);
-                  }}
-                  className="w-full flex items-center gap-2 px-3.5 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 cursor-pointer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                  <span>Delete Book</span>
-                </button>
-              </div>
-            </>
-          )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowMenu(false);
+                      onView(book);
+                    }}
+                    className="w-full flex items-center gap-2 px-3.5 py-2 admin-text-primary hover:bg-gray-50 dark:hover:bg-[#334155] cursor-pointer"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-[#94A3B8]" />
+                    <span>View Details</span>
+                  </button>
+                  <a
+                    href={`/product/${book.slug || book.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowMenu(false)}
+                    className="w-full flex items-center gap-2 px-3.5 py-2 admin-text-primary hover:bg-gray-50 dark:hover:bg-[#334155] cursor-pointer"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#94A3B8]" />
+                    <span>Live Store Page</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowMenu(false);
+                      onEdit(book);
+                    }}
+                    className="w-full flex items-center gap-2 px-3.5 py-2 admin-text-primary hover:bg-gray-50 dark:hover:bg-[#334155] cursor-pointer"
+                  >
+                    <Edit2 className="w-3.5 h-3.5 text-[#94A3B8]" />
+                    <span>Edit Book</span>
+                  </button>
+                  <div className="h-[1px] bg-gray-100 dark:bg-gray-700 my-1" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowMenu(false);
+                      onDelete(book);
+                    }}
+                    className="w-full flex items-center gap-2 px-3.5 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 cursor-pointer font-medium"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-red-600 dark:text-red-400" />
+                    <span>Delete Book</span>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </td>
     </tr>

@@ -30,6 +30,7 @@ export interface ProductDTO {
   description?: string | null;
   stock: number;
   featured: boolean;
+  displayOrder?: number | null;
   createdAt: Date | string;
   updatedAt: Date | string;
 }

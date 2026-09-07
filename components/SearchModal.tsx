@@ -22,18 +22,41 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     "The Summer of Impossible Things",
   ];
 
-  const searchResults = useMemo(() => {
-    if (!query.trim()) return [];
-    const q = query.toLowerCase().trim();
-    return ALL_BOOKS_DATABASE.filter((book) => {
-      return (
-        book.title.toLowerCase().includes(q) ||
-        (book.author && book.author.toLowerCase().includes(q)) ||
-        (book.authorName && book.authorName.toLowerCase().includes(q)) ||
-        (book.category && book.category.toLowerCase().includes(q)) ||
-        (book.description && book.description.toLowerCase().includes(q))
-      );
-    }).slice(0, 6);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/products?search=${encodeURIComponent(query.trim())}&limit=6`);
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data)) {
+          setSearchResults(json.data);
+          return;
+        }
+      } catch (err) {
+        console.error("Search API error:", err);
+      }
+
+      // Fallback only if offline/error
+      const q = query.toLowerCase().trim();
+      const fallback = ALL_BOOKS_DATABASE.filter((book) => {
+        return (
+          book.title.toLowerCase().includes(q) ||
+          (book.author && book.author.toLowerCase().includes(q)) ||
+          (book.authorName && book.authorName.toLowerCase().includes(q)) ||
+          (book.category && book.category.toLowerCase().includes(q)) ||
+          (book.description && book.description.toLowerCase().includes(q))
+        );
+      }).slice(0, 6);
+      setSearchResults(fallback);
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, [query]);
 
   if (!isOpen) return null;

@@ -25,7 +25,7 @@ export interface BookItem {
 interface ShopBookCardProps {
   book: BookItem;
   viewMode?: "grid" | "list";
-  onAddToCart?: (bookTitle: string, price: string) => void;
+  onAddToCart?: (bookTitle: string, price: string, id?: string, image?: string) => void;
   onQuickView?: (book: BookItem) => void;
 }
 
@@ -136,7 +136,7 @@ export default function ShopBookCard({
           {/* Action Buttons */}
           <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
             <button
-              onClick={() => onAddToCart?.(book.title, book.price)}
+              onClick={() => onAddToCart?.(book.title, book.price, book.id, book.image)}
               className="px-4 py-2 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#1e3527] dark:hover:bg-[#284936] text-white text-[10px] font-bold tracking-[0.14em] uppercase transition-colors flex items-center gap-1.5 rounded-[2px] cursor-pointer"
             >
               <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART
@@ -199,7 +199,7 @@ export default function ShopBookCard({
         {/* Quick Action Overlay on Hover */}
         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2.5 p-4 z-20 backdrop-blur-[1.5px]">
           <button
-            onClick={() => onAddToCart?.(book.title, book.price)}
+            onClick={() => onAddToCart?.(book.title, book.price, book.id, book.image)}
             className="w-full py-2.5 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#1e3527] dark:hover:bg-[#284936] text-white text-[10px] font-bold tracking-[0.14em] uppercase transition-all shadow-md flex items-center justify-center gap-1.5 rounded-[2px] cursor-pointer"
           >
             <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART

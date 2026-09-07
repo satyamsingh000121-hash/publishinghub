@@ -20,6 +20,9 @@ interface ShopSidebarProps {
   categoryCounts: Record<string, number>;
   authorCounts: Record<string, number>;
   availabilityCounts: Record<string, number>;
+  availableCategories?: string[];
+  availableAuthors?: string[];
+  maxPriceLimit?: number;
   onCloseMobile?: () => void;
 }
 
@@ -31,6 +34,9 @@ export default function ShopSidebar({
   categoryCounts,
   authorCounts,
   availabilityCounts,
+  availableCategories,
+  availableAuthors,
+  maxPriceLimit,
   onCloseMobile,
 }: ShopSidebarProps) {
   // Collapsible section states
@@ -39,22 +45,28 @@ export default function ShopSidebar({
   const [isAuthorOpen, setIsAuthorOpen] = useState(true);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(true);
 
-  // Categories list matching reference
-  const categoriesList = [
-    { id: "Biography", label: "Biography", count: categoryCounts["Biography"] ?? 8 },
-    { id: "Drama", label: "Drama", count: categoryCounts["Drama"] ?? 2 },
-    { id: "For Kid", label: "For Kid", count: categoryCounts["For Kid"] ?? 10 },
-    { id: "Romance", label: "Romance", count: categoryCounts["Romance"] ?? 3 },
-  ];
+  const ceiling = maxPriceLimit && maxPriceLimit > 0 ? maxPriceLimit : 500;
 
-  // Authors list matching reference
-  const baseAuthorsList = [
-    { id: "Savanna Walker", label: "Savanna Walker", count: authorCounts["Savanna Walker"] ?? 4 },
-    { id: "Hof Nurgin", label: "Hof Nurgin", count: authorCounts["Hof Nurgin"] ?? 4 },
-    { id: "Mesho Buvahr", label: "Mesho Buvahr", count: authorCounts["Mesho Buvahr"] ?? 5 },
-    { id: "Oscar Oullière", label: "Oscar Oullière", count: authorCounts["Oscar Oullière"] ?? 2 },
-    { id: "Bruce Sang", label: "Bruce Sang", count: authorCounts["Bruce Sang"] ?? 2 },
-  ];
+  // Categories list (dynamic from real DB or fallback)
+  const categoriesList = (availableCategories && availableCategories.length > 0)
+    ? availableCategories.map((c) => ({ id: c, label: c, count: categoryCounts[c] ?? 0 }))
+    : [
+        { id: "Biography", label: "Biography", count: categoryCounts["Biography"] ?? 0 },
+        { id: "Drama", label: "Drama", count: categoryCounts["Drama"] ?? 0 },
+        { id: "For Kid", label: "For Kid", count: categoryCounts["For Kid"] ?? 0 },
+        { id: "Romance", label: "Romance", count: categoryCounts["Romance"] ?? 0 },
+      ];
+
+  // Authors list (dynamic from real DB or fallback)
+  const baseAuthorsList = (availableAuthors && availableAuthors.length > 0)
+    ? availableAuthors.map((a) => ({ id: a, label: a, count: authorCounts[a] ?? 0 }))
+    : [
+        { id: "Savanna Walker", label: "Savanna Walker", count: authorCounts["Savanna Walker"] ?? 0 },
+        { id: "Hof Nurgin", label: "Hof Nurgin", count: authorCounts["Hof Nurgin"] ?? 0 },
+        { id: "Mesho Buvahr", label: "Mesho Buvahr", count: authorCounts["Mesho Buvahr"] ?? 0 },
+        { id: "Oscar Oullière", label: "Oscar Oullière", count: authorCounts["Oscar Oullière"] ?? 0 },
+        { id: "Bruce Sang", label: "Bruce Sang", count: authorCounts["Bruce Sang"] ?? 0 },
+      ];
 
   // Filtered authors based on search input
   const filteredAuthors = baseAuthorsList.filter((author) =>
@@ -130,8 +142,8 @@ export default function ShopSidebar({
                 <input
                   type="range"
                   min="0"
-                  max="40"
-                  step="1"
+                  max={ceiling}
+                  step="5"
                   value={tempFilters.maxPrice}
                   onChange={(e) =>
                     setTempFilters((prev) => ({
@@ -143,13 +155,13 @@ export default function ShopSidebar({
                 />
               </div>
 
-              {/* Price Labels (£0, selected, £40) */}
+              {/* Price Labels (£0, selected, max) */}
               <div className="flex items-center justify-between text-xs text-[#78716c] dark:text-[#a1a1aa] font-medium pt-0.5">
                 <span>£0</span>
                 <span className="text-[#9333ea] dark:text-[#d4b56a] font-semibold text-xs">
                   £{tempFilters.maxPrice}
                 </span>
-                <span>£40</span>
+                <span>£{ceiling}</span>
               </div>
             </div>
           )}

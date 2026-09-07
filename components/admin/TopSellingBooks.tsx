@@ -56,7 +56,7 @@ export default function TopSellingBooks({ books }: { books?: TopBookItem[] }) {
           Top Selling Books
         </h3>
         <Link
-          href="/shop"
+          href="/admin/books"
           className="text-xs font-semibold text-[#8B5CF6] dark:text-[#A78BFA] hover:text-[#7C3AED] transition-colors"
         >
           View All

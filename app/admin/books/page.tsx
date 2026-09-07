@@ -22,6 +22,7 @@ export default function AdminBooksPage() {
   const [authors, setAuthors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   // Stats
   const [stats, setStats] = useState({
@@ -39,9 +40,10 @@ export default function AdminBooksPage() {
 
   // Pagination State
   const [page, setPage] = useState(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const hasAutoSyncedRef = React.useRef(false);
 
   // Selection
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -71,6 +73,27 @@ export default function AdminBooksPage() {
         if (json.meta) {
           setTotalCount(json.meta.total);
           setTotalPages(json.meta.totalPages || 1);
+
+          // Auto-sync only if database is completely empty (0 books)
+          if (
+            json.meta.total === 0 &&
+            !hasAutoSyncedRef.current &&
+            !searchQuery &&
+            !selectedCategory &&
+            !selectedAuthor &&
+            !selectedStatus
+          ) {
+            hasAutoSyncedRef.current = true;
+            fetch("/api/products/sync", { method: "POST" })
+              .then((r) => r.json())
+              .then((s) => {
+                if (s.success) {
+                  fetchBooks();
+                  fetchMetaStats();
+                }
+              })
+              .catch(() => {});
+          }
         }
       }
     } catch (err) {
@@ -180,6 +203,98 @@ export default function AdminBooksPage() {
     URL.revokeObjectURL(url);
   };
 
+  // Bulk Delete Handler
+  const handleBulkDelete = async (idsToDelete: string[]) => {
+    if (!idsToDelete.length) return;
+    const confirmMsg =
+      idsToDelete.length === 1
+        ? "Are you sure you want to delete this book?"
+        : `Are you sure you want to delete ${idsToDelete.length} selected books? This action cannot be undone.`;
+
+    if (!window.confirm(confirmMsg)) return;
+
+    try {
+      setIsLoading(true);
+      await Promise.all(
+        idsToDelete.map((id) =>
+          fetch(`/api/products/${id}`, { method: "DELETE" })
+        )
+      );
+      setSelectedIds([]);
+      await fetchBooks();
+      await fetchMetaStats();
+    } catch (err) {
+      console.error("Failed to delete selected books:", err);
+      alert("Failed to delete some or all selected books.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle Reorder Books (Drag and drop or Move Up/Down)
+  const handleReorder = async (fromIndex: number, toIndex: number) => {
+    if (
+      fromIndex === toIndex ||
+      fromIndex < 0 ||
+      toIndex < 0 ||
+      fromIndex >= books.length ||
+      toIndex >= books.length
+    ) {
+      return;
+    }
+
+    // Optimistically update UI
+    const updatedBooks = [...books];
+    const [movedBook] = updatedBooks.splice(fromIndex, 1);
+    updatedBooks.splice(toIndex, 0, movedBook);
+    setBooks(updatedBooks);
+
+    try {
+      const ids = updatedBooks.map((b) => b.id);
+      const startIndex = (page - 1) * (pageSize >= 1000 ? 0 : pageSize);
+      const res = await fetch("/api/products/reorder", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids, startIndex }),
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        console.error("Failed to persist book order:", errJson);
+        fetchBooks();
+      }
+    } catch (err) {
+      console.error("Error saving book order:", err);
+      fetchBooks();
+    }
+  };
+
+  // Handle Page Size Change (e.g. 10, 25, 50, or All)
+  const handlePageSizeChange = (newSize: number) => {
+    setPageSize(newSize);
+    setPage(1);
+  };
+
+  // Sync Live Books Handler
+  const handleSyncLiveBooks = async () => {
+    try {
+      setIsSyncing(true);
+      const res = await fetch("/api/products/sync", { method: "POST" });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || "Failed to sync live books");
+      }
+      await fetchBooks();
+      await fetchMetaStats();
+      alert(`Success! ${json.message || "All live books have been synced to the database."}`);
+    } catch (err: any) {
+      console.error("Sync error:", err);
+      alert(err.message || "Failed to sync live books.");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Page Header */}
@@ -194,7 +309,7 @@ export default function AdminBooksPage() {
         </div>
 
         {/* Header Actions */}
-        <div className="flex items-center gap-2.5 self-start sm:self-auto">
+        <div className="flex items-center gap-2.5 self-start sm:self-auto flex-wrap">
           <button
             onClick={fetchBooks}
             disabled={isRefreshing}
@@ -203,6 +318,16 @@ export default function AdminBooksPage() {
             title="Refresh List"
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-[#8B5CF6]" : ""}`} />
+          </button>
+
+          <button
+            onClick={handleSyncLiveBooks}
+            disabled={isSyncing}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 admin-card text-xs font-semibold rounded-xl hover:opacity-90 transition-opacity cursor-pointer shadow-sm border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/20"
+            title="Import/Sync all live website books into backend database"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin" : ""}`} />
+            <span>{isSyncing ? "Syncing Books..." : "Sync Live Books"}</span>
           </button>
 
           <button
@@ -310,6 +435,7 @@ export default function AdminBooksPage() {
           setActiveBook(b);
           setModalMode("delete");
         }}
+        onBulkDelete={handleBulkDelete}
         onAddNew={() => {
           setActiveBook(null);
           setModalMode("add");
@@ -320,6 +446,8 @@ export default function AdminBooksPage() {
         totalCount={totalCount}
         pageSize={pageSize}
         onPageChange={(newPage) => setPage(newPage)}
+        onPageSizeChange={handlePageSizeChange}
+        onReorder={handleReorder}
       />
 
       {/* Action Modals (View, Add, Edit, Delete) */}

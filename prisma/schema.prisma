@@ -58,6 +58,15 @@ model Product {
   description   String?
   stock         Int       @default(100)
   featured      Boolean   @default(false)
+  isbn          String?
+  publisher     String?
+  publicationDate String?
+  pages         Int?
+  language      String?   @default("English")
+  format        String?   @default("Hardcover")
+  rating        Float?    @default(5.0)
+  reviewCount   Int?      @default(0)
+  displayOrder  Int?      @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

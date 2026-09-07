@@ -48,7 +48,6 @@ export interface DashboardAnalyticsDTO {
 
 export class AnalyticsService {
   static async getDashboardData(): Promise<DashboardAnalyticsDTO> {
-    // 1. Fetch KPI raw counts and sums concurrently
     const [
       orders,
       totalBooks,
@@ -62,7 +61,7 @@ export class AnalyticsService {
       }),
       prisma.product.count(),
       prisma.product.findMany({
-        select: { author: true, authorName: true },
+        select: { author: true },
         distinct: ["author"],
       }),
       prisma.orderItem.findMany({
@@ -74,14 +73,14 @@ export class AnalyticsService {
       }),
     ]);
 
-    // 2. Compute KPIs
+    // 1. Compute KPIs from real database
     const totalOrders = orders.length;
     const totalRevenue = orders
       .filter((o) => o.status !== "CANCELLED")
       .reduce((acc, o) => acc + o.totalAmount, 0);
     const totalAuthors = distinctAuthors.length;
 
-    // 3. Compute Top Selling Books from actual OrderItem records
+    // 2. Top Selling Books from real OrderItems
     const productSalesMap = new Map<string, { title: string; author: string; image: string; unitsSold: number; revenue: number; price: string }>();
 
     for (const item of orderItemsWithProducts) {
@@ -103,16 +102,24 @@ export class AnalyticsService {
     const topSellingBooks = Array.from(productSalesMap.entries())
       .map(([id, data]) => ({ id, ...data }))
       .sort((a, b) => b.unitsSold - a.unitsSold)
-      .slice(0, 5);
+      .slice(0, 4);
 
-    // 4. Compute Recent Orders
-    const recentOrders = orders.slice(0, 6).map((o) => {
-      const firstItem = o.items[0];
+    // 3. Compute Recent Orders
+    const recentOrders = orders.slice(0, 5).map((o) => {
+      const firstItem = o.items?.[0];
       const bookTitle = firstItem
         ? o.items.length > 1
           ? `${firstItem.productTitle} (+${o.items.length - 1} more)`
           : firstItem.productTitle
         : "Book Order";
+
+      const statusMap: Record<string, string> = {
+        DELIVERED: "Completed",
+        PROCESSING: "Processing",
+        PENDING: "Pending",
+        SHIPPED: "Shipped",
+        CANCELLED: "Cancelled",
+      };
 
       return {
         id: o.id,
@@ -121,45 +128,61 @@ export class AnalyticsService {
         customerEmail: o.customerEmail,
         bookTitle,
         totalAmount: o.totalAmount,
-        status: o.status,
+        status: statusMap[o.status.toUpperCase()] || o.status,
         createdAt: o.createdAt,
       };
     });
 
-    // 5. Compute Orders by Status
+    // 4. Compute Orders by Status
     const statusCounts: Record<string, number> = {
-      DELIVERED: 0,
-      PROCESSING: 0,
-      PENDING: 0,
-      SHIPPED: 0,
-      CANCELLED: 0,
+      Completed: 0,
+      Processing: 0,
+      Pending: 0,
     };
 
     orders.forEach((o) => {
-      const st = (o.status || "PENDING").toUpperCase();
-      statusCounts[st] = (statusCounts[st] || 0) + 1;
+      const st = o.status.toUpperCase();
+      if (st === "DELIVERED" || st === "COMPLETED") statusCounts["Completed"]++;
+      else if (st === "PROCESSING" || st === "SHIPPED") statusCounts["Processing"]++;
+      else statusCounts["Pending"]++;
     });
 
     const statusColors: Record<string, string> = {
-      DELIVERED: "#047857",
-      PROCESSING: "#7C3AED",
-      PENDING: "#D97706",
-      SHIPPED: "#2563EB",
-      CANCELLED: "#DC2626",
+      Completed: "#8B5CF6",
+      Processing: "#C4B5FD",
+      Pending: "#EDE9FE",
     };
 
-    const ordersByStatus = Object.entries(statusCounts)
-      .filter(([_, count]) => count > 0)
-      .map(([status, count]) => ({
-        status,
-        count,
-        percentage: totalOrders > 0 ? Math.round((count / totalOrders) * 100) : 0,
-        color: statusColors[status] || "#7C3AED",
-      }));
+    const countCompleted = statusCounts["Completed"];
+    const countProcessing = statusCounts["Processing"];
+    const countPending = statusCounts["Pending"];
+    const allCount = countCompleted + countProcessing + countPending;
 
-    // 6. Sales Overview (Timeframe aggregations)
-    // Group orders by month/day if orders exist
-    const salesOverview = totalOrders > 0
+    const ordersByStatus = allCount > 0
+      ? [
+          {
+            status: "Completed",
+            count: countCompleted,
+            percentage: Math.round((countCompleted / allCount) * 100),
+            color: statusColors["Completed"],
+          },
+          {
+            status: "Processing",
+            count: countProcessing,
+            percentage: Math.round((countProcessing / allCount) * 100),
+            color: statusColors["Processing"],
+          },
+          {
+            status: "Pending",
+            count: countPending,
+            percentage: Math.round((countPending / allCount) * 100),
+            color: statusColors["Pending"],
+          },
+        ]
+      : [];
+
+    // 5. Sales Overview
+    const salesOverview = totalRevenue > 0
       ? [
           { period: "Week 1", revenue: Math.round(totalRevenue * 0.2), orders: Math.ceil(totalOrders * 0.2) },
           { period: "Week 2", revenue: Math.round(totalRevenue * 0.25), orders: Math.ceil(totalOrders * 0.25) },
@@ -168,7 +191,7 @@ export class AnalyticsService {
         ]
       : [];
 
-    // 7. Format Upcoming Events
+    // 6. Upcoming Events
     const upcomingEvents = events.map((e) => ({
       id: e.id,
       title: e.title,

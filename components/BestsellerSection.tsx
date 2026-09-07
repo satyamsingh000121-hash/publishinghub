@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ShoppingCart, Eye } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
@@ -8,6 +8,7 @@ import { getBookSlug } from "@/lib/books";
 
 interface Book {
   id: string;
+  slug?: string;
   coverId: string;
   title: string;
   author: string;
@@ -15,6 +16,7 @@ interface Book {
   oldPrice?: string;
   saleBadge?: string;
   category: string;
+  image?: string;
 }    
 
 interface BestsellerSectionProps {
@@ -98,10 +100,35 @@ const ALL_BOOKS: Book[] = [
 
 export default function BestsellerSection({ onAddToCart, onQuickView }: BestsellerSectionProps) {
   const [activeTab, setActiveTab] = useState<"bestseller" | "sale" | "featured">("bestseller");
+  const [books, setBooks] = useState<Book[]>(ALL_BOOKS);
 
-  const filteredBooks = ALL_BOOKS.filter((book) => {
+  useEffect(() => {
+    fetch("/api/products?limit=12")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          const mapped: Book[] = json.data.map((p: any, idx: number) => ({
+            id: p.id,
+            slug: p.slug,
+            coverId: p.coverId || `bestseller-${(idx % 8) + 1}`,
+            title: p.title,
+            author: p.author,
+            price: p.price,
+            oldPrice: p.originalPrice || undefined,
+            saleBadge: p.badge?.toLowerCase().includes("sale") ? p.badge : undefined,
+            category: p.featured ? "featured" : "bestseller",
+            image: p.image,
+          }));
+
+          setBooks(mapped);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const filteredBooks = books.filter((book) => {
     if (activeTab === "sale") return !!book.saleBadge;
-    if (activeTab === "featured") return ["b1", "b3", "b5", "b7"].includes(book.id);
+    if (activeTab === "featured") return book.category === "featured" || ["b1", "b3", "b5", "b7"].includes(book.id);
     return true;
   });
 
@@ -180,7 +207,13 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
 
                   {/* Cover Rendering with Link */}
                   <Link href={productUrl} className="w-full h-full block transform group-hover:scale-105 transition-transform duration-500 cursor-pointer">
-                    <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace(/^by\s+/i, "")} />
+                    {book.image ? (
+                      <div className="w-full h-full relative overflow-hidden flex items-center justify-center">
+                        <img src={book.image} alt={book.title} className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <BookCoverArt id={book.coverId} title={book.title} author={book.author.replace(/^by\s+/i, "")} />
+                    )}
                   </Link>
 
                   {/* Quick Action Overlay on Hover / Mobile Touch */}
