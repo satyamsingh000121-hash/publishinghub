@@ -45,6 +45,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [addedAlert, setAddedAlert] = useState<boolean>(false);
   const [relatedSlide, setRelatedSlide] = useState<number>(0);
+  const [isBookOpen, setIsBookOpen] = useState<boolean>(false);
 
   // Related products (Matching exact reference image)
   const relatedBooks: RelatedBook[] = [
@@ -117,54 +118,57 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-24">
         
         {/* ========================================================================= */}
-        {/* TOP SECTION: 3D OPENING BOOK SHOWCASE (MATCHING USER SCREENSHOT)          */}
+        {/* TOP SECTION: BOOK SHOWCASE (MATCHING LIVE STORE REFERENCE)                */}
         {/* ========================================================================= */}
         <section className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-14 items-center bg-white dark:bg-transparent py-4">
           
-          {/* Left: 3D Animated Book Cover (Opens On Hover) */}
-          <div className="md:col-span-5 flex justify-center">
+          {/* Left: 3D Interactive Animated Book (Open on Hover/Click, Zero Black Borders) */}
+          <div className="md:col-span-5 flex flex-col justify-center items-center py-2">
             <div
-              className={bookStyles.stage}
+              className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
               tabIndex={0}
               role="region"
-              aria-label="3D Animated Book Cover for A Poem for Every night"
+              aria-label={`3D Animated book for ${currentTitle}`}
+              onClick={() => setIsBookOpen((prev) => !prev)}
             >
-              {/* Soft Contact Shadow beneath book */}
+              {/* Soft Radial Contact Shadow */}
               <div className={bookStyles.contactShadow} aria-hidden="true" />
 
               {/* 3D Book Assembly */}
               <div className={bookStyles.book}>
-                {/* Book Body (Back Cover & Stacked Pages Layer) */}
+                {/* Back Cover & Realistic Gilded Page Edges (Zero Black Borders) */}
                 <div className={bookStyles.bookBody}>
-                  {/* Stacked Pages Layer */}
+                  {/* Realistic Stacked Pages Layer */}
                   <div className={bookStyles.pagesLayer}>
-                    {/* Inside Page Content */}
+                    {/* Inner Page Preview when book opens */}
                     <div className={bookStyles.pageContent}>
-                      <div className="space-y-1 border-b border-[#e2d8c3] pb-1.5">
-                        <span className="text-[7.5px] tracking-[0.22em] font-bold text-[#9333ea] dark:text-[#d4b56a] uppercase block">
+                      <div className="space-y-1">
+                        <span className="text-[8px] tracking-[0.2em] uppercase font-bold text-[#b89245] block">
                           {currentCategory}
                         </span>
-                        <h3 className="font-display text-xs font-semibold text-[#18181b] leading-tight">
+                        <p className="font-serif text-[10.5px] font-semibold text-[#2c3e50] line-clamp-2 leading-tight">
                           {currentTitle}
-                        </h3>
+                        </p>
                       </div>
-                      <p className="font-display italic text-[8.5px] text-[#555] leading-relaxed line-clamp-6">
-                        &ldquo;{currentSummary}&rdquo;
+                      <p className="text-[7.5px] text-[#555] italic leading-tight line-clamp-6">
+                        {currentSummary}
                       </p>
-                      <div className="text-[7.5px] font-display text-[#888] pt-1 text-right border-t border-[#e2d8c3]/50">
-                        Page 1 • The Publishing Hub
+                      <div className="text-[7.5px] font-serif text-[#888] pt-1 border-t border-[#e2d8c3] text-right">
+                        Page 1
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* 3D Hinged Front Cover (Swings open on hover) */}
+                {/* 3D Hinged Rotating Cover Assembly (Opens on Hover / Click) */}
                 <div className={bookStyles.cover}>
                   {/* Front Face: Book Artwork Image */}
                   <div className={bookStyles.frontFace}>
+                    <div className={bookStyles.spineHighlight} aria-hidden="true" />
+
                     {/* Ribbon Badges on main book cover */}
                     {book?.badge && (
-                      <div className="absolute top-0 left-0 z-30 flex flex-col gap-1 pointer-events-none">
+                      <div className="absolute top-1.5 left-1.5 z-30 flex flex-col gap-1 pointer-events-none">
                         {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
                           <span
                             className="bg-[#56ab84] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
@@ -183,7 +187,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         )}
                       </div>
                     )}
-                    <div className={bookStyles.spineHighlight} aria-hidden="true" />
+
                     <img
                       src={currentImage}
                       alt={currentTitle}
@@ -191,28 +195,32 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     />
                   </div>
 
-                  {/* Back Face: Cream Inner Facing Page */}
-                  <div className={bookStyles.backFace} aria-hidden="true">
+                  {/* Back Face of Front Cover */}
+                  <div className={bookStyles.backFace}>
                     <div className={bookStyles.innerPagePattern}>
-                      <div className="text-center p-3">
-                        <div className="w-8 h-[1px] bg-[#9333ea] dark:bg-[#d4b56a] mb-1.5 mx-auto opacity-50" />
-                        <span className="font-display text-[8px] tracking-[0.2em] uppercase text-[#9333ea] dark:text-[#d4b56a] font-bold block">
-                          Ex Libris
-                        </span>
-                        <div className="w-8 h-[1px] bg-[#9333ea] dark:bg-[#d4b56a] mt-1.5 mx-auto opacity-50" />
-                      </div>
+                      <span className="text-[8px] tracking-widest text-[#a9822e] uppercase font-semibold">
+                        Publishing Hub
+                      </span>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
+
+            {/* Interactive animation hint */}
+            <p
+              className="text-[11px] text-[#71717a] dark:text-[#9d9f96] mt-3 flex items-center gap-1.5 select-none cursor-pointer"
+              onClick={() => setIsBookOpen((prev) => !prev)}
+            >
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#d95338] animate-pulse" />
+              Hover or click book to open 3D preview
+            </p>
           </div>
 
-          {/* Right: Book Details (Exact Match to Screenshot) */}
+          {/* Right: Book Details (Exact Match to Reference) */}
           <div className="md:col-span-7 space-y-5">
             {/* Category Tag */}
-            <span className="text-[11px] font-bold tracking-[0.25em] text-[#9333ea] dark:text-[#d4b56a] uppercase block">
+            <span className="text-[11px] font-bold tracking-[0.25em] text-[#b89245] dark:text-[#d4b56a] uppercase block">
               {currentCategory}
             </span>
 
@@ -223,7 +231,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
             {/* Ratings */}
             <div className="flex items-center gap-2">
-              <div className="flex text-[#9333ea] dark:text-[#d4b56a]">
+              <div className="flex text-[#f59e0b]">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
@@ -270,14 +278,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             <div className="flex flex-wrap items-center gap-4 pt-2">
               {/* Quantity Stepper */}
               <div
-                className={`flex items-center border border-[#e9e1f5] dark:border-[#d4b56a]/40 bg-[#faf5ff] dark:bg-[#0a120e] rounded-[2px] h-11 px-2 ${
+                className={`flex items-center border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-[#0a120e] rounded-[2px] h-11 px-2 ${
                   isOutOfStock ? "opacity-50 pointer-events-none" : ""
                 }`}
               >
                 <button
                   disabled={isOutOfStock || quantity <= 1}
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-7 h-full flex items-center justify-center text-[#9333ea] dark:text-[#d4b56a] hover:opacity-80 transition-opacity disabled:opacity-30"
+                  className="w-7 h-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors disabled:opacity-30 cursor-pointer"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="w-3.5 h-3.5" />
@@ -288,21 +296,21 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 <button
                   disabled={isOutOfStock || quantity >= maxStock}
                   onClick={() => setQuantity((q) => Math.min(maxStock, q + 1))}
-                  className="w-7 h-full flex items-center justify-center text-[#9333ea] dark:text-[#d4b56a] hover:opacity-80 transition-opacity disabled:opacity-30"
+                  className="w-7 h-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors disabled:opacity-30 cursor-pointer"
                   aria-label="Increase quantity"
                 >
                   <Plus className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              {/* Purple Add To Cart Button */}
+              {/* Coral-Red Add To Cart Button (Matching Live Reference) */}
               <button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
-                className={`flex-1 min-w-[200px] h-11 text-xs font-extrabold tracking-[0.18em] uppercase flex items-center justify-center gap-2 rounded-[2px] transition-all shadow-lg ${
+                className={`flex-1 min-w-[200px] h-11 text-xs font-extrabold tracking-[0.18em] uppercase flex items-center justify-center gap-2 rounded-[2px] transition-all shadow-md ${
                   isOutOfStock
-                    ? "bg-gray-400 text-white cursor-not-allowed opacity-60 shadow-none"
-                    : "bg-[#9333ea] hover:bg-[#7e22ce] text-white hover:shadow-purple-500/25 active:scale-[0.99] cursor-pointer"
+                      ? "bg-gray-400 text-white cursor-not-allowed opacity-60 shadow-none"
+                      : "bg-[#d95338] hover:bg-[#c44329] text-white hover:shadow-[0_6px_20px_rgba(217,83,56,0.35)] active:scale-[0.99] cursor-pointer"
                 }`}
               >
                 <ShoppingCart className="w-4 h-4" /> {isOutOfStock ? "OUT OF STOCK" : "ADD TO CART"}
@@ -316,17 +324,17 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             )}
 
             {/* Wishlist & Compare Links */}
-            <div className="flex items-center gap-6 pt-3 text-xs text-[#71717a] dark:text-[#9d9f96] border-t border-[#e9e1f5] dark:border-[#f2eee3]/10">
+            <div className="flex items-center gap-6 pt-3 text-xs text-[#71717a] dark:text-[#9d9f96] border-t border-gray-100 dark:border-gray-800">
               <button
                 onClick={() => setIsWishlisted(!isWishlisted)}
-                className={`flex items-center gap-1.5 transition-colors ${
-                  isWishlisted ? "text-[#9333ea] dark:text-[#d4b56a]" : "hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+                className={`flex items-center gap-1.5 transition-colors cursor-pointer ${
+                  isWishlisted ? "text-[#d95338]" : "hover:text-[#18181b] dark:hover:text-[#f2eee3]"
                 }`}
               >
                 <Heart className={`w-3.5 h-3.5 ${isWishlisted ? "fill-current" : ""}`} />
                 {isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}
               </button>
-              <button className="flex items-center gap-1.5 hover:text-[#18181b] dark:hover:text-[#f2eee3] transition-colors">
+              <button className="flex items-center gap-1.5 hover:text-[#18181b] dark:hover:text-[#f2eee3] transition-colors cursor-pointer">
                 <ArrowLeftRight className="w-3.5 h-3.5" /> Add to Compare
               </button>
             </div>
@@ -334,16 +342,16 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             {/* Social Share Icons */}
             <div className="flex items-center gap-3 pt-2 text-xs text-[#71717a] dark:text-[#9d9f96]">
               <span>Share:</span>
-              <button className="w-7 h-7 rounded-full bg-[#f4ecfa] dark:bg-[#0d1612] text-[#9333ea] dark:text-[#d4b56a] hover:bg-[#9333ea] hover:text-white flex items-center justify-center transition-colors">
+              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
                 <Facebook className="w-3.5 h-3.5" />
               </button>
-              <button className="w-7 h-7 rounded-full bg-[#f4ecfa] dark:bg-[#0d1612] text-[#9333ea] dark:text-[#d4b56a] hover:bg-[#9333ea] hover:text-white flex items-center justify-center transition-colors">
+              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
                 <Twitter className="w-3.5 h-3.5" />
               </button>
-              <button className="w-7 h-7 rounded-full bg-[#f4ecfa] dark:bg-[#0d1612] text-[#9333ea] dark:text-[#d4b56a] hover:bg-[#9333ea] hover:text-white flex items-center justify-center transition-colors">
+              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
                 <Share2 className="w-3.5 h-3.5" />
               </button>
-              <button className="w-7 h-7 rounded-full bg-[#f4ecfa] dark:bg-[#0d1612] text-[#9333ea] dark:text-[#d4b56a] hover:bg-[#9333ea] hover:text-white flex items-center justify-center transition-colors">
+              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
                 <Mail className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -355,94 +363,103 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         {/* ========================================================================= */}
         {/* SECTION 2: MEET THE AUTHOR (MATCHING LIVE REFERENCE SITE)                 */}
         {/* ========================================================================= */}
-        <section className="py-8 sm:py-12 space-y-8 sm:space-y-10 border-t dark:border-[#f2eee3]/10 border-gray-100">
-          {/* Centered Heading */}
-          <div className="text-center">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl dark:text-[#f2eee3] text-[#1c1917] font-normal tracking-tight">
-              Meet The Author
-            </h2>
-          </div>
+        {/* SECTION 2: MEET THE AUTHOR (CLEAN LIGHT DAY THEME / GREEN DARK THEME)     */}
+        {/* ========================================================================= */}
+        <section className="py-4 sm:py-6">
+          <div className="max-w-6xl mx-auto rounded-xl sm:rounded-2xl bg-white/95 dark:bg-[#091510] border border-gray-200/80 dark:border-[#2c7650]/40 p-6 sm:p-10 lg:p-12 shadow-sm dark:shadow-xl relative overflow-hidden transition-all duration-300">
+            {/* Ambient Glows in Background (Subtle in Day mode, Emerald in Dark mode) */}
+            <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-50/40 dark:bg-[#2c7650]/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-pink-50/30 dark:bg-[#2c7650]/15 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start max-w-5xl mx-auto pt-2">
-            {/* Left: Author Profile (Portrait Photo + Name + Circular Social Icons) */}
-            <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left">
-              <div className="w-44 sm:w-52 aspect-[3.8/5] overflow-hidden shadow-sm rounded-[2px] bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/60">
-                <img
-                  src={currentAuthorImage}
-                  alt={currentAuthorName}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <h3 className="font-display text-xl sm:text-2xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-4">
-                {currentAuthorName}
-              </h3>
-
-              {/* 4 Circular Social Icons */}
-              <div className="flex items-center gap-2 mt-3 text-gray-500 dark:text-gray-400">
-                <a
-                  href="#facebook"
-                  aria-label="Facebook"
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
-                >
-                  <Facebook className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href="#twitter"
-                  aria-label="Twitter"
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
-                >
-                  <Twitter className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href="#linkedin"
-                  aria-label="LinkedIn"
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
-                >
-                  <Linkedin className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href="#instagram"
-                  aria-label="Instagram"
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
-                >
-                  <Instagram className="w-3.5 h-3.5" />
-                </a>
-              </div>
+            {/* Centered Heading */}
+            <div className="text-center mb-8 sm:mb-10 relative z-10">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl dark:text-[#f2eee3] text-[#1c1917] font-normal tracking-tight">
+                Meet The Author
+              </h2>
+              <div className="w-16 h-0.5 bg-[#b89245] dark:bg-[#d4b56a] mx-auto mt-3 rounded-full opacity-80" />
             </div>
 
-            {/* Right: Other Books by Author OR Exact Teal Notice from Reference Site */}
-            <div className="lg:col-span-8 flex flex-col justify-center min-h-[220px]">
-              {authorBooksList && authorBooksList.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  {authorBooksList.map((b) => {
-                    const targetSlug = b.slug || getBookSlug(b);
-                    return (
-                      <Link
-                        key={b.id}
-                        href={`/product/${targetSlug}`}
-                        className="flex flex-col items-center text-center group cursor-pointer"
-                      >
-                        <div className="relative w-full max-w-[180px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-md group-hover:shadow-xl transform group-hover:-translate-y-1 transition-all duration-300">
-                          <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="mt-3 text-xs font-semibold text-[#b89245]">{b.price}</div>
-                        <h4 className="font-display text-sm mt-1">{b.title}</h4>
-                      </Link>
-                    );
-                  })}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center max-w-5xl mx-auto relative z-10">
+              {/* Left: Author Profile (Portrait Photo + Name + Circular Social Icons) */}
+              <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left">
+                <div className="w-44 sm:w-52 aspect-[3.8/5] overflow-hidden shadow-sm rounded-[3px] bg-white dark:bg-black/40 border border-gray-200/80 dark:border-[#2c7650]/50">
+                  <img
+                    src={currentAuthorImage}
+                    alt={currentAuthorName}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-              ) : (
-                /* Exact Teal Notice box matching the live reference in Image 1 */
-                <div className="flex items-center gap-3.5 px-5 py-4 bg-[#57b2a6] text-white rounded-[2px] shadow-sm max-w-md my-auto">
-                  <div className="w-5 h-5 rounded-full border border-white/80 flex items-center justify-center text-xs font-bold flex-shrink-0">
-                    i
+
+                <h3 className="font-display text-xl sm:text-2xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-4">
+                  {currentAuthorName}
+                </h3>
+
+                {/* 4 Circular Social Icons */}
+                <div className="flex items-center gap-2 mt-3 text-gray-500 dark:text-[#a3b8ad]">
+                  <a
+                    href="#facebook"
+                    aria-label="Facebook"
+                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                  >
+                    <Facebook className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="#twitter"
+                    aria-label="Twitter"
+                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                  >
+                    <Twitter className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="#linkedin"
+                    aria-label="LinkedIn"
+                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                  >
+                    <Linkedin className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="#instagram"
+                    aria-label="Instagram"
+                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                  >
+                    <Instagram className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Right: Other Books by Author OR Notice Box */}
+              <div className="lg:col-span-8 flex flex-col justify-center min-h-[220px]">
+                {authorBooksList && authorBooksList.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    {authorBooksList.map((b) => {
+                      const targetSlug = b.slug || getBookSlug(b);
+                      return (
+                        <Link
+                          key={b.id}
+                          href={`/product/${targetSlug}`}
+                          className="flex flex-col items-center text-center group cursor-pointer"
+                        >
+                          <div className="relative w-full max-w-[180px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-sm group-hover:shadow-md transform group-hover:-translate-y-1 transition-all duration-300 border border-gray-200/80 dark:border-[#2c7650]/30">
+                            <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="mt-3 text-xs font-semibold text-[#b89245] dark:text-[#d4b56a]">{b.price}</div>
+                          <h4 className="font-display text-sm mt-1 dark:text-[#f2eee3] text-[#1c1917] group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">{b.title}</h4>
+                        </Link>
+                      );
+                    })}
                   </div>
-                  <span className="text-[13px] font-medium tracking-wide">
-                    No products were found matching your selection.
-                  </span>
-                </div>
-              )}
+                ) : (
+                  /* Clean Light Notice Box in Day mode, Emerald Green in Dark mode */
+                  <div className="flex items-center gap-3.5 px-6 py-5 bg-gray-50/80 dark:bg-[#123324] border border-gray-200 dark:border-[#2c7650] text-[#555] dark:text-[#e2f7eb] rounded-lg shadow-sm max-w-lg my-auto">
+                    <div className="w-6 h-6 rounded-full border-2 border-gray-400 dark:border-[#52c38d] bg-white dark:bg-[#1a4a34] flex items-center justify-center text-xs font-bold text-gray-600 dark:text-[#52c38d] flex-shrink-0">
+                      i
+                    </div>
+                    <span className="text-[13.5px] font-medium tracking-wide leading-snug">
+                      No products were found matching your selection.
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -457,8 +474,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               onClick={() => setActiveTab("description")}
               className={`pb-4 text-base font-display transition-all relative ${
                 activeTab === "description"
-                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
-                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+                    ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
+                    : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
               }`}
             >
               Description
@@ -467,8 +484,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               onClick={() => setActiveTab("reviews")}
               className={`pb-4 text-base font-display transition-all relative ${
                 activeTab === "reviews"
-                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
-                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+                    ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
+                    : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
               }`}
             >
               Reviews (0)
@@ -537,8 +554,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           <div
             className={`items-start min-h-[380px] ${
               relatedBooksList.length <= 2
-                ? "flex justify-center gap-8 sm:gap-12 flex-wrap max-w-3xl mx-auto"
-                : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-6xl mx-auto"
+                  ? "flex justify-center gap-8 sm:gap-12 flex-wrap max-w-3xl mx-auto"
+                  : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-6xl mx-auto"
             }`}
           >
             {relatedBooksList.slice(relatedSlide * 4, (relatedSlide + 1) * 4).map((b) => {
@@ -649,8 +666,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   aria-label={`Slide ${idx + 1}`}
                   className={`cursor-pointer transition-all duration-300 ${
                     relatedSlide === idx
-                      ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
-                      : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
+                        ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
+                        : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
                   }`}
                 />
               ))}
