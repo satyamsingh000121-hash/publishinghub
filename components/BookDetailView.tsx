@@ -20,6 +20,7 @@ import {
   Globe,
   Youtube,
   Search,
+  Info,
 } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 import BookOpenCard from "./BookOpenCard";
@@ -43,23 +44,40 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [addedAlert, setAddedAlert] = useState<boolean>(false);
-  const [authorSlide, setAuthorSlide] = useState<number>(0);
   const [relatedSlide, setRelatedSlide] = useState<number>(0);
 
-  // Author's other books (Matching exact reference image 2)
-  const authorBooks: AuthorBook[] = [
+  // Related products (Matching exact reference image)
+  const relatedBooks: RelatedBook[] = [
     {
-      id: "auth-1",
-      image: "/images/book_section1.png",
-      title: "Sam & Dave dig a Hole",
-      author: "By MAC BARNETT",
-      price: "£14.00",
-      oldPrice: "£18.00",
+      id: "rel-1",
+      image: "/images/shop8.jpg",
+      title: "Peter and the Wolf",
+      author: "By Sergei Prokofiev",
+      price: "£15.00",
       badge: "SALE",
-      slug: "sam-and-dave-dig-a-hole",
+      badgeType: "sale",
+      slug: "peter-and-the-wolf",
     },
     {
-      id: "auth-2",
+      id: "rel-2",
+      image: "/images/shop2.jpg",
+      title: "The Summer of Impossible Things",
+      author: "By Rowan Coleman",
+      price: "£18.00",
+      slug: "the-summer-of-impossible-things",
+    },
+    {
+      id: "rel-3",
+      image: "/images/book_section3.webp",
+      title: "The Night Ocean",
+      author: "By Paul La Farge",
+      price: "£22.00",
+      badge: "SALE",
+      badgeType: "sale",
+      slug: "the-night-ocean",
+    },
+    {
+      id: "rel-4",
       image: "/images/book_section4.webp",
       title: "The Assault",
       author: "By Harry Mulisch",
@@ -68,72 +86,21 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
     },
   ];
 
-  // Related products (Matching exact reference image)
-  const relatedBooks: RelatedBook[] = [
-    {
-      id: "rel-1",
-      image: "/images/Newest1.webp",
-      title: "Henry & The Good Dog",
-      author: "By MESHO BUVAHR, SAVANNA WALKER",
-      price: "£22.00",
-      oldPrice: "£25.00",
-      originalPrice: "£25.00",
-      badge: "SALE",
-      badgeType: "sale",
-      slug: "henry-and-the-good-dog",
-    },
-    {
-      id: "rel-2",
-      image: "/images/shop2.jpg",
-      title: "All this has nothing to do with Me",
-      author: "By BHUZUN NAHLAM, HOF NURGIN",
-      price: "£20.00",
-      badge: "HOT",
-      badgeType: "hot",
-      slug: "all-this-has-nothing-to-do-with-me",
-    },
-    {
-      id: "rel-3",
-      image: "/images/book_section3.webp",
-      title: "The Night Ocean",
-      author: "By SERO GLAN, SI MODARSK",
-      price: "£22.00",
-      oldPrice: "£25.00",
-      originalPrice: "£25.00",
-      badge: "SALE",
-      badgeType: "sale",
-      slug: "the-night-ocean",
-    },
-    {
-      id: "rel-4",
-      image: "/images/shop4.jpg",
-      title: "Dear Brain",
-      author: "By MESHO BUVAHR, TE SORKAZ",
-      price: "£18.00",
-      oldPrice: "£21.00",
-      originalPrice: "£21.00",
-      badge: "SALE",
-      badgeType: "sale",
-      slug: "dear-brain",
-    },
-  ];
-
-  const currentTitle = book?.title || "The Night Ocean";
-  const currentCategory = book?.category || "CHILDREN'S";
-  const currentPrice = book?.price || "£16.00";
-  const currentImage = book?.image || "/images/book_section3.webp";
+  const currentTitle = book?.title || "The Journey of a Young Entrepreneur";
+  const currentCategory = book?.category || "Biography";
+  const currentPrice = book?.price || "£18.00";
+  const currentImage = book?.image || "/images/book_section1.png";
   const currentSummary =
     book?.summary ||
-    "The classic musical fairy tale brought alive with rich, dramatic artwork and enchanting prose.";
+    "An inspiring, real-world roadmap detailing how relentless determination and creative leadership build monumental success.";
   const currentDescription =
     book?.description ||
-    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.";
-  const currentAuthorName = book?.authorName || "Si Modarsk";
-  const currentAuthorImage = book?.authorImage || "/images/author-02.jpg";
-  const currentAuthorQuote =
-    book?.authorQuote ||
-    "“My books are marked down because most of them are marked with a on the edge by publishers.”";
-  const authorBooksList = book?.authorBooks || authorBooks;
+    "Unlock Your Entrepreneurial Journey with \"Visions to Victory\"\n\nEmbarking on the journey of entrepreneurship can feel both exciting and overwhelming. As you face the challenges and opportunities ahead, having a trustworthy guide can make all the difference. That's where \"Visions to Victory\" steps in - it's a comprehensive handbook crafted to empower entrepreneurs like yourself to turn your dreams into reality and achieve lasting success in the competitive world of business.\n\nThe book starts by stressing the importance of defining your vision clearly and setting goals that are ambitious yet achievable. Through practical advice and real-life examples, it helps you shape a vision that acts as a guiding star, keeping you motivated, focused, and resilient in the face of obstacles.\n\n\"Visions to Victory\" serves as a strategic roadmap for crafting success from the very beginning to achieving significant milestones like stock exchange glory and reaching nine to twelve-figure revenues. It provides blueprints and successful models for clarifying your vision and goals, developing strategic plans, optimising business models, implementing efficient systems and processes, fostering a culture of continuous improvement, and driving innovation and value creation.\n\nIn summary, \"Visions to Victory\" fulfills its purpose by empowering entrepreneurs with the knowledge, tools, and resources needed to navigate the complexities of business ownership, overcome challenges, and achieve their vision of success. Whether you're launching a new venture or expanding an existing business, this book equips you with the skills and mindset required to thrive in today's dynamic business landscape.";
+  const currentAuthorName =
+    book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Santosh Kumar Mishra");
+  const currentAuthorImage =
+    book?.authorImage || "/images/Gemini_Generated_Image_f41einf41einf41e.png";
+  const authorBooksList = book?.authorBooks || [];
   const relatedBooksList = book?.relatedBooks || relatedBooks;
 
   const handleAddToCart = () => {
@@ -384,11 +351,11 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           </div>
         </section>
 
-
         {/* ========================================================================= */}
-        {/* SECTION 2: MEET THE AUTHOR (EXACT DESIGN MATCH)                           */}
         {/* ========================================================================= */}
-        <section className="bg-[#faf8f5] dark:bg-[#080e0b] border border-[#eee7db] dark:border-[#16241c] py-10 sm:py-14 px-6 sm:px-10 rounded-[2px] space-y-8 sm:space-y-10">
+        {/* SECTION 2: MEET THE AUTHOR (MATCHING LIVE REFERENCE SITE)                 */}
+        {/* ========================================================================= */}
+        <section className="py-8 sm:py-12 space-y-8 sm:space-y-10 border-t dark:border-[#f2eee3]/10 border-gray-100">
           {/* Centered Heading */}
           <div className="text-center">
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl dark:text-[#f2eee3] text-[#1c1917] font-normal tracking-tight">
@@ -396,207 +363,94 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start max-w-6xl mx-auto">
-            
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start max-w-5xl mx-auto pt-2">
             {/* Left: Author Profile (Portrait Photo + Name + Circular Social Icons) */}
-            <div className="lg:col-span-4 flex flex-col items-center text-center">
-              <div className="relative">
-                {/* Diagonal striped decorative accent pattern behind top-right of image */}
-                <div
-                  className="absolute -top-3 -right-3 w-16 h-36 opacity-30 dark:opacity-20 pointer-events-none -z-0"
-                  style={{
-                    backgroundImage: "repeating-linear-gradient(-45deg, #71717a 0, #71717a 1.5px, transparent 0, transparent 6px)",
-                  }}
+            <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left">
+              <div className="w-44 sm:w-52 aspect-[3.8/5] overflow-hidden shadow-sm rounded-[2px] bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/60">
+                <img
+                  src={currentAuthorImage}
+                  alt={currentAuthorName}
+                  className="w-full h-full object-cover"
                 />
-
-                {/* Author Portrait Image */}
-                <div className="w-44 sm:w-52 aspect-[3.8/5] relative z-10 overflow-hidden shadow-md rounded-[1px]">
-                  <img
-                    src={currentAuthorImage}
-                    alt={currentAuthorName}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
               </div>
 
-              {/* Author Name */}
-              <h3 className="font-display text-2xl sm:text-3xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-5">
+              <h3 className="font-display text-xl sm:text-2xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-4">
                 {currentAuthorName}
               </h3>
 
-              {/* 5 Circular Social Icons */}
-              <div className="flex items-center gap-2 mt-4 text-gray-500 dark:text-[#a1a1aa]">
-                <button
+              {/* 4 Circular Social Icons */}
+              <div className="flex items-center gap-2 mt-3 text-gray-500 dark:text-gray-400">
+                <a
+                  href="#facebook"
                   aria-label="Facebook"
                   className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
                 >
                   <Facebook className="w-3.5 h-3.5" />
-                </button>
-                <button
+                </a>
+                <a
+                  href="#twitter"
                   aria-label="Twitter"
                   className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
                 >
                   <Twitter className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  aria-label="Pinterest"
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors font-bold text-[11px]"
-                >
-                  P
-                </button>
-                <button
-                  aria-label="Instagram"
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
-                >
-                  <Instagram className="w-3.5 h-3.5" />
-                </button>
-                <button
+                </a>
+                <a
+                  href="#linkedin"
                   aria-label="LinkedIn"
                   className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
                 >
                   <Linkedin className="w-3.5 h-3.5" />
-                </button>
+                </a>
+                <a
+                  href="#instagram"
+                  aria-label="Instagram"
+                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:text-black dark:hover:text-white flex items-center justify-center transition-colors text-xs"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                </a>
               </div>
             </div>
 
-            {/* Right: Quote at top + Standalone Large Books */}
-            <div className="lg:col-span-8 flex flex-col justify-between">
-              {/* Quote */}
-              <div className="text-center mb-8 px-2">
-                <p className="font-display italic text-sm sm:text-base md:text-lg dark:text-[#d4d1c9] text-[#4b5563] max-w-xl mx-auto leading-relaxed">
-                  &ldquo;{currentAuthorQuote}&rdquo;
-                </p>
-              </div>
-
-              <div
-                className={`items-start min-h-[340px] ${
-                  authorBooksList.length <= 2
-                    ? "flex justify-center gap-8 sm:gap-12 flex-wrap"
-                    : "grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7"
-                }`}
-              >
-                {authorBooksList.slice(authorSlide * 3, (authorSlide + 1) * 3).map((b) => {
-                  const targetSlug = b.slug || getBookSlug(b);
-                  return (
-                    <Link
-                      key={b.id}
-                      href={`/product/${targetSlug}`}
-                      className="flex flex-col items-center text-center group cursor-pointer animate-in fade-in duration-300"
-                    >
-                      {/* Standalone Book Cover (no card background) */}
-                      <div className="relative w-full max-w-[200px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-[0_8px_20px_rgba(0,0,0,0.12)] dark:shadow-[0_16px_30px_rgba(0,0,0,0.6)] group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.22)] dark:group-hover:shadow-[0_22px_45px_rgba(0,0,0,0.85)] transform group-hover:-translate-y-1.5 transition-all duration-300">
-                        
-                        {/* Ribbon Badges on top-left of book cover */}
-                        {b.badge && (
-                          <div className="absolute top-0 left-0 z-20 flex flex-col gap-1 pointer-events-none">
-                            {(b.badge === "SALE" || b.badge === "SALE_AND_HOT") && (
-                              <span
-                                className="bg-[#56ab84] text-white text-[9px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
-                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
-                              >
-                                SALE
-                              </span>
-                            )}
-                            {(b.badge === "HOT" || b.badge === "SALE_AND_HOT") && (
-                              <span
-                                className="bg-[#e05638] text-white text-[9px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
-                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
-                              >
-                                HOT
-                              </span>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Spine Gradient Overlay */}
-                        <div className="absolute top-0 left-0 bottom-0 w-[6%] bg-gradient-to-r from-black/35 via-black/10 to-transparent z-10 pointer-events-none" />
-
-                        <img
-                          src={b.image}
-                          alt={b.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-
-                      {/* Price on top of Title */}
-                      <div className="mt-3.5 space-y-1">
-                        <div className="flex items-center justify-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#b89245] dark:text-[#d4b56a]">
-                          {b.oldPrice && (
-                            <span className="text-[#a1a1aa] dark:text-[#71717a] line-through font-normal text-xs">
-                              {b.oldPrice}
-                            </span>
-                          )}
-                          <span>{b.price}</span>
+            {/* Right: Other Books by Author OR Exact Teal Notice from Reference Site */}
+            <div className="lg:col-span-8 flex flex-col justify-center min-h-[220px]">
+              {authorBooksList && authorBooksList.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  {authorBooksList.map((b) => {
+                    const targetSlug = b.slug || getBookSlug(b);
+                    return (
+                      <Link
+                        key={b.id}
+                        href={`/product/${targetSlug}`}
+                        className="flex flex-col items-center text-center group cursor-pointer"
+                      >
+                        <div className="relative w-full max-w-[180px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-md group-hover:shadow-xl transform group-hover:-translate-y-1 transition-all duration-300">
+                          <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
                         </div>
-                        <h4 className="font-display text-sm sm:text-[15px] dark:text-[#f2eee3] text-[#1c1917] font-normal leading-snug group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">
-                          {b.title}
-                        </h4>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-
-              {/* Author Carousel Arrows / Pagination */}
-              {authorBooksList.length <= 2 ? (
-                <div className="flex justify-center items-center gap-2 pt-6">
-                  <button
-                    aria-label="Previous"
-                    className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
-                  >
-                    &lt;
-                  </button>
-                  <button
-                    aria-label="Next"
-                    className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
-                  >
-                    &gt;
-                  </button>
+                        <div className="mt-3 text-xs font-semibold text-[#b89245]">{b.price}</div>
+                        <h4 className="font-display text-sm mt-1">{b.title}</h4>
+                      </Link>
+                    );
+                  })}
                 </div>
               ) : (
-                <div className="flex flex-col items-center gap-3 pt-6">
-                  <div className="flex justify-center items-center gap-2">
-                    {Array.from({ length: Math.ceil(authorBooksList.length / 3) }).map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setAuthorSlide(idx)}
-                        aria-label={`Author Slide ${idx + 1}`}
-                        className={`cursor-pointer transition-all duration-300 ${
-                          authorSlide === idx
-                            ? "w-2.5 h-2.5 rounded-full border-2 border-[#d95338] bg-transparent"
-                            : "w-2 h-2 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
-                        }`}
-                      />
-                    ))}
+                /* Exact Teal Notice box matching the live reference in Image 1 */
+                <div className="flex items-center gap-3.5 px-5 py-4 bg-[#57b2a6] text-white rounded-[2px] shadow-sm max-w-md my-auto">
+                  <div className="w-5 h-5 rounded-full border border-white/80 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    i
                   </div>
-                  <div className="flex justify-center items-center gap-2">
-                    <button
-                      onClick={() => setAuthorSlide((prev) => (prev > 0 ? prev - 1 : 0))}
-                      aria-label="Previous"
-                      className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
-                    >
-                      &lt;
-                    </button>
-                    <button
-                      onClick={() => setAuthorSlide((prev) => (prev + 1 < Math.ceil(authorBooksList.length / 3) ? prev + 1 : prev))}
-                      aria-label="Next"
-                      className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
-                    >
-                      &gt;
-                    </button>
-                  </div>
+                  <span className="text-[13px] font-medium tracking-wide">
+                    No products were found matching your selection.
+                  </span>
                 </div>
               )}
             </div>
-
           </div>
         </section>
-
 
         {/* ========================================================================= */}
         {/* SECTION 3: TABS (DESCRIPTION & REVIEWS)                                   */}
         {/* ========================================================================= */}
-        <section className="space-y-8 max-w-4xl mx-auto pt-6">
+        <section className="space-y-8 max-w-4xl mx-auto pt-6 border-t dark:border-[#f2eee3]/10 border-gray-100">
           {/* Tab Selection */}
           <div className="flex items-center justify-center gap-12 border-b dark:border-[#f2eee3]/10 border-gray-200">
             <button
@@ -622,12 +476,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           </div>
 
           {/* Tab Contents */}
-          <div className="py-4 text-center">
+          <div className="py-4">
             {activeTab === "description" ? (
-              <div className="space-y-6 max-w-3xl mx-auto">
-                <p className="text-xs sm:text-[13px] leading-relaxed dark:text-[#9d9f96] text-[#71717a]">
-                  {currentDescription}
-                </p>
+              <div className="space-y-4 max-w-3xl mx-auto text-left">
+                {currentDescription.split("\n\n").map((para, i) => (
+                  <p key={i} className="text-xs sm:text-[13.5px] leading-relaxed dark:text-[#b0b3a8] text-[#555]">
+                    {para}
+                  </p>
+                ))}
                 {(book?.isbn || book?.publisher || book?.pages || book?.format || book?.language) && (
                   <div className="pt-6 border-t border-gray-100 dark:border-[#f2eee3]/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
                     {book.isbn && (
