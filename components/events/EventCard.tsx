@@ -2,11 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { MapPin, Clock, ChevronsRight, Maximize2 } from "lucide-react";
+import { MapPin, Clock, ArrowRight, Bookmark } from "lucide-react";
 
 export interface EventItem {
   id: string;
-  date: string;
+  day?: string;
+  month?: string;
+  date?: string;
+  tag?: string;
   title: string;
   location: string;
   time: string;
@@ -23,78 +26,117 @@ interface EventCardProps {
 
 export default function EventCard({ event }: EventCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // Extract day and month if not provided separately
+  let displayDay = event.day;
+  let displayMonth = event.month;
+  if (!displayDay || !displayMonth) {
+    const parts = (event.date || "").split(" ");
+    if (parts.length >= 2) {
+      if (isNaN(Number(parts[0]))) {
+        displayMonth = parts[0].slice(0, 3).toUpperCase();
+        displayDay = parts[1];
+      } else {
+        displayDay = parts[0];
+        displayMonth = parts[1].slice(0, 3).toUpperCase();
+      }
+    } else {
+      displayDay = "12";
+      displayMonth = "APR";
+    }
+  }
+
   const cardHref = event.slug ? `/event/${event.slug}` : "#";
 
-  const Content = (
-    <div className="flex flex-col dark:bg-[#070e0a] bg-white border dark:border-[#f2eee3]/10 border-[#e5e7eb] rounded-xs overflow-hidden transition-all duration-300 hover:shadow-xl dark:hover:shadow-[0_15px_35px_rgba(0,0,0,0.7)] group cursor-pointer h-full">
-      {/* Event Cover Image Container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden dark:bg-[#0c1611] bg-[#f4f4f5]">
-        <img
-          src={imageError && event.fallbackImage ? event.fallbackImage : event.image}
-          alt={event.title}
-          onError={() => setImageError(true)}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-        />
+  return (
+    <div className="group relative flex flex-col justify-between rounded-2xl bg-[#09110c] border border-[#16291d] hover:border-[#d4b56a]/40 p-4 sm:p-5 transition-all duration-300 hover:shadow-[0_16px_36px_rgba(0,0,0,0.6)]">
+      {/* Top Section: Inset Image with Date Badge */}
+      <div>
+        <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-[#060c08] mb-5">
+          <img
+            src={imageError && event.fallbackImage ? event.fallbackImage : event.image}
+            alt={event.title}
+            onError={() => setImageError(true)}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
 
-        {/* Ambient Dark/Light Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t dark:from-[#070e0a]/60 from-black/20 via-transparent to-transparent pointer-events-none" />
+          {/* Vignette Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09110c]/80 via-transparent to-black/20 pointer-events-none" />
 
-        {/* Center Hover "VIEW MORE >>" Button (Matching Screenshot) */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-          <span className="px-6 py-2.5 bg-white text-[#18181b] text-xs font-bold uppercase tracking-[0.18em] shadow-xl flex items-center gap-2 transform group-hover:scale-100 scale-95 transition-transform duration-300 border border-white">
-            VIEW MORE <ChevronsRight className="w-4 h-4 text-[#18181b]" />
+          {/* Date Badge (Top-Left) */}
+          <div className="absolute top-3.5 left-3.5 bg-[#08120b]/90 backdrop-blur-md border border-[#1b3324] rounded-xl px-3.5 py-1.5 flex flex-col items-center justify-center shadow-lg min-w-[50px]">
+            <span className="text-xl sm:text-2xl font-bold text-[#f2eee3] leading-tight font-sans">
+              {displayDay}
+            </span>
+            <span className="text-[10px] font-semibold text-[#8e9c93] tracking-wider uppercase font-sans">
+              {displayMonth}
+            </span>
+          </div>
+        </div>
+
+        {/* Category Tag Badge */}
+        <div className="mb-3">
+          <span className="inline-block px-3 py-1 text-[10.5px] font-bold tracking-wider uppercase rounded-full border border-[#1f3827] text-[#c9a762] bg-[#0c1b12]">
+            {event.tag || event.category || "EVENT"}
           </span>
         </div>
 
-        {/* Bottom-right Expand/Scan Icon */}
-        <div className="absolute bottom-3 right-3 text-white/70 opacity-60 group-hover:opacity-100 transition-opacity">
-          <Maximize2 className="w-4 h-4 drop-shadow" />
-        </div>
-      </div>
-
-      {/* Card Body Details */}
-      <div className="p-6 sm:p-7 flex flex-col flex-1 justify-between space-y-4">
-        <div className="space-y-2">
-          {/* Orange/Copper Date Tag matching reference image */}
-          <span className="text-xs sm:text-[12.5px] tracking-[0.2em] font-bold uppercase text-[#c85a32] dark:text-[#d4b56a] font-sans block">
-            {event.date}
-          </span>
-
-          {/* Event Title in Serif Display Font */}
-          <h3 className="font-display text-2xl sm:text-3xl font-medium dark:text-[#f2eee3] text-[#18181b] dark:group-hover:text-[#d4b56a] group-hover:text-[#c85a32] transition-colors leading-tight tracking-tight">
+        {/* Event Title */}
+        <Link href={cardHref}>
+          <h3 className="font-display text-xl sm:text-[22px] font-semibold text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors line-clamp-1 mb-2.5">
             {event.title}
           </h3>
+        </Link>
+
+        {/* Description */}
+        <p className="text-xs sm:text-[13px] text-[#8e9c93] leading-relaxed line-clamp-3 mb-5 font-sans">
+          {event.description}
+        </p>
+      </div>
+
+      {/* Bottom Details & Actions */}
+      <div>
+        {/* Meta Info: Location & Time */}
+        <div className="flex flex-col gap-2 py-3 border-t border-[#16291d] text-xs text-[#8e9c93]">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-3.5 h-3.5 text-[#8e9c93] flex-shrink-0" />
+            <span className="truncate">{event.location}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="w-3.5 h-3.5 text-[#8e9c93] flex-shrink-0" />
+            <span>{event.time}</span>
+          </div>
         </div>
 
-        {/* Location & Time Metadata Row matching 2-column layout */}
-        <div className="pt-3.5 border-t dark:border-[#f2eee3]/10 border-[#e5e7eb] grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-[13px] dark:text-[#888b83] text-[#52525b]">
-          {/* Location */}
-          <div className="flex items-start gap-2">
-            <MapPin className="w-4 h-4 text-[#71717a] dark:text-[#888b83] flex-shrink-0 mt-0.5" />
-            <span className="line-clamp-2 italic font-serif leading-relaxed">
-              {event.location}
-            </span>
-          </div>
+        {/* Action Row: Learn More & Bookmark */}
+        <div className="pt-3 border-t border-[#16291d] flex items-center justify-between">
+          <Link
+            href={cardHref}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1f3827] hover:border-[#d4b56a] bg-[#070e0a] hover:bg-[#0e1f15] text-xs font-semibold text-[#dedacf] hover:text-[#d4b56a] transition-all"
+          >
+            <span>Learn More</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
 
-          {/* Time */}
-          <div className="flex items-start sm:justify-end gap-2">
-            <Clock className="w-4 h-4 text-[#71717a] dark:text-[#888b83] flex-shrink-0 mt-0.5" />
-            <span className="italic font-serif leading-relaxed">
-              {event.time}
-            </span>
-          </div>
+          <button
+            type="button"
+            onClick={() => setIsBookmarked(!isBookmarked)}
+            className={`p-2 rounded-full transition-colors ${
+              isBookmarked
+                ? "text-[#d4b56a] bg-[#1a2d21]"
+                : "text-[#8e9c93] hover:text-[#d4b56a] hover:bg-[#122319]"
+            }`}
+            title={isBookmarked ? "Bookmarked" : "Save event"}
+            aria-label="Bookmark event"
+          >
+            <Bookmark
+              className="w-4 h-4"
+              fill={isBookmarked ? "#d4b56a" : "none"}
+            />
+          </button>
         </div>
       </div>
     </div>
   );
-
-  if (event.slug) {
-    return (
-      <Link href={cardHref} className="block h-full">
-        {Content}
-      </Link>
-    );
-  }
-
-  return Content;
 }

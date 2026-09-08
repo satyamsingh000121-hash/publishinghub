@@ -14,20 +14,20 @@ interface EventData {
 }
 
 const EVENTS_MAP: Record<string, EventData> = {
-  "books-with-berke": {
-    title: "Books with Berke",
-    date: "FEBRUARY 1",
-    image: "/images/hero4.png",
+  "an-evening-with-the-author": {
+    title: "An Evening with the Author",
+    date: "12 APR",
+    image: "/images/shop1.jpg",
   },
-  "guide-presents-a-reading-corner": {
-    title: "Guide presents a reading corner",
-    date: "DECEMBER 1",
+  "creative-writing-workshop": {
+    title: "Creative Writing Workshop",
+    date: "18 APR",
     image: "/images/shop2.jpg",
   },
-  "introducing-new-works": {
-    title: "Introducing New Works",
-    date: "DECEMBER 1",
-    image: "/images/shop5.jpg",
+  "storytime-for-little-readers": {
+    title: "Storytime for Little Readers",
+    date: "25 APR",
+    image: "/images/shop3.jpg",
   },
 };
 

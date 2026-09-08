@@ -1,33 +1,77 @@
 "use client";
 
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Search, Calendar as CalendarIcon } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  Search,
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+  ArrowRight,
+  X,
+} from "lucide-react";
 
 interface EventsSearchFilterProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
-  onFindEvents: () => void;
-  selectedDate: number | null;
-  onSelectDate: (day: number | null) => void;
-  hasUpcomingEvents?: boolean;
+  selectedCategory?: string;
+  onCategoryChange?: (cat: string) => void;
+  selectedLocation?: string;
+  onLocationChange?: (loc: string) => void;
+  selectedDate?: string | null;
+  onSelectDate?: (dateStr: string | null) => void;
+  onFindEvents?: () => void;
 }
 
 export default function EventsSearchFilter({
   searchQuery,
   onSearchChange,
-  onFindEvents,
-  selectedDate = 21,
-  onSelectDate,
-  hasUpcomingEvents = false,
+  selectedCategory = "All Categories",
+  onCategoryChange = () => {},
+  selectedLocation = "All Locations",
+  onLocationChange = () => {},
+  selectedDate = null,
+  onSelectDate = () => {},
+  onFindEvents = () => {},
 }: EventsSearchFilterProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [currentMonthIndex, setCurrentMonthIndex] = useState(7); // August (0-indexed: 7 = August)
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(3); // April (0-indexed: 3 = April)
   const [currentYear, setCurrentYear] = useState(2026);
+  const calendarRef = useRef<HTMLDivElement>(null);
 
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
+
+  // Close calendar when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target as Node)
+      ) {
+        setIsCalendarOpen(false);
+      }
+    }
+    if (isCalendarOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isCalendarOpen]);
 
   const handlePrevMonth = () => {
     if (currentMonthIndex === 0) {
@@ -47,212 +91,252 @@ export default function EventsSearchFilter({
     }
   };
 
-  // Calendar dates matching reference (August 2026)
-  const calendarDays = [
-    { day: 27, isCurrentMonth: false },
-    { day: 28, isCurrentMonth: false },
-    { day: 29, isCurrentMonth: false },
-    { day: 30, isCurrentMonth: false },
-    { day: 31, isCurrentMonth: false },
-    { day: 1, isCurrentMonth: true },
-    { day: 2, isCurrentMonth: true },
+  // Generate calendar days for currentMonthIndex and currentYear
+  const getDaysInMonth = (month: number, year: number) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
 
-    { day: 3, isCurrentMonth: true },
-    { day: 4, isCurrentMonth: true },
-    { day: 5, isCurrentMonth: true },
-    { day: 6, isCurrentMonth: true },
-    { day: 7, isCurrentMonth: true },
-    { day: 8, isCurrentMonth: true },
-    { day: 9, isCurrentMonth: true },
+  const getFirstDayOfMonth = (month: number, year: number) => {
+    const day = new Date(year, month, 1).getDay();
+    return day === 0 ? 6 : day - 1; // Monday as 0
+  };
 
-    { day: 10, isCurrentMonth: true },
-    { day: 11, isCurrentMonth: true },
-    { day: 12, isCurrentMonth: true },
-    { day: 13, isCurrentMonth: true },
-    { day: 14, isCurrentMonth: true },
-    { day: 15, isCurrentMonth: true },
-    { day: 16, isCurrentMonth: true },
+  const daysInCurrentMonth = getDaysInMonth(currentMonthIndex, currentYear);
+  const firstDayIndex = getFirstDayOfMonth(currentMonthIndex, currentYear);
+  const daysInPrevMonth = getDaysInMonth(
+    currentMonthIndex === 0 ? 11 : currentMonthIndex - 1,
+    currentMonthIndex === 0 ? currentYear - 1 : currentYear
+  );
 
-    { day: 17, isCurrentMonth: true },
-    { day: 18, isCurrentMonth: true },
-    { day: 19, isCurrentMonth: true },
-    { day: 20, isCurrentMonth: true },
-    { day: 21, isCurrentMonth: true, isDefaultActive: true },
-    { day: 22, isCurrentMonth: true },
-    { day: 23, isCurrentMonth: true },
-
-    { day: 24, isCurrentMonth: true },
-    { day: 25, isCurrentMonth: true },
-    { day: 26, isCurrentMonth: true },
-    { day: 27, isCurrentMonth: true },
-    { day: 28, isCurrentMonth: true },
-    { day: 29, isCurrentMonth: true },
-    { day: 30, isCurrentMonth: true },
-
-    { day: 31, isCurrentMonth: true },
-    { day: 1, isCurrentMonth: false },
-    { day: 2, isCurrentMonth: false },
-    { day: 3, isCurrentMonth: false },
-    { day: 4, isCurrentMonth: false },
-    { day: 5, isCurrentMonth: false },
-    { day: 6, isCurrentMonth: false },
-  ];
+  const calendarDays = [];
+  // Prev month padding
+  for (let i = firstDayIndex - 1; i >= 0; i--) {
+    calendarDays.push({
+      day: daysInPrevMonth - i,
+      isCurrentMonth: false,
+      dateString: null,
+    });
+  }
+  // Current month days
+  for (let i = 1; i <= daysInCurrentMonth; i++) {
+    const monthShort = months[currentMonthIndex].slice(0, 3).toUpperCase();
+    const dayPadded = i < 10 ? `0${i}` : `${i}`;
+    calendarDays.push({
+      day: i,
+      isCurrentMonth: true,
+      dateString: `${dayPadded} ${monthShort}`,
+    });
+  }
+  // Next month padding
+  const remaining = (7 - (calendarDays.length % 7)) % 7;
+  for (let i = 1; i <= remaining; i++) {
+    calendarDays.push({
+      day: i,
+      isCurrentMonth: false,
+      dateString: null,
+    });
+  }
 
   return (
-    <div className="space-y-6 select-none">
-      {/* 1. Search Bar Row with Find Events Button matching reference */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onFindEvents();
-        }}
-        className="flex flex-col sm:flex-row items-stretch border dark:border-[#f2eee3]/15 border-[#e9e1f5] rounded-xs overflow-hidden dark:bg-[#070e0a] bg-white shadow-xs"
-      >
-        <div className="flex-1 flex items-center px-4 sm:px-5 py-3.5 gap-3">
-          <Search className="w-4 h-4 dark:text-[#888b83] text-[#71717a] flex-shrink-0" />
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onFindEvents();
+      }}
+      className="w-full bg-[#08120b] border border-[#16291d] rounded-2xl p-2 sm:p-2.5 shadow-lg relative z-30"
+    >
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 lg:gap-3">
+        {/* 1. Search Query Input */}
+        <div className="flex-1 flex items-center px-4 py-2.5 bg-[#060c08] lg:bg-transparent rounded-xl border lg:border-none border-[#16291d] gap-3">
+          <Search className="w-4 h-4 text-[#8e9c93] flex-shrink-0" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search for events"
-            className="w-full bg-transparent dark:text-[#f2eee3] text-[#18181b] placeholder-italic dark:placeholder-[#666a64] placeholder-[#a1a1aa] text-sm focus:outline-none italic font-serif"
+            placeholder="Search for events..."
+            className="w-full bg-transparent text-sm text-[#f2eee3] placeholder-[#64746b] focus:outline-none font-sans"
           />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => onSearchChange("")}
+              className="text-[#8e9c93] hover:text-[#f2eee3]"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
 
-        <button
-          type="submit"
-          className="px-8 sm:px-10 py-3.5 dark:bg-[#185238] bg-[#9333ea] hover:bg-[#7e22ce] dark:hover:bg-[#236b4a] text-white text-xs font-semibold tracking-[0.08em] uppercase transition-colors flex items-center justify-center gap-2 flex-shrink-0 shadow-sm"
-        >
-          Find Events
-        </button>
-      </form>
+        {/* Divider for desktop */}
+        <div className="hidden lg:block w-[1px] h-7 bg-[#16291d]" />
 
-      {/* 2. Navigation Controls & Calendar Dropdown Row */}
-      <div className="relative">
-        <div className="flex items-center gap-3 pl-1">
-          {/* Prev/Next Arrow Buttons */}
-          <div className="flex items-center gap-1 text-[#888b83]">
-            <button
-              type="button"
-              onClick={handlePrevMonth}
-              className="p-2 rounded-xs dark:hover:text-[#f2eee3] hover:text-[#18181b] dark:hover:bg-[#0e1913] hover:bg-[#faf5ff] border dark:border-transparent border-[#e9e1f5] transition-colors"
-              aria-label="Previous Month"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNextMonth}
-              className="p-2 rounded-xs dark:hover:text-[#f2eee3] hover:text-[#18181b] dark:hover:bg-[#0e1913] hover:bg-[#faf5ff] border dark:border-transparent border-[#e9e1f5] transition-colors"
-              aria-label="Next Month"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* TODAY Button */}
-          <button
-            type="button"
-            onClick={() => {
-              setCurrentMonthIndex(7);
-              setCurrentYear(2026);
-              onSelectDate(21);
-            }}
-            className="px-4 py-1.5 text-[11px] font-semibold tracking-wider uppercase border dark:border-[#f2eee3]/20 border-[#e9e1f5] dark:text-[#dedacf] text-[#18181b] dark:hover:border-[#d4b56a] hover:border-[#9333ea] rounded-xs transition-colors"
+        {/* 2. Category Select Dropdown */}
+        <div className="relative flex-1 sm:flex-initial">
+          <select
+            value={selectedCategory}
+            onChange={(e) => onCategoryChange(e.target.value)}
+            className="w-full lg:w-auto appearance-none bg-[#060c08] border border-[#16291d] rounded-xl px-4 py-2.5 pr-9 text-xs sm:text-sm text-[#c8d4cc] font-medium focus:outline-none focus:border-[#d4b56a] cursor-pointer"
           >
-            TODAY
-          </button>
+            <option value="All Categories">All Categories</option>
+            <option value="BOOK READING">Book Reading</option>
+            <option value="WRITING WORKSHOP">Writing Workshop</option>
+            <option value="KIDS EVENT">Kids Event</option>
+            <option value="PANEL DISCUSSION">Panel Discussion</option>
+            <option value="BOOK LAUNCH">Book Launch</option>
+            <option value="WORKSHOP">Workshop</option>
+          </select>
+          <ChevronDown className="w-3.5 h-3.5 text-[#8e9c93] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+        </div>
 
-          {/* Upcoming Dropdown Toggle matching reference */}
+        {/* 3. Location Select Dropdown */}
+        <div className="relative flex-1 sm:flex-initial">
+          <select
+            value={selectedLocation}
+            onChange={(e) => onLocationChange(e.target.value)}
+            className="w-full lg:w-auto appearance-none bg-[#060c08] border border-[#16291d] rounded-xl px-4 py-2.5 pr-9 text-xs sm:text-sm text-[#c8d4cc] font-medium focus:outline-none focus:border-[#d4b56a] cursor-pointer"
+          >
+            <option value="All Locations">All Locations</option>
+            <option value="The Publishing Hub, London">The Publishing Hub, London</option>
+            <option value="Online / Zoom">Online / Zoom</option>
+          </select>
+          <ChevronDown className="w-3.5 h-3.5 text-[#8e9c93] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+        </div>
+
+        {/* 4. Upcoming with Interactive Calendar Dropdown */}
+        <div className="relative flex-1 sm:flex-initial" ref={calendarRef}>
           <button
             type="button"
             onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold dark:text-[#f2eee3] text-[#18181b] dark:hover:text-[#d4b56a] hover:text-[#9333ea] transition-colors ml-1 px-2 py-1"
+            className={`w-full lg:w-auto flex items-center justify-between gap-2.5 bg-[#060c08] border ${
+              isCalendarOpen || selectedDate ? "border-[#d4b56a]" : "border-[#16291d]"
+            } rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer text-left`}
           >
-            <span>Upcoming</span>
+            <div className="flex items-center gap-2">
+              <CalendarIcon className="w-3.5 h-3.5 text-[#d4b56a]" />
+              <span className={selectedDate ? "text-[#d4b56a] font-semibold" : "text-[#c8d4cc]"}>
+                {selectedDate || "Upcoming"}
+              </span>
+            </div>
             {isCalendarOpen ? (
-              <ChevronUp className="w-3.5 h-3.5 dark:text-[#d4b56a] text-[#9333ea]" />
+              <ChevronUp className="w-3.5 h-3.5 text-[#d4b56a]" />
             ) : (
-              <ChevronDown className="w-3.5 h-3.5 text-[#888b83]" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#8e9c93]" />
             )}
           </button>
-        </div>
 
-        {/* 3. Interactive Mini Calendar Dropdown matching reference */}
-        {isCalendarOpen && (
-          <div className="absolute top-12 left-0 z-30 w-72 sm:w-80 dark:bg-[#070e0a] bg-white border dark:border-[#f2eee3]/15 border-[#e9e1f5] rounded-xs shadow-2xl p-4 sm:p-5 animate-fadeIn">
-            {/* Month/Year Title with Prev/Next Controls */}
-            <div className="flex items-center justify-between mb-4 pb-2 border-b dark:border-[#f2eee3]/10 border-[#e9e1f5]">
-              <button
-                type="button"
-                onClick={handlePrevMonth}
-                className="p-1.5 text-[#888b83] dark:hover:text-[#f2eee3] hover:text-[#18181b] transition-colors"
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-              </button>
+          {/* Floating Calendar Popover */}
+          {isCalendarOpen && (
+            <div className="absolute right-0 sm:right-auto sm:left-0 top-full mt-2 w-72 sm:w-80 bg-[#070e0a] border border-[#1c3826] rounded-2xl shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
+              {/* Month / Year header with navigation */}
+              <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-[#16291d]">
+                <button
+                  type="button"
+                  onClick={handlePrevMonth}
+                  className="p-1.5 rounded-lg text-[#8e9c93] hover:text-[#f2eee3] hover:bg-[#102317] transition-colors"
+                  aria-label="Previous month"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
 
-              <span className="font-sans text-xs sm:text-sm font-semibold dark:text-[#f2eee3] text-[#18181b] tracking-wider uppercase">
-                <span className="dark:text-[#d4b56a] text-[#9333ea] font-bold">{months[currentMonthIndex]}</span> {currentYear}
-              </span>
+                <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold tracking-wide uppercase">
+                  <span className="text-[#d4b56a]">{months[currentMonthIndex]}</span>
+                  <span className="text-[#f2eee3]">{currentYear}</span>
+                </div>
 
-              <button
-                type="button"
-                onClick={handleNextMonth}
-                className="p-1.5 text-[#888b83] dark:hover:text-[#f2eee3] hover:text-[#18181b] transition-colors"
-              >
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={handleNextMonth}
+                  className="p-1.5 rounded-lg text-[#8e9c93] hover:text-[#f2eee3] hover:bg-[#102317] transition-colors"
+                  aria-label="Next month"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
 
-            {/* Days of Week Header */}
-            <div className="grid grid-cols-7 gap-1 text-center mb-2 text-[10px] font-bold dark:text-[#888b83] text-[#71717a] uppercase">
-              <span>M</span>
-              <span>T</span>
-              <span>W</span>
-              <span>T</span>
-              <span>F</span>
-              <span>S</span>
-              <span>S</span>
-            </div>
+              {/* Weekday headers */}
+              <div className="grid grid-cols-7 gap-1 text-center mb-2 text-[10.5px] font-bold text-[#64746b] uppercase">
+                <span>Mo</span>
+                <span>Tu</span>
+                <span>We</span>
+                <span>Th</span>
+                <span>Fr</span>
+                <span>Sa</span>
+                <span>Su</span>
+              </div>
 
-            {/* Dates Grid matching reference (Active 21 highlighted in Green/Purple) */}
-            <div className="grid grid-cols-7 gap-1 text-center text-xs font-sans">
-              {calendarDays.map((item, idx) => {
-                const isSelected = item.isCurrentMonth && selectedDate === item.day;
+              {/* Days grid */}
+              <div className="grid grid-cols-7 gap-1 text-center text-xs">
+                {calendarDays.map((item, idx) => {
+                  const isSelected =
+                    item.isCurrentMonth && item.dateString === selectedDate;
 
-                return (
+                  return (
+                    <button
+                      type="button"
+                      key={idx}
+                      disabled={!item.isCurrentMonth}
+                      onClick={() => {
+                        if (item.isCurrentMonth && item.dateString) {
+                          if (selectedDate === item.dateString) {
+                            onSelectDate(null); // toggle off
+                          } else {
+                            onSelectDate(item.dateString);
+                          }
+                          setIsCalendarOpen(false);
+                        }
+                      }}
+                      className={`h-8 w-8 rounded-lg mx-auto flex items-center justify-center font-medium transition-all ${
+                        isSelected
+                          ? "bg-[#d4b56a] text-[#050807] font-bold shadow-md shadow-[#d4b56a]/30 scale-105"
+                          : item.isCurrentMonth
+                          ? "text-[#e5ded0] hover:bg-[#122319] hover:text-[#d4b56a]"
+                          : "text-[#36443c] cursor-not-allowed opacity-30"
+                      }`}
+                    >
+                      {item.day}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Footer Buttons in Calendar */}
+              <div className="mt-3 pt-2.5 border-t border-[#16291d] flex items-center justify-between text-xs">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onSelectDate(null);
+                    setIsCalendarOpen(false);
+                  }}
+                  className="text-[#8e9c93] hover:text-[#d4b56a] transition-colors font-medium"
+                >
+                  Show All / Upcoming
+                </button>
+
+                {selectedDate && (
                   <button
                     type="button"
-                    key={idx}
                     onClick={() => {
-                      if (item.isCurrentMonth) {
-                        onSelectDate(item.day);
-                        setIsCalendarOpen(false);
-                      }
+                      onSelectDate(null);
                     }}
-                    className={`h-7 w-7 sm:h-8 sm:w-8 rounded-xs mx-auto flex items-center justify-center font-medium transition-all ${
-                      isSelected
-                        ? "dark:bg-[#185238] bg-[#9333ea] text-white font-bold shadow-md ring-1 dark:ring-[#2c7650] ring-[#9333ea]"
-                        : item.isCurrentMonth
-                        ? "dark:text-[#dedacf] text-[#18181b] dark:hover:bg-[#122319] hover:bg-[#f3e8ff] dark:hover:text-[#d4b56a] hover:text-[#9333ea]"
-                        : "dark:text-[#454d48] text-[#d4d4d8] cursor-default pointer-events-none"
-                    }`}
+                    className="text-[11px] text-[#e06c52] hover:underline"
                   >
-                    {item.day}
+                    Clear Date
                   </button>
-                );
-              })}
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
 
-      {/* 4. Notification / Status Banner matching reference image */}
-      <div className="p-3.5 sm:p-4 rounded-xs border dark:border-[#f2eee3]/10 border-[#e9e1f5] dark:bg-[#070e0a]/70 bg-[#faf7fd] text-center">
-        <p className="text-xs sm:text-sm dark:text-[#888b83] text-[#71717a] font-serif italic">
-          There are no upcoming events.
-        </p>
+        {/* 5. Find Events Button */}
+        <button
+          type="submit"
+          className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-[#b89245]/60 hover:border-[#d4b56a] bg-[#0c1810] hover:bg-[#122418] text-xs sm:text-sm font-medium text-[#f2eee3] hover:text-[#d4b56a] transition-all flex-shrink-0"
+        >
+          <span>Find Events</span>
+          <ArrowRight className="w-4 h-4 text-[#d4b56a]" />
+        </button>
       </div>
-    </div>
+    </form>
   );
 }

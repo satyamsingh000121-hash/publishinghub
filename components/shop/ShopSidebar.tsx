@@ -314,14 +314,14 @@ export default function ShopSidebar({
 
       {/* ================= 5. ACTION BUTTONS ================= */}
       <div className="space-y-2.5 pt-2">
-        {/* APPLY FILTERS: Dark button with Gold Border in Dark Mode, Sleek Dark/Gold in Light Mode */}
+        {/* APPLY FILTERS: Elegant Gold Outline Button in both Day and Night Modes */}
         <button
           type="button"
           onClick={() => {
             onApplyFilters();
             onCloseMobile?.();
           }}
-          className="w-full py-3 bg-[#18181b] hover:bg-[#b89245] text-white dark:bg-[#080d0a] dark:hover:bg-[#d4b56a] dark:hover:text-[#050807] border border-[#18181b] hover:border-[#b89245] dark:border-[#d4b56a] dark:text-[#d4b56a] font-sans text-xs font-bold tracking-[0.18em] uppercase transition-all duration-200 rounded-[2px] active:scale-[0.99] cursor-pointer shadow-sm"
+          className="w-full py-2.5 bg-white hover:bg-[#b89245] text-[#b89245] hover:text-white border border-[#b89245] dark:bg-[#080d0a] dark:hover:bg-[#d4b56a] dark:text-[#d4b56a] dark:hover:text-[#050807] dark:border-[#d4b56a] font-sans text-xs font-bold tracking-[0.18em] uppercase transition-all duration-200 rounded-[2px] active:scale-[0.99] cursor-pointer shadow-2xs hover:shadow-xs"
         >
           APPLY FILTERS
         </button>
@@ -334,27 +334,36 @@ export default function ShopSidebar({
               onClearFilters();
               onCloseMobile?.();
             }}
-            className="text-xs text-[#71717a] hover:text-[#b89245] dark:text-[#d4b56a]/80 dark:hover:text-[#d4b56a] underline underline-offset-4 transition-colors font-normal cursor-pointer"
+            className="text-xs text-[#6b7280] hover:text-[#b89245] dark:text-[#d4b56a]/80 dark:hover:text-[#d4b56a] underline underline-offset-4 transition-colors font-normal cursor-pointer"
           >
             Clear all
           </button>
         </div>
       </div>
 
-      {/* ================= 6. BOTTOM SIDEBAR ILLUSTRATION ("Read More Books") ================= */}
+      {/* ================= 6. BOTTOM SIDEBAR ILLUSTRATION ================= */}
       <div className="pt-6 relative select-none">
-        <div className="relative rounded-lg overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 bg-white dark:bg-[#080d0a] p-3 flex flex-col items-center shadow-xs">
-          {/* Books and botanical illustration */}
-          <div className="relative w-full aspect-square rounded overflow-hidden">
+        <div className="relative rounded-lg overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 bg-white dark:bg-[#080d0a] p-2 sm:p-2.5 flex flex-col items-center shadow-xs">
+          {/* Day Theme Image: /images/day.png */}
+          <div className="w-full dark:hidden rounded overflow-hidden">
             <img
-              src="/api/shop-sidebar-image"
+              src="/images/day.png"
+              alt="Read More Books - Day"
+              className="w-full h-auto object-cover rounded hover:scale-[1.02] transition-transform duration-300"
+            />
+          </div>
+
+          {/* Night Theme Image: /images/shop_sidebar_books1.jpg */}
+          <div className="relative w-full aspect-square rounded overflow-hidden hidden dark:block">
+            <img
+              src="/images/shop_sidebar_books1.jpg"
               alt="Read More Books"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = "/images/shop_sidebar_books.jpg";
               }}
-              className="w-full h-full object-cover opacity-85 hover:opacity-95 transition-opacity duration-300"
+              className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
             />
-            {/* Script Text Overlay */}
+            {/* Script Text Overlay in Gold */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-center pb-2">
               <p
                 className="font-serif italic text-xl sm:text-2xl text-[#d4b56a] text-center leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
