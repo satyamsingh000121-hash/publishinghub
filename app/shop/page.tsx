@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 // 22 Curated Books matching Image 1 exactly in appearance, prices, ratings, and order
-export const EXACT_SHOP_BOOKS: BookItem[] = [
+const EXACT_SHOP_BOOKS: BookItem[] = [
   {
     id: "shop-1",
     slug: "a-poem-for-every-night",
