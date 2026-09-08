@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Heart, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import SearchModal from "@/components/SearchModal";
+import { SidebarPromoData } from "@/types/promo";
+import { defaultAdminPromoData } from "@/lib/adminPromoData";
 
 interface NavbarProps {
   cartCount?: number;
@@ -25,6 +27,31 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [announcementDismissed, setAnnouncementDismissed] = useState(false);
   const [isInternalSearchOpen, setIsInternalSearchOpen] = useState(false);
+  const [promoConfig, setPromoConfig] = useState<SidebarPromoData>(defaultAdminPromoData);
+
+  useEffect(() => {
+    fetch("/api/admin/promo")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.data) setPromoConfig(json.data);
+      })
+      .catch(() => {});
+
+    const handleUpdate = (e: any) => {
+      if (e.detail) {
+        setPromoConfig((prev) => ({ ...prev, ...e.detail }));
+      } else {
+        fetch("/api/admin/promo")
+          .then((res) => (res.ok ? res.json() : null))
+          .then((json) => {
+            if (json?.data) setPromoConfig(json.data);
+          })
+          .catch(() => {});
+      }
+    };
+    window.addEventListener("admin-promo-updated", handleUpdate);
+    return () => window.removeEventListener("admin-promo-updated", handleUpdate);
+  }, []);
 
   const handleOpenSearch = () => {
     if (onOpenSearch) {
@@ -88,20 +115,20 @@ export default function Navbar({
   return (
     <>
       {/* Top Announcement Bar */}
-      {showAnnouncement && !announcementDismissed && (
+      {showAnnouncement && !announcementDismissed && promoConfig.topBannerActive !== false && (
         <div className="bg-[#0d2a1d] text-[#f2eee3] text-[9px] sm:text-[10px] tracking-[0.06em] sm:tracking-[0.08em] uppercase py-1.5 sm:py-2 px-3 sm:px-4 border-b border-[#b89245]/40 flex flex-wrap items-center justify-center gap-1.5 sm:gap-4 text-center z-50 relative">
           <span className="font-medium">
-            SUMMER SALE IS LIVE — Get Up to 30% OFF on Selected Books!
+            {promoConfig.topBannerText || "SUMMER SALE IS LIVE — GET UP TO 45% OFF ON SELECTED BOOKS!"}
           </span>
           <a
-            href="/shop"
+            href={promoConfig.topBannerButtonUrl || "/shop"}
             className="text-[#d4b56a] hover:text-white font-bold inline-flex items-center gap-1 transition-colors duration-200"
           >
-            SHOP NOW <ArrowRight className="w-3 h-3" />
+            {promoConfig.topBannerButtonText || "SHOP NOW"} <ArrowRight className="w-3 h-3" />
           </a>
           <button
             onClick={() => setAnnouncementDismissed(true)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#d4b56a] hover:text-white p-1"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#d4b56a] hover:text-white p-1 cursor-pointer"
             title="Dismiss Announcement"
             aria-label="Dismiss Announcement"
           >

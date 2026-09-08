@@ -6,6 +6,8 @@ import { ArrowRight, ShoppingCart } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 import { PerspectiveBook } from "./PerspectiveBook";
 import { getBookSlug } from "@/lib/books";
+import { SidebarPromoData } from "@/types/promo";
+import { defaultAdminPromoData } from "@/lib/adminPromoData";
 
 interface NewArrivalsSectionProps {
   onAddToCart?: (bookTitle: string) => void;
@@ -82,6 +84,7 @@ const NEW_ARRIVALS = [
 
 export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionProps) {
   const [items, setItems] = useState<any[]>(NEW_ARRIVALS);
+  const [promoConfig, setPromoConfig] = useState<SidebarPromoData>(defaultAdminPromoData);
 
   useEffect(() => {
     fetch("/api/products?limit=8")
@@ -104,6 +107,29 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
         }
       })
       .catch(() => {});
+
+    // Fetch dynamic promotional card data
+    fetch("/api/admin/promo")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.data) setPromoConfig(json.data);
+      })
+      .catch(() => {});
+
+    const handleUpdate = (e: any) => {
+      if (e.detail) {
+        setPromoConfig((prev) => ({ ...prev, ...e.detail }));
+      } else {
+        fetch("/api/admin/promo")
+          .then((res) => (res.ok ? res.json() : null))
+          .then((json) => {
+            if (json?.data) setPromoConfig(json.data);
+          })
+          .catch(() => {});
+      }
+    };
+    window.addEventListener("admin-promo-updated", handleUpdate);
+    return () => window.removeEventListener("admin-promo-updated", handleUpdate);
   }, []);
 
   return (
@@ -131,13 +157,14 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
             {/* Top Text */}
             <div className="relative z-10 text-center pt-8 sm:pt-16">
               <span className="font-display italic text-xl sm:text-3xl font-semibold text-[#d4b56a] block drop-shadow-xs">
-                Get Extra
+                {promoConfig.newArrivalSubtitle || "Get Extra"}
               </span>
               <h3 className="font-display text-4xl sm:text-6xl font-black text-[#f2eee3] tracking-tight mt-1">
-                Sale <span className="text-[#d4b56a]">-25%</span>
+                {promoConfig.newArrivalTitle || "Sale"}{" "}
+                <span className="text-[#d4b56a]">{promoConfig.newArrivalDiscount || "-25%"}</span>
               </h3>
               <span className="text-[10px] sm:text-xs tracking-[0.24em] font-extrabold text-[#c0d4c8] dark:text-[#c0d4c8] uppercase block mt-2">
-                ON ORDER OVER £100
+                {promoConfig.newArrivalDescription || "ON ORDER OVER £100"}
               </span>
             </div>
 
@@ -145,7 +172,7 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
             <div className="relative z-10 my-3 sm:my-4 -mx-2 sm:-mx-3 flex items-center justify-center overflow-visible">
               <div className="relative w-full h-44 sm:h-60 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
                 <img
-                  src="/images/Gemini_Generated_Image_n0hwhvn0hwhvn0hw-Photoroom.png"
+                  src={promoConfig.newArrivalImage || "/images/Gemini_Generated_Image_n0hwhvn0hwhvn0hw-Photoroom.png"}
                   alt="Special Offer Books Collection"
                   className="w-full h-full object-contain dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] drop-shadow-[0_10px_20px_rgba(147,51,234,0.15)] scale-105 sm:scale-115"
                 />
@@ -155,10 +182,10 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
             {/* Bottom Button */}
             <div className="relative z-10 text-center pb-6 sm:pb-12">
               <Link
-                href="/shop"
+                href={promoConfig.newArrivalButtonUrl || "/shop"}
                 className="w-full py-3 sm:py-3.5 bg-[#2c7650] hover:bg-[#37865d] text-white border dark:border-[#d4b56a]/40 border-transparent text-[11px] sm:text-[12px] font-extrabold tracking-[0.16em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/60 shadow-[0_6px_20px_rgba(147,51,234,0.3)] rounded-sm cursor-pointer"
               >
-                VIEW MORE <ArrowRight className="w-4 h-4" />
+                {promoConfig.newArrivalButtonText || "VIEW MORE"} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>

@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SidebarPromoCard from "@/components/SidebarPromoCard";
 import {
   LayoutDashboard,
   BookOpen,
@@ -28,6 +29,7 @@ const navItems = [
   { name: "Events", href: "/admin/events", icon: Calendar },
   { name: "Users", href: "/admin/users", icon: Users },
   { name: "Settings", href: "/admin/settings", icon: Settings },
+  { name: "Sale Offers", href: "/admin/sale-offers", icon: Tag },
 ];
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
@@ -46,7 +48,7 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 left-0 bottom-0 w-[240px] admin-sidebar-bg border-r z-50 flex flex-col justify-between transition-all duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 left-0 bottom-0 w-[240px] admin-sidebar-bg border-r z-50 flex flex-col justify-between overflow-y-auto no-scrollbar transition-all duration-300 ease-in-out lg:translate-x-0 ${
           isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
         }`}
       >
@@ -112,37 +114,12 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           </nav>
         </div>
 
-        {/* Bottom Promotional Card */}
-        <div className="p-3.5 pb-4">
-          <div className="bg-[#FAF5FF] dark:bg-[#1E1B4B]/30 border border-[#F3E8FF] dark:border-[#7C3AED]/25 rounded-2xl p-4 text-center relative overflow-hidden transition-colors">
-            <span className="text-[12px] font-medium text-[#8B5CF6] dark:text-[#A78BFA] block mb-0.5">
-              Summer Sale
-            </span>
-            <h4 className="text-[13px] font-extrabold text-[#1E1B4B] dark:text-white tracking-tight leading-tight">
-              UP TO 30% OFF
-            </h4>
-            <p className="text-[10px] text-[#94A3B8] dark:text-[#94A3B8] font-semibold tracking-wider uppercase mb-3">
-              ON SELECTED BOOKS
-            </p>
-
-            <Link
-              href="/our-offer"
-              className="inline-block w-full py-2 px-3 bg-[#8B5CF6] hover:bg-[#7C3AED] dark:bg-[#7C3AED] dark:hover:bg-[#6D28D9] text-white text-[11.5px] font-semibold rounded-lg shadow-sm transition-colors mb-3"
-            >
-              View Offers
-            </Link>
-
-            {/* Standing Book illustration */}
-            <div className="flex justify-center -mb-2 overflow-hidden" style={{ maxHeight: "68px" }}>
-              <img
-                src="/images/book_section1.png"
-                alt="Book Offer"
-                className="h-16 w-auto object-contain drop-shadow-md transform -rotate-6 hover:rotate-0 transition-transform"
-                style={{ maxHeight: "64px", maxWidth: "60px", width: "auto", objectFit: "contain" }}
-              />
-            </div>
-          </div>
-        </div>
+        {/* Bottom Promotional Card (Reusable Component) */}
+        <SidebarPromoCard
+          onNavigate={() => {
+            if (typeof window !== "undefined" && window.innerWidth < 1024) onClose();
+          }}
+        />
       </aside>
     </>
   );

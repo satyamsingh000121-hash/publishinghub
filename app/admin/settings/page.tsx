@@ -6,7 +6,6 @@ import {
   Settings,
   ArrowLeft,
   Database,
-  Lock,
   Globe,
   Save,
   CheckCircle2,
