@@ -26,6 +26,10 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
+  useEffect(() => {
+    setBooks(initialBooks);
+  }, [initialBooks]);
+
   // Compute maximum price from books
   const maxPriceCeiling = useMemo(() => {
     if (!books || books.length === 0) return 500;
@@ -57,14 +61,14 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
     }));
   }, [maxPriceCeiling]);
 
-  // Client-side live sync with database
+  // Client-side live sync with database (matches admin order and edits in real-time)
   useEffect(() => {
     const fetchLatestBooks = async () => {
       try {
         const res = await fetch("/api/products?limit=100");
         if (res.ok) {
           const json = await res.json();
-          if (json.success && Array.isArray(json.data)) {
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
             const dbMapped: BookItem[] = json.data.map((p: any) => ({
               id: p.id,
               slug: p.slug,
@@ -78,18 +82,11 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
               image: p.image,
               badge: p.badge || undefined,
               description: p.summary || p.description || undefined,
+              rating: p.rating || 4.5,
             }));
 
-            const dbSlugs = new Set(dbMapped.map((p) => p.slug?.toLowerCase()).filter(Boolean));
-            const dbTitles = new Set(dbMapped.map((p) => p.title?.toLowerCase().trim()).filter(Boolean));
-
-            const catalogExtras = initialBooks.filter((b) => {
-              const cleanSlug = b.slug?.toLowerCase();
-              const cleanTitle = b.title?.toLowerCase().trim();
-              return (!cleanSlug || !dbSlugs.has(cleanSlug)) && (!cleanTitle || !dbTitles.has(cleanTitle));
-            });
-
-            setBooks([...dbMapped, ...catalogExtras]);
+            // Exactly same order and data as Admin Panel
+            setBooks(dbMapped);
           }
         }
       } catch {
@@ -219,6 +216,14 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
   // Pagination calculation
   const totalResults = sortedBooks.length;
   const totalPages = Math.max(1, Math.ceil(totalResults / ITEMS_PER_PAGE));
+
+  // Reset currentPage if it exceeds totalPages (e.g. if previously on page 3)
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
+
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalResults);
   const currentBooks = sortedBooks.slice(startIndex, endIndex);
@@ -284,10 +289,10 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <main className="min-h-screen bg-white dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] flex flex-col font-sans selection:bg-[#b89245] selection:text-white transition-colors duration-300">
+    <main className="min-h-screen bg-[#fbfaf8] dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] flex flex-col font-sans selection:bg-[#b89245] selection:text-white transition-colors duration-200">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#1e3527] text-white border border-[#2c7650] px-4 py-3 rounded-[2px] shadow-2xl flex items-center gap-2.5 animate-bounce text-xs font-semibold">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#18181b] dark:bg-[#0d1c14] text-white border border-[#b89245] dark:border-[#d4b56a]/40 px-4 py-3 rounded-[2px] shadow-2xl flex items-center gap-2.5 animate-bounce text-xs font-semibold">
           <Check className="w-4 h-4 text-[#d4b56a]" />
           <span>{toastMessage}</span>
         </div>
@@ -305,7 +310,7 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
       <ShopHeader totalResults={books.length} />
 
       {/* Main Content Area: Sidebar + Book Catalog */}
-      <section className="py-10 sm:py-14 bg-white dark:bg-[#050807] flex-1 transition-colors duration-300">
+      <section className="py-8 sm:py-12 bg-[#fbfaf8] dark:bg-[#050807] flex-1 transition-colors duration-200">
         <div className="container-custom">
           
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-12 items-start">
@@ -381,8 +386,8 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
               {/* Books Content */}
               {currentBooks.length > 0 ? (
                 viewMode === "grid" ? (
-                  /* 2-Col Mobile / 3-Col Tablet / 4-Col Desktop Grid */
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-8 sm:gap-y-12">
+                  /* 2-Col Mobile / 3-Col Tablet / 4-Col Desktop Grid matching Image 1 */
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
                     {currentBooks.map((book) => (
                       <ShopBookCard
                         key={book.id}
@@ -416,7 +421,7 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
                   </p>
                   <Link
                     href="/admin/books"
-                    className="inline-block px-6 py-2.5 bg-[#9333ea] hover:bg-[#7e22ce] text-white text-xs font-bold tracking-[0.14em] uppercase transition-colors rounded-[2px]"
+                    className="inline-block px-6 py-2.5 bg-[#18181b] hover:bg-[#b89245] text-white text-xs font-bold tracking-[0.14em] uppercase transition-colors rounded-[2px]"
                   >
                     Add Books in Admin
                   </Link>

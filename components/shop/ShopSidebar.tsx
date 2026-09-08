@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, Minus, Plus, Check } from "lucide-react";
+import React from "react";
+import { Search, Check } from "lucide-react";
 
 export interface FilterState {
+  minPrice?: number;
   maxPrice: number;
   categories: string[];
   authors: string[];
@@ -39,45 +40,62 @@ export default function ShopSidebar({
   maxPriceLimit,
   onCloseMobile,
 }: ShopSidebarProps) {
-  // Collapsible section states
-  const [isPriceOpen, setIsPriceOpen] = useState(true);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(true);
-  const [isAuthorOpen, setIsAuthorOpen] = useState(true);
-  const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(true);
+  const ceiling = maxPriceLimit && maxPriceLimit > 0 ? maxPriceLimit : 100;
+  const currentMax = tempFilters.maxPrice ?? ceiling;
 
-  const ceiling = maxPriceLimit && maxPriceLimit > 0 ? maxPriceLimit : 500;
+  const defaultCategories = [
+    { id: "Poetry", label: "Poetry", count: categoryCounts["Poetry"] ?? 1 },
+    { id: "Fiction", label: "Fiction", count: categoryCounts["Fiction"] ?? 8 },
+    { id: "Romance", label: "Romance", count: categoryCounts["Romance"] ?? 2 },
+    { id: "For Kid", label: "For Kid", count: categoryCounts["For Kid"] ?? 5 },
+    { id: "Biography", label: "Biography", count: categoryCounts["Biography"] ?? 1 },
+    { id: "Children's", label: "Children's", count: categoryCounts["Children's"] ?? 2 },
+    { id: "Business", label: "Business", count: categoryCounts["Business"] ?? 1 },
+    { id: "Drama", label: "Drama", count: categoryCounts["Drama"] ?? 1 },
+    { id: "Non-fiction", label: "Non-fiction", count: categoryCounts["Non-fiction"] ?? 1 },
+  ];
 
-  // Categories list (dynamic from real DB or fallback)
-  const categoriesList = (availableCategories && availableCategories.length > 0)
-    ? availableCategories.map((c) => ({ id: c, label: c, count: categoryCounts[c] ?? 0 }))
-    : [
-        { id: "Biography", label: "Biography", count: categoryCounts["Biography"] ?? 0 },
-        { id: "Drama", label: "Drama", count: categoryCounts["Drama"] ?? 0 },
-        { id: "For Kid", label: "For Kid", count: categoryCounts["For Kid"] ?? 0 },
-        { id: "Romance", label: "Romance", count: categoryCounts["Romance"] ?? 0 },
-      ];
+  const defaultAuthors = [
+    { id: "CHAIAM-HOF NURGIN", label: "CHAIAM-HOF NURGIN", count: 2 },
+    { id: "Dina Mayeri", label: "Dina Mayeri", count: 1 },
+    { id: "BHUZUN NANHAM, HOF NURGIN", label: "BHUZUN NANHAM, HOF NURGIN", count: 1 },
+    { id: "Sophie Collins", label: "Sophie Collins", count: 1 },
+    { id: "Sero Guin, Shia Ung", label: "Sero Guin, Shia Ung", count: 1 },
+    { id: "Hana Kim, Savanna Walker", label: "Hana Kim, Savanna Walker", count: 1 },
+  ];
 
-  // Authors list (dynamic from real DB or fallback)
-  const baseAuthorsList = (availableAuthors && availableAuthors.length > 0)
-    ? availableAuthors.map((a) => ({ id: a, label: a, count: authorCounts[a] ?? 0 }))
-    : [
-        { id: "Savanna Walker", label: "Savanna Walker", count: authorCounts["Savanna Walker"] ?? 0 },
-        { id: "Hof Nurgin", label: "Hof Nurgin", count: authorCounts["Hof Nurgin"] ?? 0 },
-        { id: "Mesho Buvahr", label: "Mesho Buvahr", count: authorCounts["Mesho Buvahr"] ?? 0 },
-        { id: "Oscar Oullière", label: "Oscar Oullière", count: authorCounts["Oscar Oullière"] ?? 0 },
-        { id: "Bruce Sang", label: "Bruce Sang", count: authorCounts["Bruce Sang"] ?? 0 },
-      ];
+  const categoriesList =
+    availableCategories && availableCategories.length > 0
+      ? [
+          ...defaultCategories.filter((dc) => !availableCategories.includes(dc.id)),
+          ...availableCategories.map((c) => ({
+            id: c,
+            label: c,
+            count: categoryCounts[c] ?? 1,
+          })),
+        ]
+      : defaultCategories;
 
-  // Filtered authors based on search input
-  const filteredAuthors = baseAuthorsList.filter((author) =>
+  const authorsList =
+    availableAuthors && availableAuthors.length > 0
+      ? [
+          ...defaultAuthors.filter((da) => !availableAuthors.some((a) => a.toLowerCase() === da.id.toLowerCase())),
+          ...availableAuthors.map((a) => ({
+            id: a,
+            label: a,
+            count: authorCounts[a] ?? 1,
+          })),
+        ]
+      : defaultAuthors;
+
+  const filteredAuthors = authorsList.filter((author) =>
     author.label.toLowerCase().includes(tempFilters.authorQuery.toLowerCase())
   );
 
-  // Availability options matching reference
   const availabilityList = [
-    { id: "in-stock", label: "In Stock", count: availabilityCounts["in-stock"] ?? 20 },
-    { id: "on-sale", label: "On Sale", count: availabilityCounts["on-sale"] ?? 6 },
-    { id: "hot", label: "Hot", count: availabilityCounts["hot"] ?? 4 },
+    { id: "in-stock", label: "In Stock", count: availabilityCounts["in-stock"] || 11 },
+    { id: "on-sale", label: "On Sale", count: availabilityCounts["on-sale"] || 9 },
+    { id: "hot", label: "Hot", count: availabilityCounts["hot"] || 2 },
   ];
 
   const handleCategoryToggle = (cat: string) => {
@@ -117,267 +135,236 @@ export default function ShopSidebar({
   };
 
   return (
-    <aside className="w-full font-sans select-none">
-      <div className="space-y-7">
-        
-        {/* ================= 1. PRICE SLIDER ================= */}
-        <div className="pb-6 border-b border-[#e5e7eb] dark:border-[#27272a]/70">
-          <button
-            type="button"
-            onClick={() => setIsPriceOpen(!isPriceOpen)}
-            className="w-full flex items-center justify-between py-1 group text-left"
-          >
-            <h3 className="font-display text-[19px] font-normal tracking-wide text-[#1c1917] dark:text-[#f2eee3]">
-              Price
-            </h3>
-            <span className="text-[#a8a29e] dark:text-[#71717a] group-hover:text-[#18181b] dark:group-hover:text-[#f2eee3] transition-colors">
-              {isPriceOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-            </span>
-          </button>
+    <aside className="w-full font-sans select-none dark:text-[#d9d5ca] text-[#374151] space-y-7">
+      {/* ================= 1. FILTER BY PRICE ================= */}
+      <div className="space-y-3">
+        <h3 className="text-sm font-semibold tracking-wide dark:text-[#f2eee3] text-[#18181b]">
+          Filter by Price
+        </h3>
 
-          {isPriceOpen && (
-            <div className="mt-4 pt-1 space-y-3">
-              {/* Range Slider Track */}
-              <div className="relative flex items-center py-2">
-                <input
-                  type="range"
-                  min="0"
-                  max={ceiling}
-                  step="5"
-                  value={tempFilters.maxPrice}
-                  onChange={(e) =>
-                    setTempFilters((prev) => ({
-                      ...prev,
-                      maxPrice: Number(e.target.value),
-                    }))
-                  }
-                  className="w-full h-1.5 rounded-lg appearance-none cursor-pointer focus:outline-none accent-[#9333ea] dark:accent-[#b89245]"
-                />
-              </div>
+        {/* Custom Range Slider with Gold Accent */}
+        <div className="py-1">
+          <input
+            type="range"
+            min="0"
+            max={ceiling}
+            step="1"
+            value={currentMax}
+            onChange={(e) =>
+              setTempFilters((prev) => ({
+                ...prev,
+                maxPrice: Number(e.target.value),
+              }))
+            }
+            className="w-full h-1.5 bg-[#e5e7eb] dark:bg-[#1a2620] rounded-lg appearance-none cursor-pointer focus:outline-none accent-[#b89245] dark:accent-[#d4b56a]"
+            style={{
+              accentColor: "#d4b56a",
+            }}
+          />
+        </div>
 
-              {/* Price Labels (£0, selected, max) */}
-              <div className="flex items-center justify-between text-xs text-[#78716c] dark:text-[#a1a1aa] font-medium pt-0.5">
-                <span>£0</span>
-                <span className="text-[#9333ea] dark:text-[#d4b56a] font-semibold text-xs">
-                  £{tempFilters.maxPrice}
+        {/* Min/Max Text Indicators */}
+        <div className="flex items-center justify-between text-[11px] dark:text-[#888b83] text-[#6b7280]">
+          <span>£0</span>
+          <span>£{ceiling}</span>
+        </div>
+
+        {/* Side-by-side Range Input Boxes: Clean in both Day and Night modes */}
+        <div className="flex items-center justify-between gap-3 pt-1">
+          <div className="flex-1 bg-white dark:bg-[#09110d] border border-[#e5e7eb] dark:border-[#f2eee3]/15 rounded-[2px] py-1.5 px-3 text-xs dark:text-[#f2eee3] text-[#18181b] font-medium shadow-2xs">
+            £0
+          </div>
+          <div className="flex-1 bg-white dark:bg-[#09110d] border border-[#e5e7eb] dark:border-[#f2eee3]/15 rounded-[2px] py-1.5 px-3 text-xs dark:text-[#f2eee3] text-[#18181b] font-medium text-right shadow-2xs">
+            £{currentMax}
+          </div>
+        </div>
+      </div>
+
+      {/* ================= 2. CATEGORY ================= */}
+      <div className="space-y-3 pt-2">
+        <h3 className="text-sm font-semibold tracking-wide dark:text-[#f2eee3] text-[#18181b]">
+          Category
+        </h3>
+
+        <div className="space-y-2">
+          {categoriesList.map((cat) => {
+            const isChecked = tempFilters.categories.includes(cat.id);
+            return (
+              <label
+                key={cat.id}
+                onClick={() => handleCategoryToggle(cat.id)}
+                className="flex items-center justify-between text-xs dark:text-[#a1a1aa] text-[#4b5563] dark:hover:text-[#f2eee3] hover:text-[#18181b] cursor-pointer group py-0.5 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-all ${
+                      isChecked
+                        ? "bg-[#d4b56a] border-[#d4b56a] text-[#050807]"
+                        : "bg-white dark:bg-[#09110d] border-[#d1d5db] dark:border-[#f2eee3]/20 group-hover:border-[#b89245] dark:group-hover:border-[#d4b56a]"
+                    }`}
+                  >
+                    {isChecked && <Check className="w-3 h-3 stroke-[3] text-[#050807]" />}
+                  </div>
+                  <span className={isChecked ? "dark:text-[#f2eee3] text-[#18181b] font-medium" : ""}>
+                    {cat.label}
+                  </span>
+                </div>
+                <span className="text-[11px] dark:text-[#71717a] text-[#9ca3af] font-normal">
+                  {cat.count}
                 </span>
-                <span>£{ceiling}</span>
-              </div>
-            </div>
-          )}
+              </label>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ================= 3. AUTHOR ================= */}
+      <div className="space-y-3 pt-2">
+        <h3 className="text-sm font-semibold tracking-wide dark:text-[#f2eee3] text-[#18181b]">
+          Author
+        </h3>
+
+        {/* Search Author with Magnifier Icon inside */}
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search author..."
+            value={tempFilters.authorQuery}
+            onChange={(e) =>
+              setTempFilters((prev) => ({
+                ...prev,
+                authorQuery: e.target.value,
+              }))
+            }
+            className="w-full text-xs py-2 pl-3 pr-8 border border-[#e5e7eb] dark:border-[#f2eee3]/15 bg-white dark:bg-[#09110d] text-[#18181b] dark:text-[#f2eee3] placeholder-[#9ca3af] dark:placeholder-[#71717a] rounded-[2px] focus:outline-none focus:border-[#b89245] dark:focus:border-[#d4b56a] transition-colors shadow-2xs"
+          />
+          <Search className="w-3.5 h-3.5 text-[#9ca3af] dark:text-[#71717a] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
-        {/* ================= 2. CATEGORY ================= */}
-        <div className="pb-6 border-b border-[#e5e7eb] dark:border-[#27272a]/70">
-          <button
-            type="button"
-            onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-            className="w-full flex items-center justify-between py-1 group text-left"
-          >
-            <h3 className="font-display text-[19px] font-normal tracking-wide text-[#1c1917] dark:text-[#f2eee3]">
-              Category
-            </h3>
-            <span className="text-[#a8a29e] dark:text-[#71717a] group-hover:text-[#18181b] dark:group-hover:text-[#f2eee3] transition-colors">
-              {isCategoryOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-            </span>
-          </button>
-
-          {isCategoryOpen && (
-            <div className="mt-3.5 space-y-2.5">
-              {categoriesList.map((cat) => {
-                const isChecked = tempFilters.categories.includes(cat.id);
-                return (
-                  <label
-                    key={cat.id}
-                    className="flex items-center justify-between text-[13px] text-[#44403c] dark:text-[#d4d4d8] hover:text-[#1c1917] dark:hover:text-[#f4f4f5] cursor-pointer group py-0.5 transition-colors"
+        {/* Author Checkboxes */}
+        <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+          {filteredAuthors.map((author) => {
+            const isChecked = tempFilters.authors.includes(author.id);
+            return (
+              <label
+                key={author.id}
+                onClick={() => handleAuthorToggle(author.id)}
+                className="flex items-center justify-between text-xs dark:text-[#a1a1aa] text-[#4b5563] dark:hover:text-[#f2eee3] hover:text-[#18181b] cursor-pointer group py-0.5 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-all ${
+                      isChecked
+                        ? "bg-[#d4b56a] border-[#d4b56a] text-[#050807]"
+                        : "bg-white dark:bg-[#09110d] border-[#d1d5db] dark:border-[#f2eee3]/20 group-hover:border-[#b89245] dark:group-hover:border-[#d4b56a]"
+                    }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        onClick={() => handleCategoryToggle(cat.id)}
-                        className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-all ${
-                          isChecked
-                            ? "bg-[#9333ea] border-[#9333ea] dark:bg-[#b89245] dark:border-[#b89245] text-white dark:text-[#050807]"
-                            : "bg-white dark:bg-[#0d1410] border-[#d6d3d1] dark:border-[#3f3f46] group-hover:border-[#9333ea] dark:group-hover:border-[#b89245]/60"
-                        }`}
-                      >
-                        {isChecked && <Check className="w-3 h-3 stroke-[3] text-white dark:text-[#050807]" />}
-                      </div>
-                      <span
-                        onClick={() => handleCategoryToggle(cat.id)}
-                        className={isChecked ? "font-medium text-[#1c1917] dark:text-[#ffffff]" : ""}
-                      >
-                        {cat.label}
-                      </span>
-                    </div>
-                    <span className="text-[12px] text-[#a8a29e] dark:text-[#71717a] font-normal">
-                      {cat.count}
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
-          )}
+                    {isChecked && <Check className="w-3 h-3 stroke-[3] text-[#050807]" />}
+                  </div>
+                  <span className={isChecked ? "dark:text-[#f2eee3] text-[#18181b] font-medium" : ""}>
+                    {author.label}
+                  </span>
+                </div>
+                <span className="text-[11px] dark:text-[#71717a] text-[#9ca3af] font-normal">
+                  {author.count}
+                </span>
+              </label>
+            );
+          })}
         </div>
+      </div>
 
-        {/* ================= 3. AUTHOR ================= */}
-        <div className="pb-6 border-b border-[#e5e7eb] dark:border-[#27272a]/70">
-          <button
-            type="button"
-            onClick={() => setIsAuthorOpen(!isAuthorOpen)}
-            className="w-full flex items-center justify-between py-1 group text-left"
-          >
-            <h3 className="font-display text-[19px] font-normal tracking-wide text-[#1c1917] dark:text-[#f2eee3]">
-              Author
-            </h3>
-            <span className="text-[#a8a29e] dark:text-[#71717a] group-hover:text-[#18181b] dark:group-hover:text-[#f2eee3] transition-colors">
-              {isAuthorOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-            </span>
-          </button>
+      {/* ================= 4. AVAILABILITY ================= */}
+      <div className="space-y-3 pt-2">
+        <h3 className="text-sm font-semibold tracking-wide dark:text-[#f2eee3] text-[#18181b]">
+          Availability
+        </h3>
 
-          {isAuthorOpen && (
-            <div className="mt-3.5 space-y-3">
-              {/* Search Author Input */}
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search author..."
-                  value={tempFilters.authorQuery}
-                  onChange={(e) =>
-                    setTempFilters((prev) => ({
-                      ...prev,
-                      authorQuery: e.target.value,
-                    }))
-                  }
-                  className="w-full text-xs py-2 pl-3 pr-8 border border-[#e5e7eb] dark:border-[#27272a] bg-[#fafaf9] dark:bg-[#0c1310] text-[#1c1917] dark:text-[#f4f4f5] placeholder-[#a8a29e] dark:placeholder-[#71717a] rounded-[2px] focus:outline-none focus:border-[#9333ea] dark:focus:border-[#c5a966] transition-colors"
-                />
-                <Search className="w-3.5 h-3.5 text-[#a8a29e] dark:text-[#71717a] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-
-              {/* Author Checkboxes */}
-              <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1">
-                {filteredAuthors.length > 0 ? (
-                  filteredAuthors.map((author) => {
-                    const isChecked = tempFilters.authors.includes(author.id);
-                    return (
-                      <label
-                        key={author.id}
-                        className="flex items-center justify-between text-[13px] text-[#44403c] dark:text-[#d4d4d8] hover:text-[#1c1917] dark:hover:text-[#f4f4f5] cursor-pointer group py-0.5 transition-colors"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            onClick={() => handleAuthorToggle(author.id)}
-                            className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-all ${
-                              isChecked
-                                ? "bg-[#9333ea] border-[#9333ea] dark:bg-[#b89245] dark:border-[#b89245] text-white dark:text-[#050807]"
-                                : "bg-white dark:bg-[#0d1410] border-[#d6d3d1] dark:border-[#3f3f46] group-hover:border-[#9333ea] dark:group-hover:border-[#b89245]/60"
-                            }`}
-                          >
-                            {isChecked && <Check className="w-3 h-3 stroke-[3] text-white dark:text-[#050807]" />}
-                          </div>
-                          <span
-                            onClick={() => handleAuthorToggle(author.id)}
-                            className={isChecked ? "font-medium text-[#1c1917] dark:text-[#ffffff]" : ""}
-                          >
-                            {author.label}
-                          </span>
-                        </div>
-                        <span className="text-[12px] text-[#a8a29e] dark:text-[#71717a] font-normal">
-                          {author.count}
-                        </span>
-                      </label>
-                    );
-                  })
-                ) : (
-                  <p className="text-xs text-[#a8a29e] dark:text-[#71717a] italic py-1">
-                    No authors found
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ================= 4. AVAILABILITY ================= */}
-        <div className="pb-6 border-b border-[#e5e7eb] dark:border-[#27272a]/70">
-          <button
-            type="button"
-            onClick={() => setIsAvailabilityOpen(!isAvailabilityOpen)}
-            className="w-full flex items-center justify-between py-1 group text-left"
-          >
-            <h3 className="font-display text-[19px] font-normal tracking-wide text-[#1c1917] dark:text-[#f2eee3]">
-              Availability
-            </h3>
-            <span className="text-[#a8a29e] dark:text-[#71717a] group-hover:text-[#18181b] dark:group-hover:text-[#f2eee3] transition-colors">
-              {isAvailabilityOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-            </span>
-          </button>
-
-          {isAvailabilityOpen && (
-            <div className="mt-3.5 space-y-2.5">
-              {availabilityList.map((avail) => {
-                const isChecked = tempFilters.availability.includes(avail.id);
-                return (
-                  <label
-                    key={avail.id}
-                    className="flex items-center justify-between text-[13px] text-[#44403c] dark:text-[#d4d4d8] hover:text-[#1c1917] dark:hover:text-[#f4f4f5] cursor-pointer group py-0.5 transition-colors"
+        <div className="space-y-2">
+          {availabilityList.map((avail) => {
+            const isChecked = tempFilters.availability.includes(avail.id);
+            return (
+              <label
+                key={avail.id}
+                onClick={() => handleAvailabilityToggle(avail.id)}
+                className="flex items-center justify-between text-xs dark:text-[#a1a1aa] text-[#4b5563] dark:hover:text-[#f2eee3] hover:text-[#18181b] cursor-pointer group py-0.5 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-all ${
+                      isChecked
+                        ? "bg-[#d4b56a] border-[#d4b56a] text-[#050807]"
+                        : "bg-white dark:bg-[#09110d] border-[#d1d5db] dark:border-[#f2eee3]/20 group-hover:border-[#b89245] dark:group-hover:border-[#d4b56a]"
+                    }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        onClick={() => handleAvailabilityToggle(avail.id)}
-                        className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-all ${
-                          isChecked
-                            ? "bg-[#9333ea] border-[#9333ea] dark:bg-[#b89245] dark:border-[#b89245] text-white dark:text-[#050807]"
-                            : "bg-white dark:bg-[#0d1410] border-[#d6d3d1] dark:border-[#3f3f46] group-hover:border-[#9333ea] dark:group-hover:border-[#b89245]/60"
-                        }`}
-                      >
-                        {isChecked && <Check className="w-3 h-3 stroke-[3] text-white dark:text-[#050807]" />}
-                      </div>
-                      <span
-                        onClick={() => handleAvailabilityToggle(avail.id)}
-                        className={isChecked ? "font-medium text-[#1c1917] dark:text-[#ffffff]" : ""}
-                      >
-                        {avail.label}
-                      </span>
-                    </div>
-                    <span className="text-[12px] text-[#a8a29e] dark:text-[#71717a] font-normal">
-                      {avail.count}
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
-          )}
+                    {isChecked && <Check className="w-3 h-3 stroke-[3] text-[#050807]" />}
+                  </div>
+                  <span className={isChecked ? "dark:text-[#f2eee3] text-[#18181b] font-medium" : ""}>
+                    {avail.label}
+                  </span>
+                </div>
+                <span className="text-[11px] dark:text-[#71717a] text-[#9ca3af] font-normal">
+                  {avail.count}
+                </span>
+              </label>
+            );
+          })}
         </div>
+      </div>
 
-        {/* ================= 5. ACTION BUTTONS ================= */}
-        <div className="space-y-3 pt-1">
-          {/* Apply Filters Theme Adaptive Button (Purple in light theme, forest green in dark theme) */}
+      {/* ================= 5. ACTION BUTTONS ================= */}
+      <div className="space-y-2.5 pt-2">
+        {/* APPLY FILTERS: Dark button with Gold Border in Dark Mode, Sleek Dark/Gold in Light Mode */}
+        <button
+          type="button"
+          onClick={() => {
+            onApplyFilters();
+            onCloseMobile?.();
+          }}
+          className="w-full py-3 bg-[#18181b] hover:bg-[#b89245] text-white dark:bg-[#080d0a] dark:hover:bg-[#d4b56a] dark:hover:text-[#050807] border border-[#18181b] hover:border-[#b89245] dark:border-[#d4b56a] dark:text-[#d4b56a] font-sans text-xs font-bold tracking-[0.18em] uppercase transition-all duration-200 rounded-[2px] active:scale-[0.99] cursor-pointer shadow-sm"
+        >
+          APPLY FILTERS
+        </button>
+
+        {/* Clear All Link */}
+        <div className="text-center">
           <button
             type="button"
             onClick={() => {
-              onApplyFilters();
+              onClearFilters();
               onCloseMobile?.();
             }}
-            className="w-full py-3.5 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#1e3527] dark:hover:bg-[#284936] text-white font-sans text-xs font-bold tracking-[0.15em] uppercase transition-all duration-200 shadow-md rounded-[2px] active:scale-[0.99] cursor-pointer"
+            className="text-xs text-[#71717a] hover:text-[#b89245] dark:text-[#d4b56a]/80 dark:hover:text-[#d4b56a] underline underline-offset-4 transition-colors font-normal cursor-pointer"
           >
-            APPLY FILTERS
+            Clear all
           </button>
+        </div>
+      </div>
 
-          {/* Clear All Link */}
-          <div className="text-center">
-            <button
-              type="button"
-              onClick={() => {
-                onClearFilters();
-                onCloseMobile?.();
+      {/* ================= 6. BOTTOM SIDEBAR ILLUSTRATION ("Read More Books") ================= */}
+      <div className="pt-6 relative select-none">
+        <div className="relative rounded-lg overflow-hidden border border-[#e5e7eb] dark:border-[#f2eee3]/10 bg-white dark:bg-[#080d0a] p-3 flex flex-col items-center shadow-xs">
+          {/* Books and botanical illustration */}
+          <div className="relative w-full aspect-square rounded overflow-hidden">
+            <img
+              src="/api/shop-sidebar-image"
+              alt="Read More Books"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/images/shop_sidebar_books.jpg";
               }}
-              className="text-xs text-[#71717a] dark:text-[#a1a1aa] hover:text-[#9333ea] dark:hover:text-[#f4f4f5] underline underline-offset-4 transition-colors font-medium cursor-pointer"
-            >
-              Clear all
-            </button>
+              className="w-full h-full object-cover opacity-85 hover:opacity-95 transition-opacity duration-300"
+            />
+            {/* Script Text Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-center pb-2">
+              <p
+                className="font-serif italic text-xl sm:text-2xl text-[#d4b56a] text-center leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Read<br />More<br />Books
+              </p>
+            </div>
           </div>
         </div>
-
       </div>
     </aside>
   );

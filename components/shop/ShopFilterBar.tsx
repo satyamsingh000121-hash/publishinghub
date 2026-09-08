@@ -23,12 +23,12 @@ export default function ShopFilterBar({
   activeFilterCount = 0,
 }: ShopFilterBarProps) {
   return (
-    <div className="pt-2 pb-6 border-b border-[#e5e7eb] dark:border-[#27272a]/80 mb-8 transition-colors duration-200">
+    <div className="pb-5 mb-6 transition-colors duration-200">
       <div className="flex flex-wrap items-center justify-between gap-4">
         
         {/* Left: Result Counter & Mobile Filter Toggle */}
         <div className="flex items-center gap-3">
-          <p className="text-[13px] sm:text-sm text-[#44403c] dark:text-[#a1a1aa] font-normal">
+          <p className="text-xs sm:text-[13px] text-[#6b7280] dark:text-[#888b83] font-normal">
             {currentRangeText}
           </p>
 
@@ -36,12 +36,12 @@ export default function ShopFilterBar({
           <button
             type="button"
             onClick={onOpenMobileFilters}
-            className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#1e3527] dark:hover:bg-[#284936] text-white text-xs font-semibold rounded-[2px] transition-colors shadow-xs"
+            className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-[#09110d] border border-[#b89245] dark:border-[#d4b56a] text-[#b89245] dark:text-[#d4b56a] text-xs font-semibold rounded-[2px] transition-colors shadow-xs"
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
             <span>Filters</span>
             {activeFilterCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-white text-[#9333ea] dark:bg-[#b89245] dark:text-white text-[10px] flex items-center justify-center font-bold ml-1">
+              <span className="w-4 h-4 rounded-full bg-[#b89245] dark:bg-[#d4b56a] text-white dark:text-[#050807] text-[10px] flex items-center justify-center font-bold ml-1">
                 {activeFilterCount}
               </span>
             )}
@@ -49,33 +49,33 @@ export default function ShopFilterBar({
         </div>
 
         {/* Right: Sort Dropdown & View Mode Switcher */}
-        <div className="flex items-center gap-3 sm:gap-4 ml-auto">
+        <div className="flex items-center gap-3 ml-auto">
           
-          {/* Sort Dropdown matching "Sort: Featured" in reference screenshot */}
+          {/* Sort Dropdown */}
           <div className="relative inline-block">
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="appearance-none bg-white dark:bg-[#0c1310] text-[#1c1917] dark:text-[#dedacf] text-xs sm:text-[13px] font-normal border border-[#d6d3d1] dark:border-[#27272a] rounded-[2px] py-2 pl-3 pr-8 hover:border-[#9333ea] dark:hover:border-[#b89245]/60 focus:border-[#9333ea] dark:focus:border-[#b89245] focus:outline-none cursor-pointer transition-colors shadow-2xs"
+              className="appearance-none bg-white dark:bg-[#09110d] text-[#18181b] dark:text-[#d9d5ca] text-xs font-normal border border-[#e5e7eb] dark:border-[#f2eee3]/15 rounded-[2px] py-1.5 pl-3 pr-8 hover:border-[#b89245] dark:hover:border-[#d4b56a]/60 focus:border-[#b89245] dark:focus:border-[#d4b56a] focus:outline-none cursor-pointer transition-colors shadow-2xs"
             >
-              <option value="featured">Sort: Featured</option>
-              <option value="price-low">Sort: Price: low to high</option>
-              <option value="price-high">Sort: Price: high to low</option>
-              <option value="newest">Sort: Newest</option>
-              <option value="title-az">Sort: Title: A to Z</option>
+              <option value="featured">Sort by: Featured</option>
+              <option value="price-low">Sort by: Price: low to high</option>
+              <option value="price-high">Sort by: Price: high to low</option>
+              <option value="newest">Sort by: Newest</option>
+              <option value="title-az">Sort by: Title: A to Z</option>
             </select>
-            <ChevronDown className="w-3.5 h-3.5 text-[#78716c] dark:text-[#a1a1aa] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-[#9ca3af] dark:text-[#888b83] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
           {/* Grid / List View Toggle Switcher */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             {/* Grid Button */}
             <button
               onClick={() => onViewModeChange("grid")}
-              className={`p-2 rounded-[2px] transition-all duration-150 flex items-center justify-center border cursor-pointer ${
+              className={`p-1.5 rounded-[2px] transition-all duration-150 flex items-center justify-center border cursor-pointer ${
                 viewMode === "grid"
-                  ? "bg-[#9333ea] dark:bg-[#1e3527] border-[#9333ea] dark:border-[#1e3527] text-white shadow-xs"
-                  : "bg-white dark:bg-[#0c1310] text-[#78716c] dark:text-[#a1a1aa] border-[#d6d3d1] dark:border-[#27272a] hover:text-[#18181b] dark:hover:text-[#ffffff] hover:border-[#9333ea] dark:hover:border-[#a8a29e]"
+                  ? "bg-white dark:bg-[#09110d] border-[#b89245] dark:border-[#d4b56a] text-[#b89245] dark:text-[#d4b56a] shadow-2xs"
+                  : "bg-white dark:bg-[#09110d] text-[#9ca3af] dark:text-[#71717a] border-[#e5e7eb] dark:border-[#f2eee3]/15 hover:text-[#18181b] dark:hover:text-[#f2eee3] hover:border-[#d1d5db]"
               }`}
               title="Grid View"
               aria-label="Grid View"
@@ -86,10 +86,10 @@ export default function ShopFilterBar({
             {/* List Button */}
             <button
               onClick={() => onViewModeChange("list")}
-              className={`p-2 rounded-[2px] transition-all duration-150 flex items-center justify-center border cursor-pointer ${
+              className={`p-1.5 rounded-[2px] transition-all duration-150 flex items-center justify-center border cursor-pointer ${
                 viewMode === "list"
-                  ? "bg-[#9333ea] dark:bg-[#1e3527] border-[#9333ea] dark:border-[#1e3527] text-white shadow-xs"
-                  : "bg-white dark:bg-[#0c1310] text-[#78716c] dark:text-[#a1a1aa] border-[#d6d3d1] dark:border-[#27272a] hover:text-[#18181b] dark:hover:text-[#ffffff] hover:border-[#9333ea] dark:hover:border-[#a8a29e]"
+                  ? "bg-white dark:bg-[#09110d] border-[#b89245] dark:border-[#d4b56a] text-[#b89245] dark:text-[#d4b56a] shadow-2xs"
+                  : "bg-white dark:bg-[#09110d] text-[#9ca3af] dark:text-[#71717a] border-[#e5e7eb] dark:border-[#f2eee3]/15 hover:text-[#18181b] dark:hover:text-[#f2eee3] hover:border-[#d1d5db]"
               }`}
               title="List View"
               aria-label="List View"

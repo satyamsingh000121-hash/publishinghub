@@ -30,7 +30,9 @@ export default function RootLayout({
                   document.documentElement.classList.remove('light');
                   document.documentElement.classList.add('dark');
                 }
-              } catch (e) {}
+              } catch (e) {
+                document.documentElement.classList.add('dark');
+              }
             `,
           }}
         />

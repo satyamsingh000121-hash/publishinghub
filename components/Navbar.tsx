@@ -279,118 +279,52 @@ export default function Navbar({
             </div>
 
             {/* Navigation links */}
-            <div className="space-y-1">
-              {navItems.map((item) => {
-                if (item.hasDropdown) {
-                  return (
-                    <div key={item.label} className="border-t border-[#f2eee3]/10 pt-1 mt-1">
-                      <button
-                        onClick={() => setMobileLeagueOpen(!mobileLeagueOpen)}
-                        className="w-full flex items-center justify-between py-2.5 px-3 rounded-sm text-xs font-semibold tracking-wider uppercase text-[#d4b56a] bg-[#d4b56a]/10"
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileLeagueOpen ? "rotate-180" : ""}`} />
-                      </button>
-
-                      {mobileLeagueOpen && (
-                        <div className="pl-4 pr-1 py-1 space-y-1 mt-1 border-l-2 border-[#d4b56a]/40 ml-2">
-                          {item.options?.map((sub) => (
-                            <a
-                              key={sub.label}
-                              href={sub.href}
-                              onClick={() => {
-                                setInternalActiveTab("JOIN THE LEAGUE");
-                                setMobileMenuOpen(false);
-                              }}
-                              className="block py-2 px-3 text-[11px] font-medium tracking-wide text-[#dddcd5] hover:text-[#d4b56a] hover:bg-[#f2eee3]/5 rounded-xs"
-                            >
-                              {sub.label}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                const isItemActive = item.label === activeTab || (item.label === "EVENT" && activeTab === "EVENTS");
-
-                return (
+            <nav className="flex flex-col space-y-3">
+              {navItems.map((item) => (
+                <div key={item.label}>
                   <a
-                    key={item.label}
                     href={item.href}
                     onClick={() => {
-                      setInternalActiveTab(item.label);
-                      setMobileMenuOpen(false);
+                      if (!item.hasDropdown) setMobileMenuOpen(false);
+                      else setMobileLeagueOpen(!mobileLeagueOpen);
                     }}
-                    className={`flex items-center justify-between py-2.5 px-3 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors ${
-                      isItemActive
-                        ? "text-[#d4b56a] bg-[#d4b56a]/10 font-bold"
-                        : "text-[#dddcd5] hover:text-[#d4b56a] hover:bg-[#f2eee3]/5"
-                    }`}
+                    className="flex items-center justify-between py-2 text-sm font-semibold tracking-wider text-[#dddcd5] hover:text-[#d4b56a]"
                   >
                     <span>{item.label}</span>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+                    {item.hasDropdown && (
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          mobileLeagueOpen ? "rotate-180 text-[#d4b56a]" : ""
+                        }`}
+                      />
+                    )}
                   </a>
-                );
-              })}
-            </div>
-
-            {/* Search, Account and Wishlist links in mobile drawer */}
-            <div className="pt-3 border-t border-[#f2eee3]/10 space-y-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleOpenSearch();
-                }}
-                className="w-full flex items-center justify-between py-2 px-3 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a] hover:border-[#d4b56a]/40 bg-[#f2eee3]/5 transition-colors cursor-pointer"
-              >
-                <span className="flex items-center gap-2">
-                  <Search className="w-3.5 h-3.5 text-[#d4b56a]" />
-                  <span>Search Books</span>
-                </span>
-                <ArrowRight className="w-3 h-3 opacity-50" />
-              </button>
-
-              <div className="grid grid-cols-3 gap-2">
-                <a
-                  href="/cart"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs border border-[#f2eee3]/15 rounded-sm text-[#d4b56a] hover:border-[#d4b56a] bg-[#d4b56a]/10 font-semibold"
-                >
-                  <ShoppingBag className="w-3.5 h-3.5" />
-                  <span>Cart ({cartCount})</span>
-                </a>
-                <a
-                  href="#wishlist"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
-                >
-                  <Heart className="w-3.5 h-3.5" />
-                  <span>Wishlist</span>
-                </a>
-                <a
-                  href="/my-account"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs border border-[#f2eee3]/15 rounded-sm text-[#dddcd5] hover:text-[#d4b56a]"
-                >
-                  <User className="w-3.5 h-3.5" />
-                  <span>Account</span>
-                </a>
-              </div>
-            </div>
+                  {item.hasDropdown && mobileLeagueOpen && (
+                    <div className="pl-4 space-y-2 pt-1 pb-2 border-l border-[#f2eee3]/10 ml-1">
+                      {item.options?.map((sub) => (
+                        <a
+                          key={sub.label}
+                          href={sub.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block py-1.5 text-xs text-[#9a9b94] hover:text-[#d4b56a]"
+                        >
+                          {sub.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
           </div>
         )}
       </header>
 
-      {/* Internal Search Modal for all pages without external handler */}
-      {!onOpenSearch && (
-        <SearchModal
-          isOpen={isInternalSearchOpen}
-          onClose={() => setIsInternalSearchOpen(false)}
-        />
-      )}
+      {/* Global Search Modal */}
+      <SearchModal
+        isOpen={isInternalSearchOpen}
+        onClose={() => setIsInternalSearchOpen(false)}
+      />
     </>
   );
 }

@@ -21,7 +21,9 @@ export class ProductRepository {
     const limit = params?.limit || 20;
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: any = {
+      slug: { notIn: ["bulle-and-pelle", "visions-of-victory"] },
+    };
 
     if (params?.category && params.category !== "all") {
       where.category = { contains: params.category };

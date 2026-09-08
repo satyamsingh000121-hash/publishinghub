@@ -535,7 +535,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 There are no reviews yet for this book.
               </div>
             )}
-          </div>
+          </div> 
         </section>
 
 
