@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ensureSchemaUpdated } from "@/lib/db";
 import { getBookBySlug, BookDetailData } from "@/lib/books";
+import { MeetTheAuthorService } from "@/backend/services/meetTheAuthor.service";
+import { AuthorService } from "@/backend/services/author.service";
 import ProductClientView from "@/components/product/ProductClientView";
 
 interface ProductPageProps {
@@ -56,14 +58,124 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         take: 4,
       });
 
+      // 1. Fetch dynamic Meet The Author profile first
+      let mtaProfile: any = null;
+      try {
+        mtaProfile = await MeetTheAuthorService.getProfile();
+      } catch (err) {
+        console.error("Failed to load MeetTheAuthor profile:", err);
+      }
+
+      // Query multi-author profiles and their associated showcase books
+      let authorsList: any[] = [];
+      try {
+        const rawAuthors = await AuthorService.getAuthorsForBook(prod.id, prod.author);
+        if (rawAuthors && rawAuthors.length > 0) {
+          authorsList = await Promise.all(
+            rawAuthors.map(async (a) => {
+              const cleanMtaName = (mtaProfile?.authorName || "").toLowerCase().trim();
+              const cleanAuthorName = (a.name || "").toLowerCase().trim();
+              const isMtaAuthor =
+                cleanMtaName &&
+                (cleanMtaName === cleanAuthorName ||
+                  cleanMtaName.includes(cleanAuthorName) ||
+                  cleanAuthorName.includes(cleanMtaName));
+
+              const authorImage =
+                isMtaAuthor && mtaProfile?.authorImage
+                  ? mtaProfile.authorImage
+                  : a.image;
+              const authorQuote =
+                isMtaAuthor && mtaProfile?.quote
+                  ? mtaProfile.quote
+                  : a.tagline || a.bio;
+              const authorSocials = isMtaAuthor && mtaProfile
+                ? {
+                    facebook: mtaProfile.facebook || a.facebook,
+                    twitter: mtaProfile.twitter || a.twitter,
+                    linkedin: mtaProfile.linkedin || a.linkedin,
+                    instagram: mtaProfile.instagram || a.instagram,
+                    pinterest: a.pinterest,
+                    youtube: a.youtube,
+                  }
+                : {
+                    facebook: a.facebook,
+                    twitter: a.twitter,
+                    instagram: a.instagram,
+                    pinterest: a.pinterest,
+                    linkedin: a.linkedin,
+                    youtube: a.youtube,
+                  };
+
+              const books =
+                isMtaAuthor && mtaProfile?.books && mtaProfile.books.length > 0
+                  ? mtaProfile.books
+                  : await AuthorService.getShowcaseBooksForAuthor(a.name, a.id, prod.id);
+
+              return {
+                ...a,
+                image: authorImage,
+                quote: authorQuote,
+                tagline: authorQuote,
+                bio: authorQuote,
+                books,
+                ...authorSocials,
+                isCurated: Boolean(isMtaAuthor),
+              };
+            })
+          );
+
+          // Prioritize curated Meet The Author profile to index 0 so it displays first by default
+          authorsList.sort((x, y) => {
+            if (x.isCurated && !y.isCurated) return -1;
+            if (!x.isCurated && y.isCurated) return 1;
+            return 0;
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load multi-author profiles:", err);
+      }
+
+      const primaryAuthor = authorsList[0];
+
       return {
         id: prod.id,
         slug: prod.slug,
         title: prod.title,
         author: prod.author,
-        authorName: prod.authorName || prod.author,
-        authorImage: prod.authorImage || "/images/author-01.jpg",
-        authorQuote: prod.authorQuote || undefined,
+        authorsList: authorsList.length > 0 ? authorsList : undefined,
+        authorName:
+          primaryAuthor?.name ||
+          mtaProfile?.authorName ||
+          prod.authorName ||
+          prod.author,
+        authorImage:
+          primaryAuthor?.image ||
+          mtaProfile?.authorImage ||
+          prod.authorImage ||
+          "/images/author-01.jpg",
+        authorQuote:
+          primaryAuthor?.quote ||
+          mtaProfile?.quote ||
+          prod.authorQuote ||
+          undefined,
+        authorSocials: primaryAuthor
+          ? {
+              facebook: primaryAuthor.facebook,
+              twitter: primaryAuthor.twitter,
+              instagram: primaryAuthor.instagram,
+              pinterest: primaryAuthor.pinterest,
+              linkedin: primaryAuthor.linkedin,
+              youtube: primaryAuthor.youtube,
+            }
+          : mtaProfile
+          ? {
+              facebook: mtaProfile.facebook,
+              twitter: mtaProfile.twitter,
+              linkedin: mtaProfile.linkedin,
+              instagram: mtaProfile.instagram,
+            }
+          : undefined,
         price: prod.price,
         numericPrice: prod.numericPrice,
         originalPrice: prod.originalPrice || undefined,
@@ -84,7 +196,20 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         language: prod.language || "English",
         format: prod.format || "Hardcover",
         authorBooks:
-          authorDb.length > 0
+          primaryAuthor?.books && primaryAuthor.books.length > 0
+            ? primaryAuthor.books
+            : mtaProfile?.books && mtaProfile.books.length > 0
+            ? mtaProfile.books.map((b: any) => ({
+                id: b.id,
+                title: b.title,
+                price: b.price,
+                oldPrice: b.oldPrice,
+                slug: b.slug,
+                image: b.image,
+                badge: b.badge,
+                author: b.author,
+              }))
+            : authorDb.length > 0
             ? authorDb.map((p) => ({
                 id: p.id,
                 title: p.title,

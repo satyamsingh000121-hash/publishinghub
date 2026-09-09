@@ -34,6 +34,8 @@ export interface BookItemData {
   publisher?: string | null;
   pages?: number | null;
   format?: string | null;
+  authors?: string[];
+  showInMeetAuthor?: boolean;
 }
 
 interface BookRowProps {

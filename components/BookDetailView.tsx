@@ -97,11 +97,47 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const currentDescription =
     book?.description ||
     "Unlock Your Entrepreneurial Journey with \"Visions to Victory\"\n\nEmbarking on the journey of entrepreneurship can feel both exciting and overwhelming. As you face the challenges and opportunities ahead, having a trustworthy guide can make all the difference. That's where \"Visions to Victory\" steps in - it's a comprehensive handbook crafted to empower entrepreneurs like yourself to turn your dreams into reality and achieve lasting success in the competitive world of business.\n\nThe book starts by stressing the importance of defining your vision clearly and setting goals that are ambitious yet achievable. Through practical advice and real-life examples, it helps you shape a vision that acts as a guiding star, keeping you motivated, focused, and resilient in the face of obstacles.\n\n\"Visions to Victory\" serves as a strategic roadmap for crafting success from the very beginning to achieving significant milestones like stock exchange glory and reaching nine to twelve-figure revenues. It provides blueprints and successful models for clarifying your vision and goals, developing strategic plans, optimising business models, implementing efficient systems and processes, fostering a culture of continuous improvement, and driving innovation and value creation.\n\nIn summary, \"Visions to Victory\" fulfills its purpose by empowering entrepreneurs with the knowledge, tools, and resources needed to navigate the complexities of business ownership, overcome challenges, and achieve their vision of success. Whether you're launching a new venture or expanding an existing business, this book equips you with the skills and mindset required to thrive in today's dynamic business landscape.";
-  const currentAuthorName =
-    book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Santosh Kumar Mishra");
-  const currentAuthorImage =
-    book?.authorImage || "/images/Gemini_Generated_Image_f41einf41einf41e.png";
-  const authorBooksList = book?.authorBooks || [];
+  const [selectedAuthorIdx, setSelectedAuthorIdx] = useState(0);
+
+  const authorsList =
+    book?.authorsList && book.authorsList.length > 0
+      ? book.authorsList
+      : [
+          {
+            name: book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Santosh Kumar Mishra"),
+            image: book?.authorImage || "/images/Gemini_Generated_Image_f41einf41einf41e.png",
+            quote: book?.authorQuote || "My books are marked down because most of them are marked with a on the edge by publishers.",
+            facebook: book?.authorSocials?.facebook || "#facebook",
+            twitter: book?.authorSocials?.twitter || "#twitter",
+            instagram: book?.authorSocials?.instagram || "#instagram",
+            pinterest: book?.authorSocials?.pinterest || "#pinterest",
+            linkedin: book?.authorSocials?.linkedin || "#linkedin",
+            youtube: book?.authorSocials?.youtube || "#youtube",
+            books: book?.authorBooks || [],
+          },
+        ];
+
+  const activeAuthor = authorsList[selectedAuthorIdx] || authorsList[0];
+  const currentAuthorName = activeAuthor.name;
+  const currentAuthorImage = activeAuthor.image || "/images/Gemini_Generated_Image_f41einf41einf41e.png";
+  const currentAuthorQuote =
+    activeAuthor.quote ||
+    activeAuthor.tagline ||
+    activeAuthor.bio ||
+    book?.authorQuote ||
+    "My books are marked down because most of them are marked with a on the edge by publishers.";
+  const currentAuthorSocials = {
+    facebook: activeAuthor.facebook || book?.authorSocials?.facebook || "#facebook",
+    twitter: activeAuthor.twitter || book?.authorSocials?.twitter || "#twitter",
+    instagram: activeAuthor.instagram || book?.authorSocials?.instagram || "#instagram",
+    pinterest: activeAuthor.pinterest || book?.authorSocials?.pinterest || "#pinterest",
+    linkedin: activeAuthor.linkedin || book?.authorSocials?.linkedin || "#linkedin",
+    youtube: activeAuthor.youtube || book?.authorSocials?.youtube || "#youtube",
+  };
+  const authorBooksList =
+    activeAuthor.books && activeAuthor.books.length > 0
+      ? activeAuthor.books
+      : book?.authorBooks || [];
   const relatedBooksList = book?.relatedBooks || relatedBooks;
 
   const handleAddToCart = () => {
@@ -371,17 +407,22 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-50/40 dark:bg-[#2c7650]/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-pink-50/30 dark:bg-[#2c7650]/15 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Centered Heading */}
-            <div className="text-center mb-8 sm:mb-10 relative z-10">
+            {/* Centered Heading & Quote */}
+            <div className="text-center mb-8 sm:mb-12 relative z-10 max-w-3xl mx-auto px-4">
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl dark:text-[#f2eee3] text-[#1c1917] font-normal tracking-tight">
                 Meet The Author
               </h2>
-              <div className="w-16 h-0.5 bg-[#b89245] dark:bg-[#d4b56a] mx-auto mt-3 rounded-full opacity-80" />
+              <div className="w-16 h-0.5 bg-[#b89245] dark:bg-[#d4b56a] mx-auto mt-3 mb-4 rounded-full opacity-80" />
+              {currentAuthorQuote && (
+                <p className="font-display italic text-sm sm:text-base md:text-lg text-gray-600 dark:text-[#a3b8ad] max-w-2xl mx-auto leading-relaxed">
+                  &ldquo;{currentAuthorQuote}&rdquo;
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center max-w-5xl mx-auto relative z-10">
-              {/* Left: Author Profile (Portrait Photo + Name + Circular Social Icons) */}
-              <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left">
+              {/* Left: Author Profile (Portrait Photo + Centered Name + Centered Circular Social Icons) */}
+              <div className="lg:col-span-4 flex flex-col items-center text-center">
                 <div className="w-44 sm:w-52 aspect-[3.8/5] overflow-hidden shadow-sm rounded-[3px] bg-white dark:bg-black/40 border border-gray-200/80 dark:border-[#2c7650]/50">
                   <img
                     src={currentAuthorImage}
@@ -390,40 +431,83 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   />
                 </div>
 
-                <h3 className="font-display text-xl sm:text-2xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-4">
-                  {currentAuthorName}
-                </h3>
+                {authorsList.length > 1 ? (
+                  <div className="mt-4 flex flex-col items-center">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      {authorsList.map((auth, idx) => {
+                        const isSelected = selectedAuthorIdx === idx;
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setSelectedAuthorIdx(idx)}
+                            className={`font-display text-base sm:text-lg px-3 py-1 rounded-full transition-all duration-200 border cursor-pointer ${
+                              isSelected
+                                ? "bg-[#b89245]/15 border-[#b89245] text-[#b89245] dark:text-[#d4b56a] font-semibold shadow-sm"
+                                : "border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-white/30"
+                            }`}
+                          >
+                            {auth.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <h3 className="font-display text-xl sm:text-2xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-4 text-center">
+                    {currentAuthorName}
+                  </h3>
+                )}
 
-                {/* 4 Circular Social Icons */}
-                <div className="flex items-center gap-2 mt-3 text-gray-500 dark:text-[#a3b8ad]">
+                {/* Circular Social Icons */}
+                <div className="flex items-center justify-center gap-2 mt-3 text-gray-500 dark:text-[#a3b8ad]">
                   <a
-                    href="#facebook"
+                    href={currentAuthorSocials?.facebook || "#facebook"}
+                    target={currentAuthorSocials?.facebook && currentAuthorSocials.facebook.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
                     aria-label="Facebook"
                     className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
                   >
                     <Facebook className="w-3.5 h-3.5" />
                   </a>
                   <a
-                    href="#twitter"
+                    href={currentAuthorSocials?.twitter || "#twitter"}
+                    target={currentAuthorSocials?.twitter && currentAuthorSocials.twitter.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
                     aria-label="Twitter"
                     className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
                   >
                     <Twitter className="w-3.5 h-3.5" />
                   </a>
                   <a
-                    href="#linkedin"
+                    href={currentAuthorSocials?.linkedin || "#linkedin"}
+                    target={currentAuthorSocials?.linkedin && currentAuthorSocials.linkedin.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
                     aria-label="LinkedIn"
                     className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
                   >
                     <Linkedin className="w-3.5 h-3.5" />
                   </a>
                   <a
-                    href="#instagram"
+                    href={currentAuthorSocials?.instagram || "#instagram"}
+                    target={currentAuthorSocials?.instagram && currentAuthorSocials.instagram.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
                     aria-label="Instagram"
                     className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
                   >
                     <Instagram className="w-3.5 h-3.5" />
                   </a>
+                  {currentAuthorSocials?.youtube && currentAuthorSocials.youtube !== "#youtube" && (
+                    <a
+                      href={currentAuthorSocials.youtube}
+                      target={currentAuthorSocials.youtube.startsWith("http") ? "_blank" : undefined}
+                      rel="noopener noreferrer"
+                      aria-label="YouTube"
+                      className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                    >
+                      <Youtube className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                 </div>
               </div>
 

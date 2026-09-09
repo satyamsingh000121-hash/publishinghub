@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { ProductService } from "@/backend/services/product.service";
 import { ProductValidator } from "@/backend/validators/product.validator";
 import { requireRole } from "@/backend/middleware/auth.middleware";
+// Recompiled with clean AuthorService
 import {
   successResponse,
   errorResponse,

@@ -9,11 +9,29 @@ export interface CategoryDTO {
   productCount?: number;
 }
 
+export interface AuthorProfileDTO {
+  id?: string;
+  name: string;
+  slug?: string;
+  image?: string | null;
+  tagline?: string | null;
+  bio?: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  pinterest?: string | null;
+  linkedin?: string | null;
+  youtube?: string | null;
+  books?: any[];
+}
+
 export interface ProductDTO {
   id: string;
   slug: string;
   title: string;
   author: string;
+  authors?: string[];
+  authorProfiles?: AuthorProfileDTO[];
   authorName?: string | null;
   authorImage?: string | null;
   authorQuote?: string | null;
@@ -30,6 +48,7 @@ export interface ProductDTO {
   description?: string | null;
   stock: number;
   featured: boolean;
+  showInMeetAuthor?: boolean;
   displayOrder?: number | null;
   createdAt: Date | string;
   updatedAt: Date | string;

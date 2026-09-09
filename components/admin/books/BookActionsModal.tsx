@@ -11,6 +11,7 @@ import {
   Image as ImageIcon,
   Loader2,
   Link2,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
 import { BookItemData } from "./BookRow";
@@ -33,6 +34,7 @@ export default function BookActionsModal({
   const [formData, setFormData] = useState({
     title: "",
     author: "",
+    authors: [""] as string[],
     category: "",
     price: "£19.99",
     numericPrice: 19.99,
@@ -42,6 +44,7 @@ export default function BookActionsModal({
     badge: "",
     image: "",
     featured: false,
+    showInMeetAuthor: false,
     summary: "",
     description: "",
     isbn: "",
@@ -57,9 +60,16 @@ export default function BookActionsModal({
 
   useEffect(() => {
     if (book && mode === "edit") {
+      const parsedAuthors = Array.isArray(book.authors) && book.authors.length > 0
+        ? book.authors
+        : book.author
+        ? book.author.replace(/^By\s+/i, "").split(/,\s*|\s+and\s+|\s*&\s*/i).map((s) => s.trim()).filter(Boolean)
+        : [""];
+
       setFormData({
         title: book.title || "",
         author: book.author || "",
+        authors: parsedAuthors.length > 0 ? parsedAuthors : [""],
         category: book.category || (categories[0] || "Fiction"),
         price: book.price || `£${book.numericPrice || 19.99}`,
         numericPrice: book.numericPrice || 19.99,
@@ -69,6 +79,7 @@ export default function BookActionsModal({
         badge: book.badge || "",
         image: book.image || "",
         featured: book.featured || false,
+        showInMeetAuthor: Boolean(book.showInMeetAuthor),
         summary: book.summary || "",
         description: book.description || "",
         isbn: book.isbn || "",
@@ -79,6 +90,7 @@ export default function BookActionsModal({
       setFormData({
         title: "",
         author: "",
+        authors: [""],
         category: categories[0] || "Fiction",
         price: "£19.99",
         numericPrice: 19.99,
@@ -88,6 +100,7 @@ export default function BookActionsModal({
         badge: "",
         image: "",
         featured: false,
+        showInMeetAuthor: false,
         summary: "",
         description: "",
         isbn: "",
@@ -175,6 +188,8 @@ export default function BookActionsModal({
             featured: formData.featured,
             summary: formData.summary,
             description: formData.description,
+            authors: (formData.authors || []).map((a) => a.trim()).filter(Boolean),
+            showInMeetAuthor: Boolean(formData.showInMeetAuthor),
             isbn: formData.isbn.trim() || undefined,
             publisher: formData.publisher.trim() || undefined,
             pages: Number(formData.pages) || undefined,
@@ -192,6 +207,8 @@ export default function BookActionsModal({
           body: JSON.stringify({
             title: formData.title,
             author: formData.author,
+            authors: (formData.authors || []).map((a) => a.trim()).filter(Boolean),
+            showInMeetAuthor: Boolean(formData.showInMeetAuthor),
             category: formData.category,
             price: formData.price.startsWith("£") ? formData.price : `£${formData.price}`,
             numericPrice: Number(formData.numericPrice) || 19.99,
@@ -405,7 +422,15 @@ export default function BookActionsModal({
                   type="text"
                   required
                   value={formData.author}
-                  onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    const parsed = val.split(/,\s*|\s+and\s+|\s*&\s*/i).map((s) => s.trim()).filter(Boolean);
+                    setFormData({
+                      ...formData,
+                      author: val,
+                      authors: parsed.length > 0 ? parsed : [val],
+                    });
+                  }}
                   placeholder="e.g. Samantha Walker"
                   className="w-full px-3.5 py-2 admin-input-bg rounded-xl focus:outline-none focus:border-[#8B5CF6]"
                 />
@@ -427,6 +452,84 @@ export default function BookActionsModal({
                   ))}
                 </select>
               </div>
+            </div>
+
+            {/* Multiple Authors Management Section */}
+            <div className="space-y-2 p-3.5 rounded-xl bg-gray-50/70 dark:bg-[#0B101B] border border-gray-200 dark:border-gray-800">
+              <div className="flex items-center justify-between">
+                <label className="font-semibold admin-text-primary block text-xs">
+                  Authors
+                </label>
+                <span className="text-[11px] text-gray-500 dark:text-gray-400">
+                  Multiple authors per book
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                {(formData.authors && formData.authors.length > 0 ? formData.authors : [""]).map((authorName, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={authorName}
+                      onChange={(e) => {
+                        const newAuthors = [...(formData.authors || [""])];
+                        newAuthors[index] = e.target.value;
+                        const combined = newAuthors.map((s) => s.trim()).filter(Boolean).join(", ");
+                        setFormData({
+                          ...formData,
+                          authors: newAuthors,
+                          author: combined || e.target.value,
+                        });
+                      }}
+                      placeholder={`Author ${index + 1} (e.g. Chai Iam)`}
+                      className="flex-1 px-3 py-1.5 text-xs admin-input-bg rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-[#8B5CF6]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newAuthors = (formData.authors || []).filter((_, i) => i !== index);
+                        const cleanList = newAuthors.length > 0 ? newAuthors : [""];
+                        const combined = cleanList.map((s) => s.trim()).filter(Boolean).join(", ");
+                        setFormData({
+                          ...formData,
+                          authors: cleanList,
+                          author: combined,
+                        });
+                      }}
+                      className="px-2.5 py-1.5 text-[11px] font-semibold text-red-500 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    authors: [...(prev.authors || []), ""],
+                  }));
+                }}
+                className="mt-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#8B5CF6]/10 text-[#8B5CF6] dark:text-[#C4B5FD] hover:bg-[#8B5CF6]/20 transition-colors inline-flex items-center gap-1 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" /> + Add Author
+              </button>
+            </div>
+
+            {/* Show in Meet The Author Setting */}
+            <div className="flex items-center gap-2.5 p-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-[#0B101B]">
+              <input
+                type="checkbox"
+                id="showInMeetAuthorCheck"
+                checked={formData.showInMeetAuthor || false}
+                onChange={(e) => setFormData({ ...formData, showInMeetAuthor: e.target.checked })}
+                className="w-4 h-4 rounded text-[#8B5CF6] focus:ring-[#8B5CF6] cursor-pointer"
+              />
+              <label htmlFor="showInMeetAuthorCheck" className="text-xs font-medium admin-text-primary cursor-pointer select-none">
+                Show this book in the &ldquo;Meet The Author&rdquo; showcase carousel
+              </label>
             </div>
 
             <div className="grid grid-cols-3 gap-3">

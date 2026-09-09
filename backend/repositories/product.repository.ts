@@ -1,19 +1,36 @@
 import { prisma } from "@/lib/prisma";
 import { ProductDTO, ProductFilterParams } from "@/types/product";
+import { AuthorService } from "@/backend/services/author.service";
 
 export class ProductRepository {
   static async findById(id: string) {
-    return prisma.product.findUnique({
+    const prod = await prisma.product.findUnique({
       where: { id },
       include: { categoryRel: true },
     });
+    if (!prod) return null;
+    const authors = await AuthorService.getAuthorsForBook(prod.id, prod.author);
+    return {
+      ...prod,
+      authors: authors.map((a) => a.name),
+      authorProfiles: authors,
+      showInMeetAuthor: Boolean((prod as any).showInMeetAuthor),
+    };
   }
 
   static async findBySlug(slug: string) {
-    return prisma.product.findUnique({
+    const prod = await prisma.product.findUnique({
       where: { slug: slug.toLowerCase() },
       include: { categoryRel: true },
     });
+    if (!prod) return null;
+    const authors = await AuthorService.getAuthorsForBook(prod.id, prod.author);
+    return {
+      ...prod,
+      authors: authors.map((a) => a.name),
+      authorProfiles: authors,
+      showInMeetAuthor: Boolean((prod as any).showInMeetAuthor),
+    };
   }
 
   static async findAll(params?: ProductFilterParams) {
@@ -136,6 +153,10 @@ export class ProductRepository {
       }
       for (const p of products) {
         (p as any).displayOrder = orderMap.get(p.id) ?? 0;
+        (p as any).showInMeetAuthor = Boolean((p as any).showInMeetAuthor);
+        (p as any).authors = p.author
+          ? p.author.replace(/^By\s+/i, "").split(/,\s*|\s+and\s+|\s*&\s*/i).map((s) => s.trim()).filter(Boolean)
+          : [];
       }
     } catch {}
 
@@ -177,8 +198,14 @@ export class ProductRepository {
       format,
       rating,
       reviewCount,
+      authors,
+      showInMeetAuthor,
       ...cleanData
     } = data;
+
+    if (Array.isArray(authors) && authors.length > 0) {
+      cleanData.author = authors.join(", ");
+    }
 
     if (categoryId) {
       cleanData.categoryRel = { connect: { id: categoryId } };
@@ -200,6 +227,7 @@ export class ProductRepository {
     if (format !== undefined) { extraUpdates.push("format = ?"); extraParams.push(format); }
     if (rating !== undefined) { extraUpdates.push("rating = ?"); extraParams.push(rating); }
     if (reviewCount !== undefined) { extraUpdates.push("reviewCount = ?"); extraParams.push(reviewCount); }
+    if (showInMeetAuthor !== undefined) { extraUpdates.push("showInMeetAuthor = ?"); extraParams.push(showInMeetAuthor ? 1 : 0); }
 
     if (extraUpdates.length > 0 && product?.id) {
       try {
@@ -210,6 +238,17 @@ export class ProductRepository {
         );
       } catch (err) {
         console.error("Failed to update extra product columns:", err);
+      }
+    }
+
+    const authorList = Array.isArray(authors) && authors.length > 0
+      ? authors
+      : cleanData.author ? [cleanData.author] : [];
+    if (authorList.length > 0 && product?.id) {
+      try {
+        await AuthorService.syncBookAuthors(product.id, authorList);
+      } catch (e) {
+        console.error("Failed to sync authors for new book:", e);
       }
     }
 
@@ -243,8 +282,14 @@ export class ProductRepository {
       format,
       rating,
       reviewCount,
+      authors,
+      showInMeetAuthor,
       ...cleanData
     } = data;
+
+    if (Array.isArray(authors) && authors.length > 0) {
+      cleanData.author = authors.join(", ");
+    }
 
     if (categoryId) {
       cleanData.categoryRel = { connect: { id: categoryId } };
@@ -269,6 +314,7 @@ export class ProductRepository {
     if (format !== undefined) { extraUpdates.push("format = ?"); extraParams.push(format); }
     if (rating !== undefined) { extraUpdates.push("rating = ?"); extraParams.push(rating); }
     if (reviewCount !== undefined) { extraUpdates.push("reviewCount = ?"); extraParams.push(reviewCount); }
+    if (showInMeetAuthor !== undefined) { extraUpdates.push("showInMeetAuthor = ?"); extraParams.push(showInMeetAuthor ? 1 : 0); }
 
     if (extraUpdates.length > 0 && id) {
       try {
@@ -278,7 +324,18 @@ export class ProductRepository {
           ...extraParams
         );
       } catch (err) {
-        console.error("Failed to update extra product columns on update:", err);
+        console.error("Failed to update extra product columns:", err);
+      }
+    }
+
+    const authorList = Array.isArray(authors) && authors.length > 0
+      ? authors
+      : cleanData.author ? [cleanData.author] : [];
+    if (authorList.length > 0 && id) {
+      try {
+        await AuthorService.syncBookAuthors(id, authorList);
+      } catch (e) {
+        console.error("Failed to sync authors for updated book:", e);
       }
     }
 

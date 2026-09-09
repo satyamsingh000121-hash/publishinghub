@@ -22,6 +22,22 @@ export interface RelatedBook {
   badgeType?: "sale" | "hot";
 }
 
+export interface AuthorProfile {
+  id?: string;
+  name: string;
+  image?: string | null;
+  tagline?: string | null;
+  bio?: string | null;
+  quote?: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  pinterest?: string | null;
+  linkedin?: string | null;
+  youtube?: string | null;
+  books?: AuthorBook[];
+}
+
 export interface BookDetailData {
   id?: string;
   slug?: string;
@@ -44,6 +60,7 @@ export interface BookDetailData {
   authorName?: string | null;
   authorImage?: string | null;
   authorQuote?: string | null;
+  authorsList?: AuthorProfile[];
   isbn?: string | null;
   publisher?: string | null;
   publicationDate?: string | null;
@@ -51,6 +68,14 @@ export interface BookDetailData {
   language?: string | null;
   format?: string | null;
   authorBooks?: AuthorBook[];
+  authorSocials?: {
+    facebook?: string;
+    twitter?: string;
+    linkedin?: string;
+    instagram?: string;
+    pinterest?: string;
+    youtube?: string;
+  };
   relatedBooks?: RelatedBook[];
 }
 

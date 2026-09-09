@@ -41,6 +41,8 @@ export const CreateProductSchema = z.object({
   description: z.string().optional(),
   stock: z.number().int().nonnegative().optional().default(100),
   featured: z.boolean().optional().default(false),
+  showInMeetAuthor: z.boolean().optional().default(false),
+  authors: z.array(z.string()).optional(),
   isbn: z.string().optional(),
   publisher: z.string().optional(),
   publicationDate: z.string().optional(),

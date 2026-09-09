@@ -30,6 +30,7 @@ const navItems = [
   { name: "Users", href: "/admin/users", icon: Users },
   { name: "Settings", href: "/admin/settings", icon: Settings },
   { name: "Sale Offers", href: "/admin/sale-offers", icon: Tag },
+  { name: "Meet The Author", href: "/admin/meet-the-author", icon: User },
 ];
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
