@@ -255,146 +255,36 @@ export class AuthorService {
   }
 
   /**
-   * Retrieves dynamic showcase books for a specific author
-   * Prioritizes curated MeetTheAuthorBook list, then showInMeetAuthor = 1
+   * Retrieves dynamic showcase books for a specific author from the database relationship
    */
   static async getShowcaseBooksForAuthor(authorName: string, authorId?: string, excludeBookId?: string): Promise<any[]> {
     await ensureSchemaUpdated();
 
-    // 0. Check if this author has curated showcase books in MeetTheAuthorBook
+    if (!authorName) return [];
+
     try {
-      const mtaRows: any[] = await prisma.$queryRawUnsafe(
-        `SELECT authorName FROM MeetTheAuthorProfile WHERE id = 'default' LIMIT 1`
-      );
-      const mtaName = (mtaRows?.[0]?.authorName || "").toLowerCase().trim();
-      const cleanAuthor = authorName.toLowerCase().trim();
-      const isMtaMatch =
-        mtaName &&
-        (mtaName === cleanAuthor ||
-          mtaName.includes(cleanAuthor) ||
-          cleanAuthor.includes(mtaName));
+      const { MeetTheAuthorService } = await import("@/backend/services/meetTheAuthor.service");
+      const profile = await MeetTheAuthorService.getProfileByAuthorName(authorName);
 
-      if (isMtaMatch) {
-        const curatedBooks: any[] = await prisma.$queryRawUnsafe(
-          `SELECT p.* FROM Product p
-           JOIN MeetTheAuthorBook mb ON mb.productId = p.id
-           WHERE mb.profileId = 'default'
-           ORDER BY mb."order" ASC`
-        );
-
-        if (curatedBooks && curatedBooks.length > 0) {
-          return curatedBooks.map((p) => ({
-            id: p.id,
-            title: p.title,
-            price: p.price,
-            oldPrice: p.originalPrice || undefined,
-            slug: p.slug,
-            image: p.image,
-            badge: p.badge || undefined,
-            author: p.author,
-          }));
-        }
+      if (profile && profile.books && profile.books.length > 0) {
+        const filtered = profile.books.filter((b) => b.id !== excludeBookId);
+        return filtered.map((p) => ({
+          id: p.id,
+          title: p.title,
+          price: p.price,
+          oldPrice: p.oldPrice || undefined,
+          slug: p.slug,
+          image: p.image,
+          badge: p.badge || undefined,
+          author: p.author,
+        }));
       }
     } catch (e) {
-      console.error("Error checking MTA curated books in getShowcaseBooksForAuthor:", e);
+      console.error("Error fetching showcase books from MeetTheAuthorService:", e);
     }
 
-    // 1. First, search books linked via BookAuthor with showInMeetAuthor = 1
-    if (authorId) {
-      try {
-        const rows: any[] = await prisma.$queryRawUnsafe(
-          `SELECT p.* FROM Product p
-           JOIN BookAuthor ba ON ba.bookId = p.id
-           WHERE ba.authorId = ? AND p.id != ? AND (p.showInMeetAuthor = 1 OR p.showInMeetAuthor = true)
-           ORDER BY p.createdAt DESC
-           LIMIT 6`,
-          authorId,
-          excludeBookId || ""
-        );
-
-        if (rows && rows.length > 0) {
-          return rows.map((p) => ({
-            id: p.id,
-            title: p.title,
-            price: p.price,
-            oldPrice: p.originalPrice || undefined,
-            slug: p.slug,
-            image: p.image,
-            badge: p.badge || undefined,
-            author: p.author,
-          }));
-        }
-      } catch {}
-    }
-
-    // 2. Next, search by author name match with showInMeetAuthor = 1
-    try {
-      const rows: any[] = await prisma.$queryRawUnsafe(
-        `SELECT * FROM Product
-         WHERE id != ? AND (author LIKE ? OR title LIKE ?) AND (showInMeetAuthor = 1 OR showInMeetAuthor = true)
-         ORDER BY createdAt DESC
-         LIMIT 6`,
-        excludeBookId || "",
-        `%${authorName}%`,
-        `%${authorName}%`
-      );
-
-      if (rows && rows.length > 0) {
-        return rows.map((p) => ({
-          id: p.id,
-          title: p.title,
-          price: p.price,
-          oldPrice: p.originalPrice || undefined,
-          slug: p.slug,
-          image: p.image,
-          badge: p.badge || undefined,
-          author: p.author,
-        }));
-      }
-    } catch {}
-
-    // 3. Fallback: Any other books by this author (even if showInMeetAuthor not explicitly set)
-    try {
-      const rows: any[] = await prisma.$queryRawUnsafe(
-        `SELECT * FROM Product
-         WHERE id != ? AND (author LIKE ? OR title LIKE ?)
-         ORDER BY createdAt DESC
-         LIMIT 4`,
-        excludeBookId || "",
-        `%${authorName}%`,
-        `%${authorName}%`
-      );
-
-      if (rows && rows.length > 0) {
-        return rows.map((p) => ({
-          id: p.id,
-          title: p.title,
-          price: p.price,
-          oldPrice: p.originalPrice || undefined,
-          slug: p.slug,
-          image: p.image,
-          badge: p.badge || undefined,
-          author: p.author,
-        }));
-      }
-    } catch {}
-
-    // 4. Fallback: featured books from the store
-    const featured = await prisma.product.findMany({
-      where: { id: { not: excludeBookId } },
-      take: 3,
-      orderBy: { createdAt: "desc" },
-    });
-
-    return featured.map((p) => ({
-      id: p.id,
-      title: p.title,
-      price: p.price,
-      oldPrice: p.originalPrice || undefined,
-      slug: p.slug,
-      image: p.image,
-      badge: p.badge || undefined,
-      author: p.author,
-    }));
+    // If no books are assigned to this author in Meet The Author, return empty list
+    return [];
   }
 }
+

@@ -20,6 +20,10 @@ export function errorResponse(error: string, status = 400, errors?: Record<strin
   return NextResponse.json(body, { status });
 }
 
+export function badRequestResponse(message = "Bad request.") {
+  return errorResponse(message, 400);
+}
+
 export function unauthorizedResponse(message = "Unauthorized. Please authenticate to proceed.") {
   return errorResponse(message, 401);
 }

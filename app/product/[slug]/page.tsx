@@ -58,14 +58,6 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         take: 4,
       });
 
-      // 1. Fetch dynamic Meet The Author profile first
-      let mtaProfile: any = null;
-      try {
-        mtaProfile = await MeetTheAuthorService.getProfile();
-      } catch (err) {
-        console.error("Failed to load MeetTheAuthor profile:", err);
-      }
-
       // Query multi-author profiles and their associated showcase books
       let authorsList: any[] = [];
       try {
@@ -73,44 +65,26 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         if (rawAuthors && rawAuthors.length > 0) {
           authorsList = await Promise.all(
             rawAuthors.map(async (a) => {
-              const cleanMtaName = (mtaProfile?.authorName || "").toLowerCase().trim();
-              const cleanAuthorName = (a.name || "").toLowerCase().trim();
-              const isMtaAuthor =
-                cleanMtaName &&
-                (cleanMtaName === cleanAuthorName ||
-                  cleanMtaName.includes(cleanAuthorName) ||
-                  cleanAuthorName.includes(cleanMtaName));
+              // Fetch specific Meet The Author profile by author name
+              const mtaProf = await MeetTheAuthorService.getProfileByAuthorName(a.name);
 
-              const authorImage =
-                isMtaAuthor && mtaProfile?.authorImage
-                  ? mtaProfile.authorImage
-                  : a.image;
-              const authorQuote =
-                isMtaAuthor && mtaProfile?.quote
-                  ? mtaProfile.quote
-                  : a.tagline || a.bio;
-              const authorSocials = isMtaAuthor && mtaProfile
-                ? {
-                    facebook: mtaProfile.facebook || a.facebook,
-                    twitter: mtaProfile.twitter || a.twitter,
-                    linkedin: mtaProfile.linkedin || a.linkedin,
-                    instagram: mtaProfile.instagram || a.instagram,
-                    pinterest: a.pinterest,
-                    youtube: a.youtube,
-                  }
-                : {
-                    facebook: a.facebook,
-                    twitter: a.twitter,
-                    instagram: a.instagram,
-                    pinterest: a.pinterest,
-                    linkedin: a.linkedin,
-                    youtube: a.youtube,
-                  };
+              const authorImage = mtaProf?.authorImage || a.image || "/images/author-01.jpg";
+              const authorQuote = mtaProf?.quote || a.tagline || a.bio || "";
+              const authorSocials = {
+                facebook: mtaProf?.facebook || a.facebook || "#facebook",
+                twitter: mtaProf?.twitter || a.twitter || "#twitter",
+                linkedin: mtaProf?.linkedin || a.linkedin || "#linkedin",
+                instagram: mtaProf?.instagram || a.instagram || "#instagram",
+                pinterest: a.pinterest,
+                youtube: a.youtube,
+              };
 
-              const books =
-                isMtaAuthor && mtaProfile?.books && mtaProfile.books.length > 0
-                  ? mtaProfile.books
-                  : await AuthorService.getShowcaseBooksForAuthor(a.name, a.id, prod.id);
+              // Filter out the current book itself from the assigned showcase books
+              const rawBooks = mtaProf?.books && mtaProf.books.length > 0
+                ? mtaProf.books
+                : await AuthorService.getShowcaseBooksForAuthor(a.name, a.id, prod.id);
+
+              const assignedBooks = (rawBooks || []).filter((b: any) => b.id !== prod.id);
 
               return {
                 ...a,
@@ -118,19 +92,12 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
                 quote: authorQuote,
                 tagline: authorQuote,
                 bio: authorQuote,
-                books,
+                books: assignedBooks,
                 ...authorSocials,
-                isCurated: Boolean(isMtaAuthor),
+                isCurated: Boolean(mtaProf && assignedBooks.length > 0),
               };
             })
           );
-
-          // Prioritize curated Meet The Author profile to index 0 so it displays first by default
-          authorsList.sort((x, y) => {
-            if (x.isCurated && !y.isCurated) return -1;
-            if (!x.isCurated && y.isCurated) return 1;
-            return 0;
-          });
         }
       } catch (err) {
         console.error("Failed to load multi-author profiles:", err);
@@ -146,17 +113,14 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         authorsList: authorsList.length > 0 ? authorsList : undefined,
         authorName:
           primaryAuthor?.name ||
-          mtaProfile?.authorName ||
           prod.authorName ||
           prod.author,
         authorImage:
           primaryAuthor?.image ||
-          mtaProfile?.authorImage ||
           prod.authorImage ||
           "/images/author-01.jpg",
         authorQuote:
           primaryAuthor?.quote ||
-          mtaProfile?.quote ||
           prod.authorQuote ||
           undefined,
         authorSocials: primaryAuthor
@@ -167,13 +131,6 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
               pinterest: primaryAuthor.pinterest,
               linkedin: primaryAuthor.linkedin,
               youtube: primaryAuthor.youtube,
-            }
-          : mtaProfile
-          ? {
-              facebook: mtaProfile.facebook,
-              twitter: mtaProfile.twitter,
-              linkedin: mtaProfile.linkedin,
-              instagram: mtaProfile.instagram,
             }
           : undefined,
         price: prod.price,
@@ -198,29 +155,7 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         authorBooks:
           primaryAuthor?.books && primaryAuthor.books.length > 0
             ? primaryAuthor.books
-            : mtaProfile?.books && mtaProfile.books.length > 0
-            ? mtaProfile.books.map((b: any) => ({
-                id: b.id,
-                title: b.title,
-                price: b.price,
-                oldPrice: b.oldPrice,
-                slug: b.slug,
-                image: b.image,
-                badge: b.badge,
-                author: b.author,
-              }))
-            : authorDb.length > 0
-            ? authorDb.map((p) => ({
-                id: p.id,
-                title: p.title,
-                price: p.price,
-                oldPrice: p.originalPrice || undefined,
-                slug: p.slug,
-                image: p.image,
-                badge: p.badge || undefined,
-                author: p.author,
-              }))
-            : undefined,
+            : [],
         relatedBooks:
           relatedDb.length > 0
             ? relatedDb.map((p) => ({

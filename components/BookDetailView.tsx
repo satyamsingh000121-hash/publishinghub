@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import {
   Star,
@@ -14,6 +14,7 @@ import {
   Instagram,
   Linkedin,
   Check, 
+  ChevronLeft,
   ChevronRight,
   Plus,
   Minus,
@@ -104,9 +105,9 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
       ? book.authorsList
       : [
           {
-            name: book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Santosh Kumar Mishra"),
-            image: book?.authorImage || "/images/Gemini_Generated_Image_f41einf41einf41e.png",
-            quote: book?.authorQuote || "My books are marked down because most of them are marked with a on the edge by publishers.",
+            name: book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Author"),
+            image: book?.authorImage || "/images/author-01.jpg",
+            quote: book?.authorQuote || "",
             facebook: book?.authorSocials?.facebook || "#facebook",
             twitter: book?.authorSocials?.twitter || "#twitter",
             instagram: book?.authorSocials?.instagram || "#instagram",
@@ -119,13 +120,13 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
   const activeAuthor = authorsList[selectedAuthorIdx] || authorsList[0];
   const currentAuthorName = activeAuthor.name;
-  const currentAuthorImage = activeAuthor.image || "/images/Gemini_Generated_Image_f41einf41einf41e.png";
+  const currentAuthorImage = activeAuthor.image || "/images/author-01.jpg";
   const currentAuthorQuote =
     activeAuthor.quote ||
     activeAuthor.tagline ||
     activeAuthor.bio ||
     book?.authorQuote ||
-    "My books are marked down because most of them are marked with a on the edge by publishers.";
+    "";
   const currentAuthorSocials = {
     facebook: activeAuthor.facebook || book?.authorSocials?.facebook || "#facebook",
     twitter: activeAuthor.twitter || book?.authorSocials?.twitter || "#twitter",
@@ -134,11 +135,16 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
     linkedin: activeAuthor.linkedin || book?.authorSocials?.linkedin || "#linkedin",
     youtube: activeAuthor.youtube || book?.authorSocials?.youtube || "#youtube",
   };
-  const authorBooksList =
-    activeAuthor.books && activeAuthor.books.length > 0
-      ? activeAuthor.books
-      : book?.authorBooks || [];
+  const authorBooksList = activeAuthor.books || [];
   const relatedBooksList = book?.relatedBooks || relatedBooks;
+
+  const authorBooksScrollRef = useRef<HTMLDivElement>(null);
+  const scrollAuthorBooks = (direction: "left" | "right") => {
+    if (authorBooksScrollRef.current) {
+      const scrollAmount = direction === "left" ? -240 : 240;
+      authorBooksScrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
@@ -511,26 +517,56 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 </div>
               </div>
 
-              {/* Right: Other Books by Author OR Notice Box */}
-              <div className="lg:col-span-8 flex flex-col justify-center min-h-[220px]">
+              {/* Right: Other Books by Author OR Notice Box (Single-Line Horizontal Row) */}
+              <div className="lg:col-span-8 flex flex-col justify-center min-h-[220px] relative w-full overflow-hidden">
                 {authorBooksList && authorBooksList.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    {authorBooksList.map((b) => {
-                      const targetSlug = b.slug || getBookSlug(b);
-                      return (
-                        <Link
-                          key={b.id}
-                          href={`/product/${targetSlug}`}
-                          className="flex flex-col items-center text-center group cursor-pointer"
+                  <div className="relative group/carousel w-full">
+                    {/* Single-line horizontal scrollable container - NEVER wraps to second line */}
+                    <div
+                      ref={authorBooksScrollRef}
+                      className="flex items-start gap-4 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1 flex-nowrap"
+                    >
+                      {authorBooksList.map((b) => {
+                        const targetSlug = b.slug || getBookSlug(b);
+                        return (
+                          <Link
+                            key={b.id}
+                            href={`/product/${targetSlug}`}
+                            className="flex-shrink-0 w-[140px] sm:w-[155px] md:w-[170px] flex flex-col items-center text-center group cursor-pointer transition-transform"
+                          >
+                            <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-sm group-hover:shadow-md transform group-hover:-translate-y-1 transition-all duration-300 border border-gray-200/80 dark:border-[#2c7650]/30 bg-white dark:bg-black/30">
+                              <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
+                            </div>
+                            <div className="mt-3 text-xs font-semibold text-[#b89245] dark:text-[#d4b56a]">{b.price}</div>
+                            <h4 className="font-display text-sm mt-1 dark:text-[#f2eee3] text-[#1c1917] group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors line-clamp-2">
+                              {b.title}
+                            </h4>
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    {/* Navigation Arrow Controls when books can scroll */}
+                    {authorBooksList.length > 3 && (
+                      <div className="flex items-center justify-end gap-2 mt-2 pr-1">
+                        <button
+                          type="button"
+                          onClick={() => scrollAuthorBooks("left")}
+                          aria-label="Previous book"
+                          className="w-7 h-7 rounded-full border border-gray-300 dark:border-[#2c7650]/60 hover:border-[#b89245] dark:hover:border-[#d4b56a] text-gray-600 dark:text-gray-300 hover:text-[#b89245] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors bg-white/80 dark:bg-black/40 shadow-xs cursor-pointer"
                         >
-                          <div className="relative w-full max-w-[180px] aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-sm group-hover:shadow-md transform group-hover:-translate-y-1 transition-all duration-300 border border-gray-200/80 dark:border-[#2c7650]/30">
-                            <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
-                          </div>
-                          <div className="mt-3 text-xs font-semibold text-[#b89245] dark:text-[#d4b56a]">{b.price}</div>
-                          <h4 className="font-display text-sm mt-1 dark:text-[#f2eee3] text-[#1c1917] group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">{b.title}</h4>
-                        </Link>
-                      );
-                    })}
+                          <ChevronLeft className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => scrollAuthorBooks("right")}
+                          aria-label="Next book"
+                          className="w-7 h-7 rounded-full border border-gray-300 dark:border-[#2c7650]/60 hover:border-[#b89245] dark:hover:border-[#d4b56a] text-gray-600 dark:text-gray-300 hover:text-[#b89245] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors bg-white/80 dark:bg-black/40 shadow-xs cursor-pointer"
+                        >
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   /* Clean Light Notice Box in Day mode, Emerald Green in Dark mode */
