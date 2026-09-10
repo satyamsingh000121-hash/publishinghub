@@ -255,7 +255,7 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
   }
 
   return null;
-}
+}  
 
 export async function generateMetadata(props: ProductPageProps): Promise<Metadata> {
   const slug = await resolveSlug(props.params);

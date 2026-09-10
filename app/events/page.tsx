@@ -186,7 +186,7 @@ export default function EventsPage() {
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <main className="min-h-screen bg-[#050807] text-[#f2eee3] flex flex-col font-sans selection:bg-[#b89245] selection:text-[#050807] transition-colors duration-300">
+    <main className="min-h-screen bg-white dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] flex flex-col font-sans selection:bg-[#9333ea] selection:text-white dark:selection:bg-[#b89245] dark:selection:text-[#050807] transition-colors duration-300">
       {/* Top Navbar (Kept unchanged) */}
       <Navbar
         cartCount={totalCartCount}
@@ -199,7 +199,7 @@ export default function EventsPage() {
       <EventsHeader title="Book Introduction" />
 
       {/* Main Events Section */}
-      <section className="py-10 sm:py-14 lg:py-16 bg-[#050807] flex-1">
+      <section className="py-10 sm:py-14 lg:py-16 bg-[#faf7fd]/60 dark:bg-[#050807] flex-1 transition-colors duration-300">
         <div className="container-custom space-y-10 sm:space-y-12">
           
           {/* 1. Filter Bar with Search, Dropdowns, and Calendar on Upcoming */}
@@ -233,12 +233,12 @@ export default function EventsPage() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-2">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <span className="w-6 h-[2px] bg-[#d4b56a]" />
-                <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-normal text-[#f2eee3] tracking-tight">
+                <span className="w-6 h-[2px] bg-[#9333ea] dark:bg-[#d4b56a]" />
+                <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-normal text-[#18181b] dark:text-[#f2eee3] tracking-tight">
                   Upcoming Events
                 </h2>
               </div>
-              <p className="text-xs sm:text-sm text-[#8e9c93]">
+              <p className="text-xs sm:text-sm text-[#71717a] dark:text-[#8e9c93]">
                 Don&apos;t miss out on our latest events and activities.
               </p>
             </div>
@@ -250,10 +250,10 @@ export default function EventsPage() {
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 aria-label="Previous events"
-                className={`w-9 h-9 rounded-full border border-[#1b3424] flex items-center justify-center transition-colors ${
+                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-colors ${
                   currentPage === 1
-                    ? "opacity-40 cursor-not-allowed text-[#8e9c93]"
-                    : "hover:border-[#d4b56a] text-[#8e9c93] hover:text-[#f2eee3] hover:bg-[#0c1810]"
+                    ? "opacity-40 cursor-not-allowed border-[#e9e1f5] dark:border-[#1b3424] text-[#a1a1aa] dark:text-[#8e9c93]"
+                    : "border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] hover:bg-[#f6f0fc] dark:hover:bg-[#0c1810] shadow-2xs cursor-pointer"
                 }`}
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -263,10 +263,10 @@ export default function EventsPage() {
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage >= totalPages}
                 aria-label="Next events"
-                className={`w-9 h-9 rounded-full border border-[#1b3424] flex items-center justify-center transition-colors ${
+                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-colors ${
                   currentPage >= totalPages
-                    ? "opacity-40 cursor-not-allowed text-[#8e9c93]"
-                    : "hover:border-[#d4b56a] text-[#8e9c93] hover:text-[#f2eee3] hover:bg-[#0c1810]"
+                    ? "opacity-40 cursor-not-allowed border-[#e9e1f5] dark:border-[#1b3424] text-[#a1a1aa] dark:text-[#8e9c93]"
+                    : "border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] hover:bg-[#f6f0fc] dark:hover:bg-[#0c1810] shadow-2xs cursor-pointer"
                 }`}
               >
                 <ChevronRight className="w-4 h-4" />
@@ -282,11 +282,11 @@ export default function EventsPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 bg-[#070e0a] border border-[#16291d] rounded-2xl space-y-3">
-              <p className="font-display text-2xl text-[#dedacf]">
+            <div className="text-center py-16 bg-white dark:bg-[#070e0a] border border-[#e9e1f5] dark:border-[#16291d] rounded-2xl space-y-3 shadow-xs">
+              <p className="font-display text-2xl text-[#18181b] dark:text-[#dedacf]">
                 No events found matching your criteria
               </p>
-              <p className="text-xs text-[#8e9c93]">
+              <p className="text-xs text-[#71717a] dark:text-[#8e9c93]">
                 Try adjusting your search query, calendar date or filters.
               </p>
               <button
@@ -298,7 +298,7 @@ export default function EventsPage() {
                   setSelectedDate(null);
                   setCurrentPage(1);
                 }}
-                className="mt-2 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#d4b56a] border border-[#d4b56a]/40 rounded-full hover:bg-[#122418] transition-colors"
+                className="mt-2 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#9333ea] dark:text-[#d4b56a] border border-[#9333ea]/40 dark:border-[#d4b56a]/40 rounded-full hover:bg-[#faf5ff] dark:hover:bg-[#122418] transition-colors cursor-pointer"
               >
                 Reset Filters
               </button>
@@ -312,10 +312,10 @@ export default function EventsPage() {
                 key={pageNum}
                 type="button"
                 onClick={() => setCurrentPage(pageNum)}
-                className={`w-9 h-9 rounded-full text-xs transition-all ${
+                className={`w-9 h-9 rounded-full text-xs transition-all cursor-pointer ${
                   currentPage === pageNum
-                    ? "bg-[#d4b56a] text-[#050807] font-bold shadow-lg shadow-[#d4b56a]/20 scale-105"
-                    : "border border-[#1b3424] text-[#8e9c93] hover:border-[#d4b56a] hover:text-[#f2eee3]"
+                    ? "bg-[#9333ea] text-white dark:bg-[#d4b56a] dark:text-[#050807] font-bold shadow-lg shadow-[#9333ea]/20 dark:shadow-[#d4b56a]/20 scale-105"
+                    : "border border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] shadow-2xs"
                 }`}
               >
                 {pageNum}
@@ -329,7 +329,7 @@ export default function EventsPage() {
                   setCurrentPage((p) => (p < totalPages ? p + 1 : 1))
                 }
                 aria-label="Next page"
-                className="w-9 h-9 rounded-full border border-[#1b3424] text-[#8e9c93] hover:border-[#d4b56a] hover:text-[#f2eee3] text-xs flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-full border border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] text-xs flex items-center justify-center transition-colors shadow-2xs cursor-pointer"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
