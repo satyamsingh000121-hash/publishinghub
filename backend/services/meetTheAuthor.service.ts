@@ -24,62 +24,11 @@ export class MeetTheAuthorService {
   }
 
   /**
-   * Auto-discover authors from existing Product database so they appear in Admin
+   * Auto-discover authors from existing Product database (Disabled to prevent resurrecting deleted authors)
    */
   private static async syncAuthorsFromProducts(): Promise<void> {
-    try {
-      // Find all distinct authors from Products
-      const products: any[] = await prisma.$queryRawUnsafe(
-        `SELECT DISTINCT author FROM Product WHERE author IS NOT NULL AND author != ''`
-      );
-
-      const allAuthorNames = new Set<string>();
-      for (const p of products) {
-        if (!p.author) continue;
-        const names = p.author
-          .replace(/^By\s+/i, "")
-          .split(/,\s*|\s+and\s+|\s*&\s*/i)
-          .map((s: string) => this.formatName(s))
-          .filter((s: string) => s.length > 0);
-        for (const n of names) {
-          allAuthorNames.add(n);
-        }
-      }
-
-      // Check existing MeetTheAuthorProfile names
-      const existingProfiles: any[] = await prisma.$queryRawUnsafe(
-        `SELECT id, authorName FROM MeetTheAuthorProfile`
-      );
-      const existingNameMap = new Map<string, string>();
-      for (const ep of existingProfiles) {
-        if (ep.authorName) {
-          existingNameMap.set(ep.authorName.toLowerCase().trim(), ep.id);
-        }
-      }
-
-      // Insert missing author profiles with sensible defaults
-      for (const name of Array.from(allAuthorNames)) {
-        const lowerName = name.toLowerCase().trim();
-        if (!existingNameMap.has(lowerName)) {
-          const newId = `mta_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-          const defaultImage = "/images/author-01.jpg";
-          const defaultQuote = "Acclaimed author of visionary literature and transformative storytelling.";
-
-          await prisma.$executeRawUnsafe(
-            `INSERT INTO MeetTheAuthorProfile (id, authorName, authorImage, quote, facebook, twitter, linkedin, instagram, updatedAt)
-             VALUES (?, ?, ?, ?, '#facebook', '#twitter', '#linkedin', '#instagram', CURRENT_TIMESTAMP)`,
-            newId,
-            name,
-            defaultImage,
-            defaultQuote
-          );
-
-          existingNameMap.set(lowerName, newId);
-        }
-      }
-    } catch (err) {
-      console.error("Error auto-discovering authors from Products:", err);
-    }
+    // Disabled: authors are managed independently in Meet The Author section
+    return;
   }
 
   /**
@@ -87,7 +36,6 @@ export class MeetTheAuthorService {
    */
   static async getAllProfiles(): Promise<MeetTheAuthorProfileData[]> {
     await ensureSchemaUpdated();
-    await this.syncAuthorsFromProducts();
 
     try {
       const profiles: any[] = await prisma.$queryRawUnsafe(
@@ -304,6 +252,26 @@ export class MeetTheAuthorService {
     const linkedin = payload.linkedin?.trim() || "#linkedin";
     const instagram = payload.instagram?.trim() || "#instagram";
 
+    // Check if profile with same author name already exists
+    const existing: any[] = await prisma.$queryRawUnsafe(
+      `SELECT id FROM MeetTheAuthorProfile WHERE LOWER(TRIM(authorName)) = LOWER(?) LIMIT 1`,
+      authorName.trim()
+    );
+
+    if (existing && existing.length > 0) {
+      return this.updateProfile({
+        id: existing[0].id,
+        authorName,
+        authorImage,
+        quote,
+        facebook,
+        twitter,
+        linkedin,
+        instagram,
+        bookIds: payload.bookIds,
+      });
+    }
+
     const id = `mta_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
 
     // 1. Insert into MeetTheAuthorProfile
@@ -489,13 +457,14 @@ export class MeetTheAuthorService {
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, "-")
           .replace(/(^-|-$)+/g, "") || `author-${Date.now()}`;
+        const uniqueSlug = `${baseSlug}-${Date.now().toString().slice(-4)}`;
 
         await prisma.$executeRawUnsafe(
           `INSERT INTO Author (id, name, slug, image, bio, tagline, facebook, twitter, linkedin, instagram, updatedAt)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
           authorId,
           authorName,
-          baseSlug,
+          uniqueSlug,
           authorImage,
           quote,
           quote,

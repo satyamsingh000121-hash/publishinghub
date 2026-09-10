@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { MeetTheAuthorService } from "@/backend/services/meetTheAuthor.service";
 import { requireRole } from "@/backend/middleware/auth.middleware";
+import { prisma } from "@/lib/prisma";
 import {
   successResponse,
   forbiddenResponse,

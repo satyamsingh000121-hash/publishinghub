@@ -67,6 +67,7 @@ export default function MeetTheAuthorManager() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [authorToDelete, setAuthorToDelete] = useState<MeetTheAuthorProfileData | null>(null);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -166,6 +167,11 @@ export default function MeetTheAuthorManager() {
     setImageUrlInput(DEFAULT_AVATAR);
     setErrorMsg("");
     setSuccessMsg("");
+
+    // Smooth scroll down to the profile form
+    setTimeout(() => {
+      document.getElementById("author-profile-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
   };
 
   // 4. Handle Image Upload
@@ -280,11 +286,12 @@ export default function MeetTheAuthorManager() {
     );
   }, [availableProducts, profile.books, searchQuery]);
 
-  // 6. Save Author & Books
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // 6. Save Author & Books (Supports both adding new authors and updating existing ones)
+  const handleSave = async (e?: React.FormEvent | React.MouseEvent) => {
+    if (e) e.preventDefault();
     if (!profile.authorName || !profile.authorName.trim()) {
       setErrorMsg("Author Name is required.");
+      document.getElementById("author-profile-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 
@@ -297,7 +304,7 @@ export default function MeetTheAuthorManager() {
       const method = isNew ? "POST" : "PUT";
 
       const payload = {
-        id: profile.id || undefined,
+        id: isNew ? undefined : profile.id,
         authorName: profile.authorName.trim(),
         authorImage: profile.authorImage || DEFAULT_AVATAR,
         quote: profile.quote || "",
@@ -320,8 +327,34 @@ export default function MeetTheAuthorManager() {
         setSuccessMsg(`Author "${savedData.authorName}" and assigned books saved successfully!`);
         setTimeout(() => setSuccessMsg(""), 5000);
 
-        // Reload all data to refresh author list
-        await loadData(savedData.id);
+        // Update local active state immediately without full-page spinner
+        setSelectedAuthorId(savedData.id);
+        setProfile({
+          ...savedData,
+          books: savedData.books || [],
+        });
+        setImageUrlInput(savedData.authorImage || "");
+
+        // Update authorsList immediately
+        setAuthorsList((prev) => {
+          const index = prev.findIndex((a) => a.id === savedData.id);
+          if (index >= 0) {
+            const updated = [...prev];
+            updated[index] = savedData;
+            return updated;
+          } else {
+            return [...prev, savedData].sort((a, b) => a.authorName.localeCompare(b.authorName));
+          }
+        });
+
+        // Silently refresh list from server in background
+        try {
+          const refRes = await fetch("/api/meet-the-author?t=" + Date.now(), { cache: "no-store" });
+          const refJson = await refRes.json();
+          if (refRes.ok && refJson?.data?.authors) {
+            setAuthorsList(refJson.data.authors);
+          }
+        } catch {}
       } else {
         setErrorMsg(json.message || "Failed to save author profile.");
       }
@@ -333,9 +366,10 @@ export default function MeetTheAuthorManager() {
     }
   };
 
-  // 7. Delete Author Profile
+  // 7. Delete Author Profile (Permanently removes profile & relationship, NEVER touches books)
   const handleDeleteAuthor = async () => {
-    if (!profile.id || selectedAuthorId === "new") {
+    const target = authorToDelete || (profile.id && selectedAuthorId !== "new" ? profile : null);
+    if (!target || !target.id) {
       setShowDeleteModal(false);
       return;
     }
@@ -345,16 +379,30 @@ export default function MeetTheAuthorManager() {
     setSuccessMsg("");
 
     try {
-      const res = await fetch(`/api/meet-the-author?id=${encodeURIComponent(profile.id)}`, {
+      const res = await fetch(`/api/meet-the-author?id=${encodeURIComponent(target.id)}`, {
         method: "DELETE",
       });
 
       const json = await res.json();
       if (res.ok && json.success) {
-        setSuccessMsg(`Author profile "${profile.authorName}" deleted. (Books in database remain untouched).`);
+        const deletedName = target.authorName;
+        setSuccessMsg(`Author profile "${deletedName}" deleted permanently.`);
         setShowDeleteModal(false);
+        setAuthorToDelete(null);
         setTimeout(() => setSuccessMsg(""), 5000);
-        await loadData();
+
+        // Remove immediately from authorsList
+        const remaining = authorsList.filter((a) => a.id !== target.id);
+        setAuthorsList(remaining);
+
+        // If the currently selected author was deleted, select next available or start new
+        if (selectedAuthorId === target.id) {
+          if (remaining.length > 0) {
+            handleSelectAuthor(remaining[0]);
+          } else {
+            handleAddNewAuthor();
+          }
+        }
       } else {
         setErrorMsg(json.message || "Failed to delete author profile.");
         setShowDeleteModal(false);
@@ -515,7 +563,7 @@ export default function MeetTheAuthorManager() {
                     title="Delete Author Profile"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleSelectAuthor(auth);
+                      setAuthorToDelete(auth);
                       setShowDeleteModal(true);
                     }}
                     className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
@@ -548,7 +596,7 @@ export default function MeetTheAuthorManager() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Author Profile Form (7 cols) */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="admin-card rounded-2xl p-5 sm:p-6 space-y-5 border border-purple-500/20 shadow-sm">
+          <div id="author-profile-form" className="admin-card rounded-2xl p-5 sm:p-6 space-y-5 border border-purple-500/20 shadow-sm scroll-mt-24">
             <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
               <h2 className="text-sm sm:text-base font-semibold admin-text-primary flex items-center gap-2">
                 <User className="w-4 h-4 text-[#8B5CF6]" />
@@ -562,7 +610,10 @@ export default function MeetTheAuthorManager() {
               {!isNewAuthor && (
                 <button
                   type="button"
-                  onClick={() => setShowDeleteModal(true)}
+                  onClick={() => {
+                    setAuthorToDelete(profile);
+                    setShowDeleteModal(true);
+                  }}
                   className="text-xs text-red-500 hover:underline inline-flex items-center gap-1 cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" /> Delete Profile
@@ -1020,7 +1071,7 @@ export default function MeetTheAuthorManager() {
 
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
               Are you sure you want to delete the author profile for{" "}
-              <strong>&ldquo;{profile.authorName}&rdquo;</strong>?
+              <strong>&ldquo;{authorToDelete?.authorName || profile.authorName}&rdquo;</strong>?
             </p>
 
             <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-xs">
@@ -1032,7 +1083,10 @@ export default function MeetTheAuthorManager() {
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
-                onClick={() => setShowDeleteModal(false)}
+                onClick={() => {
+                  setAuthorToDelete(null);
+                  setShowDeleteModal(false);
+                }}
                 disabled={deleting}
                 className="px-4 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white border border-gray-200 dark:border-gray-700 rounded-xl transition-colors cursor-pointer"
               >

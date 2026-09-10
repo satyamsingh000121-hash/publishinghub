@@ -71,9 +71,6 @@ export async function ensureSchemaUpdated(): Promise<void> {
       "order" INTEGER NOT NULL DEFAULT 0,
       createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`,
-    `CREATE UNIQUE INDEX IF NOT EXISTS meet_author_book_unique ON MeetTheAuthorBook(profileId, productId)`,
-    `INSERT OR IGNORE INTO MeetTheAuthorProfile (id, authorName, authorImage, quote, facebook, twitter, linkedin, instagram)
-     VALUES ('default', 'Santosh Kumar Mishra', '/images/Gemini_Generated_Image_f41einf41einf41e.png', 'Empowering readers through transformative stories and visionary leadership.', '#facebook', '#twitter', '#linkedin', '#instagram')`,
   ];
 
   for (const query of tablesToCreate) {
@@ -82,6 +79,67 @@ export async function ensureSchemaUpdated(): Promise<void> {
     } catch {
       // Table or index already exists, ignore
     }
+  }
+
+  // One-time cleanup for duplicate authors and extra empty profiles
+  try {
+    // 1. Merge duplicate "Hof Nurgin" profiles
+    const hofProfiles: any[] = await prisma.$queryRawUnsafe(
+      `SELECT id, authorImage FROM MeetTheAuthorProfile WHERE LOWER(authorName) = 'hof nurgin' ORDER BY createdAt ASC`
+    );
+    if (hofProfiles && hofProfiles.length > 1) {
+      const primaryId = hofProfiles[0].id;
+      // Use the best image
+      const bestImage = hofProfiles.find((h) => h.authorImage && h.authorImage.startsWith("/uploads/"))?.authorImage || hofProfiles[0].authorImage;
+      await prisma.$executeRawUnsafe(
+        `UPDATE MeetTheAuthorProfile SET authorImage = ? WHERE id = ?`,
+        bestImage,
+        primaryId
+      );
+
+      for (let i = 1; i < hofProfiles.length; i++) {
+        const dupId = hofProfiles[i].id;
+        const dupBooks: any[] = await prisma.$queryRawUnsafe(
+          `SELECT productId, "order" FROM MeetTheAuthorBook WHERE profileId = ?`,
+          dupId
+        );
+        for (const db of dupBooks) {
+          const exists: any[] = await prisma.$queryRawUnsafe(
+            `SELECT id FROM MeetTheAuthorBook WHERE profileId = ? AND productId = ? LIMIT 1`,
+            primaryId,
+            db.productId
+          );
+          if (!exists || exists.length === 0) {
+            const rowId = `mta_b_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+            await prisma.$executeRawUnsafe(
+              `INSERT INTO MeetTheAuthorBook (id, profileId, productId, "order") VALUES (?, ?, ?, ?)`,
+              rowId,
+              primaryId,
+              db.productId,
+              db.order || 99
+            );
+          }
+        }
+        await prisma.$executeRawUnsafe(`DELETE FROM MeetTheAuthorBook WHERE profileId = ?`, dupId);
+        await prisma.$executeRawUnsafe(`DELETE FROM MeetTheAuthorProfile WHERE id = ?`, dupId);
+      }
+    }
+
+    // 2. Remove specified extra 0-book profiles
+    const extrasToRemove = [
+      "mta_1789019925381_6p03", // Koga Forescar
+      "mta_1789019925308_t2w3", // Marcus Hathaway
+      "mta_1789019925375_r2fd", // Santosh Kumar
+      "mta_1789021019485_ct49", // Santosh Kumar Mishra
+      "mta_1789019925389_c7aa", // Sophie Collins
+      "mta_1789020341676_izdp", // Stephanie Foo
+    ];
+    for (const eid of extrasToRemove) {
+      await prisma.$executeRawUnsafe(`DELETE FROM MeetTheAuthorBook WHERE profileId = ?`, eid);
+      await prisma.$executeRawUnsafe(`DELETE FROM MeetTheAuthorProfile WHERE id = ?`, eid);
+    }
+  } catch (err) {
+    console.error("Error during Meet The Author schema cleanup:", err);
   }
 }
 
