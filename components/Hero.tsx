@@ -27,7 +27,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[680px] lg:min-h-[740px] flex items-center overflow-hidden border-b border-[#f2eee3]/10 bg-gradient-to-r from-[#050807] via-[#07100c] to-[#0b1711]">
+    <section className="relative min-h-[720px] lg:min-h-[800px] flex items-center overflow-hidden border-b border-[#f2eee3]/10 bg-gradient-to-r from-[#050807] via-[#07100c] to-[#0b1711]">
       
       {/* Deep atmospheric ambient lighting (Dark Mode Only) */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_80%_45%,rgba(25,75,51,0.32),transparent_55%)] dark:block hidden" />
@@ -252,11 +252,12 @@ export default function Hero() {
         </div>
 
         {/* ========================================================= */}
+        {/* ========================================================= */}
         {/* RIGHT 3D VISUAL AREA: Buttery Smooth Crossfade Stack */}
         {/* ========================================================= */}
-        <div className="w-full lg:w-[52%] relative flex items-center justify-center min-h-[320px] sm:min-h-[420px] lg:min-h-[490px]">
+        <div className="w-full lg:w-[54%] relative flex items-center justify-center min-h-[360px] sm:min-h-[480px] lg:min-h-[580px]">
           
-          <div className="relative w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[600px] h-[300px] sm:h-[420px] lg:h-[480px] flex items-center justify-center">
+          <div className="relative w-full max-w-[540px] sm:max-w-[660px] lg:max-w-[740px] h-[350px] sm:h-[480px] lg:h-[580px] flex items-center justify-center">
             
             {/* Ambient Lighting (Dark Mode Only) */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,181,106,0.18),rgba(20,70,45,0.22)_45%,transparent_70%)] pointer-events-none blur-3xl dark:block hidden" />
@@ -309,10 +310,11 @@ export default function Hero() {
                   alt="Visions to Victory - Green Edition"
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
                 />
+                {/* Only this image stays enlarged */}
                 <img
                   src="/images/hero44.png"
                   alt="Visions to Victory - Light Edition"
-                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
+                  className="w-full h-full max-h-[360px] sm:max-h-[500px] lg:max-h-[600px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-115 sm:scale-125 lg:scale-135 hover:scale-[1.38] transition-transform duration-700 dark:hidden block"
                 />
               </div>
             </div>
