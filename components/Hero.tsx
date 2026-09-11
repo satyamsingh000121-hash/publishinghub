@@ -4,10 +4,28 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 import SmokyText from "./SmokyText";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 3;
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // In Light mode: swap slide 1 & 2 (30% purchase slide is first, and 20% meet your next is second)
+  // In Night/Dark mode: keep original sequence untouched
+  const isLight = mounted && theme === "light";
+  const activeSlideIndex = isLight
+    ? currentSlide === 0
+      ? 1
+      : currentSlide === 1
+      ? 0
+      : 2
+    : currentSlide;
 
   // 8-second calm pacing with ultra-smooth 1400ms liquid crossfade
   useEffect(() => {
@@ -53,7 +71,7 @@ export default function Hero() {
                 willChange: "opacity, transform, filter",
               }}
               className={`absolute inset-0 space-y-4 sm:space-y-6 ${
-                currentSlide === 0
+                activeSlideIndex === 0
                   ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
                   : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
               }`}
@@ -64,23 +82,23 @@ export default function Hero() {
 
               <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.98] sm:leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
                 <SmokyText
-                  key={`hero-slide0-l1-${currentSlide}`}
+                  key={`hero-slide0-l1-${activeSlideIndex}`}
                   text="Meet Your Next"
                   color="var(--cream)"
                   intensity={8}
                   position="bottomLeft"
-                  appearTrigger={currentSlide === 0 ? "default" : "hidden"}
+                  appearTrigger={activeSlideIndex === 0 ? "default" : "hidden"}
                   appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
                 />
                 <div className="mt-0.5 sm:mt-1 text-[#d4b56a]">
                   <SmokyText
-                    key={`hero-slide0-l2-${currentSlide}`}
+                    key={`hero-slide0-l2-${activeSlideIndex}`}
                     text="Favorite Book."
                     color="var(--gold)"
                     font={{ fontStyle: "italic" }}
                     intensity={9}
                     position="bottomLeft"
-                    appearTrigger={currentSlide === 0 ? "default" : "hidden"}
+                    appearTrigger={activeSlideIndex === 0 ? "default" : "hidden"}
                     appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
                   />
                 </div>
@@ -115,7 +133,7 @@ export default function Hero() {
                 willChange: "opacity, transform, filter",
               }}
               className={`absolute inset-0 space-y-4 sm:space-y-6 ${
-                currentSlide === 1
+                activeSlideIndex === 1
                   ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
                   : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
               }`}
@@ -126,23 +144,23 @@ export default function Hero() {
 
               <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.98] sm:leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
                 <SmokyText
-                  key={`hero-slide1-l1-${currentSlide}`}
+                  key={`hero-slide1-l1-${activeSlideIndex}`}
                   text="Get -30% Purchase"
                   color="var(--cream)"
                   intensity={8}
                   position="bottomLeft"
-                  appearTrigger={currentSlide === 1 ? "default" : "hidden"}
+                  appearTrigger={activeSlideIndex === 1 ? "default" : "hidden"}
                   appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
                 />
                 <div className="mt-0.5 sm:mt-1 text-[#d4b56a]">
                   <SmokyText
-                    key={`hero-slide1-l2-${currentSlide}`}
+                    key={`hero-slide1-l2-${activeSlideIndex}`}
                     text="on Order over £99.00"
                     color="var(--gold)"
                     font={{ fontStyle: "italic" }}
                     intensity={9}
                     position="bottomLeft"
-                    appearTrigger={currentSlide === 1 ? "default" : "hidden"}
+                    appearTrigger={activeSlideIndex === 1 ? "default" : "hidden"}
                     appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
                   />
                 </div>
@@ -177,7 +195,7 @@ export default function Hero() {
                 willChange: "opacity, transform, filter",
               }}
               className={`absolute inset-0 space-y-4 sm:space-y-6 ${
-                currentSlide === 2
+                activeSlideIndex === 2
                   ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
                   : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
               }`}
@@ -188,23 +206,23 @@ export default function Hero() {
 
               <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.98] sm:leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
                 <SmokyText
-                  key={`hero-slide2-l1-${currentSlide}`}
+                  key={`hero-slide2-l1-${activeSlideIndex}`}
                   text="Best of the"
                   color="var(--cream)"
                   intensity={8}
                   position="bottomLeft"
-                  appearTrigger={currentSlide === 2 ? "default" : "hidden"}
+                  appearTrigger={activeSlideIndex === 2 ? "default" : "hidden"}
                   appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
                 />
                 <div className="mt-0.5 sm:mt-1 text-[#d4b56a]">
                   <SmokyText
-                    key={`hero-slide2-l2-${currentSlide}`}
+                    key={`hero-slide2-l2-${activeSlideIndex}`}
                     text="Publishing World"
                     color="var(--gold)"
                     font={{ fontStyle: "italic" }}
                     intensity={9}
                     position="bottomLeft"
-                    appearTrigger={currentSlide === 2 ? "default" : "hidden"}
+                    appearTrigger={activeSlideIndex === 2 ? "default" : "hidden"}
                     appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
                   />
                 </div>
@@ -273,7 +291,7 @@ export default function Hero() {
                 willChange: "opacity, transform, filter",
               }}
               className={`absolute inset-0 flex items-center justify-center ${
-                currentSlide === 0
+                activeSlideIndex === 0
                   ? "opacity-100 scale-100 filter-none pointer-events-auto z-10"
                   : "opacity-0 scale-98 blur-[2px] pointer-events-none z-0"
               }`}
@@ -299,7 +317,7 @@ export default function Hero() {
                 willChange: "opacity, transform, filter",
               }}
               className={`absolute inset-0 flex items-center justify-center ${
-                currentSlide === 1
+                activeSlideIndex === 1
                   ? "opacity-100 scale-100 filter-none pointer-events-auto z-10"
                   : "opacity-0 scale-98 blur-[2px] pointer-events-none z-0"
               }`}
@@ -326,7 +344,7 @@ export default function Hero() {
                 willChange: "opacity, transform, filter",
               }}
               className={`absolute inset-0 flex items-center justify-center ${
-                currentSlide === 2
+                activeSlideIndex === 2
                   ? "opacity-100 scale-100 filter-none pointer-events-auto z-10"
                   : "opacity-0 scale-98 blur-[2px] pointer-events-none z-0"
               }`}
