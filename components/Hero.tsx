@@ -297,9 +297,10 @@ export default function Hero() {
               }`}
             >
               <div className="relative w-full h-full flex items-center justify-center overflow-visible">
+                {/* DARK THEME FIRST: New ChatGPT image specified by user */}
                 <img
-                  src="/images/hero_section2.png"
-                  alt="Visions to Victory - Hero Books"
+                  src="/images/ChatGPT Image Sep 11, 2026, 12_35_20 PM.png"
+                  alt="Visions to Victory - Special Edition Dark"
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
                 />
                 <img
@@ -323,9 +324,10 @@ export default function Hero() {
               }`}
             >
               <div className="relative w-full h-full flex items-center justify-center overflow-visible">
+                {/* DARK THEME SECOND: Moved from first slide */}
                 <img
-                  src="/images/hero4.png"
-                  alt="Visions to Victory - Green Edition"
+                  src="/images/hero_section2.png"
+                  alt="Visions to Victory - Hero Books Dark"
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
                 />
                 {/* Only this image stays enlarged */}
@@ -351,9 +353,14 @@ export default function Hero() {
             >
               <div className="relative w-full h-full flex items-center justify-center overflow-visible">
                 <img
+                  src="/images/hero4.png"
+                  alt="Visions to Victory - Green Edition"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
+                />
+                <img
                   src="/images/hero5.png"
                   alt="Visions to Victory - Collector's Edition"
-                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
                 />
               </div>
             </div>
