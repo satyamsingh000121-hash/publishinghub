@@ -59,7 +59,7 @@ function rawDelay(
     mode: AnimationMode,
     vli: VLI | null
 ): number {
-    const S = 0.08
+    const S = 0.035 // Liquid smooth stagger
     if (mode === "inPlace") return 0
     if (mode === "multiLine" && vli) {
         const p = vli.charVLPos.get(c.globalIdx) ?? 0
@@ -73,8 +73,7 @@ function rawAppearDelay(
     total: number,
     pos: Position,
     mode: AnimationMode,
-    vli: VLI | null,
-    maxRaw: number
+    vli: VLI | null
 ): number {
     return rawDelay(c, total, pos, mode, vli)
 }
@@ -84,20 +83,14 @@ function scaledTiming(
     maxRaw: number,
     duration: number
 ): { delay: number; charDur: number } {
-    if (maxRaw <= 0) return { delay: 0, charDur: duration }
+    if (maxRaw <= 0) return { delay: 0, charDur: Math.max(0.65, duration) }
     return {
-        charDur: duration * 0.55,
-        delay: (rawD * (duration * 0.45)) / maxRaw,
+        charDur: Math.max(0.65, duration * 0.72),
+        delay: (rawD * (duration * 0.28)) / maxRaw,
     }
 }
 
-function getAppear(
-    c: CharEntry,
-    total: number,
-    pos: Position,
-    mode: AnimationMode,
-    vli: VLI | null
-): string {
+function getAppear(c: CharEntry, pos: Position, mode: AnimationMode): string {
     const e = c.globalIdx % 2 === 0
     if (mode === "inPlace") return e ? "smt-ap-c-a" : "smt-ap-c-b"
     if (pos === "topLeft") return e ? "smt-ap-tl-a" : "smt-ap-tl-b"
@@ -107,59 +100,143 @@ function getAppear(
 function parseT(t: any, def: { duration: number; delay: number }) {
     const EASES: Record<string, string> = {
         linear: "linear",
-        easeIn: "cubic-bezier(0.42,0,1,1)",
-        easeOut: "cubic-bezier(0,0,0.58,1)",
-        easeInOut: "cubic-bezier(0.42,0,0.58,1)",
+        easeIn: "cubic-bezier(0.42, 0, 1, 1)",
+        easeOut: "cubic-bezier(0.16, 1, 0.3, 1)", // Silky smooth Apple-grade deceleration
+        easeInOut: "cubic-bezier(0.42, 0, 0.58, 1)",
     }
     if (!t)
         return {
             duration: def.duration,
             delay: def.delay,
-            timing: "cubic-bezier(0,0,0.58,1)",
+            timing: "cubic-bezier(0.16, 1, 0.3, 1)",
         }
     if (t.type === "spring")
         return {
-            duration: 1.4,
+            duration: 1.2,
             delay: t.delay ?? def.delay,
-            timing: "cubic-bezier(0.175,0.885,0.32,1.275)",
+            timing: "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
         }
     return {
         duration: typeof t.duration === "number" ? t.duration : def.duration,
         delay: typeof t.delay === "number" ? t.delay : def.delay,
         timing: Array.isArray(t.ease)
             ? `cubic-bezier(${(t.ease as number[]).map((v) => +v.toFixed(4)).join(",")})`
-            : (EASES[String(t.ease)] ?? "cubic-bezier(0,0,0.58,1)"),
+            : (EASES[String(t.ease)] ?? "cubic-bezier(0.16, 1, 0.3, 1)"),
     }
 }
 
-function buildKF(color: string, intensity: number) {
-    const n = (Math.max(1, Math.min(20, intensity)) - 1) / 19
-    const r = (v: number) => +v.toFixed(2)
+// Global stylesheet injection - injected ONCE to avoid recalculating style tree on every slide change
+const GLOBAL_STYLE_ID = "smoky-text-engine-keyframes"
+function ensureGlobalKeyframes() {
+    if (typeof document === "undefined") return
+    if (document.getElementById(GLOBAL_STYLE_ID)) return
 
-    const peakB = Math.round(6 + n * 180)
-    const initB = Math.round(2 + n * 60)
+    const style = document.createElement("style")
+    style.id = GLOBAL_STYLE_ID
+    style.textContent = `
+@keyframes smt-ap-c-a {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(0, 16px, 0) scale(0.95);
+  }
+  50% {
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
 
-    const layers = 1 + Math.round(n * 3)
-    const stack = (blur: number) =>
-        Array.from(
-            { length: layers },
-            (_, i) => `0 0 ${Math.round((blur * (i + 1)) / layers)}px ${color}`
-        ).join(",")
-    const peak = stack(peakB)
-    const init = stack(initB)
+@keyframes smt-ap-c-b {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(0, 20px, 0) scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
 
-    const d = 0.6 + n * 0.7
-    const ic = r(1.25 + n * 0.45)
-    const ic2 = r(1.12 + n * 0.3)
+@keyframes smt-ap-bl-a {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(-18px, 14px, 0) rotate(1.8deg) scale(0.94);
+  }
+  50% {
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
 
-    return `
-@keyframes smt-ap-c-a{from{opacity:0;text-shadow:${init};transform:scale(${ic})}40%{text-shadow:${peak}}to{opacity:1;text-shadow:0 0 0 ${color};transform:none}}
-@keyframes smt-ap-c-b{from{opacity:0;text-shadow:${init};transform:scale(${ic2})}40%{text-shadow:${peak}}to{opacity:1;text-shadow:0 0 0 ${color};transform:none}}
-@keyframes smt-ap-bl-a{from{opacity:0;text-shadow:${init};transform:translate3d(${r(-12 * d)}rem,${r(6 * d)}rem,0) rotate(35deg) skewX(-55deg) scale(0.75)}40%{text-shadow:${peak}}to{opacity:1;text-shadow:0 0 0 ${color};transform:none}}
-@keyframes smt-ap-bl-b{from{opacity:0;text-shadow:${init};transform:translate3d(${r(-15 * d)}rem,${r(6 * d)}rem,0) rotate(35deg) skewX(55deg) scale(0.6)}40%{text-shadow:${peak}}to{opacity:1;text-shadow:0 0 0 ${color};transform:none}}
-@keyframes smt-ap-tl-a{from{opacity:0;text-shadow:${init};transform:translate3d(${r(-12 * d)}rem,${r(-6 * d)}rem,0) rotate(-35deg) skewX(55deg) scale(0.75)}40%{text-shadow:${peak}}to{opacity:1;text-shadow:0 0 0 ${color};transform:none}}
-@keyframes smt-ap-tl-b{from{opacity:0;text-shadow:${init};transform:translate3d(${r(-15 * d)}rem,${r(-6 * d)}rem,0) rotate(-35deg) skewX(-55deg) scale(0.6)}40%{text-shadow:${peak}}to{opacity:1;text-shadow:0 0 0 ${color};transform:none}}
+@keyframes smt-ap-bl-b {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(-14px, 16px, 0) rotate(-1.8deg) scale(0.95);
+  }
+  50% {
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes smt-ap-tl-a {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(-18px, -14px, 0) rotate(-1.8deg) scale(0.94);
+  }
+  50% {
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes smt-ap-tl-b {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(-14px, -16px, 0) rotate(1.8deg) scale(0.95);
+  }
+  50% {
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
 `
+    document.head.appendChild(style)
 }
 
 export interface SmokyTextProps {
@@ -187,33 +264,24 @@ export interface SmokyTextProps {
 export default function SmokyText({
     text = "",
     font = {},
-    color = "#f2eee3",
+    color = "currentColor",
     appearTrigger = "default",
     scrollConfig = { position: "bottom", distance: 20 },
-    appearTransition = { type: "tween", ease: "easeOut", duration: 1.6, delay: 0.05 },
+    appearTransition = { type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 },
     intensity = 9,
     position = "bottomLeft",
     animationMode = "singleLine",
     className = "",
     as: Component = "div",
 }: SmokyTextProps) {
-    const kfEl = useRef<HTMLStyleElement | null>(null)
+    // Ensure keyframes exist once globally
     useEffect(() => {
-        kfEl.current = document.createElement("style")
-        document.head.appendChild(kfEl.current)
-        return () => {
-            kfEl.current?.remove()
-            kfEl.current = null
-        }
+        ensureGlobalKeyframes()
     }, [])
-
-    useEffect(() => {
-        if (kfEl.current) kfEl.current.textContent = buildKF(color, intensity)
-    }, [color, intensity])
 
     const { groups, totalVisible } = useMemo(() => buildGroups(text), [text])
     const appearT = useMemo(
-        () => parseT(appearTransition, { duration: 1.6, delay: 0.05 }),
+        () => parseT(appearTransition, { duration: 1.5, delay: 0.05 }),
         [JSON.stringify(appearTransition)]
     )
 
@@ -293,9 +361,9 @@ export default function SmokyText({
         later(
             () => {
                 setPhase("appearing")
-                later(() => setPhase("visible"), ap.duration * 1000 + 200)
+                later(() => setPhase("visible"), ap.duration * 1000 + 100)
             },
-            Math.max(ap.delay * 1000, 60)
+            Math.max(ap.delay * 1000, 30)
         )
     }, [])
 
@@ -367,9 +435,8 @@ export default function SmokyText({
                 }
             }}
             style={{
-                color: "transparent",
+                color: color,
                 backfaceVisibility: "hidden",
-                userSelect: "none",
                 wordBreak: "keep-all",
                 overflowWrap: "normal",
                 ...font,
@@ -404,14 +471,22 @@ export default function SmokyText({
                         {group.chars.map((c) => {
                             const base: React.CSSProperties = {
                                 display: "inline-block",
-                                textShadow: `0 0 0 ${color}`,
+                                color: color,
+                                willChange: "transform, opacity, filter",
+                                transformOrigin: "center bottom",
+                                backfaceVisibility: "hidden",
+                                WebkitFontSmoothing: "antialiased",
                             }
 
                             if (phase === "hidden")
                                 return (
                                     <span
                                         key={c.globalIdx}
-                                        style={{ ...base, opacity: 0 }}
+                                        style={{
+                                            ...base,
+                                            opacity: 0,
+                                            transform: "translate3d(0, 14px, 0)",
+                                        }}
                                     >
                                         {c.char}
                                     </span>
@@ -421,7 +496,11 @@ export default function SmokyText({
                                 return (
                                     <span
                                         key={c.globalIdx}
-                                        style={{ ...base, opacity: 1 }}
+                                        style={{
+                                            ...base,
+                                            opacity: 1,
+                                            transform: "translate3d(0, 0, 0)",
+                                        }}
                                     >
                                         {c.char}
                                     </span>
@@ -433,21 +512,14 @@ export default function SmokyText({
                                     totalVisible,
                                     position,
                                     animationMode,
-                                    vli,
-                                    maxRaw
+                                    vli
                                 )
                                 const { delay, charDur } = scaledTiming(
                                     rd,
                                     maxRaw,
                                     appearT.duration
                                 )
-                                const anim = getAppear(
-                                    c,
-                                    totalVisible,
-                                    position,
-                                    animationMode,
-                                    vli
-                                )
+                                const anim = getAppear(c, position, animationMode)
                                 return (
                                     <span
                                         key={c.globalIdx}
