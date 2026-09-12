@@ -13,7 +13,7 @@ import {
   Share2,
   Instagram,
   Linkedin,
-  Check, 
+  Check,
   ChevronLeft,
   ChevronRight,
   Plus,
@@ -104,19 +104,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
     book?.authorsList && book.authorsList.length > 0
       ? book.authorsList
       : [
-          {
-            name: book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Author"),
-            image: book?.authorImage || "/images/author-01.jpg",
-            quote: book?.authorQuote || "",
-            facebook: book?.authorSocials?.facebook || "#facebook",
-            twitter: book?.authorSocials?.twitter || "#twitter",
-            instagram: book?.authorSocials?.instagram || "#instagram",
-            pinterest: book?.authorSocials?.pinterest || "#pinterest",
-            linkedin: book?.authorSocials?.linkedin || "#linkedin",
-            youtube: book?.authorSocials?.youtube || "#youtube",
-            books: book?.authorBooks || [],
-          },
-        ];
+        {
+          name: book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Author"),
+          image: book?.authorImage || "/images/author-01.jpg",
+          quote: book?.authorQuote || "",
+          facebook: book?.authorSocials?.facebook || "#facebook",
+          twitter: book?.authorSocials?.twitter || "#twitter",
+          instagram: book?.authorSocials?.instagram || "#instagram",
+          pinterest: book?.authorSocials?.pinterest || "#pinterest",
+          linkedin: book?.authorSocials?.linkedin || "#linkedin",
+          youtube: book?.authorSocials?.youtube || "#youtube",
+          books: book?.authorBooks || [],
+        },
+      ];
 
   const activeAuthor = authorsList[selectedAuthorIdx] || authorsList[0];
   const currentAuthorName = activeAuthor.name;
@@ -158,109 +158,140 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   return (
     <div className="bg-white dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] min-h-screen py-8 sm:py-14 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-24">
-        
+
         {/* ========================================================================= */}
         {/* TOP SECTION: BOOK SHOWCASE (MATCHING LIVE STORE REFERENCE)                */}
         {/* ========================================================================= */}
         <section className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-14 items-center bg-white dark:bg-transparent py-4">
-          
-          {/* Left: 3D Interactive Animated Book (Open on Hover/Click, Zero Black Borders) */}
-          <div className="md:col-span-5 flex flex-col justify-center items-center py-2">
-            <div
-              className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
-              tabIndex={0}
-              role="region"
-              aria-label={`3D Animated book for ${currentTitle}`}
-              onClick={() => setIsBookOpen((prev) => !prev)}
-            >
-              {/* Soft Radial Contact Shadow */}
-              <div className={bookStyles.contactShadow} aria-hidden="true" />
 
-              {/* 3D Book Assembly */}
-              <div className={bookStyles.book}>
-                {/* Back Cover & Realistic Gilded Page Edges (Zero Black Borders) */}
-                <div className={bookStyles.bookBody}>
-                  {/* Realistic Stacked Pages Layer */}
-                  <div className={bookStyles.pagesLayer}>
-                    {/* Inner Page Preview when book opens */}
-                    <div className={bookStyles.pageContent}>
-                      <div className="space-y-1">
-                        <span className="text-[8px] tracking-[0.2em] uppercase font-bold text-[#b89245] block">
-                          {currentCategory}
-                        </span>
-                        <p className="font-serif text-[10.5px] font-semibold text-[#2c3e50] line-clamp-2 leading-tight">
-                          {currentTitle}
-                        </p>
-                      </div>
-                      <p className="text-[7.5px] text-[#555] italic leading-tight line-clamp-6">
-                        {currentSummary}
-                      </p>
-                      <div className="text-[7.5px] font-serif text-[#888] pt-1 border-t border-[#e2d8c3] text-right">
-                        Page 1
+          {/* Left: Botanical Emerald Marble Podium & 3D Interactive Animated Book (Matching Reference Image) */}
+          <div className="md:col-span-6 lg:col-span-6 flex flex-col justify-center items-center py-2">
+            {/* Luxury Showcase Podium Container */}
+            <div className="relative w-full max-w-[500px] lg:max-w-[520px] h-[415px] sm:h-[455px] lg:h-[485px] rounded-3xl overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.9)] border border-[#d4b56a]/30 bg-[#030d07] select-none group isolate [transform:translateZ(0)]">
+
+              {/* 1. Base Marble Podium & Botanical Foliage Background Image (Cropped bottom to eliminate excess lower foliage) */}
+              <div
+                className="absolute inset-x-0 top-0 h-[122%] bg-cover bg-top pointer-events-none origin-top transition-transform duration-1000 group-hover:scale-[1.02]"
+                style={{ backgroundImage: "url('/images/green_marble_podium.jpg')" }}
+                aria-hidden="true"
+              />
+
+              {/* 2. Soft Ambient Lighting / Vignette & Overhead God Rays */}
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#020a05]/95 via-transparent to-[#020a05]/20" />
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,181,106,0.28),transparent_65%)]" />
+
+              {/* 3. Floating Gold Sparkles / Atmosphere Motifs */}
+              <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-screen bg-[radial-gradient(circle_at_25%_25%,rgba(212,181,106,0.3)_0%,transparent_18%),radial-gradient(circle_at_75%_35%,rgba(212,181,106,0.25)_0%,transparent_15%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.2)_0%,transparent_12%)]" />
+
+              {/* 4. Luxury Podium Top Contact Shadow for Realistic Grounding */}
+              <div
+                className="absolute bottom-[32%] sm:bottom-[32.5%] left-1/2 -translate-x-1/2 w-[180px] sm:w-[200px] h-5 bg-black/85 blur-[5px] rounded-full pointer-events-none z-10"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute bottom-[32.5%] sm:bottom-[33%] left-1/2 -translate-x-1/2 w-[130px] sm:w-[155px] h-3 bg-[#03150c]/90 blur-[2.5px] rounded-full pointer-events-none z-10"
+                aria-hidden="true"
+              />
+
+              {/* 5. 3D Interactive Animated Book (Anchored precisely to rest atop the marble podium) */}
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-[32%] sm:bottom-[32.5%] z-20">
+                <div
+                  className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
+                  tabIndex={0}
+                  role="region"
+                  aria-label={`3D Animated book for ${currentTitle}`}
+                  onClick={() => setIsBookOpen((prev) => !prev)}
+                >
+                  {/* Soft Radial Contact Shadow */}
+                  <div className={bookStyles.contactShadow} aria-hidden="true" />
+
+                  {/* 3D Book Assembly */}
+                  <div className={bookStyles.book}>
+                    {/* Back Cover & Realistic Gilded Page Edges (Zero Black Borders) */}
+                    <div className={bookStyles.bookBody}>
+                      {/* Realistic Stacked Pages Layer */}
+                      <div className={bookStyles.pagesLayer}>
+                        {/* Inner Page Preview when book opens */}
+                        <div className={bookStyles.pageContent}>
+                          <div className="space-y-0.5">
+                            <span className="text-[7.5px] tracking-[0.2em] uppercase font-bold text-[#b89245] block">
+                              {currentCategory}
+                            </span>
+                            <p className="font-serif text-[10px] font-semibold text-[#2c3e50] line-clamp-2 leading-tight">
+                              {currentTitle}
+                            </p>
+                          </div>
+                          <p className="text-[7px] text-[#555] italic leading-tight line-clamp-5">
+                            {currentSummary}
+                          </p>
+                          <div className="text-[7px] font-serif text-[#888] pt-0.5 border-t border-[#e2d8c3] text-right">
+                            Page 1
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                {/* 3D Hinged Rotating Cover Assembly (Opens on Hover / Click) */}
-                <div className={bookStyles.cover}>
-                  {/* Front Face: Book Artwork Image */}
-                  <div className={bookStyles.frontFace}>
-                    <div className={bookStyles.spineHighlight} aria-hidden="true" />
+                    {/* 3D Hinged Rotating Cover Assembly (Opens on Hover / Click) */}
+                    <div className={bookStyles.cover}>
+                      {/* Front Face: Book Artwork Image */}
+                      <div className={bookStyles.frontFace}>
+                        <div className={bookStyles.spineHighlight} aria-hidden="true" />
 
-                    {/* Ribbon Badges on main book cover */}
-                    {book?.badge && (
-                      <div className="absolute top-1.5 left-1.5 z-30 flex flex-col gap-1 pointer-events-none">
-                        {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
-                          <span
-                            className="bg-[#56ab84] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
-                            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
-                          >
-                            SALE
-                          </span>
+                        {/* Ribbon Badges on main book cover */}
+                        {book?.badge && (
+                          <div className="absolute top-1.5 left-1.5 z-30 flex flex-col gap-1 pointer-events-none">
+                            {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
+                              <span
+                                className="bg-[#56ab84] text-white text-[8.5px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                              >
+                                SALE
+                              </span>
+                            )}
+                            {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
+                              <span
+                                className="bg-[#e05638] text-white text-[8.5px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                              >
+                                HOT
+                              </span>
+                            )}
+                          </div>
                         )}
-                        {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
-                          <span
-                            className="bg-[#e05638] text-white text-[9.5px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
-                            style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
-                          >
-                            HOT
-                          </span>
-                        )}
+
+                        <img
+                          src={currentImage}
+                          alt={currentTitle}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                    )}
 
-                    <img
-                      src={currentImage}
-                      alt={currentTitle}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Back Face of Front Cover */}
-                  <div className={bookStyles.backFace}>
-                    <div className={bookStyles.innerPagePattern}>
-                      <span className="text-[8px] tracking-widest text-[#a9822e] uppercase font-semibold">
-                        Publishing Hub
-                      </span>
+                      {/* Back Face of Front Cover */}
+                      <div className={bookStyles.backFace}>
+                        <div className={bookStyles.innerPagePattern}>
+                          <span className="text-[8px] tracking-widest text-[#a9822e] uppercase font-semibold">
+                            Publishing Hub
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Interactive animation hint */}
-            <p
-              className="text-[11px] text-[#71717a] dark:text-[#9d9f96] mt-3 flex items-center gap-1.5 select-none cursor-pointer"
-              onClick={() => setIsBookOpen((prev) => !prev)}
-            >
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#d95338] animate-pulse" />
-              Hover or click book to open 3D preview
-            </p>
+              {/* 6. Elegant Interactive Hint Badge */}
+              <div
+                onClick={() => setIsBookOpen((prev) => !prev)}
+                className="absolute bottom-2.5 sm:bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/80 hover:bg-black/95 backdrop-blur-md border border-[#d4b56a]/40 shadow-lg text-[10px] sm:text-[10.5px] text-[#f2eee3] cursor-pointer transition-all hover:scale-105 whitespace-nowrap"
+              >
+                <span className="inline-block w-2 h-2 rounded-full bg-[#d4b56a] animate-pulse" />
+                <span className="font-medium tracking-wide">Hover or click book to open 3D preview</span>
+              </div>
+            </div>
           </div>
 
           {/* Right: Book Details (Exact Match to Reference) */}
-          <div className="md:col-span-7 space-y-5">
+          <div className="md:col-span-6 lg:col-span-6 space-y-5">
             {/* Category Tag */}
             <span className="text-[11px] font-bold tracking-[0.25em] text-[#b89245] dark:text-[#d4b56a] uppercase block">
               {currentCategory}
@@ -277,9 +308,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-4 h-4 ${
-                      i < Math.round(book?.rating || 5) ? "fill-current" : "opacity-30"
-                    }`}
+                    className={`w-4 h-4 ${i < Math.round(book?.rating || 5) ? "fill-current" : "opacity-30"
+                      }`}
                   />
                 ))}
               </div>
@@ -320,9 +350,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             <div className="flex flex-wrap items-center gap-4 pt-2">
               {/* Quantity Stepper */}
               <div
-                className={`flex items-center border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-[#0a120e] rounded-[2px] h-11 px-2 ${
-                  isOutOfStock ? "opacity-50 pointer-events-none" : ""
-                }`}
+                className={`flex items-center border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-[#0a120e] rounded-[2px] h-11 px-2 ${isOutOfStock ? "opacity-50 pointer-events-none" : ""
+                  }`}
               >
                 <button
                   disabled={isOutOfStock || quantity <= 1}
@@ -349,11 +378,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               <button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
-                className={`flex-1 min-w-[200px] h-11 text-xs font-extrabold tracking-[0.18em] uppercase flex items-center justify-center gap-2 rounded-[2px] transition-all shadow-md ${
-                  isOutOfStock
-                      ? "bg-gray-400 text-white cursor-not-allowed opacity-60 shadow-none"
-                      : "bg-[#d95338] hover:bg-[#c44329] text-white hover:shadow-[0_6px_20px_rgba(217,83,56,0.35)] active:scale-[0.99] cursor-pointer"
-                }`}
+                className={`flex-1 min-w-[200px] h-11 text-xs font-extrabold tracking-[0.18em] uppercase flex items-center justify-center gap-2 rounded-[2px] transition-all shadow-md ${isOutOfStock
+                    ? "bg-gray-400 text-white cursor-not-allowed opacity-60 shadow-none"
+                    : "bg-[#d95338] hover:bg-[#c44329] text-white hover:shadow-[0_6px_20px_rgba(217,83,56,0.35)] active:scale-[0.99] cursor-pointer"
+                  }`}
               >
                 <ShoppingCart className="w-4 h-4" /> {isOutOfStock ? "OUT OF STOCK" : "ADD TO CART"}
               </button>
@@ -369,9 +397,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             <div className="flex items-center gap-6 pt-3 text-xs text-[#71717a] dark:text-[#9d9f96] border-t border-gray-100 dark:border-gray-800">
               <button
                 onClick={() => setIsWishlisted(!isWishlisted)}
-                className={`flex items-center gap-1.5 transition-colors cursor-pointer ${
-                  isWishlisted ? "text-[#d95338]" : "hover:text-[#18181b] dark:hover:text-[#f2eee3]"
-                }`}
+                className={`flex items-center gap-1.5 transition-colors cursor-pointer ${isWishlisted ? "text-[#d95338]" : "hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+                  }`}
               >
                 <Heart className={`w-3.5 h-3.5 ${isWishlisted ? "fill-current" : ""}`} />
                 {isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}
@@ -447,11 +474,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                             key={idx}
                             type="button"
                             onClick={() => setSelectedAuthorIdx(idx)}
-                            className={`font-display text-base sm:text-lg px-3 py-1 rounded-full transition-all duration-200 border cursor-pointer ${
-                              isSelected
+                            className={`font-display text-base sm:text-lg px-3 py-1 rounded-full transition-all duration-200 border cursor-pointer ${isSelected
                                 ? "bg-[#b89245]/15 border-[#b89245] text-[#b89245] dark:text-[#d4b56a] font-semibold shadow-sm"
                                 : "border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-white/30"
-                            }`}
+                              }`}
                           >
                             {auth.name}
                           </button>
@@ -592,21 +618,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           <div className="flex items-center justify-center gap-12 border-b dark:border-[#f2eee3]/10 border-gray-200">
             <button
               onClick={() => setActiveTab("description")}
-              className={`pb-4 text-base font-display transition-all relative ${
-                activeTab === "description"
-                    ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
-                    : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
-              }`}
+              className={`pb-4 text-base font-display transition-all relative ${activeTab === "description"
+                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
+                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+                }`}
             >
               Description
             </button>
             <button
               onClick={() => setActiveTab("reviews")}
-              className={`pb-4 text-base font-display transition-all relative ${
-                activeTab === "reviews"
-                    ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
-                    : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
-              }`}
+              className={`pb-4 text-base font-display transition-all relative ${activeTab === "reviews"
+                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
+                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
+                }`}
             >
               Reviews (0)
             </button>
@@ -655,7 +679,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 There are no reviews yet for this book.
               </div>
             )}
-          </div> 
+          </div>
         </section>
 
 
@@ -672,11 +696,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
           {/* Book Grid Showcase per Slide */}
           <div
-            className={`items-start min-h-[380px] ${
-              relatedBooksList.length <= 2
-                  ? "flex justify-center gap-8 sm:gap-12 flex-wrap max-w-3xl mx-auto"
-                  : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-6xl mx-auto"
-            }`}
+            className={`items-start min-h-[380px] ${relatedBooksList.length <= 2
+                ? "flex justify-center gap-8 sm:gap-12 flex-wrap max-w-3xl mx-auto"
+                : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-6xl mx-auto"
+              }`}
           >
             {relatedBooksList.slice(relatedSlide * 4, (relatedSlide + 1) * 4).map((b) => {
               const targetSlug = b.slug || getBookSlug(b);
@@ -688,7 +711,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 >
                   {/* Standalone Book Cover (No Card Box) */}
                   <div className="relative w-full max-w-[240px] aspect-[3/4.3] overflow-hidden rounded-[2px] shadow-[0_10px_25px_rgba(0,0,0,0.15)] dark:shadow-[0_16px_35px_rgba(0,0,0,0.7)] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] dark:group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-2 transition-all duration-300">
-                    
+
                     {/* Top Ribbon Badges */}
                     {b.badge && (
                       <div className="absolute top-0 left-0 z-20 flex flex-col gap-1 pointer-events-none">
@@ -784,11 +807,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   key={idx}
                   onClick={() => setRelatedSlide(idx)}
                   aria-label={`Slide ${idx + 1}`}
-                  className={`cursor-pointer transition-all duration-300 ${
-                    relatedSlide === idx
-                        ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
-                        : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
-                  }`}
+                  className={`cursor-pointer transition-all duration-300 ${relatedSlide === idx
+                      ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
+                      : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
+                    }`}
                 />
               ))}
             </div>
