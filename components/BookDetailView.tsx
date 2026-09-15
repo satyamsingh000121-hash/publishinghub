@@ -270,53 +270,42 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             {/* =========================
                 LEFT - PRODUCT IMAGE & 3D PODIUM
             ========================== */}
-            <div className="relative flex justify-center">
+            <div className="relative flex justify-center w-full">
               <div
                 className="
                   relative
-                  h-[520px]
                   w-full
-                  max-w-[560px]
-                  overflow-hidden
-                  rounded-[22px]
-                  border
-                  border-[#789657]
-                  bg-[#071a11]
-                  shadow-[0_25px_80px_rgba(0,0,0,0.55)]
+                  max-w-[550px]
+                  sm:max-w-[580px]
+                  lg:max-w-[600px]
+                  h-[520px]
                   sm:h-[580px]
-                  lg:h-[640px]
+                  lg:h-[620px]
+                  rounded-[24px]
+                  overflow-hidden
+                  bg-transparent
+                  shadow-[0_25px_80px_rgba(0,0,0,0.65)]
                   select-none
                   group
                   isolate
                   [transform:translateZ(0)]
                 "
               >
-                {/* 1. Base Marble Podium & Botanical Foliage Background Image */}
+                {/* User's custom podium showcase image (scaled slightly to crop out the baked-in gold border line) */}
+                <img
+                  src="/images/shop_section.png"
+                  alt="Book 3D Showcase Podium"
+                  className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none scale-[1.065] transition-transform duration-700 group-hover:scale-[1.08]"
+                />
+
+                {/* Soft Contact Shadow on Marble Pedestal */}
                 <div
-                  className="absolute inset-x-0 top-0 h-[122%] bg-cover bg-top pointer-events-none origin-top transition-transform duration-1000 group-hover:scale-[1.02]"
-                  style={{ backgroundImage: "url('/images/green_marble_podium.jpg')" }}
+                  className="absolute bottom-[34.5%] sm:bottom-[35%] left-1/2 -translate-x-1/2 w-[165px] sm:w-[190px] h-3.5 bg-black/75 blur-[3.5px] rounded-full pointer-events-none z-10"
                   aria-hidden="true"
                 />
 
-                {/* 2. Soft Ambient Lighting / Vignette & Overhead God Rays */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#020a05]/95 via-transparent to-[#020a05]/20" />
-                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,181,106,0.28),transparent_65%)]" />
-
-                {/* 3. Floating Gold Sparkles / Atmosphere Motifs */}
-                <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-screen bg-[radial-gradient(circle_at_25%_25%,rgba(212,181,106,0.3)_0%,transparent_18%),radial-gradient(circle_at_75%_35%,rgba(212,181,106,0.25)_0%,transparent_15%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.2)_0%,transparent_12%)]" />
-
-                {/* 4. Luxury Podium Top Contact Shadow for Realistic Grounding */}
-                <div
-                  className="absolute bottom-[30%] sm:bottom-[31%] left-1/2 -translate-x-1/2 w-[190px] sm:w-[220px] h-5 bg-black/85 blur-[5px] rounded-full pointer-events-none z-10"
-                  aria-hidden="true"
-                />
-                <div
-                  className="absolute bottom-[30.5%] sm:bottom-[31.5%] left-1/2 -translate-x-1/2 w-[140px] sm:w-[170px] h-3 bg-[#03150c]/90 blur-[2.5px] rounded-full pointer-events-none z-10"
-                  aria-hidden="true"
-                />
-
-                {/* 5. 3D Interactive Animated Book */}
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-[30%] sm:bottom-[31%] z-20">
+                {/* 3D Interactive Animated Book resting on marble podium */}
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-[35%] sm:bottom-[35.5%] z-20">
                   <div
                     className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
                     tabIndex={0}
@@ -398,40 +387,30 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   </div>
                 </div>
 
-                {/* Bottom Preview Button */}
+                {/* Transparent Interactive Button Overlay matching the button inside shop_section.png */}
                 <button
                   type="button"
                   onClick={() => setIsBookOpen((prev) => !prev)}
                   className="
                     absolute
-                    bottom-5
+                    bottom-[4.5%]
+                    sm:bottom-[5%]
                     left-1/2
                     z-30
-                    flex
                     -translate-x-1/2
-                    items-center
-                    gap-2.5
-                    whitespace-nowrap
+                    w-[78%]
+                    max-w-[340px]
+                    h-[46px]
                     rounded-full
-                    border
-                    border-[#c9a84e]
-                    bg-[#06130d]/90
-                    px-6
-                    py-2.5
-                    text-[13px]
-                    tracking-wide
-                    text-[#c9c5b8]
-                    backdrop-blur-md
-                    transition
-                    hover:bg-[#0b2418]
-                    hover:text-white
                     cursor-pointer
-                    shadow-lg
+                    transition-all
+                    hover:bg-white/10
+                    active:scale-[0.98]
+                    focus:outline-none
                   "
-                >
-                  <span className="text-[#d2ad4f] text-sm font-bold">⌕</span>
-                  <span>Hover or click book to open 3D preview</span>
-                </button>
+                  aria-label="Hover or click book to open 3D preview"
+                  title="Hover or click book to open 3D preview"
+                />
               </div>
             </div>
 
@@ -441,23 +420,25 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             <div className="relative">
 
               {/* Top Label Row */}
-              <div className="mb-6 flex items-center justify-between gap-6">
+              <div className="mb-3.5 sm:mb-4 flex items-center justify-between gap-6">
 
                 <div
                   className="
                     inline-flex
                     items-center
-                    gap-2
+                    gap-1.5
                     rounded-full
                     border
                     border-[#6e985e]
                     bg-[#0c2417]/80
-                    px-6
-                    py-2.5
-                    text-sm
+                    px-3.5
+                    sm:px-4
+                    py-1
+                    text-[10.5px]
+                    sm:text-[11px]
                     font-medium
                     uppercase
-                    tracking-[0.22em]
+                    tracking-[0.18em]
                     text-[#b8d6a3]
                     shadow-sm
                   "
@@ -466,11 +447,11 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   {currentCategory}
                 </div>
 
-                <div className="hidden items-center gap-5 text-[12px] font-medium uppercase tracking-[0.28em] text-[#d2ae50] xl:flex">
+                <div className="hidden items-center gap-3 text-[10px] sm:text-[10.5px] font-medium uppercase tracking-[0.22em] text-[#d2ae50] xl:flex">
                   <span>GOOD BOOKS</span>
                   <span className="text-[#9c8036]">•</span>
                   <span>BRIGHT FUTURES</span>
-                  <span className="ml-3 h-px w-16 bg-[#9d7d35]" />
+                  <span className="ml-2 h-px w-12 bg-[#9d7d35]" />
                 </div>
 
               </div>
@@ -479,22 +460,22 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               <h1
                 className="
                   font-serif
-                  text-[52px]
+                  text-[32px]
+                  sm:text-[38px]
+                  lg:text-[42px]
+                  xl:text-[46px]
                   font-normal
-                  leading-[0.98]
-                  tracking-[-0.03em]
+                  leading-[1.08]
+                  tracking-[-0.02em]
                   text-[#f2eee3]
-                  sm:text-[66px]
-                  lg:text-[74px]
-                  xl:text-[80px]
                 "
               >
                 {currentTitle}
               </h1>
 
               {/* Rating */}
-              <div className="mt-6 flex items-center gap-5">
-                <div className="flex gap-1 text-[24px] text-[#d9ae4c]">
+              <div className="mt-3.5 sm:mt-4 flex items-center gap-3">
+                <div className="flex gap-1 text-[16px] sm:text-[17px] text-[#d9ae4c]">
                   <span>★</span>
                   <span>★</span>
                   <span>★</span>
@@ -502,7 +483,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   <span>★</span>
                 </div>
 
-                <span className="text-[17px] text-[#e5e1d7]">
+                <span className="text-[13px] sm:text-[13.5px] text-[#e5e1d7]">
                   ( {book?.reviewCount ?? 0} reviews )
                 </span>
               </div>
@@ -510,24 +491,24 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               {/* Description */}
               <p
                 className="
-                  mt-6
-                  max-w-[850px]
-                  text-[17px]
-                  leading-[1.75]
-                  text-[#d0d2c9]
-                  sm:text-[18px]
-                  lg:text-[19px]
+                  mt-3.5
+                  sm:mt-4
+                  max-w-[650px]
+                  text-[13.5px]
+                  sm:text-[14px]
+                  leading-[1.65]
+                  text-[#c9cbc1]
                 "
               >
                 {currentSummary}
               </p>
 
               {/* Divider */}
-              <div className="my-6 h-px w-full bg-[#506247]/70" />
+              <div className="my-3.5 sm:my-4 h-px w-full bg-[#506247]/60" />
 
               {/* Price + Stock */}
-              <div className="flex flex-wrap items-center gap-8">
-                <div className="font-serif text-[42px] font-medium text-[#f0d99c]">
+              <div className="flex flex-wrap items-center gap-5 sm:gap-6">
+                <div className="font-serif text-[28px] sm:text-[32px] font-medium text-[#f0d99c]">
                   {currentPrice}
                 </div>
 
@@ -541,13 +522,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       border
                       border-[#ef4444]/40
                       bg-[#2b0c0c]
-                      px-5
-                      py-2.5
-                      text-[16px]
+                      px-3
+                      py-1
+                      text-[12px]
+                      sm:text-[12.5px]
                       text-[#ef4444]
                     "
                   >
-                    <span className="h-2 w-2 rounded-full bg-[#ef4444]" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#ef4444]" />
                     Out of Stock
                   </div>
                 ) : (
@@ -560,26 +542,28 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       border
                       border-[#4e8754]
                       bg-[#0b2818]
-                      px-5
-                      py-2.5
-                      text-[16px]
+                      px-3
+                      py-1
+                      text-[12px]
+                      sm:text-[12.5px]
                       text-[#72d16d]
                     "
                   >
-                    <span className="h-2 w-2 rounded-full bg-[#65d46a] animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#65d46a] animate-pulse" />
                     In Stock ({book?.stock && book.stock > 0 ? `${book.stock} units` : "100 units"})
                   </div>
                 )}
               </div>
 
               {/* Quantity + Add Cart */}
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-4 sm:mt-5 flex flex-col gap-3 sm:flex-row">
 
                 {/* Quantity Stepper */}
                 <div
                   className="
                     flex
-                    h-[68px]
+                    h-[46px]
+                    sm:h-[48px]
                     w-full
                     items-center
                     justify-between
@@ -587,7 +571,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     border
                     border-[#b18b3c]
                     bg-[#06150e]
-                    sm:w-[215px]
+                    sm:w-[155px]
                   "
                 >
                   <button
@@ -597,10 +581,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     className="
                       flex
                       h-full
-                      w-16
+                      w-10
                       items-center
                       justify-center
-                      text-[27px]
+                      text-[18px]
                       text-[#e6d39d]
                       transition
                       hover:bg-[#10261a]
@@ -612,7 +596,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     −
                   </button>
 
-                  <span className="text-[22px] font-serif text-[#f1eadb]">
+                  <span className="text-[16px] font-serif text-[#f1eadb]">
                     {quantity}
                   </span>
 
@@ -623,10 +607,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     className="
                       flex
                       h-full
-                      w-16
+                      w-10
                       items-center
                       justify-center
-                      text-[27px]
+                      text-[18px]
                       text-[#e6d39d]
                       transition
                       hover:bg-[#10261a]
@@ -646,22 +630,24 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   onClick={handleAddToCart}
                   className="
                     flex
-                    h-[68px]
+                    h-[46px]
+                    sm:h-[48px]
                     flex-1
                     items-center
                     justify-center
-                    gap-4
+                    gap-3
                     rounded-xl
                     border
                     border-[#d9b55d]
                     bg-gradient-to-r
                     from-[#e2c67c]
                     to-[#cda952]
-                    px-7
-                    text-[17px]
-                    font-semibold
+                    px-5
+                    text-[13px]
+                    sm:text-[13.5px]
+                    font-bold
                     uppercase
-                    tracking-[0.16em]
+                    tracking-[0.14em]
                     text-[#07120d]
                     shadow-[0_10px_30px_rgba(194,153,62,0.16)]
                     transition
@@ -675,11 +661,11 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     cursor-pointer
                   "
                 >
-                  <span className="text-[25px]">🛒</span>
+                  <ShoppingCart className="w-4 h-4 text-[#07120d]" />
 
-                  {addedAlert ? "ADDED TO CART" : "ADD TO CART"}
+                  <span>{addedAlert ? "ADDED TO CART" : "ADD TO CART"}</span>
 
-                  <span className="text-[25px]">
+                  <span className="text-[16px] font-normal text-[#07120d]">
                     →
                   </span>
                 </button>
@@ -687,7 +673,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               </div>
 
               {/* Wishlist / Compare */}
-              <div className="mt-7 flex flex-wrap items-center gap-7">
+              <div className="mt-4 flex flex-wrap items-center gap-5">
 
                 <button
                   type="button"
@@ -695,21 +681,22 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   className="
                     flex
                     items-center
-                    gap-3
-                    text-[17px]
+                    gap-2
+                    text-[13px]
+                    sm:text-[13.5px]
                     text-[#dddcd4]
                     transition
                     hover:text-[#d7b45c]
                     cursor-pointer
                   "
                 >
-                  <span className="text-[28px] text-[#d7b45c]">
+                  <span className="text-[18px] text-[#d7b45c]">
                     {isWishlisted ? "♥" : "♡"}
                   </span>
-                  {isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}
+                  <span>{isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}</span>
                 </button>
 
-                <span className="h-6 w-px bg-[#5d675d]" />
+                <span className="h-4 w-px bg-[#5d675d]" />
 
                 <button
                   type="button"
@@ -717,43 +704,47 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   className="
                     flex
                     items-center
-                    gap-3
-                    text-[17px]
+                    gap-2
+                    text-[13px]
+                    sm:text-[13.5px]
                     text-[#dddcd4]
                     transition
                     hover:text-[#d7b45c]
                     cursor-pointer
                   "
                 >
-                  <span className="text-[27px] text-[#d7b45c]">
+                  <span className="text-[18px] text-[#d7b45c]">
                     ⇄
                   </span>
-                  {isCompared ? "Added to Compare" : "Add to Compare"}
+                  <span>{isCompared ? "Added to Compare" : "Add to Compare"}</span>
                 </button>
 
               </div>
 
               {/* Share */}
-              <div className="mt-8 flex items-center gap-5">
+              <div className="mt-4 sm:mt-5 flex items-center gap-3.5">
 
-                <span className="text-[17px] text-[#b8bcb3]">
+                <span className="text-[13px] text-[#b8bcb3]">
                   Share:
                 </span>
 
-                <div className="flex gap-4">
+                <div className="flex gap-2.5">
 
                   <button
                     type="button"
                     className="
                       flex
-                      h-12
-                      w-12
+                      h-8
+                      w-8
+                      sm:h-8.5
+                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b69a52]
-                      text-[18px]
+                      text-[12.5px]
+                      sm:text-[13px]
                       text-[#eee9dc]
                       transition
                       hover:bg-[#c7a64e]
@@ -769,14 +760,17 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     type="button"
                     className="
                       flex
-                      h-12
-                      w-12
+                      h-8
+                      w-8
+                      sm:h-8.5
+                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b69a52]
-                      text-[18px]
+                      text-[12.5px]
+                      sm:text-[13px]
                       text-[#eee9dc]
                       transition
                       hover:bg-[#c7a64e]
@@ -792,14 +786,17 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     type="button"
                     className="
                       flex
-                      h-12
-                      w-12
+                      h-8
+                      w-8
+                      sm:h-8.5
+                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b69a52]
-                      text-[20px]
+                      text-[13px]
+                      sm:text-[14px]
                       text-[#eee9dc]
                       transition
                       hover:bg-[#c7a64e]
@@ -815,14 +812,17 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     type="button"
                     className="
                       flex
-                      h-12
-                      w-12
+                      h-8
+                      w-8
+                      sm:h-8.5
+                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b69a52]
-                      text-[19px]
+                      text-[13px]
+                      sm:text-[14px]
                       text-[#eee9dc]
                       transition
                       hover:bg-[#c7a64e]
