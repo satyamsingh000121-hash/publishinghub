@@ -85,7 +85,7 @@ export default function TopSellingBooks({ books }: { books?: TopBookItem[] }) {
                 <h4 className="text-[13px] font-bold admin-text-primary truncate leading-tight">
                   {book.title}
                 </h4>
-                <p className="text-[11.5px] admin-text-secondary truncate mt-0.5">
+                 <p className="text-[11.5px] admin-text-secondary truncate mt-0.5">
                   {book.author}
                 </p>
               </div>
