@@ -300,12 +300,12 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
                 {/* Soft Contact Shadow on Marble Pedestal */}
                 <div
-                  className="absolute bottom-[34.5%] sm:bottom-[35%] left-1/2 -translate-x-1/2 w-[165px] sm:w-[190px] h-3.5 bg-black/75 blur-[3.5px] rounded-full pointer-events-none z-10"
+                  className="absolute bottom-[27.5%] sm:bottom-[28%] left-1/2 -translate-x-1/2 w-[195px] sm:w-[225px] h-3.5 bg-black/75 blur-[4px] rounded-full pointer-events-none z-10"
                   aria-hidden="true"
                 />
 
                 {/* 3D Interactive Animated Book resting on marble podium */}
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-[35%] sm:bottom-[35.5%] z-20">
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-[28%] sm:bottom-[28.5%] z-20 origin-bottom scale-[1.12] sm:scale-[1.15]">
                   <div
                     className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
                     tabIndex={0}
