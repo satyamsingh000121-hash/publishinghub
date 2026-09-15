@@ -18,14 +18,7 @@ export default function Hero() {
 
   // In Light mode: swap slide 1 & 2 (30% purchase slide is first, and 20% meet your next is second)
   // In Night/Dark mode: keep original sequence untouched
-  const isLight = mounted && theme === "light";
-  const activeSlideIndex = isLight
-    ? currentSlide === 0
-      ? 1
-      : currentSlide === 1
-      ? 0
-      : 2
-    : currentSlide;
+  const activeSlideIndex = currentSlide;
 
   // 8-second calm pacing with ultra-smooth 1400ms liquid crossfade
   useEffect(() => {
@@ -64,7 +57,7 @@ export default function Hero() {
           
           <div className="relative w-full min-h-[440px] sm:min-h-[420px] lg:min-h-[430px]">
             
-            {/* SLIDE 1 (Index 0) */}
+            {/* SLIDE 1 (Index 0): 30% OFF PURCHASE (Now First Slide) */}
             <div
               style={{
                 transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -77,13 +70,13 @@ export default function Hero() {
               }`}
             >
               <span className="text-[10px] sm:text-xs tracking-[0.25em] sm:tracking-[0.3em] text-[#d4b56a] font-bold uppercase block">
-                SALE UP TO 20% OFF
+                SALE UP TO 30% OFF
               </span>
 
               <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.98] sm:leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
                 <SmokyText
                   key={`hero-slide0-l1-${activeSlideIndex}`}
-                  text="Meet Your Next"
+                  text="Get -30% Purchase"
                   color="var(--cream)"
                   intensity={8}
                   position="bottomLeft"
@@ -93,74 +86,12 @@ export default function Hero() {
                 <div className="mt-0.5 sm:mt-1 text-[#d4b56a]">
                   <SmokyText
                     key={`hero-slide0-l2-${activeSlideIndex}`}
-                    text="Favorite Book."
-                    color="var(--gold)"
-                    font={{ fontStyle: "italic" }}
-                    intensity={9}
-                    position="bottomLeft"
-                    appearTrigger={activeSlideIndex === 0 ? "default" : "hidden"}
-                    appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
-                  />
-                </div>
-              </div>
-
-              <p className="text-[#aaa9a1] text-sm sm:text-base lg:text-lg max-w-[520px] leading-relaxed font-light pt-1 sm:pt-2">
-                Explore our handpicked collection of inspiring literature, bestsellers, and timeless masterpieces.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4 relative z-30">
-                <a
-                  href="https://www.amazon.co.uk/dp/1399993070?ref=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&ref_=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&social_share=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&skipTwisterOG=1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-8 sm:px-10 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
-                >
-                  PURCHASE
-                </a>
-                <a
-                  href="#bestsellers"
-                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-7 sm:px-9 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
-                >
-                  EXPLORE BOOKS
-                </a>
-              </div>
-            </div>
-
-            {/* SLIDE 2 (Index 1) */}
-            <div
-              style={{
-                transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
-                willChange: "opacity, transform, filter",
-              }}
-              className={`absolute inset-0 space-y-4 sm:space-y-6 ${
-                activeSlideIndex === 1
-                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
-                  : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
-              }`}
-            >
-              <span className="text-[10px] sm:text-xs tracking-[0.25em] sm:tracking-[0.3em] text-[#d4b56a] font-bold uppercase block">
-                SALE UP TO 30% OFF
-              </span>
-
-              <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.98] sm:leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
-                <SmokyText
-                  key={`hero-slide1-l1-${activeSlideIndex}`}
-                  text="Get -30% Purchase"
-                  color="var(--cream)"
-                  intensity={8}
-                  position="bottomLeft"
-                  appearTrigger={activeSlideIndex === 1 ? "default" : "hidden"}
-                  appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
-                />
-                <div className="mt-0.5 sm:mt-1 text-[#d4b56a]">
-                  <SmokyText
-                    key={`hero-slide1-l2-${activeSlideIndex}`}
                     text="on Order over £99.00"
                     color="var(--gold)"
                     font={{ fontStyle: "italic" }}
                     intensity={9}
                     position="bottomLeft"
-                    appearTrigger={activeSlideIndex === 1 ? "default" : "hidden"}
+                    appearTrigger={activeSlideIndex === 0 ? "default" : "hidden"}
                     appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
                   />
                 </div>
@@ -184,6 +115,68 @@ export default function Hero() {
                   className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-7 sm:px-8 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
                 >
                   VIEW COLLECTION
+                </a>
+              </div>
+            </div>
+
+            {/* SLIDE 2 (Index 1): Meet Your Next Favorite Book (Now Second Slide) */}
+            <div
+              style={{
+                transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
+                willChange: "opacity, transform, filter",
+              }}
+              className={`absolute inset-0 space-y-4 sm:space-y-6 ${
+                activeSlideIndex === 1
+                  ? "opacity-100 translate-y-0 filter-none pointer-events-auto z-20"
+                  : "opacity-0 translate-y-4 blur-[3px] pointer-events-none z-0"
+              }`}
+            >
+              <span className="text-[10px] sm:text-xs tracking-[0.25em] sm:tracking-[0.3em] text-[#d4b56a] font-bold uppercase block">
+                SALE UP TO 20% OFF
+              </span>
+
+              <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-normal leading-[0.98] sm:leading-[0.93] tracking-[-0.025em] text-[#f2eee3]">
+                <SmokyText
+                  key={`hero-slide1-l1-${activeSlideIndex}`}
+                  text="Meet Your Next"
+                  color="var(--cream)"
+                  intensity={8}
+                  position="bottomLeft"
+                  appearTrigger={activeSlideIndex === 1 ? "default" : "hidden"}
+                  appearTransition={{ type: "tween", ease: "easeOut", duration: 1.5, delay: 0.05 }}
+                />
+                <div className="mt-0.5 sm:mt-1 text-[#d4b56a]">
+                  <SmokyText
+                    key={`hero-slide1-l2-${activeSlideIndex}`}
+                    text="Favorite Book."
+                    color="var(--gold)"
+                    font={{ fontStyle: "italic" }}
+                    intensity={9}
+                    position="bottomLeft"
+                    appearTrigger={activeSlideIndex === 1 ? "default" : "hidden"}
+                    appearTransition={{ type: "tween", ease: "easeOut", duration: 1.6, delay: 0.15 }}
+                  />
+                </div>
+              </div>
+
+              <p className="text-[#aaa9a1] text-sm sm:text-base lg:text-lg max-w-[520px] leading-relaxed font-light pt-1 sm:pt-2">
+                Explore our handpicked collection of inspiring literature, bestsellers, and timeless masterpieces.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3 sm:pt-4 relative z-30">
+                <a
+                  href="https://www.amazon.co.uk/dp/1399993070?ref=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&ref_=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&social_share=cm_sw_r_cp_ud_dp_03KT54TGSK5B6MMY66XP&skipTwisterOG=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-8 sm:px-10 bg-[#2c7650] hover:bg-[#37865d] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[#123d2b]/40 rounded-sm"
+                >
+                  PURCHASE
+                </a>
+                <a
+                  href="#bestsellers"
+                  className="relative z-30 cursor-pointer pointer-events-auto min-h-[46px] sm:min-h-[50px] px-7 sm:px-9 border border-[#f2eee3]/30 hover:border-[#d4b56a] text-[#f2eee3] hover:text-[#d4b56a] text-[11px] sm:text-[12px] font-bold tracking-[0.12em] uppercase inline-flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-black/20 rounded-sm"
+                >
+                  EXPLORE BOOKS
                 </a>
               </div>
             </div>
@@ -284,7 +277,7 @@ export default function Hero() {
             {/* Soft Lilac Pedestal Glow (Light Mode Only) */}
             <div className="absolute -bottom-3 w-4/5 h-14 bg-purple-400/18 blur-2xl rounded-full pointer-events-none dark:hidden block" />
 
-            {/* SLIDE 1 VISUAL: 3D Yellow Edition (hero_section2.png) */}
+            {/* SLIDE 1 VISUAL (Index 0): 3D Yellow Edition (hero_section2.png Dark / hero44.png Light) */}
             <div
               style={{
                 transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -297,21 +290,20 @@ export default function Hero() {
               }`}
             >
               <div className="relative w-full h-full flex items-center justify-center overflow-visible">
-                {/* DARK THEME FIRST: New ChatGPT image specified by user */}
                 <img
-                  src="/images/ChatGPT Image Sep 11, 2026, 12_35_20 PM.png"
-                  alt="Visions to Victory - Special Edition Dark"
+                  src="/images/hero_section2.png"
+                  alt="Visions to Victory - Hero Books Dark"
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
                 />
                 <img
-                  src="/images/hero_section2.png"
-                  alt="Visions to Victory - Hero Books Light"
-                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
+                  src="/images/hero44.png"
+                  alt="Visions to Victory - Light Edition"
+                  className="w-full h-full max-h-[360px] sm:max-h-[500px] lg:max-h-[600px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-115 sm:scale-125 lg:scale-135 hover:scale-[1.38] transition-transform duration-700 dark:hidden block"
                 />
               </div>
             </div>
 
-            {/* SLIDE 2 VISUAL: 3D Green Edition (Dark) / hero44.png (Light) */}
+            {/* SLIDE 2 VISUAL (Index 1): Special Edition Dark (ChatGPT Image) / hero_section2.png Light */}
             <div
               style={{
                 transition: "opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), filter 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -324,17 +316,15 @@ export default function Hero() {
               }`}
             >
               <div className="relative w-full h-full flex items-center justify-center overflow-visible">
-                {/* DARK THEME SECOND: Moved from first slide */}
                 <img
-                  src="/images/hero_section2.png"
-                  alt="Visions to Victory - Hero Books Dark"
+                  src="/images/ChatGPT Image Sep 11, 2026, 12_35_20 PM.png"
+                  alt="Visions to Victory - Special Edition Dark"
                   className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:block hidden"
                 />
-                {/* Only this image stays enlarged */}
                 <img
-                  src="/images/hero44.png"
-                  alt="Visions to Victory - Light Edition"
-                  className="w-full h-full max-h-[360px] sm:max-h-[500px] lg:max-h-[600px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-115 sm:scale-125 lg:scale-135 hover:scale-[1.38] transition-transform duration-700 dark:hidden block"
+                  src="/images/hero_section2.png"
+                  alt="Visions to Victory - Hero Books Light"
+                  className="w-full h-full max-h-[300px] sm:max-h-[420px] lg:max-h-[480px] object-contain drop-shadow-[0_14px_28px_rgba(147,51,234,0.16)] transform scale-100 sm:scale-105 lg:scale-108 hover:scale-[1.12] transition-transform duration-700 dark:hidden block"
                 />
               </div>
             </div>
