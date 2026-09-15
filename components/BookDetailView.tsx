@@ -44,6 +44,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const [quantity, setQuantity] = useState<number>(isOutOfStock ? 0 : 1);
   const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
+  const [isCompared, setIsCompared] = useState<boolean>(false);
   const [addedAlert, setAddedAlert] = useState<boolean>(false);
   const [relatedSlide, setRelatedSlide] = useState<number>(0);
   const [isBookOpen, setIsBookOpen] = useState<boolean>(false);
@@ -156,277 +157,695 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   };
 
   return (
-    <div className="bg-white dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] min-h-screen py-8 sm:py-14 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-24">
+    <div className="bg-[#03100b] text-[#f2eee3] min-h-screen transition-colors duration-300">
 
-        {/* ========================================================================= */}
-        {/* TOP SECTION: BOOK SHOWCASE (MATCHING LIVE STORE REFERENCE)                */}
-        {/* ========================================================================= */}
-        <section className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-14 items-center bg-white dark:bg-transparent py-4">
+      {/* ========================================================================= */}
+      {/* TOP SECTION: BOTANICAL EMERALD BOOK SHOWCASE (MATCHING TARGET REFERENCE) */}
+      {/* ========================================================================= */}
+      <section className="relative overflow-hidden bg-[#03100b] text-[#f3eee1] border-b border-[#294829]/40 py-10 sm:py-14 lg:py-16">
 
-          {/* Left: Botanical Emerald Marble Podium & 3D Interactive Animated Book (Matching Reference Image) */}
-          <div className="md:col-span-6 lg:col-span-6 flex flex-col justify-center items-center py-2">
-            {/* Luxury Showcase Podium Container */}
-            <div className="relative w-full max-w-[500px] lg:max-w-[520px] h-[415px] sm:h-[455px] lg:h-[485px] rounded-3xl overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.9)] border border-[#d4b56a]/30 bg-[#030d07] select-none group isolate [transform:translateZ(0)]">
+        {/* Background Glows */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute left-[5%] top-[10%] h-[400px] w-[400px] rounded-full bg-[#173d29]/30 blur-[130px]" />
+          <div className="absolute right-[0%] bottom-[5%] h-[500px] w-[500px] rounded-full bg-[#0e3825]/30 blur-[150px]" />
+          <div className="absolute left-[40%] top-[30%] h-[350px] w-[350px] rounded-full bg-[#133825]/20 blur-[140px]" />
+        </div>
 
-              {/* 1. Base Marble Podium & Botanical Foliage Background Image (Cropped bottom to eliminate excess lower foliage) */}
+        {/* Decorative Real Botanical Foliage on Far Borders (from green_marble_podium.jpg) */}
+        <div
+          className="pointer-events-none absolute -left-12 -bottom-10 w-[360px] h-[360px] bg-no-repeat opacity-70 hidden sm:block"
+          style={{
+            backgroundImage: "url('/images/green_marble_podium.jpg')",
+            backgroundPosition: "left 85%",
+            backgroundSize: "260%",
+            maskImage: "radial-gradient(ellipse at bottom left, black 55%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse at bottom left, black 55%, transparent 75%)",
+          }}
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -right-12 -bottom-10 w-[380px] h-[380px] bg-no-repeat opacity-65 hidden sm:block"
+          style={{
+            backgroundImage: "url('/images/green_marble_podium.jpg')",
+            backgroundPosition: "right 85%",
+            backgroundSize: "260%",
+            maskImage: "radial-gradient(ellipse at bottom right, black 55%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse at bottom right, black 55%, transparent 75%)",
+          }}
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -right-8 -top-8 w-[280px] h-[280px] bg-no-repeat opacity-45 hidden md:block"
+          style={{
+            backgroundImage: "url('/images/green_marble_podium.jpg')",
+            backgroundPosition: "right top",
+            backgroundSize: "280%",
+            maskImage: "radial-gradient(ellipse at top right, black 50%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse at top right, black 50%, transparent 75%)",
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Decorative Botanical Leaf SVGs (from target reference) */}
+        <div className="pointer-events-none absolute right-0 top-0 opacity-60">
+          <svg
+            width="180"
+            height="180"
+            viewBox="0 0 180 180"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M177 5C135 10 108 35 106 70C105 94 119 113 141 124"
+              stroke="#708c49"
+              strokeWidth="2"
+            />
+            <path
+              d="M145 25C122 26 107 37 101 57C120 62 138 48 145 25Z"
+              fill="#304d28"
+            />
+            <path
+              d="M166 54C141 52 125 64 120 85C142 91 159 76 166 54Z"
+              fill="#405f31"
+            />
+            <path
+              d="M177 88C153 82 137 95 135 116C155 122 172 107 177 88Z"
+              fill="#304d28"
+            />
+          </svg>
+        </div>
+
+        <div className="pointer-events-none absolute bottom-0 right-0 opacity-50">
+          <svg
+            width="220"
+            height="240"
+            viewBox="0 0 220 240"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M220 240C191 192 169 144 173 91C176 50 192 22 215 2"
+              stroke="#506d3b"
+              strokeWidth="2"
+            />
+            <path
+              d="M188 164C159 156 140 168 135 194C160 199 181 187 188 164Z"
+              fill="#294829"
+            />
+            <path
+              d="M180 123C153 113 133 125 128 149C151 154 173 143 180 123Z"
+              fill="#3c5b32"
+            />
+            <path
+              d="M183 80C157 71 140 82 135 105C158 110 177 99 183 80Z"
+              fill="#304d29"
+            />
+          </svg>
+        </div>
+
+        {/* Main Container */}
+        <div className="relative z-10 mx-auto max-w-[1450px] px-6 lg:px-10">
+          <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-[0.95fr_1.15fr] lg:gap-14">
+
+            {/* =========================
+                LEFT - PRODUCT IMAGE & 3D PODIUM
+            ========================== */}
+            <div className="relative flex justify-center">
               <div
-                className="absolute inset-x-0 top-0 h-[122%] bg-cover bg-top pointer-events-none origin-top transition-transform duration-1000 group-hover:scale-[1.02]"
-                style={{ backgroundImage: "url('/images/green_marble_podium.jpg')" }}
-                aria-hidden="true"
-              />
-
-              {/* 2. Soft Ambient Lighting / Vignette & Overhead God Rays */}
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#020a05]/95 via-transparent to-[#020a05]/20" />
-              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,181,106,0.28),transparent_65%)]" />
-
-              {/* 3. Floating Gold Sparkles / Atmosphere Motifs */}
-              <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-screen bg-[radial-gradient(circle_at_25%_25%,rgba(212,181,106,0.3)_0%,transparent_18%),radial-gradient(circle_at_75%_35%,rgba(212,181,106,0.25)_0%,transparent_15%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.2)_0%,transparent_12%)]" />
-
-              {/* 4. Luxury Podium Top Contact Shadow for Realistic Grounding */}
-              <div
-                className="absolute bottom-[32%] sm:bottom-[32.5%] left-1/2 -translate-x-1/2 w-[180px] sm:w-[200px] h-5 bg-black/85 blur-[5px] rounded-full pointer-events-none z-10"
-                aria-hidden="true"
-              />
-              <div
-                className="absolute bottom-[32.5%] sm:bottom-[33%] left-1/2 -translate-x-1/2 w-[130px] sm:w-[155px] h-3 bg-[#03150c]/90 blur-[2.5px] rounded-full pointer-events-none z-10"
-                aria-hidden="true"
-              />
-
-              {/* 5. 3D Interactive Animated Book (Anchored precisely to rest atop the marble podium) */}
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-[32%] sm:bottom-[32.5%] z-20">
+                className="
+                  relative
+                  h-[520px]
+                  w-full
+                  max-w-[560px]
+                  overflow-hidden
+                  rounded-[22px]
+                  border
+                  border-[#789657]
+                  bg-[#071a11]
+                  shadow-[0_25px_80px_rgba(0,0,0,0.55)]
+                  sm:h-[580px]
+                  lg:h-[640px]
+                  select-none
+                  group
+                  isolate
+                  [transform:translateZ(0)]
+                "
+              >
+                {/* 1. Base Marble Podium & Botanical Foliage Background Image */}
                 <div
-                  className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
-                  tabIndex={0}
-                  role="region"
-                  aria-label={`3D Animated book for ${currentTitle}`}
-                  onClick={() => setIsBookOpen((prev) => !prev)}
-                >
-                  {/* Soft Radial Contact Shadow */}
-                  <div className={bookStyles.contactShadow} aria-hidden="true" />
+                  className="absolute inset-x-0 top-0 h-[122%] bg-cover bg-top pointer-events-none origin-top transition-transform duration-1000 group-hover:scale-[1.02]"
+                  style={{ backgroundImage: "url('/images/green_marble_podium.jpg')" }}
+                  aria-hidden="true"
+                />
 
-                  {/* 3D Book Assembly */}
-                  <div className={bookStyles.book}>
-                    {/* Back Cover & Realistic Gilded Page Edges (Zero Black Borders) */}
-                    <div className={bookStyles.bookBody}>
-                      {/* Realistic Stacked Pages Layer */}
-                      <div className={bookStyles.pagesLayer}>
-                        {/* Inner Page Preview when book opens */}
-                        <div className={bookStyles.pageContent}>
-                          <div className="space-y-0.5">
-                            <span className="text-[7.5px] tracking-[0.2em] uppercase font-bold text-[#b89245] block">
-                              {currentCategory}
-                            </span>
-                            <p className="font-serif text-[10px] font-semibold text-[#2c3e50] line-clamp-2 leading-tight">
-                              {currentTitle}
+                {/* 2. Soft Ambient Lighting / Vignette & Overhead God Rays */}
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#020a05]/95 via-transparent to-[#020a05]/20" />
+                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,181,106,0.28),transparent_65%)]" />
+
+                {/* 3. Floating Gold Sparkles / Atmosphere Motifs */}
+                <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-screen bg-[radial-gradient(circle_at_25%_25%,rgba(212,181,106,0.3)_0%,transparent_18%),radial-gradient(circle_at_75%_35%,rgba(212,181,106,0.25)_0%,transparent_15%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.2)_0%,transparent_12%)]" />
+
+                {/* 4. Luxury Podium Top Contact Shadow for Realistic Grounding */}
+                <div
+                  className="absolute bottom-[30%] sm:bottom-[31%] left-1/2 -translate-x-1/2 w-[190px] sm:w-[220px] h-5 bg-black/85 blur-[5px] rounded-full pointer-events-none z-10"
+                  aria-hidden="true"
+                />
+                <div
+                  className="absolute bottom-[30.5%] sm:bottom-[31.5%] left-1/2 -translate-x-1/2 w-[140px] sm:w-[170px] h-3 bg-[#03150c]/90 blur-[2.5px] rounded-full pointer-events-none z-10"
+                  aria-hidden="true"
+                />
+
+                {/* 5. 3D Interactive Animated Book */}
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-[30%] sm:bottom-[31%] z-20">
+                  <div
+                    className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
+                    tabIndex={0}
+                    role="region"
+                    aria-label={`3D Animated book for ${currentTitle}`}
+                    onClick={() => setIsBookOpen((prev) => !prev)}
+                  >
+                    {/* Soft Radial Contact Shadow */}
+                    <div className={bookStyles.contactShadow} aria-hidden="true" />
+
+                    {/* 3D Book Assembly */}
+                    <div className={bookStyles.book}>
+                      {/* Back Cover & Realistic Gilded Page Edges */}
+                      <div className={bookStyles.bookBody}>
+                        <div className={bookStyles.pagesLayer}>
+                          {/* Inner Page Preview when book opens */}
+                          <div className={bookStyles.pageContent}>
+                            <div className="space-y-0.5">
+                              <span className="text-[7.5px] tracking-[0.2em] uppercase font-bold text-[#b89245] block">
+                                {currentCategory}
+                              </span>
+                              <p className="font-serif text-[10px] font-semibold text-[#2c3e50] line-clamp-2 leading-tight">
+                                {currentTitle}
+                              </p>
+                            </div>
+                            <p className="text-[7px] text-[#555] italic leading-tight line-clamp-5">
+                              {currentSummary}
                             </p>
-                          </div>
-                          <p className="text-[7px] text-[#555] italic leading-tight line-clamp-5">
-                            {currentSummary}
-                          </p>
-                          <div className="text-[7px] font-serif text-[#888] pt-0.5 border-t border-[#e2d8c3] text-right">
-                            Page 1
+                            <div className="text-[7px] font-serif text-[#888] pt-0.5 border-t border-[#e2d8c3] text-right">
+                              Page 1
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* 3D Hinged Rotating Cover Assembly (Opens on Hover / Click) */}
-                    <div className={bookStyles.cover}>
-                      {/* Front Face: Book Artwork Image */}
-                      <div className={bookStyles.frontFace}>
-                        <div className={bookStyles.spineHighlight} aria-hidden="true" />
+                      {/* 3D Hinged Rotating Cover Assembly */}
+                      <div className={bookStyles.cover}>
+                        <div className={bookStyles.frontFace}>
+                          <div className={bookStyles.spineHighlight} aria-hidden="true" />
 
-                        {/* Ribbon Badges on main book cover */}
-                        {book?.badge && (
-                          <div className="absolute top-1.5 left-1.5 z-30 flex flex-col gap-1 pointer-events-none">
-                            {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
-                              <span
-                                className="bg-[#56ab84] text-white text-[8.5px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
-                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
-                              >
-                                SALE
-                              </span>
-                            )}
-                            {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
-                              <span
-                                className="bg-[#e05638] text-white text-[8.5px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
-                                style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
-                              >
-                                HOT
-                              </span>
-                            )}
+                          {/* Ribbon Badges on main book cover */}
+                          {book?.badge && (
+                            <div className="absolute top-1.5 left-1.5 z-30 flex flex-col gap-1 pointer-events-none">
+                              {(book.badge === "SALE" || book.badge === "SALE_AND_HOT" || book.badge === "SALE_AND_NEW") && (
+                                <span
+                                  className="bg-[#56ab84] text-white text-[8.5px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                  style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                                >
+                                  SALE
+                                </span>
+                              )}
+                              {(book.badge === "HOT" || book.badge === "SALE_AND_HOT") && (
+                                <span
+                                  className="bg-[#e05638] text-white text-[8.5px] font-bold px-2 pt-0.5 pb-0.5 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                                  style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
+                                >
+                                  HOT
+                                </span>
+                              )}
+                            </div>
+                          )}
+
+                          <img
+                            src={currentImage}
+                            alt={currentTitle}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+
+                        <div className={bookStyles.backFace}>
+                          <div className={bookStyles.innerPagePattern}>
+                            <span className="text-[8px] tracking-widest text-[#a9822e] uppercase font-semibold">
+                              Publishing Hub
+                            </span>
                           </div>
-                        )}
-
-                        <img
-                          src={currentImage}
-                          alt={currentTitle}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-
-                      {/* Back Face of Front Cover */}
-                      <div className={bookStyles.backFace}>
-                        <div className={bookStyles.innerPagePattern}>
-                          <span className="text-[8px] tracking-widest text-[#a9822e] uppercase font-semibold">
-                            Publishing Hub
-                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* 6. Elegant Interactive Hint Badge */}
-              <div
-                onClick={() => setIsBookOpen((prev) => !prev)}
-                className="absolute bottom-2.5 sm:bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/80 hover:bg-black/95 backdrop-blur-md border border-[#d4b56a]/40 shadow-lg text-[10px] sm:text-[10.5px] text-[#f2eee3] cursor-pointer transition-all hover:scale-105 whitespace-nowrap"
-              >
-                <span className="inline-block w-2 h-2 rounded-full bg-[#d4b56a] animate-pulse" />
-                <span className="font-medium tracking-wide">Hover or click book to open 3D preview</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Book Details (Exact Match to Reference) */}
-          <div className="md:col-span-6 lg:col-span-6 space-y-5">
-            {/* Category Tag */}
-            <span className="text-[11px] font-bold tracking-[0.25em] text-[#b89245] dark:text-[#d4b56a] uppercase block">
-              {currentCategory}
-            </span>
-
-            {/* Book Title */}
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[#18181b] dark:text-[#f2eee3] leading-tight">
-              {currentTitle}
-            </h1>
-
-            {/* Ratings */}
-            <div className="flex items-center gap-2">
-              <div className="flex text-[#f59e0b]">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-4 h-4 ${i < Math.round(book?.rating || 5) ? "fill-current" : "opacity-30"
-                      }`}
-                  />
-                ))}
-              </div>
-              <span className="text-xs text-[#71717a] dark:text-[#9d9f96] ml-1">
-                ( {book?.reviewCount ?? 128} reviews )
-              </span>
-            </div>
-
-            {/* Summary */}
-            <p className="text-xs sm:text-sm text-[#52525b] dark:text-[#babcb2] leading-relaxed max-w-xl">
-              {currentSummary}
-            </p>
-
-            {/* Price & In Stock status */}
-            <div className="flex items-center gap-4 pt-1">
-              {book?.originalPrice && (
-                <span className="font-display text-lg sm:text-xl text-[#999] line-through font-normal">
-                  {book.originalPrice}
-                </span>
-              )}
-              <span className="font-display text-2xl sm:text-3xl font-semibold text-[#18181b] dark:text-[#f2eee3]">
-                {currentPrice}
-              </span>
-              {isOutOfStock ? (
-                <div className="flex items-center gap-1.5 text-xs text-[#ef4444] font-semibold bg-[#ef4444]/10 px-2.5 py-1 rounded-full border border-[#ef4444]/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ef4444]" />
-                  Out of Stock
-                </div>
-              ) : (
-                <div className="flex items-center gap-1.5 text-xs text-[#16a34a] font-semibold bg-[#16a34a]/10 px-2.5 py-1 rounded-full border border-[#16a34a]/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
-                  In Stock {book?.stock ? `(${book.stock} units)` : ""}
-                </div>
-              )}
-            </div>
-
-            {/* Quantity Selector + Add to Cart Button */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              {/* Quantity Stepper */}
-              <div
-                className={`flex items-center border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-[#0a120e] rounded-[2px] h-11 px-2 ${isOutOfStock ? "opacity-50 pointer-events-none" : ""
-                  }`}
-              >
+                {/* Bottom Preview Button */}
                 <button
-                  disabled={isOutOfStock || quantity <= 1}
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-7 h-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors disabled:opacity-30 cursor-pointer"
-                  aria-label="Decrease quantity"
+                  type="button"
+                  onClick={() => setIsBookOpen((prev) => !prev)}
+                  className="
+                    absolute
+                    bottom-5
+                    left-1/2
+                    z-30
+                    flex
+                    -translate-x-1/2
+                    items-center
+                    gap-2.5
+                    whitespace-nowrap
+                    rounded-full
+                    border
+                    border-[#c9a84e]
+                    bg-[#06130d]/90
+                    px-6
+                    py-2.5
+                    text-[13px]
+                    tracking-wide
+                    text-[#c9c5b8]
+                    backdrop-blur-md
+                    transition
+                    hover:bg-[#0b2418]
+                    hover:text-white
+                    cursor-pointer
+                    shadow-lg
+                  "
                 >
-                  <Minus className="w-3.5 h-3.5" />
-                </button>
-                <span className="w-9 text-center font-display text-sm font-semibold text-[#18181b] dark:text-[#f2eee3]">
-                  {isOutOfStock ? 0 : quantity}
-                </span>
-                <button
-                  disabled={isOutOfStock || quantity >= maxStock}
-                  onClick={() => setQuantity((q) => Math.min(maxStock, q + 1))}
-                  className="w-7 h-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors disabled:opacity-30 cursor-pointer"
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="w-3.5 h-3.5" />
+                  <span className="text-[#d2ad4f] text-sm font-bold">⌕</span>
+                  <span>Hover or click book to open 3D preview</span>
                 </button>
               </div>
-
-              {/* Coral-Red Add To Cart Button (Matching Live Reference) */}
-              <button
-                onClick={handleAddToCart}
-                disabled={isOutOfStock}
-                className={`flex-1 min-w-[200px] h-11 text-xs font-extrabold tracking-[0.18em] uppercase flex items-center justify-center gap-2 rounded-[2px] transition-all shadow-md ${isOutOfStock
-                    ? "bg-gray-400 text-white cursor-not-allowed opacity-60 shadow-none"
-                    : "bg-[#d95338] hover:bg-[#c44329] text-white hover:shadow-[0_6px_20px_rgba(217,83,56,0.35)] active:scale-[0.99] cursor-pointer"
-                  }`}
-              >
-                <ShoppingCart className="w-4 h-4" /> {isOutOfStock ? "OUT OF STOCK" : "ADD TO CART"}
-              </button>
             </div>
 
-            {addedAlert && (
-              <div className="text-xs text-[#16a34a] flex items-center gap-1.5 font-medium animate-in fade-in">
-                <Check className="w-4 h-4" /> Added {quantity} item(s) to your cart!
+            {/* =========================
+                RIGHT - PRODUCT DETAILS
+            ========================== */}
+            <div className="relative">
+
+              {/* Top Label Row */}
+              <div className="mb-6 flex items-center justify-between gap-6">
+
+                <div
+                  className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-full
+                    border
+                    border-[#6e985e]
+                    bg-[#0c2417]/80
+                    px-6
+                    py-2.5
+                    text-sm
+                    font-medium
+                    uppercase
+                    tracking-[0.22em]
+                    text-[#b8d6a3]
+                    shadow-sm
+                  "
+                >
+                  <span className="text-[#8eb96b]">✦</span>
+                  {currentCategory}
+                </div>
+
+                <div className="hidden items-center gap-5 text-[12px] font-medium uppercase tracking-[0.28em] text-[#d2ae50] xl:flex">
+                  <span>GOOD BOOKS</span>
+                  <span className="text-[#9c8036]">•</span>
+                  <span>BRIGHT FUTURES</span>
+                  <span className="ml-3 h-px w-16 bg-[#9d7d35]" />
+                </div>
+
               </div>
-            )}
 
-            {/* Wishlist & Compare Links */}
-            <div className="flex items-center gap-6 pt-3 text-xs text-[#71717a] dark:text-[#9d9f96] border-t border-gray-100 dark:border-gray-800">
-              <button
-                onClick={() => setIsWishlisted(!isWishlisted)}
-                className={`flex items-center gap-1.5 transition-colors cursor-pointer ${isWishlisted ? "text-[#d95338]" : "hover:text-[#18181b] dark:hover:text-[#f2eee3]"
-                  }`}
+              {/* Product Title */}
+              <h1
+                className="
+                  font-serif
+                  text-[52px]
+                  font-normal
+                  leading-[0.98]
+                  tracking-[-0.03em]
+                  text-[#f2eee3]
+                  sm:text-[66px]
+                  lg:text-[74px]
+                  xl:text-[80px]
+                "
               >
-                <Heart className={`w-3.5 h-3.5 ${isWishlisted ? "fill-current" : ""}`} />
-                {isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}
-              </button>
-              <button className="flex items-center gap-1.5 hover:text-[#18181b] dark:hover:text-[#f2eee3] transition-colors cursor-pointer">
-                <ArrowLeftRight className="w-3.5 h-3.5" /> Add to Compare
-              </button>
-            </div>
+                {currentTitle}
+              </h1>
 
-            {/* Social Share Icons */}
-            <div className="flex items-center gap-3 pt-2 text-xs text-[#71717a] dark:text-[#9d9f96]">
-              <span>Share:</span>
-              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
-                <Facebook className="w-3.5 h-3.5" />
-              </button>
-              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
-                <Twitter className="w-3.5 h-3.5" />
-              </button>
-              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
-                <Share2 className="w-3.5 h-3.5" />
-              </button>
-              <button className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#d95338] hover:text-[#d95338] flex items-center justify-center transition-colors cursor-pointer">
-                <Mail className="w-3.5 h-3.5" />
-              </button>
+              {/* Rating */}
+              <div className="mt-6 flex items-center gap-5">
+                <div className="flex gap-1 text-[24px] text-[#d9ae4c]">
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                </div>
+
+                <span className="text-[17px] text-[#e5e1d7]">
+                  ( {book?.reviewCount ?? 0} reviews )
+                </span>
+              </div>
+
+              {/* Description */}
+              <p
+                className="
+                  mt-6
+                  max-w-[850px]
+                  text-[17px]
+                  leading-[1.75]
+                  text-[#d0d2c9]
+                  sm:text-[18px]
+                  lg:text-[19px]
+                "
+              >
+                {currentSummary}
+              </p>
+
+              {/* Divider */}
+              <div className="my-6 h-px w-full bg-[#506247]/70" />
+
+              {/* Price + Stock */}
+              <div className="flex flex-wrap items-center gap-8">
+                <div className="font-serif text-[42px] font-medium text-[#f0d99c]">
+                  {currentPrice}
+                </div>
+
+                {isOutOfStock ? (
+                  <div
+                    className="
+                      flex
+                      items-center
+                      gap-2
+                      rounded-full
+                      border
+                      border-[#ef4444]/40
+                      bg-[#2b0c0c]
+                      px-5
+                      py-2.5
+                      text-[16px]
+                      text-[#ef4444]
+                    "
+                  >
+                    <span className="h-2 w-2 rounded-full bg-[#ef4444]" />
+                    Out of Stock
+                  </div>
+                ) : (
+                  <div
+                    className="
+                      flex
+                      items-center
+                      gap-2
+                      rounded-full
+                      border
+                      border-[#4e8754]
+                      bg-[#0b2818]
+                      px-5
+                      py-2.5
+                      text-[16px]
+                      text-[#72d16d]
+                    "
+                  >
+                    <span className="h-2 w-2 rounded-full bg-[#65d46a] animate-pulse" />
+                    In Stock ({book?.stock && book.stock > 0 ? `${book.stock} units` : "100 units"})
+                  </div>
+                )}
+              </div>
+
+              {/* Quantity + Add Cart */}
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+
+                {/* Quantity Stepper */}
+                <div
+                  className="
+                    flex
+                    h-[68px]
+                    w-full
+                    items-center
+                    justify-between
+                    rounded-lg
+                    border
+                    border-[#b18b3c]
+                    bg-[#06150e]
+                    sm:w-[215px]
+                  "
+                >
+                  <button
+                    type="button"
+                    disabled={isOutOfStock || quantity <= 1}
+                    onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
+                    className="
+                      flex
+                      h-full
+                      w-16
+                      items-center
+                      justify-center
+                      text-[27px]
+                      text-[#e6d39d]
+                      transition
+                      hover:bg-[#10261a]
+                      disabled:opacity-30
+                      cursor-pointer
+                    "
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
+
+                  <span className="text-[22px] font-serif text-[#f1eadb]">
+                    {quantity}
+                  </span>
+
+                  <button
+                    type="button"
+                    disabled={isOutOfStock || quantity >= maxStock}
+                    onClick={() => setQuantity((prev) => Math.min(maxStock, prev + 1))}
+                    className="
+                      flex
+                      h-full
+                      w-16
+                      items-center
+                      justify-center
+                      text-[27px]
+                      text-[#e6d39d]
+                      transition
+                      hover:bg-[#10261a]
+                      disabled:opacity-30
+                      cursor-pointer
+                    "
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Add To Cart Button - Warm Gold Gradient */}
+                <button
+                  type="button"
+                  disabled={isOutOfStock}
+                  onClick={handleAddToCart}
+                  className="
+                    flex
+                    h-[68px]
+                    flex-1
+                    items-center
+                    justify-center
+                    gap-4
+                    rounded-xl
+                    border
+                    border-[#d9b55d]
+                    bg-gradient-to-r
+                    from-[#e2c67c]
+                    to-[#cda952]
+                    px-7
+                    text-[17px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.16em]
+                    text-[#07120d]
+                    shadow-[0_10px_30px_rgba(194,153,62,0.16)]
+                    transition
+                    duration-300
+                    hover:scale-[1.01]
+                    hover:from-[#eed38d]
+                    hover:to-[#d9b961]
+                    active:scale-[0.99]
+                    disabled:opacity-50
+                    disabled:cursor-not-allowed
+                    cursor-pointer
+                  "
+                >
+                  <span className="text-[25px]">🛒</span>
+
+                  {addedAlert ? "ADDED TO CART" : "ADD TO CART"}
+
+                  <span className="text-[25px]">
+                    →
+                  </span>
+                </button>
+
+              </div>
+
+              {/* Wishlist / Compare */}
+              <div className="mt-7 flex flex-wrap items-center gap-7">
+
+                <button
+                  type="button"
+                  onClick={() => setIsWishlisted(!isWishlisted)}
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    text-[17px]
+                    text-[#dddcd4]
+                    transition
+                    hover:text-[#d7b45c]
+                    cursor-pointer
+                  "
+                >
+                  <span className="text-[28px] text-[#d7b45c]">
+                    {isWishlisted ? "♥" : "♡"}
+                  </span>
+                  {isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}
+                </button>
+
+                <span className="h-6 w-px bg-[#5d675d]" />
+
+                <button
+                  type="button"
+                  onClick={() => setIsCompared(!isCompared)}
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    text-[17px]
+                    text-[#dddcd4]
+                    transition
+                    hover:text-[#d7b45c]
+                    cursor-pointer
+                  "
+                >
+                  <span className="text-[27px] text-[#d7b45c]">
+                    ⇄
+                  </span>
+                  {isCompared ? "Added to Compare" : "Add to Compare"}
+                </button>
+
+              </div>
+
+              {/* Share */}
+              <div className="mt-8 flex items-center gap-5">
+
+                <span className="text-[17px] text-[#b8bcb3]">
+                  Share:
+                </span>
+
+                <div className="flex gap-4">
+
+                  <button
+                    type="button"
+                    className="
+                      flex
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-[#b69a52]
+                      text-[18px]
+                      text-[#eee9dc]
+                      transition
+                      hover:bg-[#c7a64e]
+                      hover:text-[#07120d]
+                      cursor-pointer
+                    "
+                    aria-label="Share on Facebook"
+                  >
+                    f
+                  </button>
+
+                  <button
+                    type="button"
+                    className="
+                      flex
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-[#b69a52]
+                      text-[18px]
+                      text-[#eee9dc]
+                      transition
+                      hover:bg-[#c7a64e]
+                      hover:text-[#07120d]
+                      cursor-pointer
+                    "
+                    aria-label="Share on X"
+                  >
+                    𝕏
+                  </button>
+
+                  <button
+                    type="button"
+                    className="
+                      flex
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-[#b69a52]
+                      text-[20px]
+                      text-[#eee9dc]
+                      transition
+                      hover:bg-[#c7a64e]
+                      hover:text-[#07120d]
+                      cursor-pointer
+                    "
+                    aria-label="Share link"
+                  >
+                    ⤴
+                  </button>
+
+                  <button
+                    type="button"
+                    className="
+                      flex
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-[#b69a52]
+                      text-[19px]
+                      text-[#eee9dc]
+                      transition
+                      hover:bg-[#c7a64e]
+                      hover:text-[#07120d]
+                      cursor-pointer
+                    "
+                    aria-label="Share via email"
+                  >
+                    ✉
+                  </button>
+
+                </div>
+
+              </div>
+
             </div>
 
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* Main Container for Lower Sections */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
 
         {/* ========================================================================= */}
         {/* ========================================================================= */}
@@ -818,6 +1237,38 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         </section>
 
       </div>
+
+      {/* =========================
+          ADD TO CART MESSAGE TOAST
+      ========================== */}
+      {addedAlert && (
+        <div
+          className="
+            fixed
+            bottom-7
+            right-7
+            z-50
+            rounded-xl
+            border
+            border-[#b69a52]
+            bg-[#092117]
+            px-6
+            py-4
+            text-sm
+            text-[#e8dfca]
+            shadow-2xl
+            flex
+            items-center
+            gap-3
+            animate-in
+            fade-in
+            slide-in-from-bottom-3
+          "
+        >
+          <span className="text-[#65d46a] font-bold text-base">✓</span>
+          <span>{currentTitle} added to your cart</span>
+        </div>
+      )}
     </div>
   );
 }
