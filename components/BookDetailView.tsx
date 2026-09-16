@@ -951,7 +951,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               </div>
 
               <h2 className="font-serif text-3xl sm:text-4xl md:text-[42px] text-[#1c1917] dark:text-[#F3EFE4] font-normal tracking-tight">
-                Meet The Authors
+                Meet The Author
               </h2>
 
               {/* Right decorative line with circular purple dot */}
