@@ -157,18 +157,18 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   };
 
   return (
-    <div className="bg-[#03100b] text-[#f2eee3] min-h-screen transition-colors duration-300">
+    <div className="bg-white dark:bg-[#03100b] text-[#18181b] dark:text-[#f2eee3] min-h-screen transition-colors duration-300">
 
       {/* ========================================================================= */}
       {/* TOP SECTION: BOTANICAL EMERALD BOOK SHOWCASE (MATCHING TARGET REFERENCE) */}
       {/* ========================================================================= */}
-      <section className="relative overflow-hidden bg-[#03100b] text-[#f3eee1] border-b border-[#294829]/40 py-10 sm:py-14 lg:py-16">
+      <section className="relative overflow-hidden bg-transparent dark:bg-[#03100b] text-[#18181b] dark:text-[#f3eee1] border-b border-gray-200/80 dark:border-[#294829]/40 py-10 sm:py-14 lg:py-16">
 
         {/* Background Glows */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute left-[5%] top-[10%] h-[400px] w-[400px] rounded-full bg-[#173d29]/30 blur-[130px]" />
-          <div className="absolute right-[0%] bottom-[5%] h-[500px] w-[500px] rounded-full bg-[#0e3825]/30 blur-[150px]" />
-          <div className="absolute left-[40%] top-[30%] h-[350px] w-[350px] rounded-full bg-[#133825]/20 blur-[140px]" />
+          <div className="absolute left-[5%] top-[10%] h-[400px] w-[400px] rounded-full dark:bg-[#173d29]/30 bg-emerald-100/30 blur-[130px]" />
+          <div className="absolute right-[0%] bottom-[5%] h-[500px] w-[500px] rounded-full dark:bg-[#0e3825]/30 bg-emerald-100/25 blur-[150px]" />
+          <div className="absolute left-[40%] top-[30%] h-[350px] w-[350px] rounded-full dark:bg-[#133825]/20 bg-emerald-50/20 blur-[140px]" />
         </div>
 
         {/* Decorative Real Botanical Foliage on Far Borders (from green_marble_podium.jpg) */}
@@ -429,8 +429,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     gap-1.5
                     rounded-full
                     border
-                    border-[#6e985e]
-                    bg-[#0c2417]/80
+                    border-emerald-600/40
+                    dark:border-[#6e985e]
+                    bg-emerald-50/80
+                    dark:bg-[#0c2417]/80
                     px-3.5
                     sm:px-4
                     py-1
@@ -439,19 +441,20 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     font-medium
                     uppercase
                     tracking-[0.18em]
-                    text-[#b8d6a3]
+                    text-emerald-800
+                    dark:text-[#b8d6a3]
                     shadow-sm
                   "
                 >
-                  <span className="text-[#8eb96b]">✦</span>
+                  <span className="text-[#3b7d34] dark:text-[#8eb96b]">✦</span>
                   {currentCategory}
                 </div>
 
-                <div className="hidden items-center gap-3 text-[10px] sm:text-[10.5px] font-medium uppercase tracking-[0.22em] text-[#d2ae50] xl:flex">
+                <div className="hidden items-center gap-3 text-[10px] sm:text-[10.5px] font-medium uppercase tracking-[0.22em] text-[#9a7322] dark:text-[#d2ae50] xl:flex">
                   <span>GOOD BOOKS</span>
-                  <span className="text-[#9c8036]">•</span>
+                  <span className="text-[#9a7322] dark:text-[#9c8036]">•</span>
                   <span>BRIGHT FUTURES</span>
-                  <span className="ml-2 h-px w-12 bg-[#9d7d35]" />
+                  <span className="ml-2 h-px w-12 bg-[#b89245]/40 dark:bg-[#9d7d35]" />
                 </div>
 
               </div>
@@ -467,7 +470,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   font-normal
                   leading-[1.08]
                   tracking-[-0.02em]
-                  text-[#f2eee3]
+                  text-[#18181b]
+                  dark:text-[#f2eee3]
                 "
               >
                 {currentTitle}
@@ -483,7 +487,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   <span>★</span>
                 </div>
 
-                <span className="text-[13px] sm:text-[13.5px] text-[#e5e1d7]">
+                <span className="text-[13px] sm:text-[13.5px] text-gray-600 dark:text-[#e5e1d7]">
                   ( {book?.reviewCount ?? 0} reviews )
                 </span>
               </div>
@@ -497,18 +501,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   text-[13.5px]
                   sm:text-[14px]
                   leading-[1.65]
-                  text-[#c9cbc1]
+                  text-gray-700
+                  dark:text-[#c9cbc1]
                 "
               >
                 {currentSummary}
               </p>
 
               {/* Divider */}
-              <div className="my-3.5 sm:my-4 h-px w-full bg-[#506247]/60" />
+              <div className="my-3.5 sm:my-4 h-px w-full bg-gray-200 dark:bg-[#506247]/60" />
 
               {/* Price + Stock */}
               <div className="flex flex-wrap items-center gap-5 sm:gap-6">
-                <div className="font-serif text-[28px] sm:text-[32px] font-medium text-[#f0d99c]">
+                <div className="font-serif text-[28px] sm:text-[32px] font-medium text-[#9a7322] dark:text-[#f0d99c]">
                   {currentPrice}
                 </div>
 
@@ -521,7 +526,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       rounded-full
                       border
                       border-[#ef4444]/40
-                      bg-[#2b0c0c]
+                      bg-red-50
+                      dark:bg-[#2b0c0c]
                       px-3
                       py-1
                       text-[12px]
@@ -540,16 +546,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       gap-2
                       rounded-full
                       border
-                      border-[#4e8754]
-                      bg-[#0b2818]
+                      border-emerald-600/30
+                      dark:border-[#4e8754]
+                      bg-emerald-50
+                      dark:bg-[#0b2818]
                       px-3
                       py-1
                       text-[12px]
                       sm:text-[12.5px]
-                      text-[#72d16d]
+                      text-emerald-800
+                      dark:text-[#72d16d]
                     "
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#65d46a] animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-[#65d46a] animate-pulse" />
                     In Stock ({book?.stock && book.stock > 0 ? `${book.stock} units` : "100 units"})
                   </div>
                 )}
@@ -569,8 +578,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     justify-between
                     rounded-lg
                     border
-                    border-[#b18b3c]
-                    bg-[#06150e]
+                    border-[#b89245]/60
+                    dark:border-[#b18b3c]
+                    bg-[#fbf9f4]
+                    dark:bg-[#06150e]
                     sm:w-[155px]
                   "
                 >
@@ -585,9 +596,11 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       items-center
                       justify-center
                       text-[18px]
-                      text-[#e6d39d]
+                      text-[#8a6b28]
+                      dark:text-[#e6d39d]
                       transition
-                      hover:bg-[#10261a]
+                      hover:bg-[#b89245]/15
+                      dark:hover:bg-[#10261a]
                       disabled:opacity-30
                       cursor-pointer
                     "
@@ -596,7 +609,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     −
                   </button>
 
-                  <span className="text-[16px] font-serif text-[#f1eadb]">
+                  <span className="text-[16px] font-serif text-[#18181b] dark:text-[#f1eadb]">
                     {quantity}
                   </span>
 
@@ -611,9 +624,11 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       items-center
                       justify-center
                       text-[18px]
-                      text-[#e6d39d]
+                      text-[#8a6b28]
+                      dark:text-[#e6d39d]
                       transition
-                      hover:bg-[#10261a]
+                      hover:bg-[#b89245]/15
+                      dark:hover:bg-[#10261a]
                       disabled:opacity-30
                       cursor-pointer
                     "
@@ -684,19 +699,21 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     gap-2
                     text-[13px]
                     sm:text-[13.5px]
-                    text-[#dddcd4]
+                    text-gray-600
+                    hover:text-[#9a7322]
+                    dark:text-[#dddcd4]
+                    dark:hover:text-[#d7b45c]
                     transition
-                    hover:text-[#d7b45c]
                     cursor-pointer
                   "
                 >
-                  <span className="text-[18px] text-[#d7b45c]">
+                  <span className="text-[18px] text-[#9a7322] dark:text-[#d7b45c]">
                     {isWishlisted ? "♥" : "♡"}
                   </span>
                   <span>{isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}</span>
                 </button>
 
-                <span className="h-4 w-px bg-[#5d675d]" />
+                <span className="h-4 w-px bg-gray-300 dark:bg-[#5d675d]" />
 
                 <button
                   type="button"
@@ -707,13 +724,15 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     gap-2
                     text-[13px]
                     sm:text-[13.5px]
-                    text-[#dddcd4]
+                    text-gray-600
+                    hover:text-[#9a7322]
+                    dark:text-[#dddcd4]
+                    dark:hover:text-[#d7b45c]
                     transition
-                    hover:text-[#d7b45c]
                     cursor-pointer
                   "
                 >
-                  <span className="text-[18px] text-[#d7b45c]">
+                  <span className="text-[18px] text-[#9a7322] dark:text-[#d7b45c]">
                     ⇄
                   </span>
                   <span>{isCompared ? "Added to Compare" : "Add to Compare"}</span>
@@ -724,7 +743,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               {/* Share */}
               <div className="mt-4 sm:mt-5 flex items-center gap-3.5">
 
-                <span className="text-[13px] text-[#b8bcb3]">
+                <span className="text-[13px] text-gray-500 dark:text-[#b8bcb3]">
                   Share:
                 </span>
 
@@ -742,13 +761,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       justify-center
                       rounded-full
                       border
-                      border-[#b69a52]
+                      border-[#b89245]/60
+                      dark:border-[#b69a52]
                       text-[12.5px]
                       sm:text-[13px]
-                      text-[#eee9dc]
+                      text-[#8a6b28]
+                      dark:text-[#eee9dc]
+                      bg-white
+                      dark:bg-transparent
                       transition
-                      hover:bg-[#c7a64e]
-                      hover:text-[#07120d]
+                      hover:bg-[#b89245]
+                      hover:text-white
+                      dark:hover:bg-[#c7a64e]
+                      dark:hover:text-[#07120d]
                       cursor-pointer
                     "
                     aria-label="Share on Facebook"
@@ -768,13 +793,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       justify-center
                       rounded-full
                       border
-                      border-[#b69a52]
+                      border-[#b89245]/60
+                      dark:border-[#b69a52]
                       text-[12.5px]
                       sm:text-[13px]
-                      text-[#eee9dc]
+                      text-[#8a6b28]
+                      dark:text-[#eee9dc]
+                      bg-white
+                      dark:bg-transparent
                       transition
-                      hover:bg-[#c7a64e]
-                      hover:text-[#07120d]
+                      hover:bg-[#b89245]
+                      hover:text-white
+                      dark:hover:bg-[#c7a64e]
+                      dark:hover:text-[#07120d]
                       cursor-pointer
                     "
                     aria-label="Share on X"
@@ -794,13 +825,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       justify-center
                       rounded-full
                       border
-                      border-[#b69a52]
+                      border-[#b89245]/60
+                      dark:border-[#b69a52]
                       text-[13px]
                       sm:text-[14px]
-                      text-[#eee9dc]
+                      text-[#8a6b28]
+                      dark:text-[#eee9dc]
+                      bg-white
+                      dark:bg-transparent
                       transition
-                      hover:bg-[#c7a64e]
-                      hover:text-[#07120d]
+                      hover:bg-[#b89245]
+                      hover:text-white
+                      dark:hover:bg-[#c7a64e]
+                      dark:hover:text-[#07120d]
                       cursor-pointer
                     "
                     aria-label="Share link"
@@ -820,13 +857,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       justify-center
                       rounded-full
                       border
-                      border-[#b69a52]
+                      border-[#b89245]/60
+                      dark:border-[#b69a52]
                       text-[13px]
                       sm:text-[14px]
-                      text-[#eee9dc]
+                      text-[#8a6b28]
+                      dark:text-[#eee9dc]
+                      bg-white
+                      dark:bg-transparent
                       transition
-                      hover:bg-[#c7a64e]
-                      hover:text-[#07120d]
+                      hover:bg-[#b89245]
+                      hover:text-white
+                      dark:hover:bg-[#c7a64e]
+                      dark:hover:text-[#07120d]
                       cursor-pointer
                     "
                     aria-label="Share via email"
@@ -853,29 +896,99 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         {/* ========================================================================= */}
         {/* SECTION 2: MEET THE AUTHOR (CLEAN LIGHT DAY THEME / GREEN DARK THEME)     */}
         {/* ========================================================================= */}
-        <section className="py-4 sm:py-6">
-          <div className="max-w-6xl mx-auto rounded-xl sm:rounded-2xl bg-white/95 dark:bg-[#091510] border border-gray-200/80 dark:border-[#2c7650]/40 p-6 sm:p-10 lg:p-12 shadow-sm dark:shadow-xl relative overflow-hidden transition-all duration-300">
-            {/* Ambient Glows in Background (Subtle in Day mode, Emerald in Dark mode) */}
-            <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-50/40 dark:bg-[#2c7650]/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-pink-50/30 dark:bg-[#2c7650]/15 rounded-full blur-3xl pointer-events-none" />
+        {/* ========================================================================= */}
+        {/* ========================================================================= */}
+        {/* SECTION 2: MEET THE AUTHOR (LUXURY PUBLISHING STYLE MATCHING REFERENCE)   */}
+        {/* ========================================================================= */}
+        {/* ========================================================================= */}
+        <section className="py-8 sm:py-12 relative overflow-visible">
+          {/* Seamless Atmospheric Forest Green Glow in Background */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] sm:w-[1000px] h-[450px] dark:bg-[#0c3522]/35 bg-emerald-100/25 rounded-full blur-[140px]" />
+            <div className="absolute -top-10 left-1/4 w-[400px] h-[350px] dark:bg-[#14422c]/20 bg-emerald-50/20 rounded-full blur-[120px]" />
+            <div className="absolute -bottom-10 right-1/4 w-[450px] h-[350px] dark:bg-[#0e3a24]/20 bg-emerald-50/20 rounded-full blur-[130px]" />
+          </div>
 
-            {/* Centered Heading & Quote */}
-            <div className="text-center mb-8 sm:mb-12 relative z-10 max-w-3xl mx-auto px-4">
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl dark:text-[#f2eee3] text-[#1c1917] font-normal tracking-tight">
-                Meet The Author
-              </h2>
-              <div className="w-16 h-0.5 bg-[#b89245] dark:bg-[#d4b56a] mx-auto mt-3 mb-4 rounded-full opacity-80" />
+          {/* Main Gold-Bordered Container with Deep Forest Radial Background */}
+          <div
+            className="max-w-6xl mx-auto rounded-2xl sm:rounded-3xl border border-[#b89245]/50 dark:border-[#C9A646]/85 p-6 sm:p-10 lg:p-12 shadow-[0_15px_45px_rgba(0,0,0,0.06)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95)] relative z-10 transition-all duration-300 bg-[#fbf9f4] dark:bg-[radial-gradient(ellipse_90%_80%_at_50%_30%,_#09281b_0%,_#061911_55%,_#030f0a_100%)]"
+          >
+            {/* Top Center Botanical Leaf Emblem */}
+            <div
+              className="absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 px-3 z-20 flex items-center justify-center rounded-full bg-[#fbf9f4] dark:bg-[#082419] border border-[#b89245]/30 dark:border-transparent"
+            >
+              <svg
+                viewBox="0 0 38 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-8 h-5 sm:w-9 sm:h-6 text-[#9a7322] dark:text-[#C9A646]"
+                aria-hidden="true"
+              >
+                <path d="M19 22V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                <path
+                  d="M19 13C19 9.5 20.5 3 22 2C20.5 3 17 6.5 17 11C17 12 18 13 19 13Z"
+                  fill="currentColor"
+                  fillOpacity="0.18"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M19 13.5C20.5 13.5 24 13 28 8C29.5 6 29 4.5 27 5C23 6 19.5 11 19 13.5Z"
+                  fill="currentColor"
+                  fillOpacity="0.18"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M19 13.5C17.5 13.5 14 13 10 8C8.5 6 9 4.5 11 5C15 6 18.5 11 19 13.5Z"
+                  fill="currentColor"
+                  fillOpacity="0.18"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+
+            {/* Ornamental Centered Heading & Quote */}
+            <div className="text-center mb-8 sm:mb-12 relative z-10 max-w-3xl mx-auto px-2">
+              <div className="flex items-center justify-center gap-3 sm:gap-5">
+                {/* Left decorative line with circular dot */}
+                <div className="hidden sm:flex items-center gap-2.5 text-[#9a7322] dark:text-[#C9A646]">
+                  <div className="w-14 sm:w-20 md:w-28 lg:w-36 h-[1px] bg-gradient-to-r from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
+                </div>
+
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#1c1917] dark:text-[#F3EFE4] font-normal tracking-tight">
+                  Meet The Author
+                </h2>
+
+                {/* Right decorative line with circular dot */}
+                <div className="hidden sm:flex items-center gap-2.5 text-[#9a7322] dark:text-[#C9A646]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
+                  <div className="w-14 sm:w-20 md:w-28 lg:w-36 h-[1px] bg-gradient-to-l from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+                </div>
+              </div>
+
+              {/* Small thin gold line underneath heading */}
+              <div className="w-12 sm:w-16 h-[1.5px] bg-[#b89245] dark:bg-[#C9A646] mx-auto mt-3.5 mb-4 opacity-85 rounded-full" />
+
+              {/* Author Quote with cleaned quotes */}
               {currentAuthorQuote && (
-                <p className="font-display italic text-sm sm:text-base md:text-lg text-gray-600 dark:text-[#a3b8ad] max-w-2xl mx-auto leading-relaxed">
-                  &ldquo;{currentAuthorQuote}&rdquo;
+                <p className="font-serif italic text-sm sm:text-base md:text-[17px] text-[#57534e] dark:text-[#e3ded2] max-w-2xl mx-auto leading-relaxed">
+                  &ldquo;{currentAuthorQuote.replace(/^["“'\s]+|["”'\s]+$/g, "").trim()}&rdquo;
                 </p>
               )}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center max-w-5xl mx-auto relative z-10">
-              {/* Left: Author Profile (Portrait Photo + Centered Name + Centered Circular Social Icons) */}
+            {/* Content Area: Author Profile (Left) & Books (Right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center max-w-5xl mx-auto relative z-10">
+              {/* Left Column: Author Profile */}
               <div className="lg:col-span-4 flex flex-col items-center text-center">
-                <div className="w-44 sm:w-52 aspect-[3.8/5] overflow-hidden shadow-sm rounded-[3px] bg-white dark:bg-black/40 border border-gray-200/80 dark:border-[#2c7650]/50">
+                {/* Author Portrait Image with Smooth Rounded Corners */}
+                <div className="w-44 sm:w-52 aspect-[3.8/4.8] overflow-hidden rounded-2xl bg-gray-100 shadow-xl border border-gray-200 dark:border-[#2c533e]/50 dark:bg-black/40">
                   <img
                     src={currentAuthorImage}
                     alt={currentAuthorName}
@@ -883,41 +996,41 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   />
                 </div>
 
+                {/* Author Selection Pills */}
                 {authorsList.length > 1 ? (
-                  <div className="mt-4 flex flex-col items-center">
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      {authorsList.map((auth, idx) => {
-                        const isSelected = selectedAuthorIdx === idx;
-                        return (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => setSelectedAuthorIdx(idx)}
-                            className={`font-display text-base sm:text-lg px-3 py-1 rounded-full transition-all duration-200 border cursor-pointer ${isSelected
-                                ? "bg-[#b89245]/15 border-[#b89245] text-[#b89245] dark:text-[#d4b56a] font-semibold shadow-sm"
-                                : "border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-white/30"
-                              }`}
-                          >
-                            {auth.name}
-                          </button>
-                        );
-                      })}
-                    </div>
+                  <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
+                    {authorsList.map((auth, idx) => {
+                      const isSelected = selectedAuthorIdx === idx;
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setSelectedAuthorIdx(idx)}
+                          className={`font-serif text-sm sm:text-[15px] px-4 sm:px-5 py-1.5 rounded-full transition-all duration-200 border cursor-pointer ${
+                            isSelected
+                              ? "border-[#b89245] text-[#1c1917] bg-[#b89245]/15 shadow-[0_0_12px_rgba(184,146,69,0.2)] dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 dark:shadow-[0_0_12px_rgba(201,166,70,0.18)] font-medium"
+                              : "border-gray-200 bg-white text-gray-700 hover:border-[#b89245] hover:text-[#1c1917] dark:border-[#1b3d2b] dark:bg-[#071911]/60 dark:text-[#8ea99b] dark:hover:border-[#2b6348] dark:hover:text-[#F3EFE4]"
+                          }`}
+                        >
+                          {auth.name}
+                        </button>
+                      );
+                    })}
                   </div>
                 ) : (
-                  <h3 className="font-display text-xl sm:text-2xl font-medium dark:text-[#f2eee3] text-[#1c1917] mt-4 text-center">
+                  <div className="mt-4 font-serif text-sm sm:text-[15px] px-5 py-1.5 rounded-full border border-[#b89245] text-[#1c1917] bg-[#b89245]/15 shadow-sm dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 dark:shadow-[0_0_12px_rgba(201,166,70,0.18)] font-medium">
                     {currentAuthorName}
-                  </h3>
+                  </div>
                 )}
 
-                {/* Circular Social Icons */}
-                <div className="flex items-center justify-center gap-2 mt-3 text-gray-500 dark:text-[#a3b8ad]">
+                {/* Clean Circular Social Icons */}
+                <div className="flex items-center justify-center gap-2.5 mt-3 text-[#9a7322] dark:text-[#C9A646]">
                   <a
                     href={currentAuthorSocials?.facebook || "#facebook"}
                     target={currentAuthorSocials?.facebook && currentAuthorSocials.facebook.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     aria-label="Facebook"
-                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
                   >
                     <Facebook className="w-3.5 h-3.5" />
                   </a>
@@ -926,7 +1039,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     target={currentAuthorSocials?.twitter && currentAuthorSocials.twitter.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     aria-label="Twitter"
-                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
                   >
                     <Twitter className="w-3.5 h-3.5" />
                   </a>
@@ -935,7 +1048,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     target={currentAuthorSocials?.linkedin && currentAuthorSocials.linkedin.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     aria-label="LinkedIn"
-                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
                   >
                     <Linkedin className="w-3.5 h-3.5" />
                   </a>
@@ -944,7 +1057,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     target={currentAuthorSocials?.instagram && currentAuthorSocials.instagram.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     aria-label="Instagram"
-                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
                   >
                     <Instagram className="w-3.5 h-3.5" />
                   </a>
@@ -954,7 +1067,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       target={currentAuthorSocials.youtube.startsWith("http") ? "_blank" : undefined}
                       rel="noopener noreferrer"
                       aria-label="YouTube"
-                      className="w-7 h-7 rounded-full border border-gray-200 dark:border-[#2c7650]/60 hover:border-black hover:text-black dark:hover:border-[#d4b56a] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors text-xs bg-gray-50/60 dark:bg-black/20"
+                      className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
                     >
                       <Youtube className="w-3.5 h-3.5" />
                     </a>
@@ -962,14 +1075,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 </div>
               </div>
 
-              {/* Right: Other Books by Author OR Notice Box (Single-Line Horizontal Row) */}
-              <div className="lg:col-span-8 flex flex-col justify-center min-h-[220px] relative w-full overflow-hidden">
+              {/* Right Column: Author's Books (Clean Horizontal Row Matching Reference) */}
+              <div className="lg:col-span-8 flex flex-col justify-center min-h-[240px] relative w-full overflow-hidden">
                 {authorBooksList && authorBooksList.length > 0 ? (
                   <div className="relative group/carousel w-full">
-                    {/* Single-line horizontal scrollable container - NEVER wraps to second line */}
+                    {/* Horizontal scrollable container for books */}
                     <div
                       ref={authorBooksScrollRef}
-                      className="flex items-start gap-4 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1 flex-nowrap"
+                      className="flex items-start justify-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1 flex-nowrap"
                     >
                       {authorBooksList.map((b) => {
                         const targetSlug = b.slug || getBookSlug(b);
@@ -977,13 +1090,23 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                           <Link
                             key={b.id}
                             href={`/product/${targetSlug}`}
-                            className="flex-shrink-0 w-[140px] sm:w-[155px] md:w-[170px] flex flex-col items-center text-center group cursor-pointer transition-transform"
+                            className="flex-shrink-0 w-[140px] sm:w-[160px] md:w-[180px] lg:w-[195px] flex flex-col items-center text-center group cursor-pointer transition-transform"
                           >
-                            <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-[2px] shadow-sm group-hover:shadow-md transform group-hover:-translate-y-1 transition-all duration-300 border border-gray-200/80 dark:border-[#2c7650]/30 bg-white dark:bg-black/30">
+                            {/* Realistic Book Cover with subtle 3D shadow */}
+                            <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-r-[3px] rounded-l-[1px] shadow-md group-hover:shadow-xl dark:shadow-[0_12px_28px_rgba(0,0,0,0.65)] dark:group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-1.5 transition-all duration-300 border border-gray-200 dark:border-white/10 group-hover:border-[#b89245]/60 dark:group-hover:border-[#C9A646]/50 bg-gray-100 dark:bg-black/40">
                               <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
                             </div>
-                            <div className="mt-3 text-xs font-semibold text-[#b89245] dark:text-[#d4b56a]">{b.price}</div>
-                            <h4 className="font-display text-sm mt-1 dark:text-[#f2eee3] text-[#1c1917] group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors line-clamp-2">
+
+                            {/* Book Price in Gold */}
+                            <div className="mt-3.5 text-xs sm:text-sm font-medium text-[#8a6b28] dark:text-[#C9A646] tracking-wide">
+                              {b.price}
+                            </div>
+
+                            {/* Thin Gold Accent Line underneath Price */}
+                            <div className="w-6 h-[1.5px] bg-[#b89245] dark:bg-[#C9A646] mx-auto my-1.5 opacity-80 group-hover:w-8 group-hover:bg-[#b89245] dark:group-hover:bg-[#dfba56] transition-all" />
+
+                            {/* Book Title in Warm Cream Serif */}
+                            <h4 className="font-serif text-sm sm:text-[15px] text-[#1c1917] group-hover:text-[#8a6b28] dark:text-[#F3EFE4] dark:group-hover:text-[#C9A646] transition-colors line-clamp-2 leading-snug">
                               {b.title}
                             </h4>
                           </Link>
@@ -993,12 +1116,12 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
                     {/* Navigation Arrow Controls when books can scroll */}
                     {authorBooksList.length > 3 && (
-                      <div className="flex items-center justify-end gap-2 mt-2 pr-1">
+                      <div className="flex items-center justify-end gap-2 mt-3 pr-1">
                         <button
                           type="button"
                           onClick={() => scrollAuthorBooks("left")}
                           aria-label="Previous book"
-                          className="w-7 h-7 rounded-full border border-gray-300 dark:border-[#2c7650]/60 hover:border-[#b89245] dark:hover:border-[#d4b56a] text-gray-600 dark:text-gray-300 hover:text-[#b89245] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors bg-white/80 dark:bg-black/40 shadow-xs cursor-pointer"
+                          className="w-7 h-7 rounded-full border border-gray-200 bg-white text-gray-700 hover:border-[#b89245] hover:text-[#8a6b28] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
                         >
                           <ChevronLeft className="w-3.5 h-3.5" />
                         </button>
@@ -1006,7 +1129,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                           type="button"
                           onClick={() => scrollAuthorBooks("right")}
                           aria-label="Next book"
-                          className="w-7 h-7 rounded-full border border-gray-300 dark:border-[#2c7650]/60 hover:border-[#b89245] dark:hover:border-[#d4b56a] text-gray-600 dark:text-gray-300 hover:text-[#b89245] dark:hover:text-[#d4b56a] flex items-center justify-center transition-colors bg-white/80 dark:bg-black/40 shadow-xs cursor-pointer"
+                          className="w-7 h-7 rounded-full border border-gray-200 bg-white text-gray-700 hover:border-[#b89245] hover:text-[#8a6b28] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
                         >
                           <ChevronRight className="w-3.5 h-3.5" />
                         </button>
@@ -1014,12 +1137,12 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     )}
                   </div>
                 ) : (
-                  /* Clean Light Notice Box in Day mode, Emerald Green in Dark mode */
-                  <div className="flex items-center gap-3.5 px-6 py-5 bg-gray-50/80 dark:bg-[#123324] border border-gray-200 dark:border-[#2c7650] text-[#555] dark:text-[#e2f7eb] rounded-lg shadow-sm max-w-lg my-auto">
-                    <div className="w-6 h-6 rounded-full border-2 border-gray-400 dark:border-[#52c38d] bg-white dark:bg-[#1a4a34] flex items-center justify-center text-xs font-bold text-gray-600 dark:text-[#52c38d] flex-shrink-0">
+                  /* Clean Notice Box when no books are found */
+                  <div className="flex items-center gap-3.5 px-6 py-5 bg-amber-50/60 border border-amber-200 text-amber-950 dark:bg-[#0a2318] dark:border-[#1b3d2b] dark:text-[#e2f7eb] rounded-xl shadow-sm max-w-lg mx-auto my-auto">
+                    <div className="w-6 h-6 rounded-full border-2 border-amber-600/40 bg-amber-100 dark:border-[#52c38d] dark:bg-[#14422e] flex items-center justify-center text-xs font-bold text-amber-800 dark:text-[#52c38d] flex-shrink-0">
                       i
                     </div>
-                    <span className="text-[13.5px] font-medium tracking-wide leading-snug">
+                    <span className="text-[13.5px] font-medium tracking-wide leading-snug font-serif text-amber-900 dark:text-[#d6ded9]">
                       No products were found matching your selection.
                     </span>
                   </div>
@@ -1030,113 +1153,190 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 3: TABS (DESCRIPTION & REVIEWS)                                   */}
+        {/* SECTION 3: TABS (DESCRIPTION & REVIEWS - LUXURY PUBLISHING THEME)          */}
         {/* ========================================================================= */}
-        <section className="space-y-8 max-w-4xl mx-auto pt-6 border-t dark:border-[#f2eee3]/10 border-gray-100">
-          {/* Tab Selection */}
-          <div className="flex items-center justify-center gap-12 border-b dark:border-[#f2eee3]/10 border-gray-200">
-            <button
-              onClick={() => setActiveTab("description")}
-              className={`pb-4 text-base font-display transition-all relative ${activeTab === "description"
-                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
-                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
-                }`}
-            >
-              Description
-            </button>
-            <button
-              onClick={() => setActiveTab("reviews")}
-              className={`pb-4 text-base font-display transition-all relative ${activeTab === "reviews"
-                  ? "text-[#18181b] dark:text-[#f2eee3] font-bold border-b-2 border-[#d95338]"
-                  : "text-[#71717a] dark:text-[#9d9f96] hover:text-[#18181b] dark:hover:text-[#f2eee3]"
-                }`}
-            >
-              Reviews (0)
-            </button>
-          </div>
+        <section className="max-w-4xl mx-auto pt-8 pb-4 relative z-10">
+          <div className="rounded-2xl border border-gray-200/80 bg-[#fcfaf6] p-6 sm:p-10 shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:border-[#18422e] dark:bg-[#061710] dark:shadow-[0_16px_36px_rgba(0,0,0,0.6)] relative overflow-hidden">
+            {/* Subtle Inner Ambient Glow */}
+            <div className="absolute top-0 right-1/4 w-72 h-72 dark:bg-[#0c3522]/20 bg-emerald-100/25 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Tab Contents */}
-          <div className="py-4">
-            {activeTab === "description" ? (
-              <div className="space-y-4 max-w-3xl mx-auto text-left">
-                {currentDescription.split("\n\n").map((para, i) => (
-                  <p key={i} className="text-xs sm:text-[13.5px] leading-relaxed dark:text-[#b0b3a8] text-[#555]">
-                    {para}
-                  </p>
-                ))}
-                {(book?.isbn || book?.publisher || book?.pages || book?.format || book?.language) && (
-                  <div className="pt-6 border-t border-gray-100 dark:border-[#f2eee3]/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
-                    {book.isbn && (
-                      <div>
-                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">ISBN</span>
-                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.isbn}</span>
-                      </div>
-                    )}
-                    {book.publisher && (
-                      <div>
-                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">Publisher</span>
-                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.publisher}</span>
-                      </div>
-                    )}
-                    {book.pages && (
-                      <div>
-                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">Pages</span>
-                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.pages} pages</span>
-                      </div>
-                    )}
-                    {book.format && (
-                      <div>
-                        <span className="block text-[10px] uppercase font-bold text-[#71717a] dark:text-[#9d9f96]">Format</span>
-                        <span className="text-xs font-medium text-[#18181b] dark:text-[#f2eee3]">{book.format}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="py-6 text-center text-xs text-gray-500 dark:text-gray-400">
-                There are no reviews yet for this book.
-              </div>
-            )}
+            {/* Tab Selection */}
+            <div className="flex items-center justify-center gap-10 sm:gap-14 border-b border-gray-200 dark:border-[#18422e] pb-0 relative z-10">
+              <button
+                type="button"
+                onClick={() => setActiveTab("description")}
+                className={`pb-3.5 text-base sm:text-lg font-serif tracking-wide transition-all duration-200 relative cursor-pointer ${
+                  activeTab === "description"
+                    ? "text-[#1c1917] font-medium border-b-2 border-[#b89245] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
+                    : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-gray-300 -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
+                }`}
+              >
+                Description
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("reviews")}
+                className={`pb-3.5 text-base sm:text-lg font-serif tracking-wide transition-all duration-200 relative cursor-pointer ${
+                  activeTab === "reviews"
+                    ? "text-[#1c1917] font-medium border-b-2 border-[#b89245] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
+                    : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-gray-300 -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
+                }`}
+              >
+                Reviews (0)
+              </button>
+            </div>
+
+            {/* Tab Contents */}
+            <div className="pt-6 relative z-10">
+              {activeTab === "description" ? (
+                <div className="space-y-4 max-w-3xl mx-auto text-left">
+                  {currentDescription.split("\n\n").map((para, i) => (
+                    <p key={i} className="text-xs sm:text-[14px] leading-relaxed text-gray-700 dark:text-[#dcded8]">
+                      {para}
+                    </p>
+                  ))}
+                  {(book?.isbn || book?.publisher || book?.pages || book?.format || book?.language) && (
+                    <div className="pt-6 mt-6 border-t border-gray-200 dark:border-[#18422e] grid grid-cols-2 sm:grid-cols-4 gap-5 text-left">
+                      {book.isbn && (
+                        <div>
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                            ISBN
+                          </span>
+                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                            {book.isbn}
+                          </span>
+                        </div>
+                      )}
+                      {book.publisher && (
+                        <div>
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                            Publisher
+                          </span>
+                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                            {book.publisher}
+                          </span>
+                        </div>
+                      )}
+                      {book.pages && (
+                        <div>
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                            Pages
+                          </span>
+                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                            {book.pages} pages
+                          </span>
+                        </div>
+                      )}
+                      {book.format && (
+                        <div>
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                            Format
+                          </span>
+                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                            {book.format}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="py-8 text-center text-xs sm:text-sm text-gray-500 dark:text-[#9A9D95] font-serif italic">
+                  There are no reviews yet for this book.
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
 
         {/* ========================================================================= */}
-        {/* SECTION 4: RELATED PRODUCTS (MATCHING REFERENCE CAROUSEL)                 */}
+        {/* SECTION 4: RELATED PRODUCTS (LUXURY PUBLISHING STYLE MATCHING REFERENCE)   */}
         {/* ========================================================================= */}
-        <section className="space-y-10 sm:space-y-14 pt-10 pb-8 sm:pt-16 sm:pb-14 border-t dark:border-[#f2eee3]/10 border-[#e9e1f5]">
-          {/* Centered Section Heading */}
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-normal dark:text-[#f2eee3] text-[#1c1917] tracking-tight">
-              Related products
-            </h2>
+        <section className="py-12 sm:py-16 relative border-t border-gray-200 dark:border-[#18422e]/60">
+          {/* Subtle Ambient Emerald Glow */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] dark:bg-[#0c3522]/20 bg-emerald-100/20 rounded-full blur-[140px]" />
           </div>
 
-          {/* Book Grid Showcase per Slide */}
-          <div
-            className={`items-start min-h-[380px] ${relatedBooksList.length <= 2
-                ? "flex justify-center gap-8 sm:gap-12 flex-wrap max-w-3xl mx-auto"
-                : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-6xl mx-auto"
-              }`}
-          >
+          {/* Centered Heading with Botanical Motif and Ornamental Lines */}
+          <div className="text-center mb-10 sm:mb-14 relative z-10 max-w-3xl mx-auto px-4">
+            {/* Top Center Botanical Leaf Emblem */}
+            <div className="flex items-center justify-center mb-3">
+              <svg
+                viewBox="0 0 38 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-8 h-5 text-[#8a6b28] dark:text-[#C9A646]"
+                aria-hidden="true"
+              >
+                <path d="M19 22V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                <path
+                  d="M19 13C19 9.5 20.5 3 22 2C20.5 3 17 6.5 17 11C17 12 18 13 19 13Z"
+                  fill="currentColor"
+                  fillOpacity="0.18"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M19 13.5C20.5 13.5 24 13 28 8C29.5 6 29 4.5 27 5C23 6 19.5 11 19 13.5Z"
+                  fill="currentColor"
+                  fillOpacity="0.18"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M19 13.5C17.5 13.5 14 13 10 8C8.5 6 9 4.5 11 5C15 6 18.5 11 19 13.5Z"
+                  fill="currentColor"
+                  fillOpacity="0.18"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+
+            {/* Heading with Left & Right Gold Ornamental Lines */}
+            <div className="flex items-center justify-center gap-3 sm:gap-5">
+              <div className="hidden sm:flex items-center gap-2.5 text-[#8a6b28] dark:text-[#C9A646]">
+                <div className="w-12 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
+              </div>
+
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-[44px] lg:text-[48px] text-[#1c1917] dark:text-[#F2EEE3] font-normal tracking-tight">
+                Related products
+              </h2>
+
+              <div className="hidden sm:flex items-center gap-2.5 text-[#8a6b28] dark:text-[#C9A646]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
+                <div className="w-12 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-l from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+              </div>
+            </div>
+
+            {/* Small Gold Underline */}
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#b89245] dark:bg-[#C9A646] mx-auto mt-3.5 opacity-85 rounded-full" />
+          </div>
+
+          {/* 4-Column Product Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 max-w-6xl mx-auto relative z-10">
             {relatedBooksList.slice(relatedSlide * 4, (relatedSlide + 1) * 4).map((b) => {
               const targetSlug = b.slug || getBookSlug(b);
               return (
                 <Link
                   key={b.id}
                   href={`/product/${targetSlug}`}
-                  className="group flex flex-col items-center text-center cursor-pointer animate-in fade-in duration-300"
+                  className="rounded-2xl border border-gray-200/80 bg-[#fcfaf6] p-4 sm:p-5 flex flex-col items-center text-center transition-all duration-300 hover:border-[#b89245]/60 hover:-translate-y-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.1)] dark:border-[#18422e] dark:bg-[#061710] dark:hover:border-[#C9A646]/60 dark:shadow-[0_12px_28px_rgba(0,0,0,0.55)] dark:hover:shadow-[0_18px_40px_rgba(0,0,0,0.8)] group cursor-pointer"
                 >
-                  {/* Standalone Book Cover (No Card Box) */}
-                  <div className="relative w-full max-w-[240px] aspect-[3/4.3] overflow-hidden rounded-[2px] shadow-[0_10px_25px_rgba(0,0,0,0.15)] dark:shadow-[0_16px_35px_rgba(0,0,0,0.7)] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] dark:group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-2 transition-all duration-300">
-
+                  {/* Book Cover Container */}
+                  <div className="relative w-full aspect-[3/4.2] overflow-hidden rounded-[3px] shadow-md group-hover:shadow-lg dark:shadow-[0_10px_22px_rgba(0,0,0,0.55)] border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-black/40">
                     {/* Top Ribbon Badges */}
                     {b.badge && (
                       <div className="absolute top-0 left-0 z-20 flex flex-col gap-1 pointer-events-none">
                         {(b.badge === "SALE" || b.badge === "SALE_AND_HOT" || (b.badgeType === "sale" && b.badge !== "HOT")) && (
                           <span
-                            className="bg-[#56ab84] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                            className="bg-[#3f8f68] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center font-sans"
                             style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
                           >
                             SALE
@@ -1144,7 +1344,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         )}
                         {(b.badge === "HOT" || b.badge === "SALE_AND_HOT" || (b.badgeType === "hot" && b.badge !== "SALE")) && (
                           <span
-                            className="bg-[#e05638] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center"
+                            className="bg-[#c8482a] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center font-sans"
                             style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
                           >
                             HOT
@@ -1154,17 +1354,17 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     )}
 
                     {/* Spine Shadow Gradient Overlay */}
-                    <div className="absolute top-0 left-0 bottom-0 w-[6%] bg-gradient-to-r from-black/35 via-black/10 to-transparent z-10 pointer-events-none" />
+                    <div className="absolute top-0 left-0 bottom-0 w-[6%] bg-gradient-to-r from-black/40 to-transparent z-10 pointer-events-none" />
 
                     {/* Book Image */}
                     <img
                       src={b.image}
                       alt={b.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                     />
 
                     {/* Hover Floating Action Buttons (Cart & Search) */}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-20">
+                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-20">
                       <button
                         onClick={(e) => {
                           e.preventDefault();
@@ -1175,12 +1375,12 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         }}
                         aria-label="Add to cart"
                         title="Add to cart"
-                        className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
+                        className="w-10 h-10 rounded-full bg-white/95 border border-[#b89245]/70 text-[#8a6b28] hover:bg-[#b89245] hover:text-white dark:bg-[#082318] dark:border-[#C9A646]/70 dark:hover:bg-[#C9A646] dark:text-[#C9A646] dark:hover:text-[#05100B] shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
                       >
                         <ShoppingCart className="w-4 h-4" />
                       </button>
                       <span
-                        className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
+                        className="w-10 h-10 rounded-full bg-white/95 border border-[#b89245]/70 text-[#8a6b28] hover:bg-[#b89245] hover:text-white dark:bg-[#082318] dark:border-[#C9A646]/70 dark:hover:bg-[#C9A646] dark:text-[#C9A646] dark:hover:text-[#05100B] shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
                         aria-label="View book"
                         title="View book"
                       >
@@ -1190,28 +1390,28 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   </div>
 
                   {/* Information Block Below Book Cover */}
-                  <div className="mt-4 space-y-1">
-                    {/* Price on Top */}
-                    <div className="flex items-center justify-center gap-2 text-xs sm:text-[13px]">
+                  <div className="mt-4 flex flex-col items-center w-full">
+                    {/* Price in Gold */}
+                    <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-[#8a6b28] dark:text-[#C9A646] tracking-wide">
                       {b.oldPrice && (
-                        <span className="text-[#a1a1aa] dark:text-[#71717a] line-through font-normal">
+                        <span className="text-gray-400 dark:text-[#9A9D95]/60 line-through font-normal text-xs">
                           {b.oldPrice}
                         </span>
                       )}
-                      <span className="font-semibold text-[#b89245] dark:text-[#d4b56a]">
-                        {b.price}
-                      </span>
+                      <span>{b.price}</span>
                     </div>
 
-                    {/* Title */}
-                    <h4 className="font-display text-base sm:text-[17px] dark:text-[#f2eee3] text-[#2c3e50] font-normal leading-snug group-hover:text-[#b89245] dark:group-hover:text-[#d4b56a] transition-colors">
+                    {/* Title in Serif */}
+                    <h4 className="font-serif text-sm sm:text-[15px] text-[#1c1917] group-hover:text-[#8a6b28] dark:text-[#F2EEE3] dark:group-hover:text-[#C9A646] transition-colors leading-snug line-clamp-2 mt-1.5 px-1">
                       {b.title}
                     </h4>
 
-                    {/* Author */}
-                    <p className="text-[10.5px] uppercase tracking-wider text-[#71717a] dark:text-[#9d9f96] font-medium">
-                      {b.author}
-                    </p>
+                    {/* Author in Muted Gray */}
+                    {b.author && (
+                      <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-gray-500 dark:text-[#9A9D95] font-medium mt-1.5 line-clamp-1">
+                        {b.author}
+                      </p>
+                    )}
                   </div>
                 </Link>
               );
@@ -1220,16 +1420,17 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
           {/* Carousel Pagination Dots */}
           {Math.ceil(relatedBooksList.length / 4) > 1 && (
-            <div className="flex justify-center items-center gap-2.5 pt-4">
+            <div className="flex justify-center items-center gap-2.5 pt-6 relative z-10">
               {Array.from({ length: Math.ceil(relatedBooksList.length / 4) }).map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setRelatedSlide(idx)}
                   aria-label={`Slide ${idx + 1}`}
-                  className={`cursor-pointer transition-all duration-300 ${relatedSlide === idx
-                      ? "w-3 h-3 rounded-full border-2 border-[#d95338] bg-transparent"
-                      : "w-2.5 h-2.5 rounded-full bg-[#cbd5e1] dark:bg-[#4a5568] hover:bg-[#94a3b8]"
-                    }`}
+                  className={`cursor-pointer transition-all duration-300 ${
+                    relatedSlide === idx
+                      ? "w-3 h-3 rounded-full border-2 border-[#b89245] dark:border-[#C9A646] bg-transparent"
+                      : "w-2.5 h-2.5 rounded-full bg-gray-300 dark:bg-[#1b4330] hover:bg-[#b89245]/60 dark:hover:bg-[#C9A646]/60"
+                  }`}
                 />
               ))}
             </div>
