@@ -951,7 +951,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               </div>
 
               <h2 className="font-serif text-3xl sm:text-4xl md:text-[42px] text-[#1c1917] dark:text-[#F3EFE4] font-normal tracking-tight">
-                Meet The Authors
+                Meet The Author
               </h2>
 
               {/* Right decorative line with circular purple dot */}
@@ -993,8 +993,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         type="button"
                         onClick={() => setSelectedAuthorIdx(idx)}
                         className={`font-serif text-sm sm:text-[15px] px-4 sm:px-5 py-1.5 rounded-full transition-all duration-200 border cursor-pointer ${isSelected
-                            ? "border-[#8b5cf6] text-[#6d28d9] bg-[#8b5cf6]/10 shadow-[0_0_10px_rgba(139,92,246,0.15)] dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 font-medium"
-                            : "border-[#eadbec] bg-white text-gray-700 hover:border-[#8b5cf6] hover:text-[#6d28d9] dark:border-[#1b3d2b] dark:bg-[#071911]/60 dark:text-[#8ea99b] dark:hover:border-[#2b6348] dark:hover:text-[#F3EFE4]"
+                          ? "border-[#8b5cf6] text-[#6d28d9] bg-[#8b5cf6]/10 shadow-[0_0_10px_rgba(139,92,246,0.15)] dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 font-medium"
+                          : "border-[#eadbec] bg-white text-gray-700 hover:border-[#8b5cf6] hover:text-[#6d28d9] dark:border-[#1b3d2b] dark:bg-[#071911]/60 dark:text-[#8ea99b] dark:hover:border-[#2b6348] dark:hover:text-[#F3EFE4]"
                           }`}
                       >
                         {auth.name}
@@ -1154,8 +1154,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 type="button"
                 onClick={() => setActiveTab("description")}
                 className={`pb-3.5 text-base sm:text-lg font-serif tracking-wide transition-all duration-200 relative cursor-pointer ${activeTab === "description"
-                    ? "text-[#1c1917] font-medium border-b-2 border-[#b89245] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
-                    : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-gray-300 -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
+                  ? "text-[#1c1917] font-medium border-b-2 border-[#b89245] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
+                  : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-gray-300 -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
                   }`}
               >
                 Description
@@ -1164,8 +1164,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 type="button"
                 onClick={() => setActiveTab("reviews")}
                 className={`pb-3.5 text-base sm:text-lg font-serif tracking-wide transition-all duration-200 relative cursor-pointer ${activeTab === "reviews"
-                    ? "text-[#1c1917] font-medium border-b-2 border-[#b89245] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
-                    : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-gray-300 -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
+                  ? "text-[#1c1917] font-medium border-b-2 border-[#b89245] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
+                  : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-gray-300 -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
                   }`}
               >
                 Reviews (0)
@@ -1413,8 +1413,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   onClick={() => setRelatedSlide(idx)}
                   aria-label={`Slide ${idx + 1}`}
                   className={`cursor-pointer transition-all duration-300 ${relatedSlide === idx
-                      ? "w-3 h-3 rounded-full border-2 border-[#b89245] dark:border-[#C9A646] bg-transparent"
-                      : "w-2.5 h-2.5 rounded-full bg-gray-300 dark:bg-[#1b4330] hover:bg-[#b89245]/60 dark:hover:bg-[#C9A646]/60"
+                    ? "w-3 h-3 rounded-full border-2 border-[#b89245] dark:border-[#C9A646] bg-transparent"
+                    : "w-2.5 h-2.5 rounded-full bg-gray-300 dark:bg-[#1b4330] hover:bg-[#b89245]/60 dark:hover:bg-[#C9A646]/60"
                     }`}
                 />
               ))}
