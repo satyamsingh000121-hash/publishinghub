@@ -8,6 +8,9 @@ import { MeetTheAuthorService } from "@/backend/services/meetTheAuthor.service";
 import { AuthorService } from "@/backend/services/author.service";
 import ProductClientView from "@/components/product/ProductClientView";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 interface ProductPageProps {
   params: Promise<{ slug: string }> | { slug: string };
 }
@@ -33,6 +36,7 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         OR: [
           { slug: cleanSlug },
           { id: rawSlug },
+          { slug: rawSlug.trim().toLowerCase() },
         ],
       },
     });
@@ -41,22 +45,32 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
       const prod = dbProduct as any;
 
       // Query related products from same category
-      const relatedDb = await prisma.product.findMany({
-        where: {
-          category: prod.category,
-          id: { not: prod.id },
-        },
-        take: 4,
-      });
+      let relatedDb: any[] = [];
+      try {
+        relatedDb = await prisma.product.findMany({
+          where: {
+            category: prod.category,
+            id: { not: prod.id },
+          },
+          take: 4,
+        });
+      } catch (e) {
+        // ignore
+      }
 
       // Query other books by same author
-      const authorDb = await prisma.product.findMany({
-        where: {
-          author: prod.author,
-          id: { not: prod.id },
-        },
-        take: 4,
-      });
+      let authorDb: any[] = [];
+      try {
+        authorDb = await prisma.product.findMany({
+          where: {
+            author: prod.author,
+            id: { not: prod.id },
+          },
+          take: 4,
+        });
+      } catch (e) {
+        // ignore
+      }
 
       // Query multi-author profiles and their associated showcase books
       let authorsList: any[] = [];
@@ -176,17 +190,14 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
     console.error("Database product lookup error:", error);
   }
 
-  // 2. Fallback to static catalog only if database has 0 products
+  // 2. Fallback to static catalog if book is not in DB or DB query failed
   try {
-    const count = await prisma.product.count();
-    if (count === 0) {
-      const staticBook = getBookBySlug(cleanSlug);
-      if (staticBook && staticBook.title) {
-        return staticBook;
-      }
+    const staticBook = getBookBySlug(cleanSlug) || getBookBySlug(rawSlug);
+    if (staticBook && staticBook.title) {
+      return staticBook;
     }
-  } catch {
-    // ignore
+  } catch (err) {
+    console.error("Static book lookup fallback error:", err);
   }
 
   return null;
