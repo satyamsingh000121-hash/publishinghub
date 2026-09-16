@@ -887,270 +887,259 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         </div>
       </section>
 
-      {/* Main Container for Lower Sections */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
+      {/* ========================================================================= */}
+      {/* SECTION 2: MEET THE AUTHOR (LAVENDER THEME MATCHING REFERENCE SITE)       */}
+      {/* ========================================================================= */}
+      <section className="w-full bg-[#f8f5fc] dark:bg-[#020b08] py-10 sm:py-16 px-4 sm:px-6 lg:px-8 border-y border-[#ede5f4] dark:border-[#1a3828]/40 relative overflow-visible">
+        {/* Soft Lavender / Violet Glow in Background */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] sm:w-[1000px] h-[450px] dark:bg-[#0c3522]/30 bg-purple-200/25 rounded-full blur-[140px]" />
+          <div className="absolute -top-10 left-1/4 w-[400px] h-[350px] dark:bg-[#14422c]/20 bg-purple-100/40 rounded-full blur-[120px]" />
+          <div className="absolute -bottom-10 right-1/4 w-[450px] h-[350px] dark:bg-[#0e3a24]/20 bg-purple-100/40 rounded-full blur-[130px]" />
+        </div>
 
-        {/* ========================================================================= */}
-        {/* ========================================================================= */}
-        {/* SECTION 2: MEET THE AUTHOR (MATCHING LIVE REFERENCE SITE)                 */}
-        {/* ========================================================================= */}
-        {/* SECTION 2: MEET THE AUTHOR (CLEAN LIGHT DAY THEME / GREEN DARK THEME)     */}
-        {/* ========================================================================= */}
-        {/* ========================================================================= */}
-        {/* ========================================================================= */}
-        {/* SECTION 2: MEET THE AUTHOR (LUXURY PUBLISHING STYLE MATCHING REFERENCE)   */}
-        {/* ========================================================================= */}
-        {/* ========================================================================= */}
-        <section className="py-8 sm:py-12 relative overflow-visible">
-          {/* Seamless Atmospheric Forest Green Glow in Background */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] sm:w-[1000px] h-[450px] dark:bg-[#0c3522]/35 bg-emerald-100/25 rounded-full blur-[140px]" />
-            <div className="absolute -top-10 left-1/4 w-[400px] h-[350px] dark:bg-[#14422c]/20 bg-emerald-50/20 rounded-full blur-[120px]" />
-            <div className="absolute -bottom-10 right-1/4 w-[450px] h-[350px] dark:bg-[#0e3a24]/20 bg-emerald-50/20 rounded-full blur-[130px]" />
+        {/* Main Card with Soft Cream Background & Rounded Shoulders */}
+        <div
+          className="max-w-6xl mx-auto rounded-[28px] sm:rounded-[36px] border border-[#eadbec] dark:border-[#1d3d2c] p-6 sm:p-10 lg:p-12 shadow-[0_12px_40px_rgba(139,92,246,0.04)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95)] relative z-10 transition-all duration-300 bg-[#fdfbf7] dark:bg-[radial-gradient(ellipse_90%_80%_at_50%_30%,_#09281b_0%,_#061911_55%,_#030f0a_100%)]"
+        >
+          {/* Top Center Botanical Leaf Emblem */}
+          <div
+            className="absolute -top-3.5 sm:-top-4 left-1/2 -translate-x-1/2 px-4 py-1 z-20 flex items-center justify-center rounded-full bg-[#fdfbf7] dark:bg-[#082419] border border-[#eadbec] dark:border-[#1d3d2c] shadow-xs"
+          >
+            <svg
+              viewBox="0 0 38 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-8 h-5 sm:w-9 sm:h-5.5 text-[#9a7e3a] dark:text-[#C9A646]"
+              aria-hidden="true"
+            >
+              <path d="M19 22V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+              <path
+                d="M19 13C19 9.5 20.5 3 22 2C20.5 3 17 6.5 17 11C17 12 18 13 19 13Z"
+                fill="currentColor"
+                fillOpacity="0.18"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M19 13.5C20.5 13.5 24 13 28 8C29.5 6 29 4.5 27 5C23 6 19.5 11 19 13.5Z"
+                fill="currentColor"
+                fillOpacity="0.18"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M19 13.5C17.5 13.5 14 13 10 8C8.5 6 9 4.5 11 5C15 6 18.5 11 19 13.5Z"
+                fill="currentColor"
+                fillOpacity="0.18"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
 
-          {/* Main Gold-Bordered Container with Deep Forest Radial Background */}
-          <div
-            className="max-w-6xl mx-auto rounded-2xl sm:rounded-3xl border border-[#b89245]/50 dark:border-[#C9A646]/85 p-6 sm:p-10 lg:p-12 shadow-[0_15px_45px_rgba(0,0,0,0.06)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95)] relative z-10 transition-all duration-300 bg-[#fbf9f4] dark:bg-[radial-gradient(ellipse_90%_80%_at_50%_30%,_#09281b_0%,_#061911_55%,_#030f0a_100%)]"
-          >
-            {/* Top Center Botanical Leaf Emblem */}
-            <div
-              className="absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 px-3 z-20 flex items-center justify-center rounded-full bg-[#fbf9f4] dark:bg-[#082419] border border-[#b89245]/30 dark:border-transparent"
-            >
-              <svg
-                viewBox="0 0 38 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-8 h-5 sm:w-9 sm:h-6 text-[#9a7322] dark:text-[#C9A646]"
-                aria-hidden="true"
-              >
-                <path d="M19 22V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                <path
-                  d="M19 13C19 9.5 20.5 3 22 2C20.5 3 17 6.5 17 11C17 12 18 13 19 13Z"
-                  fill="currentColor"
-                  fillOpacity="0.18"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M19 13.5C20.5 13.5 24 13 28 8C29.5 6 29 4.5 27 5C23 6 19.5 11 19 13.5Z"
-                  fill="currentColor"
-                  fillOpacity="0.18"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M19 13.5C17.5 13.5 14 13 10 8C8.5 6 9 4.5 11 5C15 6 18.5 11 19 13.5Z"
-                  fill="currentColor"
-                  fillOpacity="0.18"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-
-            {/* Ornamental Centered Heading & Quote */}
-            <div className="text-center mb-8 sm:mb-12 relative z-10 max-w-3xl mx-auto px-2">
-              <div className="flex items-center justify-center gap-3 sm:gap-5">
-                {/* Left decorative line with circular dot */}
-                <div className="hidden sm:flex items-center gap-2.5 text-[#9a7322] dark:text-[#C9A646]">
-                  <div className="w-14 sm:w-20 md:w-28 lg:w-36 h-[1px] bg-gradient-to-r from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
-                </div>
-
-                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#1c1917] dark:text-[#F3EFE4] font-normal tracking-tight">
-                  Meet The Author
-                </h2>
-
-                {/* Right decorative line with circular dot */}
-                <div className="hidden sm:flex items-center gap-2.5 text-[#9a7322] dark:text-[#C9A646]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
-                  <div className="w-14 sm:w-20 md:w-28 lg:w-36 h-[1px] bg-gradient-to-l from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
-                </div>
+          {/* Ornamental Centered Heading & Quote */}
+          <div className="text-center mb-8 sm:mb-11 relative z-10 max-w-3xl mx-auto px-2">
+            <div className="flex items-center justify-center gap-3 sm:gap-4">
+              {/* Left decorative line with circular purple dot */}
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#d6b777]/60 to-[#cbb279] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] inline-block shadow-[0_0_6px_rgba(139,92,246,0.4)]" />
               </div>
 
-              {/* Small thin gold line underneath heading */}
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#b89245] dark:bg-[#C9A646] mx-auto mt-3.5 mb-4 opacity-85 rounded-full" />
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-[42px] text-[#1c1917] dark:text-[#F3EFE4] font-normal tracking-tight">
+                Meet The Author
+              </h2>
 
-              {/* Author Quote with cleaned quotes */}
-              {currentAuthorQuote && (
-                <p className="font-serif italic text-sm sm:text-base md:text-[17px] text-[#57534e] dark:text-[#e3ded2] max-w-2xl mx-auto leading-relaxed">
-                  &ldquo;{currentAuthorQuote.replace(/^["“'\s]+|["”'\s]+$/g, "").trim()}&rdquo;
-                </p>
-              )}
+              {/* Right decorative line with circular purple dot */}
+              <div className="flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] inline-block shadow-[0_0_6px_rgba(139,92,246,0.4)]" />
+                <div className="w-10 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-l from-transparent via-[#d6b777]/60 to-[#cbb279] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+              </div>
             </div>
 
-            {/* Content Area: Author Profile (Left) & Books (Right) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center max-w-5xl mx-auto relative z-10">
-              {/* Left Column: Author Profile */}
-              <div className="lg:col-span-4 flex flex-col items-center text-center">
-                {/* Author Portrait Image with Smooth Rounded Corners */}
-                <div className="w-44 sm:w-52 aspect-[3.8/4.8] overflow-hidden rounded-2xl bg-gray-100 shadow-xl border border-gray-200 dark:border-[#2c533e]/50 dark:bg-black/40">
-                  <img
-                    src={currentAuthorImage}
-                    alt={currentAuthorName}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            {/* Author Quote with cleaned quotes */}
+            {currentAuthorQuote && (
+              <p className="mt-3.5 sm:mt-4 font-serif italic text-sm sm:text-base md:text-[16.5px] text-[#555060] dark:text-[#e3ded2] max-w-2xl mx-auto leading-relaxed">
+                &ldquo;{currentAuthorQuote.replace(/^["“'\s]+|["”'\s]+$/g, "").trim()}&rdquo;
+              </p>
+            )}
+          </div>
 
-                {/* Author Selection Pills */}
-                {authorsList.length > 1 ? (
-                  <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
-                    {authorsList.map((auth, idx) => {
-                      const isSelected = selectedAuthorIdx === idx;
+          {/* Content Area: Author Profile (Left) & Books (Right) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center max-w-5xl mx-auto relative z-10">
+            {/* Left Column: Author Profile */}
+            <div className="lg:col-span-4 flex flex-col items-center text-center">
+              {/* Author Portrait Image with Smooth Rounded Corners */}
+              <div className="w-44 sm:w-52 aspect-[3.8/4.8] overflow-hidden rounded-2xl bg-white shadow-md border border-[#eadbec] dark:border-[#2c533e]/50 dark:bg-black/40">
+                <img
+                  src={currentAuthorImage}
+                  alt={currentAuthorName}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Author Selection Pills */}
+              {authorsList.length > 1 ? (
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
+                  {authorsList.map((auth, idx) => {
+                    const isSelected = selectedAuthorIdx === idx;
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setSelectedAuthorIdx(idx)}
+                        className={`font-serif text-sm sm:text-[15px] px-4 sm:px-5 py-1.5 rounded-full transition-all duration-200 border cursor-pointer ${
+                          isSelected
+                            ? "border-[#8b5cf6] text-[#6d28d9] bg-[#8b5cf6]/10 shadow-[0_0_10px_rgba(139,92,246,0.15)] dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 font-medium"
+                            : "border-[#eadbec] bg-white text-gray-700 hover:border-[#8b5cf6] hover:text-[#6d28d9] dark:border-[#1b3d2b] dark:bg-[#071911]/60 dark:text-[#8ea99b] dark:hover:border-[#2b6348] dark:hover:text-[#F3EFE4]"
+                        }`}
+                      >
+                        {auth.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="mt-4 font-serif text-sm sm:text-[15px] px-5 py-1.5 rounded-full border border-[#8b5cf6]/40 text-[#6d28d9] bg-[#8b5cf6]/10 shadow-xs dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 font-medium">
+                  {currentAuthorName}
+                </div>
+              )}
+
+              {/* Clean Circular Social Icons */}
+              <div className="flex items-center justify-center gap-2.5 mt-3.5 text-[#7c3aed] dark:text-[#C9A646]">
+                <a
+                  href={currentAuthorSocials?.facebook || "#facebook"}
+                  target={currentAuthorSocials?.facebook && currentAuthorSocials.facebook.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="w-7 h-7 rounded-full border border-[#eadbec] bg-white text-[#7c3aed] hover:border-[#8b5cf6] hover:bg-purple-50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                >
+                  <Facebook className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href={currentAuthorSocials?.twitter || "#twitter"}
+                  target={currentAuthorSocials?.twitter && currentAuthorSocials.twitter.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-label="Twitter"
+                  className="w-7 h-7 rounded-full border border-[#eadbec] bg-white text-[#7c3aed] hover:border-[#8b5cf6] hover:bg-purple-50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                >
+                  <Twitter className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href={currentAuthorSocials?.linkedin || "#linkedin"}
+                  target={currentAuthorSocials?.linkedin && currentAuthorSocials.linkedin.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="w-7 h-7 rounded-full border border-[#eadbec] bg-white text-[#7c3aed] hover:border-[#8b5cf6] hover:bg-purple-50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                >
+                  <Linkedin className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href={currentAuthorSocials?.instagram || "#instagram"}
+                  target={currentAuthorSocials?.instagram && currentAuthorSocials.instagram.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="w-7 h-7 rounded-full border border-[#eadbec] bg-white text-[#7c3aed] hover:border-[#8b5cf6] hover:bg-purple-50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                </a>
+                {currentAuthorSocials?.youtube && currentAuthorSocials.youtube !== "#youtube" && (
+                  <a
+                    href={currentAuthorSocials.youtube}
+                    target={currentAuthorSocials.youtube.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                    className="w-7 h-7 rounded-full border border-[#eadbec] bg-white text-[#7c3aed] hover:border-[#8b5cf6] hover:bg-purple-50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                  >
+                    <Youtube className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* Right Column: Author's Books (Clean Horizontal Row Matching Reference) */}
+            <div className="lg:col-span-8 flex flex-col justify-center min-h-[240px] relative w-full overflow-hidden">
+              {authorBooksList && authorBooksList.length > 0 ? (
+                <div className="relative group/carousel w-full">
+                  {/* Horizontal scrollable container for books */}
+                  <div
+                    ref={authorBooksScrollRef}
+                    className="flex items-start justify-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1 flex-nowrap"
+                  >
+                    {authorBooksList.map((b) => {
+                      const targetSlug = b.slug || getBookSlug(b);
                       return (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => setSelectedAuthorIdx(idx)}
-                          className={`font-serif text-sm sm:text-[15px] px-4 sm:px-5 py-1.5 rounded-full transition-all duration-200 border cursor-pointer ${
-                            isSelected
-                              ? "border-[#b89245] text-[#1c1917] bg-[#b89245]/15 shadow-[0_0_12px_rgba(184,146,69,0.2)] dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 dark:shadow-[0_0_12px_rgba(201,166,70,0.18)] font-medium"
-                              : "border-gray-200 bg-white text-gray-700 hover:border-[#b89245] hover:text-[#1c1917] dark:border-[#1b3d2b] dark:bg-[#071911]/60 dark:text-[#8ea99b] dark:hover:border-[#2b6348] dark:hover:text-[#F3EFE4]"
-                          }`}
+                        <Link
+                          key={b.id}
+                          href={`/product/${targetSlug}`}
+                          className="flex-shrink-0 w-[140px] sm:w-[160px] md:w-[180px] lg:w-[195px] flex flex-col items-center text-center group cursor-pointer transition-transform"
                         >
-                          {auth.name}
-                        </button>
+                          {/* Realistic Book Cover with subtle shadow */}
+                          <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-r-[3px] rounded-l-[1px] shadow-md group-hover:shadow-xl dark:shadow-[0_12px_28px_rgba(0,0,0,0.65)] dark:group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-1.5 transition-all duration-300 border border-[#eadbec] dark:border-white/10 group-hover:border-[#8b5cf6]/60 dark:group-hover:border-[#C9A646]/50 bg-gray-100 dark:bg-black/40">
+                            <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
+                          </div>
+
+                          {/* Book Price in Gold */}
+                          <div className="mt-3.5 text-xs sm:text-sm font-medium text-[#8a6b28] dark:text-[#C9A646] tracking-wide">
+                            {b.price}
+                          </div>
+
+                          {/* Thin Accent Line underneath Price */}
+                          <div className="w-6 h-[1.5px] bg-[#cbb279] dark:bg-[#C9A646] mx-auto my-1.5 opacity-80 group-hover:w-8 group-hover:bg-[#8b5cf6] dark:group-hover:bg-[#dfba56] transition-all" />
+
+                          {/* Book Title */}
+                          <h4 className="font-serif text-sm sm:text-[15px] text-[#1c1917] group-hover:text-[#6d28d9] dark:text-[#F3EFE4] dark:group-hover:text-[#C9A646] transition-colors line-clamp-2 leading-snug">
+                            {b.title}
+                          </h4>
+                        </Link>
                       );
                     })}
                   </div>
-                ) : (
-                  <div className="mt-4 font-serif text-sm sm:text-[15px] px-5 py-1.5 rounded-full border border-[#b89245] text-[#1c1917] bg-[#b89245]/15 shadow-sm dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 dark:shadow-[0_0_12px_rgba(201,166,70,0.18)] font-medium">
-                    {currentAuthorName}
-                  </div>
-                )}
 
-                {/* Clean Circular Social Icons */}
-                <div className="flex items-center justify-center gap-2.5 mt-3 text-[#9a7322] dark:text-[#C9A646]">
-                  <a
-                    href={currentAuthorSocials?.facebook || "#facebook"}
-                    target={currentAuthorSocials?.facebook && currentAuthorSocials.facebook.startsWith("http") ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    aria-label="Facebook"
-                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
-                  >
-                    <Facebook className="w-3.5 h-3.5" />
-                  </a>
-                  <a
-                    href={currentAuthorSocials?.twitter || "#twitter"}
-                    target={currentAuthorSocials?.twitter && currentAuthorSocials.twitter.startsWith("http") ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    aria-label="Twitter"
-                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
-                  >
-                    <Twitter className="w-3.5 h-3.5" />
-                  </a>
-                  <a
-                    href={currentAuthorSocials?.linkedin || "#linkedin"}
-                    target={currentAuthorSocials?.linkedin && currentAuthorSocials.linkedin.startsWith("http") ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
-                  >
-                    <Linkedin className="w-3.5 h-3.5" />
-                  </a>
-                  <a
-                    href={currentAuthorSocials?.instagram || "#instagram"}
-                    target={currentAuthorSocials?.instagram && currentAuthorSocials.instagram.startsWith("http") ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    aria-label="Instagram"
-                    className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
-                  >
-                    <Instagram className="w-3.5 h-3.5" />
-                  </a>
-                  {currentAuthorSocials?.youtube && currentAuthorSocials.youtube !== "#youtube" && (
-                    <a
-                      href={currentAuthorSocials.youtube}
-                      target={currentAuthorSocials.youtube.startsWith("http") ? "_blank" : undefined}
-                      rel="noopener noreferrer"
-                      aria-label="YouTube"
-                      className="w-7 h-7 rounded-full border border-gray-200 bg-white text-[#8a6b28] hover:border-[#b89245] hover:text-[#1c1917] hover:bg-amber-50/50 dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs"
-                    >
-                      <Youtube className="w-3.5 h-3.5" />
-                    </a>
+                  {/* Navigation Arrow Controls when books can scroll */}
+                  {authorBooksList.length > 3 && (
+                    <div className="flex items-center justify-end gap-2 mt-3 pr-1">
+                      <button
+                        type="button"
+                        onClick={() => scrollAuthorBooks("left")}
+                        aria-label="Previous book"
+                        className="w-7 h-7 rounded-full border border-[#eadbec] bg-white text-gray-700 hover:border-[#8b5cf6] hover:text-[#6d28d9] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+                      >
+                        <ChevronLeft className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => scrollAuthorBooks("right")}
+                        aria-label="Next book"
+                        className="w-7 h-7 rounded-full border border-[#eadbec] bg-white text-gray-700 hover:border-[#8b5cf6] hover:text-[#6d28d9] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+                      >
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   )}
                 </div>
-              </div>
-
-              {/* Right Column: Author's Books (Clean Horizontal Row Matching Reference) */}
-              <div className="lg:col-span-8 flex flex-col justify-center min-h-[240px] relative w-full overflow-hidden">
-                {authorBooksList && authorBooksList.length > 0 ? (
-                  <div className="relative group/carousel w-full">
-                    {/* Horizontal scrollable container for books */}
-                    <div
-                      ref={authorBooksScrollRef}
-                      className="flex items-start justify-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1 flex-nowrap"
-                    >
-                      {authorBooksList.map((b) => {
-                        const targetSlug = b.slug || getBookSlug(b);
-                        return (
-                          <Link
-                            key={b.id}
-                            href={`/product/${targetSlug}`}
-                            className="flex-shrink-0 w-[140px] sm:w-[160px] md:w-[180px] lg:w-[195px] flex flex-col items-center text-center group cursor-pointer transition-transform"
-                          >
-                            {/* Realistic Book Cover with subtle 3D shadow */}
-                            <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-r-[3px] rounded-l-[1px] shadow-md group-hover:shadow-xl dark:shadow-[0_12px_28px_rgba(0,0,0,0.65)] dark:group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-1.5 transition-all duration-300 border border-gray-200 dark:border-white/10 group-hover:border-[#b89245]/60 dark:group-hover:border-[#C9A646]/50 bg-gray-100 dark:bg-black/40">
-                              <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
-                            </div>
-
-                            {/* Book Price in Gold */}
-                            <div className="mt-3.5 text-xs sm:text-sm font-medium text-[#8a6b28] dark:text-[#C9A646] tracking-wide">
-                              {b.price}
-                            </div>
-
-                            {/* Thin Gold Accent Line underneath Price */}
-                            <div className="w-6 h-[1.5px] bg-[#b89245] dark:bg-[#C9A646] mx-auto my-1.5 opacity-80 group-hover:w-8 group-hover:bg-[#b89245] dark:group-hover:bg-[#dfba56] transition-all" />
-
-                            {/* Book Title in Warm Cream Serif */}
-                            <h4 className="font-serif text-sm sm:text-[15px] text-[#1c1917] group-hover:text-[#8a6b28] dark:text-[#F3EFE4] dark:group-hover:text-[#C9A646] transition-colors line-clamp-2 leading-snug">
-                              {b.title}
-                            </h4>
-                          </Link>
-                        );
-                      })}
-                    </div>
-
-                    {/* Navigation Arrow Controls when books can scroll */}
-                    {authorBooksList.length > 3 && (
-                      <div className="flex items-center justify-end gap-2 mt-3 pr-1">
-                        <button
-                          type="button"
-                          onClick={() => scrollAuthorBooks("left")}
-                          aria-label="Previous book"
-                          className="w-7 h-7 rounded-full border border-gray-200 bg-white text-gray-700 hover:border-[#b89245] hover:text-[#8a6b28] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
-                        >
-                          <ChevronLeft className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => scrollAuthorBooks("right")}
-                          aria-label="Next book"
-                          className="w-7 h-7 rounded-full border border-gray-200 bg-white text-gray-700 hover:border-[#b89245] hover:text-[#8a6b28] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
-                        >
-                          <ChevronRight className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    )}
+              ) : (
+                /* Clean Notice Box when no books are found */
+                <div className="flex items-center gap-3.5 px-6 py-5 bg-purple-50/50 border border-purple-100 text-purple-950 dark:bg-[#0a2318] dark:border-[#1b3d2b] dark:text-[#e2f7eb] rounded-xl shadow-xs max-w-lg mx-auto my-auto">
+                  <div className="w-6 h-6 rounded-full border-2 border-purple-400 bg-purple-100 dark:border-[#52c38d] dark:bg-[#14422e] flex items-center justify-center text-xs font-bold text-purple-800 dark:text-[#52c38d] flex-shrink-0">
+                    i
                   </div>
-                ) : (
-                  /* Clean Notice Box when no books are found */
-                  <div className="flex items-center gap-3.5 px-6 py-5 bg-amber-50/60 border border-amber-200 text-amber-950 dark:bg-[#0a2318] dark:border-[#1b3d2b] dark:text-[#e2f7eb] rounded-xl shadow-sm max-w-lg mx-auto my-auto">
-                    <div className="w-6 h-6 rounded-full border-2 border-amber-600/40 bg-amber-100 dark:border-[#52c38d] dark:bg-[#14422e] flex items-center justify-center text-xs font-bold text-amber-800 dark:text-[#52c38d] flex-shrink-0">
-                      i
-                    </div>
-                    <span className="text-[13.5px] font-medium tracking-wide leading-snug font-serif text-amber-900 dark:text-[#d6ded9]">
-                      No products were found matching your selection.
-                    </span>
-                  </div>
-                )}
-              </div>
+                  <span className="text-[13.5px] font-medium tracking-wide leading-snug font-serif text-purple-900 dark:text-[#d6ded9]">
+                    No products were found matching your selection.
+                  </span>
+                </div>
+              )}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* Main Container for Lower Sections (Tabs, Related, Upsell) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
 
         {/* ========================================================================= */}
         {/* SECTION 3: TABS (DESCRIPTION & REVIEWS - LUXURY PUBLISHING THEME)          */}
