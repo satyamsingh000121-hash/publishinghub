@@ -141,7 +141,7 @@ export default function SidebarPromoCard({
           <span>{buttonText}</span>
           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/cta:translate-x-1" />
         </Link>
-
+  
         {/* Optional Book Cover / Promotional Illustration Area */}
         {imageUrl && (
           <div

@@ -173,7 +173,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
         {/* Decorative Real Botanical Foliage on Far Borders (from green_marble_podium.jpg) */}
         <div
-          className="pointer-events-none absolute -left-12 -bottom-10 w-[360px] h-[360px] bg-no-repeat opacity-70 hidden sm:block"
+          className="pointer-events-none absolute -left-12 -bottom-10 w-[360px] h-[360px] bg-no-repeat opacity-70 hidden dark:sm:block"
           style={{
             backgroundImage: "url('/images/green_marble_podium.jpg')",
             backgroundPosition: "left 85%",
@@ -184,7 +184,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -right-12 -bottom-10 w-[380px] h-[380px] bg-no-repeat opacity-65 hidden sm:block"
+          className="pointer-events-none absolute -right-12 -bottom-10 w-[380px] h-[380px] bg-no-repeat opacity-65 hidden dark:sm:block"
           style={{
             backgroundImage: "url('/images/green_marble_podium.jpg')",
             backgroundPosition: "right 85%",
@@ -195,7 +195,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -right-8 -top-8 w-[280px] h-[280px] bg-no-repeat opacity-45 hidden md:block"
+          className="pointer-events-none absolute -right-8 -top-8 w-[280px] h-[280px] bg-no-repeat opacity-45 hidden dark:md:block"
           style={{
             backgroundImage: "url('/images/green_marble_podium.jpg')",
             backgroundPosition: "right top",
@@ -284,23 +284,31 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   rounded-[24px]
                   overflow-hidden
                   bg-transparent
-                  shadow-[0_25px_80px_rgba(0,0,0,0.65)]
+                  border border-black/[0.08] dark:border-white/[0.08]
+                  shadow-[0_20px_60px_rgba(0,0,0,0.14)] dark:shadow-[0_25px_80px_rgba(0,0,0,0.65)]
                   select-none
                   group
                   isolate
                   [transform:translateZ(0)]
                 "
               >
-                {/* User's custom podium showcase image (scaled slightly to crop out the baked-in gold border line) */}
+                {/* Dark Theme Podium Image */}
                 <img
                   src="/images/shop_section.png"
-                  alt="Book 3D Showcase Podium"
-                  className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none scale-[1.065] transition-transform duration-700 group-hover:scale-[1.08]"
+                  alt="Book 3D Showcase Podium - Dark"
+                  className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none scale-[1.065] transition-transform duration-700 group-hover:scale-[1.08] dark:block hidden"
+                />
+
+                {/* Day Theme Podium Image */}
+                <img
+                  src="/images/shop_section_day.jpg"
+                  alt="Book 3D Showcase Podium - Day"
+                  className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none scale-[1.01] transition-transform duration-700 group-hover:scale-[1.03] dark:hidden block"
                 />
 
                 {/* Soft Contact Shadow on Marble Pedestal */}
                 <div
-                  className="absolute bottom-[27.5%] sm:bottom-[28%] left-1/2 -translate-x-1/2 w-[195px] sm:w-[225px] h-3.5 bg-black/75 blur-[4px] rounded-full pointer-events-none z-10"
+                  className="absolute bottom-[27.5%] sm:bottom-[28%] left-1/2 -translate-x-1/2 w-[195px] sm:w-[225px] h-3.5 bg-black/75 dark:bg-black/75 blur-[4px] rounded-full pointer-events-none z-10"
                   aria-hidden="true"
                 />
 
@@ -387,7 +395,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   </div>
                 </div>
 
-                {/* Transparent Interactive Button Overlay matching the button inside shop_section.png */}
+                {/* Interactive Button Overlay: Transparent in Dark Theme (matches baked-in art), Luxury Emerald & Gold pill in Day Theme */}
                 <button
                   type="button"
                   onClick={() => setIsBookOpen((prev) => !prev)}
@@ -398,19 +406,29 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     left-1/2
                     z-30
                     -translate-x-1/2
-                    w-[78%]
+                    w-[82%]
                     max-w-[340px]
-                    h-[46px]
+                    h-[44px]
+                    sm:h-[46px]
                     rounded-full
                     cursor-pointer
                     transition-all
-                    hover:bg-white/10
+                    duration-300
                     active:scale-[0.98]
                     focus:outline-none
+                    /* Day Theme Styling: Rich emerald & gold rim pill matching target dark art */
+                    bg-[#051c12]/92 hover:bg-[#092a1c] text-[#f2eee3] border border-[#d4b56a]/80 shadow-[0_4px_20px_rgba(0,0,0,0.25)] backdrop-blur-sm flex items-center justify-center gap-2.5 px-4
+                    /* Dark Theme Override: invisible overlay matching baked-in artwork */
+                    dark:bg-transparent dark:hover:bg-white/10 dark:border-transparent dark:shadow-none dark:backdrop-blur-none
                   "
                   aria-label="Hover or click book to open 3D preview"
                   title="Hover or click book to open 3D preview"
-                />
+                >
+                  <Search className="w-4 h-4 text-[#d4b56a] shrink-0 dark:hidden" />
+                  <span className="text-[12px] sm:text-[13px] font-medium tracking-wide text-[#f2eee3] select-none dark:hidden">
+                    Hover or click book to open 3D preview
+                  </span>
+                </button>
               </div>
             </div>
 
