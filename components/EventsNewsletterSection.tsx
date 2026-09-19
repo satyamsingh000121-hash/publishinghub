@@ -127,7 +127,7 @@ export default function EventsNewsletterSection() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Your Email"  
                     required
                     className="w-full h-11 sm:h-12 bg-[#050807]/80 border border-[#f2eee3]/20 focus:border-[#d4b56a] px-3.5 sm:px-4 text-xs sm:text-sm text-[#f2eee3] placeholder-[#666a64] outline-none transition-colors rounded-none"
                   />

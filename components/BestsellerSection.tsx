@@ -184,7 +184,7 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
           >
             VIEW ALL <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-        </div>
+        </div>.
 
         {/* Product Cards 2-Col Mobile / 4-Col Desktop Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
@@ -197,7 +197,7 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
               >
                 {/* Book Artwork Frame */}
                 <div className="relative aspect-[3/4] w-full dark:bg-[#101612] bg-[#fbf8fe] overflow-hidden flex items-center justify-center border dark:border-black/40 border-[#f3e8ff] rounded-xs">
-                  
+
                   {/* Sale Badge */}
                   {book.saleBadge && (
                     <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-20 bg-[#2c7650] text-white text-[7.5px] sm:text-[8px] font-extrabold tracking-wider uppercase px-1.5 sm:px-2 py-0.5 shadow-md">
