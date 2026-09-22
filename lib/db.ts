@@ -138,8 +138,56 @@ export async function ensureSchemaUpdated(): Promise<void> {
       await prisma.$executeRawUnsafe(`DELETE FROM MeetTheAuthorBook WHERE profileId = ?`, eid);
       await prisma.$executeRawUnsafe(`DELETE FROM MeetTheAuthorProfile WHERE id = ?`, eid);
     }
+
+    // 3. Auto-seed default Meet The Author profiles on Live deployment if empty
+    const existingCount: any[] = await prisma.$queryRawUnsafe(
+      `SELECT count(*) as count FROM MeetTheAuthorProfile`
+    );
+    const countVal = existingCount?.[0]?.count ?? existingCount?.[0]?.["count(*)"] ?? 0;
+    if (Number(countVal) === 0) {
+      const { DEFAULT_MEET_THE_AUTHOR_PROFILES } = await import("./initial-authors-data");
+      for (const p of DEFAULT_MEET_THE_AUTHOR_PROFILES) {
+        try {
+          await prisma.$executeRawUnsafe(
+            `INSERT INTO MeetTheAuthorProfile (id, authorName, authorImage, quote, facebook, twitter, linkedin, instagram, createdAt, updatedAt)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+            p.id,
+            p.authorName,
+            p.authorImage,
+            p.quote,
+            p.facebook || "#facebook",
+            p.twitter || "#twitter",
+            p.linkedin || "#linkedin",
+            p.instagram || "#instagram"
+          );
+
+          if (p.books && p.books.length > 0) {
+            for (let idx = 0; idx < p.books.length; idx++) {
+              const b = p.books[idx];
+              const bRowId = `mta_b_seed_${p.id}_${idx}_${Date.now()}`;
+              await prisma.$executeRawUnsafe(
+                `INSERT INTO MeetTheAuthorBook (id, profileId, productId, "order") VALUES (?, ?, ?, ?)`,
+                bRowId,
+                p.id,
+                b.id,
+                idx
+              );
+            }
+          }
+        } catch (e) {
+          // ignore duplicate
+        }
+      }
+    }
+
+    // 4. Ensure A Teaspoon of Earth and Sea is updated to multi-author (Savanna Walker, Shia Ung)
+    try {
+      await prisma.$executeRawUnsafe(
+        `UPDATE Product SET author = 'By Savanna Walker, Shia Ung', authorName = 'Savanna Walker' WHERE slug = 'a-teaspoon-of-earth-and-sea'`
+      );
+    } catch {}
   } catch (err) {
-    console.error("Error during Meet The Author schema cleanup:", err);
+    console.error("Error during Meet The Author schema cleanup and seed:", err);
   }
 }
 

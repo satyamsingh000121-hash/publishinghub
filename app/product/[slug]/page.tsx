@@ -117,6 +117,14 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         console.error("Failed to load multi-author profiles:", err);
       }
 
+      // If DB returned no or single author but static catalog defines multi-authors (like Savanna Walker & Shia Ung)
+      try {
+        const staticFallback = getBookBySlug(cleanSlug) || getBookBySlug(rawSlug);
+        if (staticFallback?.authorsList && staticFallback.authorsList.length > authorsList.length) {
+          authorsList = staticFallback.authorsList;
+        }
+      } catch {}
+
       const primaryAuthor = authorsList[0];
 
       return {

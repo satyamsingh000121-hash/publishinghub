@@ -43,7 +43,8 @@ export class MeetTheAuthorService {
       );
 
       if (!profiles || profiles.length === 0) {
-        return [];
+        const { DEFAULT_MEET_THE_AUTHOR_PROFILES } = await import("@/lib/initial-authors-data");
+        return DEFAULT_MEET_THE_AUTHOR_PROFILES;
       }
 
       const results: MeetTheAuthorProfileData[] = [];
@@ -210,6 +211,16 @@ export class MeetTheAuthorService {
     } catch (e) {
       console.error("Error in getProfileByAuthorName:", e);
     }
+
+    // Static fallback for live deployment or missing DB rows
+    try {
+      const { DEFAULT_MEET_THE_AUTHOR_PROFILES } = await import("@/lib/initial-authors-data");
+      const found = DEFAULT_MEET_THE_AUTHOR_PROFILES.find((p) => {
+        const pName = p.authorName.toLowerCase().trim();
+        return pName === clean || pName.includes(clean) || clean.includes(pName);
+      });
+      if (found) return found;
+    } catch {}
 
     return null;
   }
