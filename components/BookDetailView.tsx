@@ -22,6 +22,7 @@ import {
   Youtube,
   Search,
   Info,
+  ArrowRight,
 } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 import BookOpenCard from "./BookOpenCard";
@@ -301,19 +302,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
                 {/* Day Theme Podium Image */}
                 <img
-                  src="/images/shop_section_day.jpg"
+                  src="/images/shop_section_day.png"
                   alt="Book 3D Showcase Podium - Day"
-                  className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none scale-[1.01] transition-transform duration-700 group-hover:scale-[1.03] dark:hidden block"
+                  className="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none transition-transform duration-700 group-hover:scale-[1.02] dark:hidden block"
                 />
 
                 {/* Soft Contact Shadow on Marble Pedestal */}
                 <div
-                  className="absolute bottom-[27.5%] sm:bottom-[28%] left-1/2 -translate-x-1/2 w-[195px] sm:w-[225px] h-3.5 bg-black/75 dark:bg-black/75 blur-[4px] rounded-full pointer-events-none z-10"
+                  className="absolute bottom-[30.5%] sm:bottom-[31%] dark:bottom-[27.5%] sm:dark:bottom-[28%] left-1/2 -translate-x-1/2 w-[185px] sm:w-[210px] h-3.5 bg-black/45 dark:bg-black/75 blur-[5px] rounded-full pointer-events-none z-10"
                   aria-hidden="true"
                 />
 
                 {/* 3D Interactive Animated Book resting on marble podium */}
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-[28%] sm:bottom-[28.5%] z-20 origin-bottom scale-[1.12] sm:scale-[1.15]">
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-[31%] sm:bottom-[31.5%] dark:bottom-[28%] sm:dark:bottom-[28.5%] z-20 origin-bottom scale-[1.08] sm:scale-[1.12] dark:scale-[1.12] sm:dark:scale-[1.15]">
                   <div
                     className={`${bookStyles.stage} ${isBookOpen ? bookStyles.isOpen : ""}`}
                     tabIndex={0}
@@ -613,7 +614,6 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       w-10
                       items-center
                       justify-center
-                      text-[18px]
                       text-[#8a6b28]
                       dark:text-[#e6d39d]
                       transition
@@ -624,10 +624,10 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     "
                     aria-label="Decrease quantity"
                   >
-                    −
+                    <Minus className="w-4 h-4" />
                   </button>
 
-                  <span className="text-[16px] font-serif text-[#18181b] dark:text-[#f1eadb]">
+                  <span className="text-[16px] font-serif font-medium text-[#18181b] dark:text-[#f1eadb]">
                     {quantity}
                   </span>
 
@@ -641,7 +641,6 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       w-10
                       items-center
                       justify-center
-                      text-[18px]
                       text-[#8a6b28]
                       dark:text-[#e6d39d]
                       transition
@@ -652,7 +651,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     "
                     aria-label="Increase quantity"
                   >
-                    +
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
 
@@ -662,13 +661,14 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   disabled={isOutOfStock}
                   onClick={handleAddToCart}
                   className="
+                    group
                     flex
                     h-[46px]
                     sm:h-[48px]
                     flex-1
                     items-center
                     justify-center
-                    gap-3
+                    gap-2.5
                     rounded-xl
                     border
                     border-[#d9b55d]
@@ -694,13 +694,11 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     cursor-pointer
                   "
                 >
-                  <ShoppingCart className="w-4 h-4 text-[#07120d]" />
+                  <ShoppingCart className="w-4 h-4 text-[#07120d] shrink-0" />
 
                   <span>{addedAlert ? "ADDED TO CART" : "ADD TO CART"}</span>
 
-                  <span className="text-[16px] font-normal text-[#07120d]">
-                    →
-                  </span>
+                  <ArrowRight className="w-4 h-4 text-[#07120d] shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
 
               </div>
@@ -712,22 +710,28 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   type="button"
                   onClick={() => setIsWishlisted(!isWishlisted)}
                   className="
+                    group
                     flex
                     items-center
                     gap-2
                     text-[13px]
                     sm:text-[13.5px]
+                    font-medium
                     text-gray-600
                     hover:text-[#9a7322]
                     dark:text-[#dddcd4]
                     dark:hover:text-[#d7b45c]
-                    transition
+                    transition-colors
                     cursor-pointer
                   "
                 >
-                  <span className="text-[18px] text-[#9a7322] dark:text-[#d7b45c]">
-                    {isWishlisted ? "♥" : "♡"}
-                  </span>
+                  <Heart
+                    className={`w-4 h-4 transition-colors ${
+                      isWishlisted
+                        ? "fill-[#b89245] text-[#b89245]"
+                        : "text-gray-500 group-hover:text-[#9a7322] dark:text-[#b8bcb3] dark:group-hover:text-[#d7b45c]"
+                    }`}
+                  />
                   <span>{isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}</span>
                 </button>
 
@@ -737,35 +741,41 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   type="button"
                   onClick={() => setIsCompared(!isCompared)}
                   className="
+                    group
                     flex
                     items-center
                     gap-2
                     text-[13px]
                     sm:text-[13.5px]
+                    font-medium
                     text-gray-600
                     hover:text-[#9a7322]
                     dark:text-[#dddcd4]
                     dark:hover:text-[#d7b45c]
-                    transition
+                    transition-colors
                     cursor-pointer
                   "
                 >
-                  <span className="text-[18px] text-[#9a7322] dark:text-[#d7b45c]">
-                    ⇄
-                  </span>
+                  <ArrowLeftRight
+                    className={`w-4 h-4 transition-colors ${
+                      isCompared
+                        ? "text-[#b89245]"
+                        : "text-gray-500 group-hover:text-[#9a7322] dark:text-[#b8bcb3] dark:group-hover:text-[#d7b45c]"
+                    }`}
+                  />
                   <span>{isCompared ? "Added to Compare" : "Add to Compare"}</span>
                 </button>
 
               </div>
 
               {/* Share */}
-              <div className="mt-4 sm:mt-5 flex items-center gap-3.5">
+              <div className="mt-4 sm:mt-5 flex items-center gap-3">
 
-                <span className="text-[13px] text-gray-500 dark:text-[#b8bcb3]">
+                <span className="text-[13px] font-medium text-gray-500 dark:text-[#b8bcb3]">
                   Share:
                 </span>
 
-                <div className="flex gap-2.5">
+                <div className="flex items-center gap-2">
 
                   <button
                     type="button"
@@ -773,30 +783,31 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       flex
                       h-8
                       w-8
-                      sm:h-8.5
-                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b89245]/60
-                      dark:border-[#b69a52]
-                      text-[12.5px]
-                      sm:text-[13px]
+                      dark:border-[#b89245]/50
+                      bg-[#faf8f5]
+                      dark:bg-[#071710]
                       text-[#8a6b28]
-                      dark:text-[#eee9dc]
-                      bg-white
-                      dark:bg-transparent
-                      transition
+                      dark:text-[#e4cf9b]
+                      transition-all
+                      duration-200
                       hover:bg-[#b89245]
                       hover:text-white
+                      hover:border-[#b89245]
                       dark:hover:bg-[#c7a64e]
                       dark:hover:text-[#07120d]
+                      hover:scale-105
+                      active:scale-95
                       cursor-pointer
+                      shadow-xs
                     "
                     aria-label="Share on Facebook"
                   >
-                    f
+                    <Facebook className="w-3.5 h-3.5 stroke-[1.8]" />
                   </button>
 
                   <button
@@ -805,30 +816,33 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       flex
                       h-8
                       w-8
-                      sm:h-8.5
-                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b89245]/60
-                      dark:border-[#b69a52]
-                      text-[12.5px]
-                      sm:text-[13px]
+                      dark:border-[#b89245]/50
+                      bg-[#faf8f5]
+                      dark:bg-[#071710]
                       text-[#8a6b28]
-                      dark:text-[#eee9dc]
-                      bg-white
-                      dark:bg-transparent
-                      transition
+                      dark:text-[#e4cf9b]
+                      transition-all
+                      duration-200
                       hover:bg-[#b89245]
                       hover:text-white
+                      hover:border-[#b89245]
                       dark:hover:bg-[#c7a64e]
                       dark:hover:text-[#07120d]
+                      hover:scale-105
+                      active:scale-95
                       cursor-pointer
+                      shadow-xs
                     "
                     aria-label="Share on X"
                   >
-                    𝕏
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
                   </button>
 
                   <button
@@ -837,30 +851,31 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       flex
                       h-8
                       w-8
-                      sm:h-8.5
-                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b89245]/60
-                      dark:border-[#b69a52]
-                      text-[13px]
-                      sm:text-[14px]
+                      dark:border-[#b89245]/50
+                      bg-[#faf8f5]
+                      dark:bg-[#071710]
                       text-[#8a6b28]
-                      dark:text-[#eee9dc]
-                      bg-white
-                      dark:bg-transparent
-                      transition
+                      dark:text-[#e4cf9b]
+                      transition-all
+                      duration-200
                       hover:bg-[#b89245]
                       hover:text-white
+                      hover:border-[#b89245]
                       dark:hover:bg-[#c7a64e]
                       dark:hover:text-[#07120d]
+                      hover:scale-105
+                      active:scale-95
                       cursor-pointer
+                      shadow-xs
                     "
                     aria-label="Share link"
                   >
-                    ⤴
+                    <Share2 className="w-3.5 h-3.5 stroke-[1.8]" />
                   </button>
 
                   <button
@@ -869,30 +884,31 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                       flex
                       h-8
                       w-8
-                      sm:h-8.5
-                      sm:w-8.5
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-[#b89245]/60
-                      dark:border-[#b69a52]
-                      text-[13px]
-                      sm:text-[14px]
+                      dark:border-[#b89245]/50
+                      bg-[#faf8f5]
+                      dark:bg-[#071710]
                       text-[#8a6b28]
-                      dark:text-[#eee9dc]
-                      bg-white
-                      dark:bg-transparent
-                      transition
+                      dark:text-[#e4cf9b]
+                      transition-all
+                      duration-200
                       hover:bg-[#b89245]
                       hover:text-white
+                      hover:border-[#b89245]
                       dark:hover:bg-[#c7a64e]
                       dark:hover:text-[#07120d]
+                      hover:scale-105
+                      active:scale-95
                       cursor-pointer
+                      shadow-xs
                     "
                     aria-label="Share via email"
                   >
-                    ✉
+                    <Mail className="w-3.5 h-3.5 stroke-[1.8]" />
                   </button>
 
                 </div>
@@ -1332,7 +1348,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 <Link
                   key={b.id}
                   href={`/product/${targetSlug}`}
-                  className="rounded-2xl border border-[#e9e1f5] bg-gradient-to-b from-white to-[#faf7fd] p-4 sm:p-5 flex flex-col items-center text-center transition-all duration-300 hover:border-[#9333ea]/60 hover:-translate-y-1.5 shadow-[0_10px_25px_rgba(147,51,234,0.05)] hover:shadow-[0_15px_35px_rgba(147,51,234,0.12)] dark:border-[#18422e] dark:bg-[#061710] dark:hover:border-[#C9A646]/60 dark:shadow-[0_12px_28px_rgba(0,0,0,0.55)] dark:hover:shadow-[0_18px_40px_rgba(0,0,0,0.8)] group cursor-pointer"
+                  className="rounded-2xl border border-[#e9e1f5] dark:border-[#18422e] bg-gradient-to-b from-white to-[#faf7fd] dark:from-[#092218] dark:to-[#05140e] p-4 sm:p-5 flex flex-col items-center text-center transition-all duration-300 hover:border-[#9333ea]/60 hover:-translate-y-1.5 shadow-[0_10px_25px_rgba(147,51,234,0.05)] hover:shadow-[0_15px_35px_rgba(147,51,234,0.12)] dark:hover:border-[#C9A646]/60 dark:hover:from-[#0e3022] dark:hover:to-[#071d14] dark:shadow-[0_12px_28px_rgba(0,0,0,0.55)] dark:hover:shadow-[0_18px_40px_rgba(0,0,0,0.8)] group cursor-pointer"
                 >
                   {/* Book Cover Container */}
                   <div className="relative w-full aspect-[3/4.2] overflow-hidden rounded-[3px] shadow-md group-hover:shadow-lg dark:shadow-[0_10px_22px_rgba(0,0,0,0.55)] border border-[#e9e1f5] dark:border-white/10 group-hover:border-[#9333ea] dark:group-hover:border-[#C9A646]/50 bg-white dark:bg-black/40">

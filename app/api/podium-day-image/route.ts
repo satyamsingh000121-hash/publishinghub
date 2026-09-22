@@ -4,30 +4,38 @@ import path from "path";
 
 export async function GET() {
   try {
-    const srcPath = "C:\\Users\\91932\\.gemini\\antigravity-ide\\brain\\1e6146db-0349-4bb4-83fc-1d4c65552143\\.user_uploaded\\media_1789718959592.jpg";
-    const destPath = path.join(process.cwd(), "public", "images", "shop_section_day.jpg");
+    const srcFile = path.join(
+      process.cwd(),
+      "public",
+      "images",
+      "ChatGPT Image Sep 22, 2026, 12_13_14 PM.png"
+    );
+    const destJpg = path.join(process.cwd(), "public", "images", "shop_section_day.jpg");
+    const destPng = path.join(process.cwd(), "public", "images", "shop_section_day.png");
 
-    if (fs.existsSync(srcPath)) {
-      fs.copyFileSync(srcPath, destPath);
-      const imageBuffer = fs.readFileSync(destPath);
+    if (fs.existsSync(srcFile)) {
+      fs.copyFileSync(srcFile, destPng);
+      fs.copyFileSync(srcFile, destJpg);
+      const imageBuffer = fs.readFileSync(srcFile);
       return new NextResponse(imageBuffer, {
         headers: {
-          "Content-Type": "image/jpeg",
-          "Cache-Control": "public, max-age=31536000, immutable",
+          "Content-Type": "image/png",
+          "Cache-Control": "no-store",
         },
       });
     }
 
-    if (fs.existsSync(destPath)) {
-      const imageBuffer = fs.readFileSync(destPath);
+    if (fs.existsSync(destPng)) {
+      const imageBuffer = fs.readFileSync(destPng);
       return new NextResponse(imageBuffer, {
         headers: {
-          "Content-Type": "image/jpeg",
+          "Content-Type": "image/png",
+          "Cache-Control": "no-store",
         },
       });
     }
 
-    return NextResponse.json({ error: "Day podium image not found" }, { status: 404 });
+    return NextResponse.json({ error: "Source image not found" }, { status: 404 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

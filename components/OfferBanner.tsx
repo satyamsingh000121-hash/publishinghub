@@ -216,7 +216,7 @@ export default function OfferBanner() {
             </div>
 
             {/* Translucent Glass Tumbler */}
-            <div className="w-16 sm:w-20 md:w-22 h-16 sm:h-20 md:h-22 bg-gradient-to-b from-white/40 to-purple-200/50 border border-purple-300/60 shadow-[0_8px_20px_rgba(147,51,234,0.12)] dark:bg-[#161a18] dark:border-[#2c332e] dark:shadow-[-10px_15px_30px_rgba(0,0,0,0.95)] rounded-xl relative overflow-hidden flex flex-col justify-start p-1.5 backdrop-blur-md">
+            <div className="w-16 sm:w-20 md:w-22 h-16 sm:h-20 md:h-22 bg-gradient-to-b from-white/40 to-purple-200/50 dark:from-[#161a18] dark:to-[#161a18] border border-purple-300/60 shadow-[0_8px_20px_rgba(147,51,234,0.12)] dark:border-[#2c332e] dark:shadow-[-10px_15px_30px_rgba(0,0,0,0.95)] rounded-xl relative overflow-hidden flex flex-col justify-start p-1.5 backdrop-blur-md">
               <div className="w-full h-3 sm:h-3.5 bg-gradient-to-r from-purple-100 via-amber-100 to-purple-100 dark:from-[#242b27] dark:via-[#f0d694] dark:to-[#1c221e] rounded-full border border-purple-200/50 dark:border-black/60 shadow-inner flex items-center justify-center">
                 <div className="w-4/5 h-2 bg-gradient-to-r from-white via-amber-200 to-white dark:from-[#ebd69b] dark:via-[#ffffff] dark:to-[#dfc480] rounded-full blur-[0.3px]" />
               </div>
