@@ -906,29 +906,29 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 2: MEET THE AUTHOR (LUXURY WARM IVORY & GOLD BOTANICAL THEME)     */}
+      {/* SECTION 2: MEET THE AUTHOR (WEBSITE DAY & NIGHT THEME COMPATIBLE)         */}
       {/* ========================================================================= */}
-      <section className="w-full bg-[#faf8f4]/60 dark:bg-[#020b08] py-10 sm:py-16 px-4 sm:px-6 lg:px-8 border-y border-[#eadeca]/70 dark:border-[#1a3828]/40 relative overflow-visible">
-        {/* Soft Warm Amber / Emerald Glow in Background */}
+      <section className="w-full bg-[#faf7fd] dark:bg-[#070c09] py-10 sm:py-16 px-4 sm:px-6 lg:px-8 border-y border-[#e9e1f5] dark:border-[#f2eee3]/10 relative overflow-visible transition-colors duration-300">
+        {/* Soft Ambient Glow in Background */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] sm:w-[1000px] h-[450px] dark:bg-[#0c3522]/30 bg-amber-100/30 rounded-full blur-[140px]" />
-          <div className="absolute -top-10 left-1/4 w-[400px] h-[350px] dark:bg-[#14422c]/20 bg-emerald-50/40 rounded-full blur-[120px]" />
-          <div className="absolute -bottom-10 right-1/4 w-[450px] h-[350px] dark:bg-[#0e3a24]/20 bg-amber-50/30 rounded-full blur-[130px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] sm:w-[1000px] h-[450px] bg-purple-200/30 dark:bg-[#0c3522]/35 rounded-full blur-[140px]" />
+          <div className="absolute -top-10 left-1/4 w-[400px] h-[350px] bg-fuchsia-100/25 dark:bg-[#14422c]/25 rounded-full blur-[120px]" />
+          <div className="absolute -bottom-10 right-1/4 w-[450px] h-[350px] bg-purple-100/20 dark:bg-[#d4b56a]/10 rounded-full blur-[130px]" />
         </div>
 
-        {/* Main Card with Soft Cream Background & Rounded Shoulders */}
+        {/* Main Card with Website's Day Theme (Light) & Night Theme (Dark) */}
         <div
-          className="max-w-6xl mx-auto rounded-[28px] sm:rounded-[36px] border border-[#e5dcce] dark:border-[#1d3d2c] p-6 sm:p-10 lg:p-12 shadow-[0_12px_36px_rgba(0,0,0,0.04)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95)] relative z-10 transition-all duration-300 bg-[#fdfcf9] dark:bg-[radial-gradient(ellipse_90%_80%_at_50%_30%,_#09281b_0%,_#061911_55%,_#030f0a_100%)]"
+          className="max-w-6xl mx-auto rounded-[28px] sm:rounded-[36px] border border-[#e9e1f5] dark:border-[#d4b56a]/30 p-6 sm:p-10 lg:p-12 shadow-[0_15px_35px_rgba(147,51,234,0.08)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95)] relative z-10 transition-all duration-300 bg-gradient-to-b from-white via-[#faf7fd] to-[#f4ebff] dark:bg-[radial-gradient(ellipse_90%_80%_at_50%_30%,_#09281b_0%,_#061911_55%,_#030f0a_100%)]"
         >
           {/* Top Center Botanical Leaf Emblem */}
           <div
-            className="absolute -top-3.5 sm:-top-4 left-1/2 -translate-x-1/2 px-4 py-1 z-20 flex items-center justify-center rounded-full bg-[#fdfcf9] dark:bg-[#082419] border border-[#e5dcce] dark:border-[#1d3d2c] shadow-xs"
+            className="absolute -top-3.5 sm:-top-4 left-1/2 -translate-x-1/2 px-4 py-1 z-20 flex items-center justify-center rounded-full bg-white dark:bg-[#082419] border border-[#e9e1f5] dark:border-[#d4b56a]/40 shadow-xs dark:shadow-md transition-colors"
           >
             <svg
               viewBox="0 0 38 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-8 h-5 sm:w-9 sm:h-5.5 text-[#9a7e3a] dark:text-[#C9A646]"
+              className="w-8 h-5 sm:w-9 sm:h-5.5 text-[#9333ea] dark:text-[#d4b56a] transition-colors"
               aria-hidden="true"
             >
               <path d="M19 22V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
@@ -962,26 +962,26 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           {/* Ornamental Centered Heading & Quote */}
           <div className="text-center mb-8 sm:mb-11 relative z-10 max-w-3xl mx-auto px-2">
             <div className="flex items-center justify-center gap-3 sm:gap-4">
-              {/* Left decorative line with warm gold dot */}
+              {/* Left decorative line with dot */}
               <div className="flex items-center gap-2.5">
-                <div className="w-10 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#d6b777]/60 to-[#cbb279] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
-                <span className="w-1.5 h-1.5 rounded-full bg-[#c59b3f] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(197,155,63,0.4)]" />
+                <div className="w-10 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#9333ea]/50 to-[#9333ea] dark:via-[#d4b56a]/70 dark:to-[#d4b56a]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#9333ea] dark:bg-[#d4b56a] inline-block shadow-[0_0_6px_rgba(147,51,234,0.5)] dark:shadow-[0_0_6px_rgba(212,181,106,0.6)]" />
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-[42px] text-[#1c1917] dark:text-[#F3EFE4] font-normal tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-[42px] text-[#18181b] dark:text-[#f2eee3] font-normal tracking-tight transition-colors">
                 Meet The Author
               </h2>
 
-              {/* Right decorative line with warm gold dot */}
+              {/* Right decorative line with dot */}
               <div className="flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#c59b3f] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(197,155,63,0.4)]" />
-                <div className="w-10 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-l from-transparent via-[#d6b777]/60 to-[#cbb279] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#9333ea] dark:bg-[#d4b56a] inline-block shadow-[0_0_6px_rgba(147,51,234,0.5)] dark:shadow-[0_0_6px_rgba(212,181,106,0.6)]" />
+                <div className="w-10 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-l from-transparent via-[#9333ea]/50 to-[#9333ea] dark:via-[#d4b56a]/70 dark:to-[#d4b56a]" />
               </div>
             </div>
 
             {/* Author Quote with cleaned quotes */}
             {currentAuthorQuote && (
-              <p className="mt-3.5 sm:mt-4 font-serif italic text-sm sm:text-base md:text-[16.5px] text-[#5c5446] dark:text-[#e3ded2] max-w-2xl mx-auto leading-relaxed">
+              <p className="mt-3.5 sm:mt-4 font-serif italic text-sm sm:text-base md:text-[16.5px] text-[#52525b] dark:text-[#d9d5ca] max-w-2xl mx-auto leading-relaxed transition-colors">
                 &ldquo;{currentAuthorQuote.replace(/^["“'\s]+|["”'\s]+$/g, "").trim()}&rdquo;
               </p>
             )}
@@ -992,7 +992,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
             {/* Left Column: Author Profile */}
             <div className="lg:col-span-4 flex flex-col items-center text-center">
               {/* Author Portrait Image with Smooth Rounded Corners */}
-              <div className="w-44 sm:w-52 aspect-[3.8/4.8] overflow-hidden rounded-2xl bg-white shadow-md border border-[#e5dcce] dark:border-[#2c533e]/50 dark:bg-black/40">
+              <div className="w-44 sm:w-52 aspect-[3.8/4.8] overflow-hidden rounded-2xl bg-white dark:bg-black/40 shadow-md dark:shadow-xl border border-[#e9e1f5] dark:border-[#d4b56a]/30 transition-colors">
                 <img
                   src={currentAuthorImage}
                   alt={currentAuthorName}
@@ -1011,8 +1011,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         type="button"
                         onClick={() => setSelectedAuthorIdx(idx)}
                         className={`font-serif text-sm sm:text-[15px] px-4 sm:px-5 py-1.5 rounded-full transition-all duration-200 border cursor-pointer ${isSelected
-                          ? "border-[#c59b3f] text-[#8a6b28] bg-[#c59b3f]/15 shadow-[0_0_10px_rgba(197,155,63,0.2)] dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 font-medium"
-                          : "border-[#e5dcce] bg-white text-gray-700 hover:border-[#c59b3f] hover:text-[#8a6b28] dark:border-[#1b3d2b] dark:bg-[#071911]/60 dark:text-[#8ea99b] dark:hover:border-[#2b6348] dark:hover:text-[#F3EFE4]"
+                          ? "border-[#9333ea] text-[#9333ea] bg-[#9333ea]/10 shadow-[0_0_10px_rgba(147,51,234,0.15)] dark:border-[#d4b56a] dark:text-[#d4b56a] dark:bg-[#d4b56a]/15 dark:shadow-[0_0_10px_rgba(212,181,106,0.25)] font-medium"
+                          : "border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] dark:border-[#f2eee3]/20 dark:bg-[#071911]/80 dark:text-[#d9d5ca] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3]"
                           }`}
                       >
                         {auth.name}
@@ -1021,19 +1021,19 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   })}
                 </div>
               ) : (
-                <div className="mt-4 font-serif text-sm sm:text-[15px] px-5 py-1.5 rounded-full border border-[#c59b3f]/60 text-[#8a6b28] bg-[#c59b3f]/10 shadow-xs dark:border-[#C9A646] dark:text-[#F3EFE4] dark:bg-[#C9A646]/10 font-medium">
+                <div className="mt-4 font-serif text-sm sm:text-[15px] px-5 py-1.5 rounded-full border border-[#9333ea]/50 text-[#9333ea] bg-[#9333ea]/10 shadow-xs dark:border-[#d4b56a]/60 dark:text-[#d4b56a] dark:bg-[#d4b56a]/10 font-medium transition-colors">
                   {currentAuthorName}
                 </div>
               )}
 
               {/* Clean Circular Social Icons */}
-              <div className="flex items-center justify-center gap-2.5 mt-3.5 text-[#8a6b28] dark:text-[#C9A646]">
+              <div className="flex items-center justify-center gap-2.5 mt-3.5 text-[#9333ea] dark:text-[#d4b56a]">
                 <a
                   href={currentAuthorSocials?.facebook || "#facebook"}
                   target={currentAuthorSocials?.facebook && currentAuthorSocials.facebook.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="w-7 h-7 rounded-full border border-[#e5dcce] bg-white text-[#8a6b28] hover:border-[#c59b3f] hover:bg-[#faf6ee] hover:text-[#73571d] dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                  className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:bg-[#9333ea] hover:text-white dark:border-[#f2eee3]/20 dark:bg-[#05140e] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:bg-[#d4b56a] dark:hover:text-[#050807] flex items-center justify-center transition-all text-xs shadow-xs"
                 >
                   <Facebook className="w-3.5 h-3.5" />
                 </a>
@@ -1042,7 +1042,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   target={currentAuthorSocials?.twitter && currentAuthorSocials.twitter.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   aria-label="Twitter"
-                  className="w-7 h-7 rounded-full border border-[#e5dcce] bg-white text-[#8a6b28] hover:border-[#c59b3f] hover:bg-[#faf6ee] hover:text-[#73571d] dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                  className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:bg-[#9333ea] hover:text-white dark:border-[#f2eee3]/20 dark:bg-[#05140e] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:bg-[#d4b56a] dark:hover:text-[#050807] flex items-center justify-center transition-all text-xs shadow-xs"
                 >
                   <Twitter className="w-3.5 h-3.5" />
                 </a>
@@ -1051,7 +1051,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   target={currentAuthorSocials?.linkedin && currentAuthorSocials.linkedin.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="w-7 h-7 rounded-full border border-[#e5dcce] bg-white text-[#8a6b28] hover:border-[#c59b3f] hover:bg-[#faf6ee] hover:text-[#73571d] dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                  className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:bg-[#9333ea] hover:text-white dark:border-[#f2eee3]/20 dark:bg-[#05140e] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:bg-[#d4b56a] dark:hover:text-[#050807] flex items-center justify-center transition-all text-xs shadow-xs"
                 >
                   <Linkedin className="w-3.5 h-3.5" />
                 </a>
@@ -1060,7 +1060,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   target={currentAuthorSocials?.instagram && currentAuthorSocials.instagram.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="w-7 h-7 rounded-full border border-[#e5dcce] bg-white text-[#8a6b28] hover:border-[#c59b3f] hover:bg-[#faf6ee] hover:text-[#73571d] dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                  className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:bg-[#9333ea] hover:text-white dark:border-[#f2eee3]/20 dark:bg-[#05140e] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:bg-[#d4b56a] dark:hover:text-[#050807] flex items-center justify-center transition-all text-xs shadow-xs"
                 >
                   <Instagram className="w-3.5 h-3.5" />
                 </a>
@@ -1070,7 +1070,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     target={currentAuthorSocials.youtube.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     aria-label="YouTube"
-                    className="w-7 h-7 rounded-full border border-[#e5dcce] bg-white text-[#8a6b28] hover:border-[#c59b3f] hover:bg-[#faf6ee] hover:text-[#73571d] dark:border-[#1b3d2b] dark:bg-[#05140e] dark:text-[#C9A646] dark:hover:border-[#C9A646] dark:hover:text-[#F3EFE4] dark:hover:bg-[#0b2b1d] flex items-center justify-center transition-all text-xs shadow-xs"
+                    className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:bg-[#9333ea] hover:text-white dark:border-[#f2eee3]/20 dark:bg-[#05140e] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:bg-[#d4b56a] dark:hover:text-[#050807] flex items-center justify-center transition-all text-xs shadow-xs"
                   >
                     <Youtube className="w-3.5 h-3.5" />
                   </a>
@@ -1096,20 +1096,20 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                           className="flex-shrink-0 w-[140px] sm:w-[160px] md:w-[180px] lg:w-[195px] flex flex-col items-center text-center group cursor-pointer transition-transform"
                         >
                           {/* Realistic Book Cover with subtle shadow */}
-                          <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-r-[3px] rounded-l-[1px] shadow-md group-hover:shadow-xl dark:shadow-[0_12px_28px_rgba(0,0,0,0.65)] dark:group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-1.5 transition-all duration-300 border border-[#e5dcce] dark:border-white/10 group-hover:border-[#c59b3f]/70 dark:group-hover:border-[#C9A646]/50 bg-gray-100 dark:bg-black/40">
+                          <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-r-[3px] rounded-l-[1px] shadow-md group-hover:shadow-xl dark:shadow-[0_12px_28px_rgba(0,0,0,0.65)] dark:group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-1.5 transition-all duration-300 border border-[#e9e1f5] group-hover:border-[#9333ea] dark:border-[#f2eee3]/15 dark:group-hover:border-[#d4b56a]/70 bg-white dark:bg-black/40">
                             <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
                           </div>
 
-                          {/* Book Price in Gold */}
-                          <div className="mt-3.5 text-xs sm:text-sm font-medium text-[#8a6b28] dark:text-[#C9A646] tracking-wide">
+                          {/* Book Price */}
+                          <div className="mt-3.5 text-xs sm:text-sm font-semibold text-[#9333ea] dark:text-[#d4b56a] tracking-wide transition-colors">
                             {b.price}
                           </div>
 
                           {/* Thin Accent Line underneath Price */}
-                          <div className="w-6 h-[1.5px] bg-[#cbb279] dark:bg-[#C9A646] mx-auto my-1.5 opacity-80 group-hover:w-8 group-hover:bg-[#c59b3f] dark:group-hover:bg-[#dfba56] transition-all" />
+                          <div className="w-6 h-[1.5px] bg-[#9333ea]/80 dark:bg-[#d4b56a] mx-auto my-1.5 opacity-80 group-hover:w-8 group-hover:bg-[#7c3aed] dark:group-hover:bg-[#e6c880] transition-all" />
 
                           {/* Book Title */}
-                          <h4 className="font-serif text-sm sm:text-[15px] text-[#1c1917] group-hover:text-[#8a6b28] dark:text-[#F3EFE4] dark:group-hover:text-[#C9A646] transition-colors line-clamp-2 leading-snug">
+                          <h4 className="font-serif text-sm sm:text-[15px] text-[#18181b] group-hover:text-[#9333ea] dark:text-[#f2eee3] dark:group-hover:text-[#d4b56a] transition-colors line-clamp-2 leading-snug">
                             {b.title}
                           </h4>
                         </Link>
@@ -1124,7 +1124,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         type="button"
                         onClick={() => scrollAuthorBooks("left")}
                         aria-label="Previous book"
-                        className="w-7 h-7 rounded-full border border-[#e5dcce] bg-white text-gray-700 hover:border-[#c59b3f] hover:text-[#8a6b28] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+                        className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-[#faf5ff] dark:border-[#f2eee3]/20 dark:bg-[#071911] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-colors shadow-xs cursor-pointer"
                       >
                         <ChevronLeft className="w-3.5 h-3.5" />
                       </button>
@@ -1132,7 +1132,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         type="button"
                         onClick={() => scrollAuthorBooks("right")}
                         aria-label="Next book"
-                        className="w-7 h-7 rounded-full border border-[#e5dcce] bg-white text-gray-700 hover:border-[#c59b3f] hover:text-[#8a6b28] dark:border-[#1b3d2b] dark:bg-[#071911] dark:hover:border-[#C9A646] dark:text-[#C9A646] dark:hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+                        className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-[#faf5ff] dark:border-[#f2eee3]/20 dark:bg-[#071911] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-colors shadow-xs cursor-pointer"
                       >
                         <ChevronRight className="w-3.5 h-3.5" />
                       </button>
@@ -1141,11 +1141,11 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 </div>
               ) : (
                 /* Clean Notice Box when no books are found */
-                <div className="flex items-center gap-3.5 px-6 py-5 bg-[#faf7f0] border border-[#eadeca] text-[#5c5446] dark:bg-[#0a2318] dark:border-[#1b3d2b] dark:text-[#e2f7eb] rounded-xl shadow-xs max-w-lg mx-auto my-auto">
-                  <div className="w-6 h-6 rounded-full border-2 border-[#c59b3f] bg-[#f5ecda] text-[#8a6b28] dark:border-[#52c38d] dark:bg-[#14422e] flex items-center justify-center text-xs font-bold dark:text-[#52c38d] flex-shrink-0">
+                <div className="flex items-center gap-3.5 px-6 py-5 bg-[#faf5ff] border border-[#e9e1f5] text-[#3f3f46] dark:bg-[#0a2318] dark:border-[#1b3d2b] dark:text-[#e2f7eb] rounded-xl shadow-xs max-w-lg mx-auto my-auto">
+                  <div className="w-6 h-6 rounded-full border-2 border-[#9333ea] bg-[#ede3f8] text-[#9333ea] dark:border-[#d4b56a] dark:bg-[#14422e] dark:text-[#d4b56a] flex items-center justify-center text-xs font-bold flex-shrink-0">
                     i
                   </div>
-                  <span className="text-[13.5px] font-medium tracking-wide leading-snug font-serif text-[#5c5446] dark:text-[#d6ded9]">
+                  <span className="text-[13.5px] font-medium tracking-wide leading-snug font-serif text-[#52525b] dark:text-[#d6ded9]">
                     No products were found matching your selection.
                   </span>
                 </div>
@@ -1155,25 +1155,23 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
         </div>
       </section>
 
-      {/* Main Container for Lower Sections (Tabs, Related, Upsell) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
-
-        {/* ========================================================================= */}
-        {/* SECTION 3: TABS (DESCRIPTION & REVIEWS - LUXURY PUBLISHING THEME)          */}
-        {/* ========================================================================= */}
-        <section className="max-w-5xl mx-auto pt-8 pb-4 relative z-10">
-          <div className="rounded-2xl sm:rounded-3xl border border-[#e5dcce] bg-[#fdfcf9] p-6 sm:p-10 lg:p-12 shadow-[0_10px_30px_rgba(0,0,0,0.04)] dark:border-[#18422e] dark:bg-[#061710] dark:shadow-[0_16px_36px_rgba(0,0,0,0.6)] relative overflow-hidden">
+      {/* ========================================================================= */}
+      {/* SECTION 3: TABS (DESCRIPTION & REVIEWS - FULL WIDTH BACKGROUND)           */}
+      {/* ========================================================================= */}
+      <section className="w-full bg-[#faf7fd] dark:bg-[#070c09] py-10 sm:py-16 px-4 sm:px-6 lg:px-8 border-b border-[#e9e1f5] dark:border-[#f2eee3]/10 relative overflow-visible transition-colors duration-300">
+        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="rounded-2xl sm:rounded-3xl border border-[#e9e1f5] dark:border-[#d4b56a]/30 bg-white dark:bg-[#061710] p-6 sm:p-10 lg:p-12 shadow-[0_15px_35px_rgba(147,51,234,0.06)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.6)] relative overflow-hidden transition-all duration-300">
             {/* Subtle Inner Ambient Glow */}
-            <div className="absolute top-0 right-1/4 w-72 h-72 dark:bg-[#0c3522]/20 bg-amber-100/25 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-1/4 w-72 h-72 bg-purple-200/20 dark:bg-[#0c3522]/20 rounded-full blur-3xl pointer-events-none" />
 
             {/* Tab Selection */}
-            <div className="flex items-center justify-center gap-10 sm:gap-14 border-b border-[#eadeca] dark:border-[#18422e] pb-0 relative z-10">
+            <div className="flex items-center justify-center gap-10 sm:gap-14 border-b border-[#e9e1f5] dark:border-[#18422e] pb-0 relative z-10">
               <button
                 type="button"
                 onClick={() => setActiveTab("description")}
                 className={`pb-3.5 text-base sm:text-lg font-serif tracking-wide transition-all duration-200 relative cursor-pointer ${activeTab === "description"
-                  ? "text-[#1c1917] font-medium border-b-2 border-[#9a7322] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
-                  : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-[#e5dcce] -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
+                  ? "text-[#9333ea] font-semibold border-b-2 border-[#9333ea] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
+                  : "text-[#71717a] hover:text-[#9333ea] border-b-2 border-transparent hover:border-[#e9e1f5] -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
                   }`}
               >
                 Description
@@ -1182,8 +1180,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 type="button"
                 onClick={() => setActiveTab("reviews")}
                 className={`pb-3.5 text-base sm:text-lg font-serif tracking-wide transition-all duration-200 relative cursor-pointer ${activeTab === "reviews"
-                  ? "text-[#1c1917] font-medium border-b-2 border-[#9a7322] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
-                  : "text-gray-500 hover:text-[#1c1917] border-b-2 border-transparent hover:border-[#e5dcce] -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
+                  ? "text-[#9333ea] font-semibold border-b-2 border-[#9333ea] -mb-[1px] dark:text-[#F2EEE3] dark:border-[#C9A646]"
+                  : "text-[#71717a] hover:text-[#9333ea] border-b-2 border-transparent hover:border-[#e9e1f5] -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
                   }`}
               >
                 Reviews (0)
@@ -1195,48 +1193,48 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               {activeTab === "description" ? (
                 <div className="space-y-4 max-w-4xl mx-auto text-left">
                   {currentDescription.split("\n\n").map((para, i) => (
-                    <p key={i} className="text-xs sm:text-[14px] leading-relaxed text-gray-700 dark:text-[#dcded8]">
+                    <p key={i} className="text-xs sm:text-[14px] leading-relaxed text-[#3f3f46] dark:text-[#dcded8]">
                       {para}
                     </p>
                   ))}
                   {(book?.isbn || book?.publisher || book?.pages || book?.format || book?.language) && (
-                    <div className="pt-6 mt-6 border-t border-[#eadeca] dark:border-[#18422e] grid grid-cols-2 sm:grid-cols-4 gap-5 text-left">
+                    <div className="pt-6 mt-6 border-t border-[#e9e1f5] dark:border-[#18422e] grid grid-cols-2 sm:grid-cols-4 gap-5 text-left">
                       {book.isbn && (
                         <div>
-                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#9333ea] dark:text-[#C9A646] mb-1">
                             ISBN
                           </span>
-                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                          <span className="text-xs sm:text-sm font-medium text-[#18181b] dark:text-[#F2EEE3]">
                             {book.isbn}
                           </span>
                         </div>
                       )}
                       {book.publisher && (
                         <div>
-                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#9333ea] dark:text-[#C9A646] mb-1">
                             Publisher
                           </span>
-                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                          <span className="text-xs sm:text-sm font-medium text-[#18181b] dark:text-[#F2EEE3]">
                             {book.publisher}
                           </span>
                         </div>
                       )}
                       {book.pages && (
                         <div>
-                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#9333ea] dark:text-[#C9A646] mb-1">
                             Pages
                           </span>
-                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                          <span className="text-xs sm:text-sm font-medium text-[#18181b] dark:text-[#F2EEE3]">
                             {book.pages} pages
                           </span>
                         </div>
                       )}
                       {book.format && (
                         <div>
-                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#8a6b28] dark:text-[#C9A646] mb-1">
+                          <span className="block text-[10.5px] uppercase tracking-wider font-semibold text-[#9333ea] dark:text-[#C9A646] mb-1">
                             Format
                           </span>
-                          <span className="text-xs sm:text-sm font-medium text-[#1c1917] dark:text-[#F2EEE3]">
+                          <span className="text-xs sm:text-sm font-medium text-[#18181b] dark:text-[#F2EEE3]">
                             {book.format}
                           </span>
                         </div>
@@ -1245,22 +1243,25 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   )}
                 </div>
               ) : (
-                <div className="py-8 text-center text-xs sm:text-sm text-gray-500 dark:text-[#9A9D95] font-serif italic">
+                <div className="py-8 text-center text-xs sm:text-sm text-[#71717a] dark:text-[#9A9D95] font-serif italic">
                   There are no reviews yet for this book.
                 </div>
               )}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
+      {/* Main Container for Lower Sections (Related, Upsell) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
 
         {/* ========================================================================= */}
-        {/* SECTION 4: RELATED PRODUCTS (LUXURY PUBLISHING STYLE MATCHING REFERENCE)   */}
+        {/* SECTION 4: RELATED PRODUCTS (DAY & NIGHT THEME MATCHING)                   */}
         {/* ========================================================================= */}
-        <section className="py-12 sm:py-16 relative border-t border-[#eadeca] dark:border-[#18422e]/60">
-          {/* Subtle Ambient Emerald Glow */}
+        <section className="py-12 sm:py-16 relative border-t border-[#e9e1f5] dark:border-[#18422e]/60">
+          {/* Subtle Ambient Glow */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] dark:bg-[#0c3522]/20 bg-amber-100/20 rounded-full blur-[140px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] bg-purple-100/30 dark:bg-[#0c3522]/20 rounded-full blur-[140px]" />
           </div>
 
           {/* Centered Heading with Botanical Motif and Ornamental Lines */}
@@ -1271,7 +1272,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 viewBox="0 0 38 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-8 h-5 text-[#8a6b28] dark:text-[#C9A646]"
+                className="w-8 h-5 text-[#9333ea] dark:text-[#C9A646]"
                 aria-hidden="true"
               >
                 <path d="M19 22V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
@@ -1302,25 +1303,25 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               </svg>
             </div>
 
-            {/* Heading with Left & Right Gold Ornamental Lines */}
+            {/* Heading with Left & Right Ornamental Lines */}
             <div className="flex items-center justify-center gap-3 sm:gap-5">
-              <div className="hidden sm:flex items-center gap-2.5 text-[#8a6b28] dark:text-[#C9A646]">
-                <div className="w-12 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
-                <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
+              <div className="hidden sm:flex items-center gap-2.5 text-[#9333ea] dark:text-[#C9A646]">
+                <div className="w-12 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#9333ea]/50 to-[#9333ea] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#9333ea] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(147,51,234,0.5)] dark:shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-[44px] lg:text-[48px] text-[#1c1917] dark:text-[#F2EEE3] font-normal tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-[44px] lg:text-[48px] text-[#18181b] dark:text-[#F2EEE3] font-normal tracking-tight">
                 Related products
               </h2>
 
-              <div className="hidden sm:flex items-center gap-2.5 text-[#8a6b28] dark:text-[#C9A646]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#b89245] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
-                <div className="w-12 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-l from-transparent via-[#b89245]/70 to-[#b89245] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
+              <div className="hidden sm:flex items-center gap-2.5 text-[#9333ea] dark:text-[#C9A646]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#9333ea] dark:bg-[#C9A646] inline-block shadow-[0_0_6px_rgba(147,51,234,0.5)] dark:shadow-[0_0_6px_rgba(201,166,70,0.6)]" />
+                <div className="w-12 sm:w-16 md:w-24 lg:w-32 h-[1px] bg-gradient-to-l from-transparent via-[#9333ea]/50 to-[#9333ea] dark:via-[#C9A646]/70 dark:to-[#C9A646]" />
               </div>
             </div>
 
-            {/* Small Gold Underline */}
-            <div className="w-12 sm:w-16 h-[1.5px] bg-[#b89245] dark:bg-[#C9A646] mx-auto mt-3.5 opacity-85 rounded-full" />
+            {/* Underline */}
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#9333ea] dark:bg-[#C9A646] mx-auto mt-3.5 opacity-85 rounded-full" />
           </div>
 
           {/* 4-Column Product Cards Grid */}
@@ -1331,16 +1332,16 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 <Link
                   key={b.id}
                   href={`/product/${targetSlug}`}
-                  className="rounded-2xl border border-[#e5dcce] bg-[#fdfcf9] p-4 sm:p-5 flex flex-col items-center text-center transition-all duration-300 hover:border-[#b89245]/60 hover:-translate-y-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.08)] dark:border-[#18422e] dark:bg-[#061710] dark:hover:border-[#C9A646]/60 dark:shadow-[0_12px_28px_rgba(0,0,0,0.55)] dark:hover:shadow-[0_18px_40px_rgba(0,0,0,0.8)] group cursor-pointer"
+                  className="rounded-2xl border border-[#e9e1f5] bg-gradient-to-b from-white to-[#faf7fd] p-4 sm:p-5 flex flex-col items-center text-center transition-all duration-300 hover:border-[#9333ea]/60 hover:-translate-y-1.5 shadow-[0_10px_25px_rgba(147,51,234,0.05)] hover:shadow-[0_15px_35px_rgba(147,51,234,0.12)] dark:border-[#18422e] dark:bg-[#061710] dark:hover:border-[#C9A646]/60 dark:shadow-[0_12px_28px_rgba(0,0,0,0.55)] dark:hover:shadow-[0_18px_40px_rgba(0,0,0,0.8)] group cursor-pointer"
                 >
                   {/* Book Cover Container */}
-                  <div className="relative w-full aspect-[3/4.2] overflow-hidden rounded-[3px] shadow-md group-hover:shadow-lg dark:shadow-[0_10px_22px_rgba(0,0,0,0.55)] border border-[#e5dcce] dark:border-white/10 bg-gray-100 dark:bg-black/40">
+                  <div className="relative w-full aspect-[3/4.2] overflow-hidden rounded-[3px] shadow-md group-hover:shadow-lg dark:shadow-[0_10px_22px_rgba(0,0,0,0.55)] border border-[#e9e1f5] dark:border-white/10 group-hover:border-[#9333ea] dark:group-hover:border-[#C9A646]/50 bg-white dark:bg-black/40">
                     {/* Top Ribbon Badges */}
                     {b.badge && (
                       <div className="absolute top-0 left-0 z-20 flex flex-col gap-1 pointer-events-none">
                         {(b.badge === "SALE" || b.badge === "SALE_AND_HOT" || (b.badgeType === "sale" && b.badge !== "HOT")) && (
                           <span
-                            className="bg-[#3f8f68] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center font-sans"
+                            className="bg-[#9333ea] text-white text-[9px] font-bold px-2.5 pt-0.5 pb-1 uppercase tracking-wider shadow-sm flex items-center justify-center font-sans"
                             style={{ clipPath: "polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%)" }}
                           >
                             SALE
@@ -1379,12 +1380,12 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         }}
                         aria-label="Add to cart"
                         title="Add to cart"
-                        className="w-10 h-10 rounded-full bg-white/95 border border-[#b89245]/70 text-[#8a6b28] hover:bg-[#b89245] hover:text-white dark:bg-[#082318] dark:border-[#C9A646]/70 dark:hover:bg-[#C9A646] dark:text-[#C9A646] dark:hover:text-[#05100B] shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
+                        className="w-10 h-10 rounded-full bg-white/95 border border-[#9333ea]/70 text-[#9333ea] hover:bg-[#9333ea] hover:text-white dark:bg-[#082318] dark:border-[#C9A646]/70 dark:hover:bg-[#C9A646] dark:text-[#C9A646] dark:hover:text-[#05100B] shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
                       >
                         <ShoppingCart className="w-4 h-4" />
                       </button>
                       <span
-                        className="w-10 h-10 rounded-full bg-white/95 border border-[#b89245]/70 text-[#8a6b28] hover:bg-[#b89245] hover:text-white dark:bg-[#082318] dark:border-[#C9A646]/70 dark:hover:bg-[#C9A646] dark:text-[#C9A646] dark:hover:text-[#05100B] shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
+                        className="w-10 h-10 rounded-full bg-white/95 border border-[#9333ea]/70 text-[#9333ea] hover:bg-[#9333ea] hover:text-white dark:bg-[#082318] dark:border-[#C9A646]/70 dark:hover:bg-[#C9A646] dark:text-[#C9A646] dark:hover:text-[#05100B] shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
                         aria-label="View book"
                         title="View book"
                       >
@@ -1395,8 +1396,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
                   {/* Information Block Below Book Cover */}
                   <div className="mt-4 flex flex-col items-center w-full">
-                    {/* Price in Gold */}
-                    <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-[#8a6b28] dark:text-[#C9A646] tracking-wide">
+                    {/* Price */}
+                    <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-[#9333ea] dark:text-[#C9A646] tracking-wide">
                       {b.oldPrice && (
                         <span className="text-gray-400 dark:text-[#9A9D95]/60 line-through font-normal text-xs">
                           {b.oldPrice}
@@ -1406,13 +1407,13 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                     </div>
 
                     {/* Title in Serif */}
-                    <h4 className="font-serif text-sm sm:text-[15px] text-[#1c1917] group-hover:text-[#8a6b28] dark:text-[#F2EEE3] dark:group-hover:text-[#C9A646] transition-colors leading-snug line-clamp-2 mt-1.5 px-1">
+                    <h4 className="font-serif text-sm sm:text-[15px] text-[#18181b] group-hover:text-[#9333ea] dark:text-[#F2EEE3] dark:group-hover:text-[#C9A646] transition-colors leading-snug line-clamp-2 mt-1.5 px-1">
                       {b.title}
                     </h4>
 
                     {/* Author in Muted Gray */}
                     {b.author && (
-                      <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-gray-500 dark:text-[#9A9D95] font-medium mt-1.5 line-clamp-1">
+                      <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#71717a] dark:text-[#9A9D95] font-medium mt-1.5 line-clamp-1">
                         {b.author}
                       </p>
                     )}

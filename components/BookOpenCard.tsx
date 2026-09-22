@@ -114,7 +114,7 @@ export default function BookOpenCard({
             </div>
           </div>
         </div>
-      </div>
+            </div>
 
       {/* ========================================================================= */}
       {/* BOOK DETAILS, PRICE, QUANTITY STEPPER & CTA BUTTON                       */}
@@ -197,3 +197,4 @@ export default function BookOpenCard({
     </div>
   );
 }
+ 
