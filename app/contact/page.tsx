@@ -7,13 +7,10 @@ import ContactHeader from "@/components/contact/ContactHeader";
 import ContactInfo from "@/components/contact/ContactInfo";
 import ContactMap from "@/components/contact/ContactMap";
 import ContactForm from "@/components/contact/ContactForm";
-import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { Check } from "lucide-react";
 
 export default function ContactPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -23,12 +20,6 @@ export default function ContactPage() {
       setToastMessage(null);
     }, 4500);
   };
-
-  const handleRemoveCartItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <main className="min-h-screen dark:bg-[#050807] bg-white dark:text-[#f2eee3] text-[#18181b] flex flex-col font-sans selection:bg-[#b89245] selection:text-[#050807] transition-colors duration-300">
@@ -42,19 +33,16 @@ export default function ContactPage() {
 
       {/* Top Navbar with activeTab="CONTACT US" */}
       <Navbar
-        cartCount={totalCartCount}
         activeTab="CONTACT US"
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
-      {/* Page Title & Breadcrumbs Banner */}
+      {/* 1. Contact Header Banner / Breadcrumbs */}
       <ContactHeader />
 
-      {/* Main Content Section */}
-      <section className="py-16 sm:py-24 dark:bg-[#050807] bg-white flex-1 transition-colors duration-300">
-        <div className="container-custom space-y-16 sm:space-y-24">
-          {/* 1. Keep In Touch With Us & 3-Column Info */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-[#050807] transition-colors duration-300">
+        <div className="container-custom space-y-12 sm:space-y-16">
+          {/* 1. Contact Info Cards (3 Columns) */}
           <ContactInfo />
 
           {/* 2. Interactive Google Map */}
@@ -68,14 +56,7 @@ export default function ContactPage() {
       {/* Site Footer */}
       <Footer />
 
-      {/* Cart Drawer & Search Modals */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={handleRemoveCartItem}
-      />
-
+      {/* Global Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

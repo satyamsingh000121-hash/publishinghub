@@ -3,6 +3,7 @@
 import React from "react";
 import { X, ShoppingCart, Star } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
+import { useCart } from "@/context/CartContext";
 
 export interface Book {
   id: string;
@@ -19,15 +20,17 @@ export interface Book {
   category?: string;
   availability?: string;
   description?: string;
+  slug?: string;
 }
 
 interface QuickViewModalProps {
   book: Book | null;
   onClose: () => void;
-  onAddToCart: (title: string, price?: string) => void;
+  onAddToCart?: (title: string, price?: string) => void;
 }
 
 export default function QuickViewModal({ book, onClose, onAddToCart }: QuickViewModalProps) {
+  const { addItem } = useCart();
   if (!book) return null;
 
   const displayOldPrice = book.oldPrice || book.originalPrice;
@@ -115,7 +118,17 @@ export default function QuickViewModal({ book, onClose, onAddToCart }: QuickView
             <div className="pt-2 flex items-center gap-3">
               <button
                 onClick={() => {
-                  onAddToCart(book.title, book.price);
+                  addItem({
+                    id: book.id,
+                    title: book.title,
+                    price: book.price,
+                    numericPrice: book.numericPrice,
+                    image: book.image,
+                    quantity: 1,
+                    slug: book.slug,
+                    author: book.author,
+                  });
+                  if (onAddToCart) onAddToCart(book.title, book.price);
                   onClose();
                 }}
                 className="flex-1 min-h-[44px] bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#2c7650] dark:hover:bg-[#37865d] text-white text-xs font-bold tracking-wider uppercase inline-flex items-center justify-center gap-2 transition-colors rounded-[2px] shadow-md cursor-pointer"

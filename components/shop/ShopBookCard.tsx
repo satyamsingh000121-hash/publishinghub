@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ShoppingBag, Heart } from "lucide-react";
 import { getBookSlug } from "@/lib/books";
+import { useCart } from "@/context/CartContext";
 
 export interface BookItem {
   id: string;
@@ -36,10 +37,27 @@ export default function ShopBookCard({
   onAddToCart,
   onQuickView,
 }: ShopBookCardProps) {
+  const { addItem } = useCart();
   const [imageError, setImageError] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const bookSlug = getBookSlug(book);
   const productUrl = `/product/${bookSlug}`;
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({
+      id: book.id,
+      title: book.title,
+      price: book.price,
+      numericPrice: book.numericPrice,
+      image: book.image,
+      quantity: 1,
+      slug: bookSlug,
+      author: book.author,
+    });
+    if (onAddToCart) onAddToCart(book.title, book.price, book.id, book.image);
+  };
 
   const rating = book.rating || 4.5;
   const cleanAuthor = book.author.replace(/^by\s+/i, "").toUpperCase();
@@ -132,7 +150,8 @@ export default function ShopBookCard({
             </div>
 
             <button
-              onClick={() => onAddToCart?.(book.title, book.price, book.id, book.image)}
+              type="button"
+              onClick={handleAdd}
               className="px-4 py-2 bg-[#d4b56a] hover:bg-[#c5a659] text-[#050807] text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-2 rounded-full cursor-pointer shadow-xs"
             >
               <ShoppingBag className="w-3.5 h-3.5 stroke-[2.2]" /> ADD TO CART
@@ -243,11 +262,7 @@ export default function ShopBookCard({
             {/* Solid Gold Add to Cart Circle (Gold in both Day and Night modes!) */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onAddToCart?.(book.title, book.price, book.id, book.image);
-              }}
+              onClick={handleAdd}
               className="w-7 h-7 rounded-full bg-[#d4b56a] hover:bg-[#c5a659] active:scale-95 text-[#050807] flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer"
               title="Add to Cart"
               aria-label="Add to Cart"

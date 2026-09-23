@@ -8,6 +8,7 @@ import { PerspectiveBook } from "./PerspectiveBook";
 import { getBookSlug } from "@/lib/books";
 import { SidebarPromoData } from "@/types/promo";
 import { defaultAdminPromoData } from "@/lib/adminPromoData";
+import { useCart } from "@/context/CartContext";
 
 interface NewArrivalsSectionProps {
   onAddToCart?: (bookTitle: string) => void;
@@ -83,6 +84,7 @@ const NEW_ARRIVALS = [
 ];
 
 export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionProps) {
+  const { addItem } = useCart();
   const [items, setItems] = useState<any[]>(NEW_ARRIVALS);
   const [promoConfig, setPromoConfig] = useState<SidebarPromoData>(defaultAdminPromoData);
 
@@ -231,7 +233,18 @@ export default function NewArrivalsSection({ onAddToCart }: NewArrivalsSectionPr
 
                     {/* Add to cart quick button */}
                     <button
-                      onClick={() => onAddToCart && onAddToCart(book.title)}
+                      onClick={() => {
+                        addItem({
+                          id: book.id,
+                          title: book.title,
+                          price: book.price,
+                          image: book.image,
+                          quantity: 1,
+                          slug: book.slug,
+                          author: book.author,
+                        });
+                        if (onAddToCart) onAddToCart(book.title);
+                      }}
                       className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md z-30 cursor-pointer"
                       title="Add to cart"
                       aria-label="Add to cart"

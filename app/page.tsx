@@ -10,38 +10,19 @@ import AuthorSection from "@/components/AuthorSection";
 import NewArrivalsSection from "@/components/NewArrivalsSection";
 import EventsNewsletterSection from "@/components/EventsNewsletterSection";
 import Footer from "@/components/Footer";
-import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { Check } from "lucide-react";
 
 export default function Home() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const handleAddToCart = (title: string, price: string = "£18.00") => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.title === title);
-      if (existing) {
-        return prev.map((item) =>
-          item.title === title ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prev, { id: Math.random().toString(), title, price, quantity: 1 }];
-    });
-
+  const handleAddToCart = (title: string) => {
     setToastMessage(`"${title}" added to cart!`);
     setTimeout(() => {
       setToastMessage(null);
     }, 3000);
   };
-
-  const handleRemoveItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <main className="min-h-screen bg-[#050807] text-[#f2eee3] flex flex-col font-sans">
@@ -55,8 +36,6 @@ export default function Home() {
 
       {/* Top Bar & Navbar */}
       <Navbar
-        cartCount={totalCartCount}
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
@@ -88,14 +67,7 @@ export default function Home() {
       {/* Footer */}
       <Footer />
 
-      {/* Modals & Drawers */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={handleRemoveItem}
-      />
-
+      {/* Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

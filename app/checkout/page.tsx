@@ -4,8 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useCart, parsePrice } from "@/context/CartContext";
 
 export default function CheckoutPage() {
+    const { items: cartItems, subtotal } = useCart();
+    const total = subtotal;
+
     // =========================
     // LOGIN & COUPON STATES
     // =========================
@@ -78,43 +82,6 @@ export default function CheckoutPage() {
         const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
         setCvc(raw);
     };
-
-    // =========================
-    // ORDER DATA
-    // =========================
-    const orderItems = [
-        {
-            id: 1,
-            name: "Bulle und Pelle",
-            quantity: 2,
-            price: 56,
-        },
-        {
-            id: 2,
-            name: "All this has nothing to do with Me",
-            quantity: 1,
-            price: 20,
-        },
-        {
-            id: 3,
-            name: "Dear Brain",
-            quantity: 2,
-            price: 36,
-        },
-        {
-            id: 4,
-            name: "Peter and the Wolf",
-            quantity: 1,
-            price: 22,
-        },
-    ];
-
-    const subtotal = orderItems.reduce(
-        (total, item) => total + item.price,
-        0
-    );
-
-    const total = subtotal;
 
     // =========================
     // APPLY COUPON
@@ -619,26 +586,47 @@ export default function CheckoutPage() {
                                         </div>
 
                                         <div className="space-y-5">
-                                            {orderItems.map((item) => (
-                                                <div
-                                                    key={item.id}
-                                                    className="flex items-start justify-between gap-5"
-                                                >
-                                                    <div>
-                                                        <p className="text-sm font-medium text-zinc-900 dark:text-[#f2eee3]">
-                                                            {item.name}
-                                                        </p>
-
-                                                        <p className="mt-1 text-xs text-zinc-500 dark:text-[#7e8981]">
-                                                            × {item.quantity}
-                                                        </p>
-                                                    </div>
-
-                                                    <span className="whitespace-nowrap text-sm font-semibold text-purple-700 dark:text-[#d4b56a]">
-                                                        £{item.price.toFixed(2)}
-                                                    </span>
+                                            {cartItems.length === 0 ? (
+                                                <div className="text-center py-6 text-zinc-500 dark:text-[#8d9790]">
+                                                    <p className="text-sm">Your shopping cart is currently empty.</p>
+                                                    <Link
+                                                        href="/shop"
+                                                        className="mt-3 inline-block text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-[#d4b56a] hover:underline"
+                                                    >
+                                                        Return to Shop →
+                                                    </Link>
                                                 </div>
-                                            ))}
+                                            ) : (
+                                                cartItems.map((item) => {
+                                                    const unitPrice =
+                                                        item.numericPrice !== undefined && item.numericPrice > 0
+                                                            ? item.numericPrice
+                                                            : parsePrice(item.price);
+                                                    const lineTotal = unitPrice * item.quantity;
+                                                    const itemTitle = item.title || (item as any).name || "Untitled";
+
+                                                    return (
+                                                        <div
+                                                            key={item.id}
+                                                            className="flex items-start justify-between gap-5"
+                                                        >
+                                                            <div>
+                                                                <p className="text-sm font-medium text-zinc-900 dark:text-[#f2eee3]">
+                                                                    {itemTitle}
+                                                                </p>
+
+                                                                <p className="mt-1 text-xs text-zinc-500 dark:text-[#7e8981]">
+                                                                    × {item.quantity}
+                                                                </p>
+                                                            </div>
+
+                                                            <span className="whitespace-nowrap text-sm font-semibold text-purple-700 dark:text-[#d4b56a]">
+                                                                £{lineTotal.toFixed(2)}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })
+                                            )}
                                         </div>
 
                                         {/* SUBTOTAL */}

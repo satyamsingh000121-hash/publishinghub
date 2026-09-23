@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 import EventsHeader from "@/components/events/EventsHeader";
 import EventsSearchFilter from "@/components/events/EventsSearchFilter";
 import EventCard, { EventItem } from "@/components/events/EventCard";
-import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -118,8 +117,6 @@ export default function EventsPage() {
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Filter events based on search query, category, location, and calendar date
@@ -179,19 +176,11 @@ export default function EventsPage() {
     return filteredEvents.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredEvents, currentPage]);
 
-  const handleRemoveCartItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
   return (
     <main className="min-h-screen bg-white dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] flex flex-col font-sans selection:bg-[#9333ea] selection:text-white dark:selection:bg-[#b89245] dark:selection:text-[#050807] transition-colors duration-300">
       {/* Top Navbar (Kept unchanged) */}
       <Navbar
-        cartCount={totalCartCount}
         activeTab="EVENT"
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
@@ -342,14 +331,7 @@ export default function EventsPage() {
       {/* Site Footer (Kept unchanged) */}
       <Footer />
 
-      {/* Cart Drawer & Search Modals */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={handleRemoveCartItem}
-      />
-
+      {/* Global Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

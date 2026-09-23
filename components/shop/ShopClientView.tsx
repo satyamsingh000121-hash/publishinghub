@@ -8,7 +8,6 @@ import ShopFilterBar from "@/components/shop/ShopFilterBar";
 import ShopSidebar, { FilterState } from "@/components/shop/ShopSidebar";
 import ShopBookCard, { BookItem } from "@/components/shop/ShopBookCard";
 import ShopPagination from "@/components/shop/ShopPagination";
-import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import { Check, X } from "lucide-react";
 import Link from "next/link";
@@ -97,31 +96,9 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
     fetchLatestBooks();
   }, []);
 
-  // Cart & Modals
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  // Search & Modals
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  // Load cart from localStorage
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("publishinghub_cart");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          setCartItems(parsed);
-        }
-      }
-    } catch {}
-  }, []);
-
-  const updateCart = (newItems: CartItem[]) => {
-    setCartItems(newItems);
-    try {
-      localStorage.setItem("publishinghub_cart", JSON.stringify(newItems));
-    } catch {}
-  };
 
   // Compute Dynamic Categories, Authors, and Counts from real database books
   const { availableCategories, availableAuthors, categoryCounts, authorCounts, availabilityCounts } = useMemo(() => {
@@ -242,51 +219,12 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
 
   const handleAddToCart = (
     title: string,
-    price: string = "£18.00",
-    id?: string,
-    image?: string
   ) => {
-    const targetId = id || `cart-${Date.now()}`;
-    const targetImage = image || "/images/shop1.jpg";
-
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === targetId || item.title === title);
-      let updated: CartItem[];
-      if (existing) {
-        updated = prev.map((item) =>
-          item.id === existing.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      } else {
-        updated = [
-          ...prev,
-          {
-            id: targetId,
-            title,
-            price,
-            quantity: 1,
-            image: targetImage,
-          },
-        ];
-      }
-      try {
-        localStorage.setItem("publishinghub_cart", JSON.stringify(updated));
-      } catch {}
-      return updated;
-    });
-
     setToastMessage(`"${title}" added to cart!`);
     setTimeout(() => {
       setToastMessage(null);
     }, 3000);
-    setIsCartOpen(true);
   };
-
-  const handleRemoveItem = (id: string) => {
-    const updated = cartItems.filter((item) => item.id !== id);
-    updateCart(updated);
-  };
-
-  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <main className="min-h-screen bg-[#fbfaf8] dark:bg-[#050807] text-[#18181b] dark:text-[#f2eee3] flex flex-col font-sans selection:bg-[#b89245] selection:text-white transition-colors duration-200">
@@ -300,9 +238,7 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
 
       {/* Top Navbar */}
       <Navbar
-        cartCount={totalCartCount}
         activeTab="SHOP"
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
@@ -465,14 +401,7 @@ export default function ShopClientView({ initialBooks }: ShopClientViewProps) {
       {/* Site Footer */}
       <Footer />
 
-      {/* Interactive Cart & Modals */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={handleRemoveItem}
-      />
-
+      {/* Global Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Plus, Minus, ShoppingBag, Check } from "lucide-react";
 import styles from "./BookOpenCard.module.css";
+import { useCart } from "@/context/CartContext";
 
 export interface BookOpenCardProps {
   coverSrc: string;
@@ -26,6 +27,7 @@ export default function BookOpenCard({
   onAddToCart,
   className = "",
 }: BookOpenCardProps) {
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
   const [isAdded, setIsAdded] = useState<boolean>(false);
 
@@ -38,6 +40,13 @@ export default function BookOpenCard({
   };
 
   const handleAddToCart = () => {
+    addItem({
+      title,
+      price,
+      image: coverSrc,
+      quantity,
+      author: authors.length > 0 ? authors.join(", ") : undefined,
+    });
     if (onAddToCart) {
       onAddToCart(quantity);
     }

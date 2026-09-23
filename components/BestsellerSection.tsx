@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ShoppingCart, Eye } from "lucide-react";
 import BookCoverArt from "./BookCoverArt";
 import { getBookSlug } from "@/lib/books";
+import { useCart } from "@/context/CartContext";
 
 interface Book {
   id: string;
@@ -99,6 +100,7 @@ const ALL_BOOKS: Book[] = [
 ];
 
 export default function BestsellerSection({ onAddToCart, onQuickView }: BestsellerSectionProps) {
+  const { addItem } = useCart();
   const [activeTab, setActiveTab] = useState<"bestseller" | "sale" | "featured">("bestseller");
   const [books, setBooks] = useState<Book[]>(ALL_BOOKS);
 
@@ -219,7 +221,19 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
                   {/* Quick Action Overlay on Hover / Mobile Touch */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 sm:gap-3 z-30">
                     <button
-                      onClick={() => onAddToCart && onAddToCart(book.title)}
+                      onClick={() => {
+                        addItem({
+                          id: book.id,
+                          title: book.title,
+                          price: book.price,
+                          image: book.image,
+                          quantity: 1,
+                          salePrice: book.saleBadge,
+                          slug: book.slug,
+                          author: book.author,
+                        });
+                        if (onAddToCart) onAddToCart(book.title);
+                      }}
                       className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#2c7650] hover:bg-[#37865d] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer"
                       title="Add to Cart"
                       aria-label="Add to cart"

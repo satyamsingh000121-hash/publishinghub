@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OfferHeader from "@/components/offers/OfferHeader";
 import OfferCard, { PackageOffer } from "@/components/offers/OfferCard";
-import CartDrawer, { CartItem } from "@/components/CartDrawer";
+import { useCart } from "@/context/CartContext";
 import SearchModal from "@/components/SearchModal";
 import SmokyText from "@/components/SmokyText";
 import { Check } from "lucide-react";
@@ -145,33 +145,22 @@ const PACKAGES: PackageOffer[] = [
 ];
 
 export default function OurOfferPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { addItem } = useCart();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleSelectPlan = (plan: PackageOffer) => {
-    setCartItems((prev) => [
-      ...prev,
-      {
-        id: Math.random().toString(),
-        title: plan.title,
-        price: plan.price,
-        quantity: 1,
-      },
-    ]);
-    setIsCartOpen(true);
+    addItem({
+      id: plan.id,
+      title: plan.title,
+      price: plan.price,
+      quantity: 1,
+    });
     setToastMessage(`"${plan.title}" added to cart!`);
     setTimeout(() => {
       setToastMessage(null);
     }, 3000);
   };
-
-  const handleRemoveItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <main className="min-h-screen dark:bg-[#050807] bg-white dark:text-[#f2eee3] text-[#18181b] flex flex-col font-sans selection:bg-[#b89245] selection:text-[#050807] transition-colors duration-300">
@@ -185,9 +174,7 @@ export default function OurOfferPage() {
 
       {/* Top Navbar with activeTab="OUR OFFER" */}
       <Navbar
-        cartCount={totalCartCount}
         activeTab="OUR OFFER"
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
@@ -233,14 +220,7 @@ export default function OurOfferPage() {
       {/* Site Footer */}
       <Footer />
 
-      {/* Drawers and Search Modal */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={handleRemoveItem}
-      />
-
+      {/* Global Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

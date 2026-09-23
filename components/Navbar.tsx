@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Heart, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
+import { useCart } from "@/context/CartContext";
 import SearchModal from "@/components/SearchModal";
 import { SidebarPromoData } from "@/types/promo";
 import { defaultAdminPromoData } from "@/lib/adminPromoData";
@@ -17,12 +18,16 @@ interface NavbarProps {
 }
 
 export default function Navbar({
-  cartCount = 0,
+  cartCount: controlledCartCount,
   activeTab: controlledActiveTab,
-  onOpenCart,
+  onOpenCart: controlledOnOpenCart,
   onOpenSearch,
   showAnnouncement = true,
 }: NavbarProps) {
+  const { totalQuantity, openCart } = useCart();
+  const cartCount = controlledCartCount !== undefined ? controlledCartCount : totalQuantity;
+  const handleCartClick = controlledOnOpenCart || openCart;
+
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [announcementDismissed, setAnnouncementDismissed] = useState(false);
@@ -242,31 +247,21 @@ export default function Navbar({
             </a>
 
             {/* Cart Button */}
-            {onOpenCart ? (
-              <button
-                onClick={onOpenCart}
-                className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center cursor-pointer"
-                title="Shopping Cart"
-                aria-label="Shopping Cart"
+            <button
+              type="button"
+              onClick={handleCartClick}
+              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center cursor-pointer"
+              title="Shopping Cart"
+              aria-label="Shopping Cart"
+            >
+              <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+              <span
+                suppressHydrationWarning
+                className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]"
               >
-                <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-                <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
-                  {cartCount}
-                </span>
-              </button>
-            ) : (
-              <a
-                href="/cart"
-                className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center cursor-pointer"
-                title="Your Cart"
-                aria-label="Your Cart"
-              >
-                <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-                <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
-                  {cartCount}
-                </span>
-              </a>
-            )}
+                {cartCount}
+              </span>
+            </button>
 
             {/* Account Icon */}
             <a

@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,8 +26,6 @@ import {
 } from "lucide-react";
 
 export default function AuthorsAcceleratorPage() {
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [isCartOpen, setIsCartOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -72,10 +69,6 @@ export default function AuthorsAcceleratorPage() {
         }, 4000);
     };
 
-    const handleRemoveItem = (id: string) => {
-        setCartItems((prev) => prev.filter((item) => item.id !== id));
-    };
-
     const scrollToForm = () => {
         const formElement = document.getElementById("enquiry-form");
         if (formElement) {
@@ -83,15 +76,11 @@ export default function AuthorsAcceleratorPage() {
         }
     };
 
-    const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
     return (
         <main className="min-h-screen bg-[#050807] text-[#f2eee3] font-sans selection:bg-[#d4b56a] selection:text-[#050807]">
             {/* 1. TOP NAVBAR */}
             <Navbar
-                cartCount={totalCartCount}
                 activeTab="Authors Accelerator Package"
-                onOpenCart={() => setIsCartOpen(true)}
                 onOpenSearch={() => setIsSearchOpen(true)}
             />
 
@@ -697,12 +686,6 @@ export default function AuthorsAcceleratorPage() {
             <Footer />
 
             {/* DRAWERS & MODALS */}
-            <CartDrawer
-                isOpen={isCartOpen}
-                onClose={() => setIsCartOpen(false)}
-                items={cartItems}
-                onRemoveItem={handleRemoveItem}
-            />
             <SearchModal
                 isOpen={isSearchOpen}
                 onClose={() => setIsSearchOpen(false)}

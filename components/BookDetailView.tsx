@@ -29,6 +29,7 @@ import BookOpenCard from "./BookOpenCard";
 import bookStyles from "./BookOpenCard.module.css";
 import { getBookSlug } from "@/lib/books";
 import type { BookDetailData, AuthorBook, RelatedBook } from "@/lib/books";
+import { useCart } from "@/context/CartContext";
 
 export type { BookDetailData, AuthorBook, RelatedBook };
 
@@ -39,6 +40,7 @@ export interface BookDetailViewProps {
 }
 
 export default function BookDetailView({ book, onAddToCart, onBack }: BookDetailViewProps) {
+  const { addItem } = useCart();
   const isOutOfStock = (book?.stock !== undefined && book?.stock <= 0) || book?.availability === "out-of-stock";
   const maxStock = book?.stock && book.stock > 0 ? book.stock : 99;
 
@@ -150,6 +152,15 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
+    addItem({
+      id: book?.id,
+      title: currentTitle,
+      price: currentPrice,
+      quantity,
+      image: currentImage,
+      slug: book?.slug,
+      author: book?.author,
+    });
     if (onAddToCart) {
       onAddToCart(currentTitle, currentPrice, quantity, book?.id, currentImage);
     }
@@ -1390,7 +1401,16 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          if (onAddToCart) onAddToCart(b.title, b.price, 1);
+                          addItem({
+                            id: b.id,
+                            title: b.title,
+                            price: b.price,
+                            image: b.image,
+                            quantity: 1,
+                            slug: b.slug,
+                            author: b.author,
+                          });
+                          if (onAddToCart) onAddToCart(b.title, b.price, 1, b.id, b.image);
                           setAddedAlert(true);
                           setTimeout(() => setAddedAlert(false), 3000);
                         }}

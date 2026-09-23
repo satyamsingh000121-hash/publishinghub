@@ -20,16 +20,7 @@ import {
   Sparkles,
   PlusCircle,
 } from "lucide-react";
-
-type CartItem = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-  slug?: string;
-  author?: string;
-};
+import { useCart, parsePrice } from "@/context/CartContext";
 
 type RecommendedBook = {
   id: number;
@@ -43,44 +34,15 @@ type RecommendedBook = {
 };
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: 1,
-      name: "Bulle und Pelle",
-      author: "By Sero Glan, Shia Ung",
-      price: 28,
-      image: "/images/Newest5.webp",
-      quantity: 2,
-      slug: "bulle-und-pelle",
-    },
-    {
-      id: 2,
-      name: "The Carrot Hunt",
-      author: "By Noreen Harris",
-      price: 19,
-      image: "/images/shop5.jpg",
-      quantity: 2,
-      slug: "the-carrot-plan",
-    },
-    {
-      id: 3,
-      name: "All this has nothing to do with Me",
-      author: "By Bhuzun Nahlam",
-      price: 20,
-      image: "/images/shop2.jpg",
-      quantity: 1,
-      slug: "all-this-has-nothing-to-do-with-me",
-    },
-    {
-      id: 4,
-      name: "Dear Brain",
-      author: "By Mesho Buvahr",
-      price: 18,
-      image: "/images/shop4.jpg",
-      quantity: 1,
-      slug: "dear-brain",
-    },
-  ]);
+  const {
+    items: cartItems,
+    removeItem: cartRemoveItem,
+    increaseQuantity,
+    decreaseQuantity,
+    subtotal,
+    addItem,
+    totalQuantity: totalCartCount,
+  } = useCart();
 
   const recommendedBooks: RecommendedBook[] = [
     {
@@ -135,50 +97,25 @@ export default function CartPage() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  const increaseQuantity = (id: number) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const decreaseQuantity = (id: number) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (id: number) => {
+  const removeItem = (id: string) => {
     const itemToRemove = cartItems.find((item) => item.id === id);
-    setCartItems((items) => items.filter((item) => item.id !== id));
+    cartRemoveItem(id);
     if (itemToRemove) {
-      showToast(`"${itemToRemove.name}" removed from cart`);
+      showToast(`"${itemToRemove.title || (itemToRemove as any).name}" removed from cart`);
     }
   };
 
   const addRecommendedToCart = (book: RecommendedBook) => {
-    const existing = cartItems.find((item) => item.name === book.name);
-    if (existing) {
-      increaseQuantity(existing.id);
-      showToast(`Updated quantity of "${book.name}" in cart!`);
-    } else {
-      const newItem: CartItem = {
-        id: Date.now(),
-        name: book.name,
-        author: book.author,
-        price: book.price,
-        image: book.image,
-        quantity: 1,
-        slug: book.slug,
-      };
-      setCartItems((prev) => [newItem, ...prev]);
-      showToast(`"${book.name}" added to your cart!`);
-    }
+    addItem({
+      id: String(book.id),
+      title: book.name,
+      author: book.author,
+      price: book.price,
+      image: book.image,
+      quantity: 1,
+      slug: book.slug,
+    });
+    showToast(`"${book.name}" added to your cart!`);
   };
 
   const handleApplyCoupon = (e?: React.FormEvent) => {
@@ -208,14 +145,8 @@ export default function CartPage() {
     showToast("Cart updated successfully!");
   };
 
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
   const discountAmount = subtotal * appliedDiscount;
   const grandTotal = Math.max(0, subtotal - discountAmount);
-  const totalCartCount = cartItems.reduce((count, item) => count + item.quantity, 0);
 
   return (
     <div className="min-h-screen bg-[#faf8fd] dark:bg-[#020b08] text-zinc-900 dark:text-[#f2eee3] flex flex-col justify-between selection:bg-purple-200 selection:text-purple-900 dark:selection:bg-[#d4b56a] dark:selection:text-[#020b08] transition-colors duration-200">
@@ -308,98 +239,107 @@ export default function CartPage() {
 
                 {/* Items List */}
                 <div className="space-y-2.5 mt-2">
-                  {cartItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group border border-purple-100/80 dark:border-[#143d2e] rounded-xl bg-[#faf8fd] hover:bg-white dark:bg-[#020e0b] hover:border-purple-300 dark:hover:border-[#276e52] transition-all duration-300 p-4 sm:p-4 shadow-xs"
-                    >
-                      <div className="grid grid-cols-1 md:grid-cols-[2.5fr_0.7fr_1fr_0.8fr_50px] items-center gap-4">
-                        {/* Product info with image */}
-                        <div className="flex items-center gap-4 sm:gap-5">
-                          <div className="w-[72px] h-[90px] sm:w-[82px] sm:h-[94px] shrink-0 rounded-md overflow-hidden border border-purple-200 dark:border-[#d39d20]/80 bg-white dark:bg-[#0c1f18] shadow-sm flex items-center justify-center relative">
-                            <img
-                              src={item.image}
-                              alt={item.name}
-                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = "/images/shop1.jpg";
-                              }}
-                            />
+                  {cartItems.map((item) => {
+                    const unitPrice =
+                      item.numericPrice !== undefined && item.numericPrice > 0
+                        ? item.numericPrice
+                        : parsePrice(item.price);
+                    const lineTotal = unitPrice * item.quantity;
+                    const itemTitle = item.title || (item as any).name || "Untitled";
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="group border border-purple-100/80 dark:border-[#143d2e] rounded-xl bg-[#faf8fd] hover:bg-white dark:bg-[#020e0b] hover:border-purple-300 dark:hover:border-[#276e52] transition-all duration-300 p-4 sm:p-4 shadow-xs"
+                      >
+                        <div className="grid grid-cols-1 md:grid-cols-[2.5fr_0.7fr_1fr_0.8fr_50px] items-center gap-4">
+                          {/* Product info with image */}
+                          <div className="flex items-center gap-4 sm:gap-5">
+                            <div className="w-[72px] h-[90px] sm:w-[82px] sm:h-[94px] shrink-0 rounded-md overflow-hidden border border-purple-200 dark:border-[#d39d20]/80 bg-white dark:bg-[#0c1f18] shadow-sm flex items-center justify-center relative">
+                              <img
+                                src={item.image || "/images/shop1.jpg"}
+                                alt={itemTitle}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = "/images/shop1.jpg";
+                                }}
+                              />
+                            </div>
+
+                            <div className="min-w-0">
+                              <h3 className="font-serif text-[16px] sm:text-[18px] leading-snug text-zinc-900 dark:text-[#f4eee3] hover:text-purple-600 dark:hover:text-[#e7b941] transition font-medium">
+                                <Link href={item.slug ? `/product/${item.slug}` : "/shop"}>
+                                  {itemTitle}
+                                </Link>
+                              </h3>
+                              {item.author && (
+                                <p className="text-xs text-zinc-500 dark:text-[#8c9c92] mt-0.5">{item.author}</p>
+                              )}
+                              <p className="text-xs text-purple-700 dark:text-[#d4b56a] font-semibold mt-1 md:hidden">
+                                £{unitPrice.toFixed(2)} each
+                              </p>
+                            </div>
                           </div>
 
-                          <div className="min-w-0">
-                            <h3 className="font-serif text-[16px] sm:text-[18px] leading-snug text-zinc-900 dark:text-[#f4eee3] hover:text-purple-600 dark:hover:text-[#e7b941] transition font-medium">
-                              <Link href={item.slug ? `/product/${item.slug}` : "/shop"}>
-                                {item.name}
-                              </Link>
-                            </h3>
-                            {item.author && (
-                              <p className="text-xs text-zinc-500 dark:text-[#8c9c92] mt-0.5">{item.author}</p>
-                            )}
-                            <p className="text-xs text-purple-700 dark:text-[#d4b56a] font-semibold mt-1 md:hidden">
-                              £{item.price.toFixed(2)} each
-                            </p>
+                          {/* Price */}
+                          <div className="hidden md:block font-serif text-[16px] text-zinc-800 dark:text-[#e0dcd2]">
+                            £{unitPrice.toFixed(2)}
                           </div>
-                        </div>
 
-                        {/* Price */}
-                        <div className="hidden md:block font-serif text-[16px] text-zinc-800 dark:text-[#e0dcd2]">
-                          £{item.price.toFixed(2)}
-                        </div>
+                          {/* Quantity Counter */}
+                          <div className="flex items-center justify-between md:justify-start">
+                            <span className="text-xs text-zinc-500 dark:text-[#8c9c92] md:hidden">Quantity:</span>
+                            <div className="flex items-center h-[38px] w-[124px] border border-purple-200 dark:border-[#1f4d3a] bg-white dark:bg-[#051811] rounded-xl overflow-hidden shadow-xs">
+                              <button
+                                type="button"
+                                onClick={() => decreaseQuantity(item.id)}
+                                className="w-[38px] h-full flex items-center justify-center text-zinc-700 hover:text-purple-700 hover:bg-purple-50 dark:text-[#f2eee3] dark:hover:text-[#e7b941] dark:hover:bg-[#0c2b20] transition active:scale-90 cursor-pointer"
+                                title="Decrease"
+                                aria-label="Decrease quantity"
+                              >
+                                <Minus size={15} />
+                              </button>
 
-                        {/* Quantity Counter */}
-                        <div className="flex items-center justify-between md:justify-start">
-                          <span className="text-xs text-zinc-500 dark:text-[#8c9c92] md:hidden">Quantity:</span>
-                          <div className="flex items-center h-[38px] w-[124px] border border-purple-200 dark:border-[#1f4d3a] bg-white dark:bg-[#051811] rounded-xl overflow-hidden shadow-xs">
+                              <span className="flex-1 text-center text-[15px] font-medium text-zinc-900 dark:text-white select-none">
+                                {item.quantity}
+                              </span>
+
+                              <button
+                                type="button"
+                                onClick={() => increaseQuantity(item.id)}
+                                className="w-[38px] h-full flex items-center justify-center text-zinc-700 hover:text-purple-700 hover:bg-purple-50 dark:text-[#f2eee3] dark:hover:text-[#e7b941] dark:hover:bg-[#0c2b20] transition active:scale-90 cursor-pointer"
+                                title="Increase"
+                                aria-label="Increase quantity"
+                              >
+                                <Plus size={15} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Item Total */}
+                          <div className="flex items-center justify-between md:justify-start">
+                            <span className="text-xs text-zinc-500 dark:text-[#8c9c92] md:hidden">Subtotal:</span>
+                            <div className="text-purple-700 dark:text-[#e7b941] font-semibold text-[17px]">
+                              £{lineTotal.toFixed(2)}
+                            </div>
+                          </div>
+
+                          {/* Remove Action */}
+                          <div className="flex justify-end md:justify-end">
                             <button
                               type="button"
-                              onClick={() => decreaseQuantity(item.id)}
-                              className="w-[38px] h-full flex items-center justify-center text-zinc-700 hover:text-purple-700 hover:bg-purple-50 dark:text-[#f2eee3] dark:hover:text-[#e7b941] dark:hover:bg-[#0c2b20] transition active:scale-90"
-                              title="Decrease"
-                              aria-label="Decrease quantity"
+                              onClick={() => removeItem(item.id)}
+                              className="w-[32px] h-[32px] rounded-full border border-purple-200 dark:border-[#d49e24]/60 flex items-center justify-center text-zinc-400 hover:text-red-600 hover:border-red-300 hover:bg-red-50 dark:text-[#e7b941] dark:hover:bg-[#d49e24] dark:hover:text-[#07100c] transition-all duration-200 cursor-pointer"
+                              title="Remove book from cart"
+                              aria-label={`Remove ${itemTitle}`}
                             >
-                              <Minus size={15} />
-                            </button>
-
-                            <span className="flex-1 text-center text-[15px] font-medium text-zinc-900 dark:text-white select-none">
-                              {item.quantity}
-                            </span>
-
-                            <button
-                              type="button"
-                              onClick={() => increaseQuantity(item.id)}
-                              className="w-[38px] h-full flex items-center justify-center text-zinc-700 hover:text-purple-700 hover:bg-purple-50 dark:text-[#f2eee3] dark:hover:text-[#e7b941] dark:hover:bg-[#0c2b20] transition active:scale-90"
-                              title="Increase"
-                              aria-label="Increase quantity"
-                            >
-                              <Plus size={15} />
+                              <X size={15} />
                             </button>
                           </div>
-                        </div>
-
-                        {/* Item Total */}
-                        <div className="flex items-center justify-between md:justify-start">
-                          <span className="text-xs text-zinc-500 dark:text-[#8c9c92] md:hidden">Subtotal:</span>
-                          <div className="text-purple-700 dark:text-[#e7b941] font-semibold text-[17px]">
-                            £{(item.price * item.quantity).toFixed(2)}
-                          </div>
-                        </div>
-
-                        {/* Remove Action */}
-                        <div className="flex justify-end md:justify-end">
-                          <button
-                            type="button"
-                            onClick={() => removeItem(item.id)}
-                            className="w-[32px] h-[32px] rounded-full border border-purple-200 dark:border-[#d49e24]/60 flex items-center justify-center text-zinc-400 hover:text-red-600 hover:border-red-300 hover:bg-red-50 dark:text-[#e7b941] dark:hover:bg-[#d49e24] dark:hover:text-[#07100c] transition-all duration-200"
-                            title="Remove book from cart"
-                            aria-label={`Remove ${item.name}`}
-                          >
-                            <X size={15} />
-                          </button>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 {/* Coupon Bar & Table Subtotal */}

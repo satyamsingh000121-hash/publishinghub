@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CartDrawer, { CartItem } from "@/components/CartDrawer";
 import SearchModal from "@/components/SearchModal";
 
 interface EventData {
@@ -45,20 +44,12 @@ export default function DynamicEventPage() {
     image: "/images/hero4.png",
   };
 
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  const handleRemoveCartItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
 
   return (
     <main className="min-h-screen dark:bg-[#050807] bg-white dark:text-[#f2eee3] text-[#18181b] font-sans selection:bg-[#d4b56a]/30 selection:text-[#f2eee3] transition-colors duration-300">
       {/* Top Navbar */}
       <Navbar
-        cartCount={cartItems.reduce((acc, curr) => acc + curr.quantity, 0)}
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
         showAnnouncement={true}
       />
@@ -199,13 +190,7 @@ export default function DynamicEventPage() {
       {/* Global Footer */}
       <Footer />
 
-      {/* Interactive Drawers & Modals */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={handleRemoveCartItem}
-      />
+      {/* Global Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

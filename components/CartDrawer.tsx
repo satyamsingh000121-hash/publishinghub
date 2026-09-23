@@ -3,37 +3,46 @@
 import React from "react";
 import Link from "next/link";
 import { X, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { useCart, CartItem } from "@/context/CartContext";
 
-export interface CartItem {
-  id: string;
-  title: string;
-  price: string;
-  quantity: number;
-  image?: string;
+export type { CartItem };
+
+export interface CartDrawerProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+  items?: CartItem[];
+  onRemoveItem?: (id: string) => void;
 }
 
-interface CartDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  items: CartItem[];
-  onRemoveItem: (id: string) => void;
-}
+export default function CartDrawer({
+  isOpen: controlledIsOpen,
+  onClose: controlledOnClose,
+  items: controlledItems,
+  onRemoveItem: controlledOnRemove,
+}: CartDrawerProps = {}) {
+  const cart = useCart();
 
-export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: CartDrawerProps) {
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : cart.isOpen;
+  const onClose = controlledOnClose || cart.closeCart;
+  const items = controlledItems || cart.items;
+  const onRemoveItem = controlledOnRemove || cart.removeItem;
+
   if (!isOpen) return null;
 
   const total = items.reduce((sum, item) => {
-    const num = parseFloat(item.price.replace("£", "")) || 0;
+    const num =
+      item.numericPrice !== undefined && item.numericPrice > 0
+        ? item.numericPrice
+        : parseFloat(String(item.price).replace(/[^0-9.]/g, "")) || 0;
     return sum + num * item.quantity;
   }, 0);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden animate-in fade-in duration-200">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" onClick={onClose} />
-      
+
       <div className="absolute inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-full sm:w-screen sm:max-w-md bg-white dark:bg-[#070d0a] border-l border-[#e9e1f5] dark:border-[#d4b56a]/30 shadow-2xl p-5 sm:p-6 flex flex-col justify-between text-[#18181b] dark:text-[#f2eee3]">
-          
           {/* Header */}
           <div>
             <div className="flex items-center justify-between pb-4 border-b border-[#e9e1f5] dark:border-[#f2eee3]/10">
@@ -51,9 +60,14 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
                   View Page →
                 </span>
               </Link>
-              <button onClick={onClose} className="text-[#71717a] hover:text-[#18181b] dark:text-[#888b83] dark:hover:text-[#f2eee3] cursor-pointer">
+              <button
+                onClick={onClose}
+                className="text-[#71717a] hover:text-[#18181b] dark:text-[#888b83] dark:hover:text-[#f2eee3] cursor-pointer"
+                title="Close Cart"
+                aria-label="Close Cart"
+              >
                 <X className="w-5 h-5" />
-              </button>   
+              </button>
             </div>
 
             {/* Cart Items */}
@@ -78,19 +92,31 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                       {item.image && (
-                        <div className="w-10 h-13 rounded overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-800 border border-[#e9e1f5] dark:border-[#f2eee3]/10" style={{ width: "40px", height: "52px" }}>
-                          <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                        <div
+                          className="w-10 h-13 rounded overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-800 border border-[#e9e1f5] dark:border-[#f2eee3]/10"
+                          style={{ width: "40px", height: "52px" }}
+                        >
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
-                        <h5 className="font-display text-sm font-medium text-[#18181b] dark:text-[#f2eee3] truncate">{item.title}</h5>
-                        <p className="text-xs text-[#9333ea] dark:text-[#d4b56a] mt-0.5 font-semibold">{item.price} × {item.quantity}</p>
+                        <h5 className="font-display text-sm font-medium text-[#18181b] dark:text-[#f2eee3] truncate">
+                          {item.title}
+                        </h5>
+                        <p className="text-xs text-[#9333ea] dark:text-[#d4b56a] mt-0.5 font-semibold">
+                          {item.price} × {item.quantity}
+                        </p>
                       </div>
                     </div>
                     <button
                       onClick={() => onRemoveItem(item.id)}
                       className="text-[#71717a] hover:text-red-500 dark:text-[#888b83] dark:hover:text-red-400 p-1 cursor-pointer transition-colors"
                       title="Remove item"
+                      aria-label={`Remove ${item.title}`}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -105,9 +131,11 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
             <div className="border-t border-[#e9e1f5] dark:border-[#f2eee3]/10 pt-4 space-y-3">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-[#71717a] dark:text-[#888b83]">Subtotal:</span>
-                <span className="font-display font-semibold text-lg text-[#9333ea] dark:text-[#d4b56a]">£{total.toFixed(2)}</span>
+                <span className="font-display font-semibold text-lg text-[#9333ea] dark:text-[#d4b56a]">
+                  £{total.toFixed(2)}
+                </span>
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <Link
                   href="/cart"
@@ -128,7 +156,6 @@ export default function CartDrawer({ isOpen, onClose, items, onRemoveItem }: Car
               </div>
             </div>
           )}
-
         </div>
       </div>
     </div>
