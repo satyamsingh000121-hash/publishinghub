@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart, parsePrice } from "@/context/CartContext";
+import { getStripePromise } from "@/lib/stripe-client";
+import StripePaymentSection from "@/components/checkout/StripePaymentSection";
 
 export default function CheckoutPage() {
-    const { items: cartItems, subtotal } = useCart();
+    const { items: cartItems, subtotal, clearCart } = useCart();
     const total = subtotal;
 
     // =========================
@@ -39,48 +41,193 @@ export default function CheckoutPage() {
     const [couponMessage, setCouponMessage] = useState("");
 
     // =========================
-    // PAYMENT & CONTACT (LINK)
+    // STRIPE & PAYMENT STATES
     // =========================
-    const [cardNumber, setCardNumber] = useState("");
-    const [expiry, setExpiry] = useState("");
-    const [cvc, setCvc] = useState("");
-    const [cardName, setCardName] = useState("");
     const [linkOpen, setLinkOpen] = useState(true);
-    const [saveInfoEmail, setSaveInfoEmail] = useState("");
-    const [saveInfoPhone, setSaveInfoPhone] = useState("");
-    const [saveInfoName, setSaveInfoName] = useState("");
-    const [savedSuccessMsg, setSavedSuccessMsg] = useState("");
     const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
+    const [clientSecret, setClientSecret] = useState<string | null>(null);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [paymentError, setPaymentError] = useState<string | null>(null);
+    const [billingError, setBillingError] = useState<string | null>(null);
+    const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
+    const [orderConfirmation, setOrderConfirmation] = useState<{
+        paymentIntentId: string;
+        amount: number;
+        email: string;
+        name: string;
+        date: string;
+        items: any[];
+    } | null>(null);
 
-    // =========================
-    // CARD FORMATTERS & HELPERS
-    // =========================
-    const getCardBrand = (num: string) => {
-        const clean = num.replace(/\s+/g, "");
-        if (/^4/.test(clean)) return "VISA";
-        if (/^(5[1-5]|2[2-7])/.test(clean)) return "MASTERCARD";
-        if (/^3[47]/.test(clean)) return "AMEX";
-        if (/^(6011|65|64[4-9])/.test(clean)) return "DISCOVER";
-        return "CARD";
-    };
+    const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+    const isKeysConfigured = Boolean(
+        publishableKey && !publishableKey.includes("REPLACE_WITH_MY_TEST_PUBLISHABLE_KEY")
+    );
 
-    const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const raw = e.target.value.replace(/\D/g, "").slice(0, 16);
-        const parts = raw.match(/.{1,4}/g);
-        setCardNumber(parts ? parts.join(" ") : "");
-    };
+    const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
 
-    const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let raw = e.target.value.replace(/\D/g, "").slice(0, 4);
-        if (raw.length > 2) {
-            raw = `${raw.slice(0, 2)} / ${raw.slice(2)}`;
+    useEffect(() => {
+        if (isKeysConfigured) {
+            setStripePromise(getStripePromise());
+        } else {
+            setStripePromise(null);
         }
-        setExpiry(raw);
+    }, [isKeysConfigured]);
+
+    // Fetch Stripe clientSecret whenever cart items or total change
+    useEffect(() => {
+        if (!isKeysConfigured || cartItems.length === 0 || total <= 0) {
+            setClientSecret(null);
+            return;
+        }
+
+        let isMounted = true;
+        const createIntent = async () => {
+            try {
+                const res = await fetch("/api/create-payment-intent", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        items: cartItems,
+                        billingDetails: {
+                            email,
+                            firstName,
+                            lastName,
+                            company,
+                            country,
+                            street,
+                            apartment,
+                            city,
+                            state,
+                            postcode,
+                            phone,
+                            notes,
+                        },
+                    }),
+                });
+
+                const data = await res.json();
+                if (isMounted) {
+                    if (res.ok && data.clientSecret) {
+                        setClientSecret(data.clientSecret);
+                        setPaymentError(null);
+                    } else {
+                        setPaymentError(data.error || "Could not initialize Stripe payment session.");
+                    }
+                }
+            } catch (err: any) {
+                if (isMounted) {
+                    setPaymentError("Network error initializing payment session.");
+                }
+            }
+        };
+
+        createIntent();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [isKeysConfigured, cartItems, total]);
+
+    // Handle return from 3D secure redirect if status=success
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const params = new URLSearchParams(window.location.search);
+            const redirectStatus = params.get("redirect_status");
+            const paymentIntent = params.get("payment_intent");
+            if (redirectStatus === "succeeded" || params.get("status") === "success") {
+                setIsPaymentSuccess(true);
+                if (paymentIntent) {
+                    setOrderConfirmation({
+                        paymentIntentId: paymentIntent,
+                        amount: total,
+                        email: email || "Customer",
+                        name: `${firstName} ${lastName}`.trim() || "Customer",
+                        date: new Date().toLocaleDateString("en-GB", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        }),
+                        items: [...cartItems],
+                    });
+                }
+                clearCart();
+            }
+        }
+    }, [clearCart]);
+
+    const getCountryCode = (c: string): string => {
+        const map: Record<string, string> = {
+            "United Kingdom": "GB",
+            "United States": "US",
+            India: "IN",
+            Canada: "CA",
+            Australia: "AU",
+        };
+        return map[c] || "GB";
     };
 
-    const handleCvcChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
-        setCvc(raw);
+    const handleValidateBilling = (): boolean => {
+        if (!email.trim() || !email.includes("@")) {
+            setBillingError("Please enter a valid email address.");
+            window.scrollTo({ top: 200, behavior: "smooth" });
+            return false;
+        }
+        if (!firstName.trim()) {
+            setBillingError("Please enter your first name.");
+            window.scrollTo({ top: 200, behavior: "smooth" });
+            return false;
+        }
+        if (!lastName.trim()) {
+            setBillingError("Please enter your last name.");
+            window.scrollTo({ top: 200, behavior: "smooth" });
+            return false;
+        }
+        if (!street.trim()) {
+            setBillingError("Please enter your street address.");
+            window.scrollTo({ top: 350, behavior: "smooth" });
+            return false;
+        }
+        if (!city.trim()) {
+            setBillingError("Please enter your town / city.");
+            window.scrollTo({ top: 400, behavior: "smooth" });
+            return false;
+        }
+        if (!state.trim()) {
+            setBillingError("Please enter your state.");
+            window.scrollTo({ top: 450, behavior: "smooth" });
+            return false;
+        }
+        if (!postcode.trim()) {
+            setBillingError("Please enter your postcode / ZIP.");
+            window.scrollTo({ top: 450, behavior: "smooth" });
+            return false;
+        }
+        if (!phone.trim()) {
+            setBillingError("Please enter your phone number.");
+            window.scrollTo({ top: 500, behavior: "smooth" });
+            return false;
+        }
+        setBillingError(null);
+        return true;
+    };
+
+    const handlePaymentSuccess = (paymentIntentId: string) => {
+        setOrderConfirmation({
+            paymentIntentId,
+            amount: total,
+            email,
+            name: `${firstName} ${lastName}`.trim(),
+            date: new Date().toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            }),
+            items: [...cartItems],
+        });
+        setIsPaymentSuccess(true);
+        clearCart();
+        window.scrollTo({ top: 150, behavior: "smooth" });
     };
 
     // =========================
@@ -95,15 +242,6 @@ export default function CheckoutPage() {
         }
 
         setCouponMessage("Coupon code entered successfully.");
-    };
-
-    // =========================
-    // PLACE ORDER
-    // =========================
-    const handlePlaceOrder = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        alert("Order form submitted.");
     };
 
     return (
@@ -295,769 +433,544 @@ export default function CheckoutPage() {
                     )}
 
                     {/* =========================
-              BILLING + ORDER
+              ORDER CONFIRMATION (SUCCESS) OR BILLING + ORDER
           ========================= */}
-                    <form onSubmit={handlePlaceOrder}>
-                        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+                    {isPaymentSuccess ? (
+                        <div className="mx-auto max-w-3xl rounded-3xl border border-emerald-500/30 bg-white p-8 sm:p-12 shadow-2xl dark:border-[#1e3b2b] dark:bg-[#08140e] text-center">
+                            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950/80 dark:text-emerald-400 border border-emerald-500/30">
+                                <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
 
-                            {/* =========================
-                  BILLING DETAILS
-              ========================= */}
-                            <section className="lg:col-span-7">
+                            <span className="block text-xs font-bold uppercase tracking-[0.25em] text-emerald-600 dark:text-[#d4b56a]">
+                                Stripe TEST Payment Complete
+                            </span>
 
-                                <div className="mb-8">
-                                    <span className="mb-3 block text-[10px] font-bold uppercase tracking-[0.22em] text-purple-700 dark:text-[#d4b56a]">
-                                        Checkout
-                                    </span>
+                            <h2 className="mt-2 font-serif text-3xl font-normal text-zinc-900 sm:text-5xl dark:text-[#f2eee3]">
+                                PAYMENT SUCCESSFUL
+                            </h2>
 
-                                    <h2 className="font-serif text-4xl font-normal text-zinc-900 sm:text-5xl dark:text-[#f2eee3]">
-                                        Billing Details
-                                    </h2>
+                            <p className="mt-4 text-base text-zinc-600 dark:text-[#8d9790]">
+                                Your order has been placed successfully. A receipt has been generated for{" "}
+                                <span className="font-semibold text-zinc-900 dark:text-[#f2eee3]">{orderConfirmation?.email || email}</span>.
+                            </p>
 
-                                    <div className="mt-4 h-0.5 w-20 bg-purple-600 dark:bg-[#d4b56a]" />
+                            {/* Order Details summary box */}
+                            <div className="mt-8 rounded-2xl border border-purple-100 bg-[#faf8fd] p-6 text-left dark:border-[#1e3b2b] dark:bg-[#050b08]">
+                                <div className="grid grid-cols-2 gap-4 border-b border-purple-100 pb-4 dark:border-[#1e3b2b]/60 sm:grid-cols-4">
+                                    <div>
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#7f8982]">Payment Ref</span>
+                                        <p className="mt-1 font-mono text-xs font-semibold text-zinc-900 dark:text-[#f2eee3] truncate" title={orderConfirmation?.paymentIntentId}>
+                                            {orderConfirmation?.paymentIntentId?.slice(0, 16)}...
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#7f8982]">Date</span>
+                                        <p className="mt-1 text-xs font-semibold text-zinc-900 dark:text-[#f2eee3]">
+                                            {orderConfirmation?.date || new Date().toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#7f8982]">Total Paid</span>
+                                        <p className="mt-1 font-mono text-sm font-bold text-purple-700 dark:text-[#d4b56a]">
+                                            £{(orderConfirmation?.amount ?? total).toFixed(2)}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#7f8982]">Payment Method</span>
+                                        <p className="mt-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                                            Stripe Card (TEST)
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-xl shadow-purple-500/5 sm:p-8 dark:border-[#1e3b2b] dark:bg-[#08140e] dark:shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
-
-                                    {/* EMAIL */}
-                                    <div className="mb-6">
-                                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                            Email Address
-                                            <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                        </label>
-
-                                        <input
-                                            type="email"
-                                            required
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            placeholder="Enter your email address"
-                                            className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                        />
+                                {orderConfirmation?.items && orderConfirmation.items.length > 0 && (
+                                    <div className="mt-4 space-y-2">
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#7f8982]">Purchased Items</span>
+                                        {orderConfirmation.items.map((it: any, idx: number) => {
+                                            const uPrice = it.numericPrice ?? parsePrice(it.price);
+                                            return (
+                                                <div key={idx} className="flex justify-between text-xs text-zinc-700 dark:text-[#c6cbc7]">
+                                                    <span>{it.title || "Book"} × {it.quantity}</span>
+                                                    <span className="font-semibold text-purple-700 dark:text-[#d4b56a]">
+                                                        £{(uPrice * it.quantity).toFixed(2)}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
+                                )}
+                            </div>
 
-                                    {/* FIRST + LAST NAME */}
-                                    <div className="grid gap-6 sm:grid-cols-2">
+                            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <Link
+                                    href="/shop"
+                                    className="w-full sm:w-auto rounded-md border border-purple-600 bg-purple-600 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-md shadow-purple-500/20 transition duration-300 hover:bg-purple-700 dark:border-[#d4b56a] dark:bg-[#d4b56a] dark:text-[#050b08] dark:hover:bg-transparent dark:hover:text-[#d4b56a]"
+                                >
+                                    Continue Shopping
+                                </Link>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsPaymentSuccess(false);
+                                        setOrderConfirmation(null);
+                                    }}
+                                    className="w-full sm:w-auto rounded-md border border-zinc-300 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.18em] text-zinc-700 transition hover:bg-zinc-100 dark:border-[#294333] dark:text-[#c6cbc7] dark:hover:bg-[#0c1a12]"
+                                >
+                                    Place Another Order
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
 
-                                        <div>
-                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                                First Name
-                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                required
-                                                value={firstName}
-                                                onChange={(e) => setFirstName(e.target.value)}
-                                                placeholder="First name"
-                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                                Last Name
-                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                required
-                                                value={lastName}
-                                                onChange={(e) => setLastName(e.target.value)}
-                                                placeholder="Last name"
-                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                            />
-                                        </div>
-
-                                    </div>
-
-                                    {/* COMPANY */}
-                                    <div className="mt-6">
-                                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                            Company Name
-                                            <span className="ml-1 text-zinc-400 dark:text-[#59645d]">
-                                                (Optional)
-                                            </span>
-                                        </label>
-
-                                        <input
-                                            type="text"
-                                            value={company}
-                                            onChange={(e) => setCompany(e.target.value)}
-                                            placeholder="Company name"
-                                            className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                        />
-                                    </div>
-
-                                    {/* COUNTRY */}
-                                    <div className="mt-6">
-                                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                            Country / Region
-                                            <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                        </label>
-
-                                        <select
-                                            required
-                                            value={country}
-                                            onChange={(e) => setCountry(e.target.value)}
-                                            className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                        >
-                                            <option value="United Kingdom">
-                                                United Kingdom
-                                            </option>
-
-                                            <option value="United States">
-                                                United States
-                                            </option>
-
-                                            <option value="India">
-                                                India
-                                            </option>
-
-                                            <option value="Canada">
-                                                Canada
-                                            </option>
-
-                                            <option value="Australia">
-                                                Australia
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    {/* STREET */}
-                                    <div className="mt-6">
-                                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                            Street Address
-                                            <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                        </label>
-
-                                        <input
-                                            type="text"
-                                            required
-                                            value={street}
-                                            onChange={(e) => setStreet(e.target.value)}
-                                            placeholder="House number and street name"
-                                            className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                        />
-
-                                        <input
-                                            type="text"
-                                            value={apartment}
-                                            onChange={(e) => setApartment(e.target.value)}
-                                            placeholder="Apartment, suite, unit, etc. (optional)"
-                                            className="mt-3 w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                        />
-                                    </div>
-
-                                    {/* CITY */}
-                                    <div className="mt-6">
-                                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                            Town / City
-                                            <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                        </label>
-
-                                        <input
-                                            type="text"
-                                            required
-                                            value={city}
-                                            onChange={(e) => setCity(e.target.value)}
-                                            placeholder="Town / City"
-                                            className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                        />
-                                    </div>
-
-                                    {/* STATE + POSTCODE */}
-                                    <div className="mt-6 grid gap-6 sm:grid-cols-2">
-
-                                        <div>
-                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                                State
-                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                required
-                                                value={state}
-                                                onChange={(e) => setState(e.target.value)}
-                                                placeholder="State"
-                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                                Postcode / ZIP
-                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                required
-                                                value={postcode}
-                                                onChange={(e) => setPostcode(e.target.value)}
-                                                placeholder="Postcode / ZIP"
-                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                            />
-                                        </div>
-
-                                    </div>
-
-                                    {/* PHONE */}
-                                    <div className="mt-6">
-                                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                            Phone
-                                            <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
-                                        </label>
-
-                                        <input
-                                            type="tel"
-                                            required
-                                            value={phone}
-                                            onChange={(e) => setPhone(e.target.value)}
-                                            placeholder="Phone number"
-                                            className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                        />
-                                    </div>
-
-                                    {/* ADDITIONAL INFORMATION */}
-                                    <div className="mt-10 border-t border-purple-100 pt-8 dark:border-[#1e3b2b]">
-
-                                        <h3 className="font-serif text-3xl text-zinc-900 sm:text-4xl dark:text-[#f2eee3]">
-                                            Additional Information
-                                        </h3>
-
-                                        <div className="mt-7">
-                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
-                                                Order Notes
-                                                <span className="ml-1 text-zinc-400 dark:text-[#59645d]">
-                                                    (Optional)
-                                                </span>
-                                            </label>
-
-                                            <textarea
-                                                rows={6}
-                                                value={notes}
-                                                onChange={(e) => setNotes(e.target.value)}
-                                                placeholder="Notes about your order, e.g. special notes for delivery."
-                                                className="w-full resize-none rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                            />
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </section>
-
-                            {/* =========================
-                  YOUR ORDER
-              ========================= */}
-                            <aside className="lg:col-span-5">
-
-                                <div className="sticky top-8">
+                                {/* =========================
+                      BILLING DETAILS
+                  ========================= */}
+                                <section className="lg:col-span-7">
 
                                     <div className="mb-8">
                                         <span className="mb-3 block text-[10px] font-bold uppercase tracking-[0.22em] text-purple-700 dark:text-[#d4b56a]">
-                                            Order Summary
+                                            Checkout
                                         </span>
 
                                         <h2 className="font-serif text-4xl font-normal text-zinc-900 sm:text-5xl dark:text-[#f2eee3]">
-                                            Your Order
+                                            Billing Details
                                         </h2>
 
                                         <div className="mt-4 h-0.5 w-20 bg-purple-600 dark:bg-[#d4b56a]" />
                                     </div>
 
-                                    {/* =========================
-                      ORDER SUMMARY CARD
-                  ========================= */}
-                                    <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-xl shadow-purple-500/5 sm:p-8 dark:border-[#1e3b2b] dark:bg-[#08140e] dark:shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
-
-                                        <div className="mb-5 flex items-center justify-between border-b border-purple-100 pb-4 dark:border-[#1e3b2b]">
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-purple-700 dark:text-[#d4b56a]">
-                                                Product
-                                            </span>
-
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-purple-700 dark:text-[#d4b56a]">
-                                                Total
-                                            </span>
-                                        </div>
-
-                                        <div className="space-y-5">
-                                            {cartItems.length === 0 ? (
-                                                <div className="text-center py-6 text-zinc-500 dark:text-[#8d9790]">
-                                                    <p className="text-sm">Your shopping cart is currently empty.</p>
-                                                    <Link
-                                                        href="/shop"
-                                                        className="mt-3 inline-block text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-[#d4b56a] hover:underline"
-                                                    >
-                                                        Return to Shop →
-                                                    </Link>
-                                                </div>
-                                            ) : (
-                                                cartItems.map((item) => {
-                                                    const unitPrice =
-                                                        item.numericPrice !== undefined && item.numericPrice > 0
-                                                            ? item.numericPrice
-                                                            : parsePrice(item.price);
-                                                    const lineTotal = unitPrice * item.quantity;
-                                                    const itemTitle = item.title || (item as any).name || "Untitled";
-
-                                                    return (
-                                                        <div
-                                                            key={item.id}
-                                                            className="flex items-start justify-between gap-5"
-                                                        >
-                                                            <div>
-                                                                <p className="text-sm font-medium text-zinc-900 dark:text-[#f2eee3]">
-                                                                    {itemTitle}
-                                                                </p>
-
-                                                                <p className="mt-1 text-xs text-zinc-500 dark:text-[#7e8981]">
-                                                                    × {item.quantity}
-                                                                </p>
-                                                            </div>
-
-                                                            <span className="whitespace-nowrap text-sm font-semibold text-purple-700 dark:text-[#d4b56a]">
-                                                                £{lineTotal.toFixed(2)}
-                                                            </span>
-                                                        </div>
-                                                    );
-                                                })
-                                            )}
-                                        </div>
-
-                                        {/* SUBTOTAL */}
-                                        <div className="mt-7 border-t border-purple-100 pt-5 dark:border-[#1e3b2b]">
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-sm text-zinc-600 dark:text-[#8d9790]">
-                                                    Subtotal
-                                                </span>
-
-                                                <span className="text-sm font-semibold text-zinc-900 dark:text-[#f2eee3]">
-                                                    £{subtotal.toFixed(2)}
-                                                </span>
+                                    {billingError && (
+                                        <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-xs font-medium text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
+                                            <div className="flex items-center gap-2">
+                                                <svg className="h-4 w-4 shrink-0 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                                </svg>
+                                                <span>{billingError}</span>
                                             </div>
                                         </div>
+                                    )}
 
-                                        {/* TOTAL */}
-                                        <div className="mt-4 flex items-center justify-between border-t border-purple-200 pt-5 dark:border-[#294333]">
-                                            <span className="font-serif text-xl text-zinc-900 dark:text-[#f2eee3]">
-                                                Total
-                                            </span>
+                                    <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-xl shadow-purple-500/5 sm:p-8 dark:border-[#1e3b2b] dark:bg-[#08140e] dark:shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
 
-                                            <span className="font-serif text-2xl font-bold text-purple-700 dark:text-[#d4b56a]">
-                                                £{total.toFixed(2)}
-                                            </span>
+                                        {/* EMAIL */}
+                                        <div className="mb-6">
+                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                Email Address
+                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                            </label>
+
+                                            <input
+                                                type="email"
+                                                required
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder="Enter your email address"
+                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                            />
+                                        </div>
+
+                                        {/* FIRST + LAST NAME */}
+                                        <div className="grid gap-6 sm:grid-cols-2">
+
+                                            <div>
+                                                <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                    First Name
+                                                    <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                                </label>
+
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={firstName}
+                                                    onChange={(e) => setFirstName(e.target.value)}
+                                                    placeholder="First name"
+                                                    className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                    Last Name
+                                                    <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                                </label>
+
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={lastName}
+                                                    onChange={(e) => setLastName(e.target.value)}
+                                                    placeholder="Last name"
+                                                    className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                                />
+                                            </div>
+
+                                        </div>
+
+                                        {/* COMPANY */}
+                                        <div className="mt-6">
+                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                Company Name
+                                                <span className="ml-1 text-zinc-400 dark:text-[#59645d]">
+                                                    (Optional)
+                                                </span>
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                value={company}
+                                                onChange={(e) => setCompany(e.target.value)}
+                                                placeholder="Company name"
+                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                            />
+                                        </div>
+
+                                        {/* COUNTRY */}
+                                        <div className="mt-6">
+                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                Country / Region
+                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                            </label>
+
+                                            <select
+                                                required
+                                                value={country}
+                                                onChange={(e) => setCountry(e.target.value)}
+                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                            >
+                                                <option value="United Kingdom">
+                                                    United Kingdom
+                                                </option>
+
+                                                <option value="United States">
+                                                    United States
+                                                </option>
+
+                                                <option value="India">
+                                                    India
+                                                </option>
+
+                                                <option value="Canada">
+                                                    Canada
+                                                </option>
+
+                                                <option value="Australia">
+                                                    Australia
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        {/* STREET */}
+                                        <div className="mt-6">
+                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                Street Address
+                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                required
+                                                value={street}
+                                                onChange={(e) => setStreet(e.target.value)}
+                                                placeholder="House number and street name"
+                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                            />
+
+                                            <input
+                                                type="text"
+                                                value={apartment}
+                                                onChange={(e) => setApartment(e.target.value)}
+                                                placeholder="Apartment, suite, unit, etc. (optional)"
+                                                className="mt-3 w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                            />
+                                        </div>
+
+                                        {/* CITY */}
+                                        <div className="mt-6">
+                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                Town / City
+                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                required
+                                                value={city}
+                                                onChange={(e) => setCity(e.target.value)}
+                                                placeholder="Town / City"
+                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                            />
+                                        </div>
+
+                                        {/* STATE + POSTCODE */}
+                                        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+
+                                            <div>
+                                                <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                    State
+                                                    <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                                </label>
+
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={state}
+                                                    onChange={(e) => setState(e.target.value)}
+                                                    placeholder="State"
+                                                    className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                    Postcode / ZIP
+                                                    <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                                </label>
+
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={postcode}
+                                                    onChange={(e) => setPostcode(e.target.value)}
+                                                    placeholder="Postcode / ZIP"
+                                                    className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                                />
+                                            </div>
+
+                                        </div>
+
+                                        {/* PHONE */}
+                                        <div className="mt-6">
+                                            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                Phone
+                                                <span className="ml-1 text-purple-600 dark:text-[#d4b56a]">*</span>
+                                            </label>
+
+                                            <input
+                                                type="tel"
+                                                required
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                                placeholder="Phone number"
+                                                className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                            />
+                                        </div>
+
+                                        {/* ADDITIONAL INFORMATION */}
+                                        <div className="mt-10 border-t border-purple-100 pt-8 dark:border-[#1e3b2b]">
+
+                                            <h3 className="font-serif text-3xl text-zinc-900 sm:text-4xl dark:text-[#f2eee3]">
+                                                Additional Information
+                                            </h3>
+
+                                            <div className="mt-7">
+                                                <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-700 dark:text-[#c6cbc7]">
+                                                    Order Notes
+                                                    <span className="ml-1 text-zinc-400 dark:text-[#59645d]">
+                                                        (Optional)
+                                                    </span>
+                                                </label>
+
+                                                <textarea
+                                                    rows={6}
+                                                    value={notes}
+                                                    onChange={(e) => setNotes(e.target.value)}
+                                                    placeholder="Notes about your order, e.g. special notes for delivery."
+                                                    className="w-full resize-none rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
+                                                />
+                                            </div>
+
                                         </div>
 
                                     </div>
+                                </section>
 
-                                    {/* =========================
-                      PAYMENT / CARD DETAILS CARD
+                                {/* =========================
+                      YOUR ORDER
                   ========================= */}
-                                    <div className="mt-8">
+                                <aside className="lg:col-span-5">
 
-                                        {/* CREDIT / DEBIT CARDS TAB HEADER */}
-                                        <div className="flex items-center justify-between px-2 pb-2">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-xs font-semibold tracking-wide text-zinc-800 dark:text-[#f2eee3]">
-                                                    Credit/Debit Cards
+                                    <div className="sticky top-8">
+
+                                        <div className="mb-8">
+                                            <span className="mb-3 block text-[10px] font-bold uppercase tracking-[0.22em] text-purple-700 dark:text-[#d4b56a]">
+                                                Order Summary
+                                            </span>
+
+                                            <h2 className="font-serif text-4xl font-normal text-zinc-900 sm:text-5xl dark:text-[#f2eee3]">
+                                                Your Order
+                                            </h2>
+
+                                            <div className="mt-4 h-0.5 w-20 bg-purple-600 dark:bg-[#d4b56a]" />
+                                        </div>
+
+                                        {/* =========================
+                          ORDER SUMMARY CARD
+                      ========================= */}
+                                        <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-xl shadow-purple-500/5 sm:p-8 dark:border-[#1e3b2b] dark:bg-[#08140e] dark:shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+
+                                            <div className="mb-5 flex items-center justify-between border-b border-purple-100 pb-4 dark:border-[#1e3b2b]">
+                                                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-purple-700 dark:text-[#d4b56a]">
+                                                    Product
+                                                </span>
+
+                                                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-purple-700 dark:text-[#d4b56a]">
+                                                    Total
                                                 </span>
                                             </div>
 
-                                            <div className="flex items-center gap-1.5">
-                                                {/* AMEX */}
-                                                <div className="flex h-5 items-center justify-center rounded bg-[#006FCF] px-1.5 text-[8px] font-black tracking-wider text-white shadow-sm">
-                                                    AMEX
-                                                </div>
-                                                {/* DISCOVER */}
-                                                <div className="flex h-5 items-center justify-center rounded bg-[#231F20] px-1.5 text-[8px] font-bold text-white shadow-sm">
-                                                    <span className="text-[#F47216]">DISC</span>OVER
-                                                </div>
-                                                {/* VISA */}
-                                                <div className="flex h-5 items-center justify-center rounded bg-[#1A1F71] px-1.5 text-[9px] font-extrabold italic tracking-wider text-white shadow-sm">
-                                                    VISA
-                                                </div>
-                                                {/* MASTERCARD */}
-                                                <div className="flex h-5 items-center justify-center rounded bg-[#222] px-1.5 shadow-sm">
-                                                    <span className="h-3 w-3 -mr-1 rounded-full bg-[#EB001B]" />
-                                                    <span className="h-3 w-3 rounded-full bg-[#F79E1B]/90" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* TAB POINTER ARROW */}
-                                        <div className="relative pl-6">
-                                            <div className="h-0 w-0 border-x-[7px] border-b-[7px] border-x-transparent border-b-purple-100 dark:border-b-[#1e3b2b]" />
-                                        </div>
-
-                                        {/* MAIN PAYMENT BOX */}
-                                        <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-xl shadow-purple-500/5 sm:p-7 dark:border-[#1e3b2b] dark:bg-[#08140e] dark:shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
-
-                                            {/* SECURE FAST CHECKOUT WITH LINK */}
-                                            <div className="mb-6 flex w-full items-center justify-between rounded-lg border border-emerald-200/80 bg-emerald-50 px-3.5 py-2.5 text-xs font-semibold text-emerald-700 transition dark:border-transparent dark:bg-[#0d261b]/80 dark:text-emerald-400">
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setLinkOpen(!linkOpen)}
-                                                    className="flex flex-1 items-center gap-2 text-left hover:opacity-90"
-                                                >
-                                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v2H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-1V6a4 4 0 00-4-4zm2 6V6a2 2 0 10-4 0v2h4zm-3 5a1 1 0 112 0v2a1 1 0 11-2 0v-2z" clipRule="evenodd" />
-                                                    </svg>
-                                                    <span>Secure, fast checkout with Link</span>
-                                                </button>
-
-                                                <div className="flex items-center gap-2">
-                                                    {/* INFO BUTTON TO OPEN LINK MODAL */}
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setIsLinkModalOpen(true)}
-                                                        title="What is Link?"
-                                                        className="flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800 hover:bg-emerald-200 dark:bg-[#143d2b] dark:text-emerald-300 dark:hover:bg-[#1b5239] transition"
-                                                    >
-                                                        <span>About</span>
-                                                        <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </button>
-
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setLinkOpen(!linkOpen)}
-                                                        className="p-1 hover:opacity-80"
-                                                        aria-label="Toggle section"
-                                                    >
-                                                        <svg
-                                                            className={`h-4 w-4 transition-transform duration-200 ${linkOpen ? "rotate-180" : ""}`}
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
+                                            <div className="space-y-5">
+                                                {cartItems.length === 0 ? (
+                                                    <div className="text-center py-6 text-zinc-500 dark:text-[#8d9790]">
+                                                        <p className="text-sm">Your shopping cart is currently empty.</p>
+                                                        <Link
+                                                            href="/shop"
+                                                            className="mt-3 inline-block text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-[#d4b56a] hover:underline"
                                                         >
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            {/* CARD PREVIEW */}
-                                            <div className="relative mb-6 overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-[#1b103c] via-[#221546] to-[#0f0920] p-5 sm:p-6 shadow-2xl text-white dark:border-[#d4b56a]/30 dark:from-[#0b2417] dark:via-[#0f3020] dark:to-[#040e08] dark:shadow-[0_20px_45px_rgba(0,0,0,0.6)]">
-                                                {/* AMBIENT GLOWS */}
-                                                <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-purple-500/25 blur-3xl dark:bg-[#d4b56a]/20" />
-                                                <div className="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-indigo-500/20 blur-3xl dark:bg-emerald-500/20" />
-                                                <div className="pointer-events-none absolute -inset-full top-0 h-[200%] w-[200%] rotate-45 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
-
-                                                {/* TOP ROW: CHIP, BRAND & CARD TYPE */}
-                                                <div className="relative z-10 flex items-center justify-between">
-                                                    <div className="flex items-center gap-3">
-                                                        {/* GOLD EMV CHIP */}
-                                                        <div className="relative h-6 w-8 sm:h-7 sm:w-9 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 p-[2px] shadow-sm">
-                                                            <div className="h-full w-full rounded-[3px] border border-amber-900/40 bg-gradient-to-tr from-amber-300 to-amber-100 opacity-95" />
-                                                            <div className="absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2 bg-amber-800/40" />
-                                                            <div className="absolute inset-y-0 left-1/2 w-[1px] -translate-x-1/2 bg-amber-800/40" />
-                                                        </div>
-
-                                                        <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.25em] text-white/90 drop-shadow-sm dark:text-[#f2eee3]">
-                                                            Publishing Hub
-                                                        </span>
+                                                            Return to Shop →
+                                                        </Link>
                                                     </div>
+                                                ) : (
+                                                    cartItems.map((item) => {
+                                                        const unitPrice =
+                                                            item.numericPrice !== undefined && item.numericPrice > 0
+                                                                ? item.numericPrice
+                                                                : parsePrice(item.price);
+                                                        const lineTotal = unitPrice * item.quantity;
+                                                        const itemTitle = item.title || (item as any).name || "Untitled";
 
-                                                    {/* RIGHT SIDE: DETECTED BRAND OR SLEEK CARD BADGE */}
-                                                    <div className="flex items-center gap-2">
-                                                        {getCardBrand(cardNumber) === "VISA" && (
-                                                            <span className="rounded bg-[#1A1F71] px-2.5 py-1 text-xs font-black italic tracking-wider text-white shadow-sm border border-white/20">
-                                                                VISA
-                                                            </span>
-                                                        )}
-                                                        {getCardBrand(cardNumber) === "MASTERCARD" && (
-                                                            <div className="flex items-center">
-                                                                <span className="h-5 w-5 rounded-full bg-[#EB001B] opacity-95 shadow-sm" />
-                                                                <span className="h-5 w-5 -ml-2 rounded-full bg-[#F79E1B] opacity-95 shadow-sm" />
-                                                            </div>
-                                                        )}
-                                                        {getCardBrand(cardNumber) === "AMEX" && (
-                                                            <span className="rounded bg-[#006FCF] px-2.5 py-1 text-[10px] font-extrabold tracking-wider text-white shadow-sm">
-                                                                AMEX
-                                                            </span>
-                                                        )}
-                                                        {getCardBrand(cardNumber) === "DISCOVER" && (
-                                                            <span className="rounded bg-[#FF6000] px-2.5 py-1 text-[10px] font-extrabold tracking-wider text-white shadow-sm">
-                                                                DISCOVER
-                                                            </span>
-                                                        )}
-                                                        {getCardBrand(cardNumber) === "CARD" && (
-                                                            <span className="text-xs sm:text-sm font-black uppercase tracking-[0.22em] text-purple-300 drop-shadow-[0_0_10px_rgba(192,132,252,0.7)] dark:text-[#d4b56a] dark:drop-shadow-[0_0_10px_rgba(212,181,106,0.7)]">
-                                                                CARD
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
+                                                        return (
+                                                            <div
+                                                                key={item.id}
+                                                                className="flex items-start justify-between gap-5"
+                                                            >
+                                                                <div>
+                                                                    <p className="text-sm font-medium text-zinc-900 dark:text-[#f2eee3]">
+                                                                        {itemTitle}
+                                                                    </p>
 
-                                                {/* MIDDLE ROW: CARD NUMBER */}
-                                                <div className="relative z-10 mt-6 min-h-[32px] flex items-center">
-                                                    {cardNumber ? (
-                                                        <p className="font-mono text-base font-bold tracking-[0.22em] text-white drop-shadow-md sm:text-xl">
-                                                            {cardNumber}
-                                                        </p>
-                                                    ) : (
-                                                        <div className="flex items-center gap-3 sm:gap-4 py-1.5">
-                                                            {[0, 1, 2, 3].map((group) => (
-                                                                <div key={group} className="flex gap-1.5 sm:gap-2">
-                                                                    <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.85)] ring-1 ring-white/30" />
-                                                                    <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.85)] ring-1 ring-white/30" />
-                                                                    <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.85)] ring-1 ring-white/30" />
-                                                                    <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.85)] ring-1 ring-white/30" />
+                                                                    <p className="mt-1 text-xs text-zinc-500 dark:text-[#7e8981]">
+                                                                        × {item.quantity}
+                                                                    </p>
                                                                 </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                </div>
 
-                                                {/* BOTTOM ROW: CARD HOLDER & EXPIRES */}
-                                                <div className="relative z-10 mt-6 flex items-end justify-between">
-                                                    <div>
-                                                        <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.22em] text-purple-200/80 dark:text-[#d4b56a]/80">
-                                                            Card Holder
-                                                        </p>
-                                                        <p className="mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white drop-shadow-sm">
-                                                            {cardName || saveInfoName || (firstName || lastName ? `${firstName} ${lastName}`.trim() : "") || "YOUR NAME"}
-                                                        </p>
-                                                    </div>
-
-                                                    <div className="text-right">
-                                                        <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.22em] text-purple-200/80 dark:text-[#d4b56a]/80">
-                                                            Expires
-                                                        </p>
-                                                        <p className="mt-1 font-mono text-xs sm:text-sm font-semibold tracking-wider text-white drop-shadow-sm">
-                                                            {expiry || "MM / YY"}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* CARD NUMBER */}
-                                            <div className="mb-4">
-                                                <label className="mb-1.5 block text-xs font-medium text-zinc-700 dark:text-[#c6cbc7]">
-                                                    Card number
-                                                </label>
-
-                                                <div className="relative">
-                                                    <input
-                                                        type="text"
-                                                        inputMode="numeric"
-                                                        value={cardNumber}
-                                                        onChange={handleCardNumberChange}
-                                                        placeholder="1234 1234 1234 1234"
-                                                        maxLength={19}
-                                                        className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3 pr-28 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                                    />
-
-                                                    {/* CARD BRAND ICONS INSIDE INPUT */}
-                                                    <div className="pointer-events-none absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-1">
-                                                        <span className="rounded bg-[#1A1F71] px-1 py-0.5 text-[7px] font-black italic text-white">VISA</span>
-                                                        <div className="flex rounded bg-[#222] px-1 py-0.5">
-                                                            <span className="h-2.5 w-2.5 -mr-1 rounded-full bg-[#EB001B]" />
-                                                            <span className="h-2.5 w-2.5 rounded-full bg-[#F79E1B]" />
-                                                        </div>
-                                                        <span className="rounded bg-[#006FCF] px-1 py-0.5 text-[7px] font-bold text-white">AMEX</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* EXPIRY & CVC */}
-                                            <div className="mb-4 grid grid-cols-2 gap-3.5">
-                                                <div>
-                                                    <label className="mb-1.5 block text-xs font-medium text-zinc-700 dark:text-[#c6cbc7]">
-                                                        Expiration date
-                                                    </label>
-
-                                                    <input
-                                                        type="text"
-                                                        value={expiry}
-                                                        onChange={handleExpiryChange}
-                                                        placeholder="MM / YY"
-                                                        maxLength={7}
-                                                        className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <label className="mb-1.5 block text-xs font-medium text-zinc-700 dark:text-[#c6cbc7]">
-                                                        Security code
-                                                    </label>
-
-                                                    <div className="relative">
-                                                        <input
-                                                            type="text"
-                                                            inputMode="numeric"
-                                                            value={cvc}
-                                                            onChange={handleCvcChange}
-                                                            placeholder="CVC"
-                                                            maxLength={4}
-                                                            className="w-full rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3 pr-10 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
-                                                        />
-
-                                                        <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-[#7e8981]">
-                                                            <svg className="h-5 w-6" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                                                <rect x="1" y="2" width="22" height="14" rx="2" stroke="currentColor" />
-                                                                <line x1="1" y1="6" x2="23" y2="6" stroke="currentColor" />
-                                                                <rect x="4" y="10" width="5" height="3" fill="currentColor" />
-                                                                <text x="14" y="13" fontSize="5" fill="currentColor" fontFamily="sans-serif" stroke="none">123</text>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* ========================================================
-                          SAVE MY INFORMATION FOR FASTER CHECKOUT (CONTACT FORM)
-                      ======================================================== */}
-                                            <div className="rounded-xl border border-purple-100 bg-[#faf8fd] p-4 sm:p-5 dark:border-[#1e3b2b] dark:bg-[#06110a]">
-                                                <div className="mb-4">
-                                                    <span className="inline-block rounded border border-purple-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-purple-700 dark:border-[#294333] dark:bg-[#08140e] dark:text-[#8d9790]">
-                                                        Optional
-                                                    </span>
-
-                                                    <h4 className="mt-2 text-sm font-semibold text-zinc-900 dark:text-[#f2eee3]">
-                                                        Save my information for faster checkout
-                                                    </h4>
-                                                </div>
-
-                                                {/* EMAIL */}
-                                                <div className="mb-3.5">
-                                                    <label className="mb-1 block text-xs text-zinc-600 dark:text-[#8d9790]">
-                                                        Email
-                                                    </label>
-
-                                                    <input
-                                                        type="email"
-                                                        value={saveInfoEmail}
-                                                        onChange={(e) => setSaveInfoEmail(e.target.value)}
-                                                        placeholder="you@example.com"
-                                                        className="w-full rounded-lg border border-purple-200 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a]"
-                                                    />
-                                                </div>
-
-                                                {/* MOBILE NUMBER */}
-                                                <div className="mb-3.5">
-                                                    <label className="mb-1 block text-xs text-zinc-600 dark:text-[#8d9790]">
-                                                        Mobile number
-                                                    </label>
-
-                                                    <div className="flex rounded-lg border border-purple-200 bg-white focus-within:border-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:focus-within:border-[#d4b56a]">
-                                                        <div className="flex items-center gap-1.5 border-r border-purple-200 px-3 py-2 text-sm text-zinc-800 dark:border-[#294333] dark:text-[#f2eee3]">
-                                                            <span className="text-base leading-none">🇮🇳</span>
-                                                            <span className="text-xs text-zinc-400 dark:text-[#8d9790]">⌵</span>
-                                                        </div>
-
-                                                        <input
-                                                            type="tel"
-                                                            value={saveInfoPhone}
-                                                            onChange={(e) => setSaveInfoPhone(e.target.value)}
-                                                            placeholder="081234 56789"
-                                                            className="w-full bg-transparent px-3.5 py-2.5 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-[#f2eee3] dark:placeholder:text-[#59645d]"
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                {/* FULL NAME */}
-                                                <div className="mb-4">
-                                                    <label className="mb-1 block text-xs text-zinc-600 dark:text-[#8d9790]">
-                                                        Full name
-                                                    </label>
-
-                                                    <input
-                                                        type="text"
-                                                        value={saveInfoName}
-                                                        onChange={(e) => setSaveInfoName(e.target.value)}
-                                                        placeholder="First and last name"
-                                                        className="w-full rounded-lg border border-purple-200 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a]"
-                                                    />
-                                                </div>
-
-                                                {/* LINK DISCLAIMER */}
-                                                <div className="mb-4">
-                                                    <p className="text-[11px] leading-relaxed text-zinc-500 dark:text-[#7e8981]">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setIsLinkModalOpen(true)}
-                                                            className="mr-1 inline-flex shrink-0 items-center gap-1 font-bold text-emerald-600 hover:text-emerald-700 dark:text-[#00D66F] dark:hover:text-[#38ef90] whitespace-nowrap group transition cursor-pointer"
-                                                            title="What is Link?"
-                                                        >
-                                                            <svg className="h-3 w-3 transition-transform group-hover:scale-110" viewBox="0 0 16 16" fill="currentColor">
-                                                                <circle cx="8" cy="8" r="7.5" fill="currentColor" />
-                                                                <path d="M6 4.5l4.5 3.5-4.5 3.5v-7z" fill="white" />
-                                                            </svg>
-                                                            <span className="underline decoration-dotted underline-offset-2">link</span>
-                                                        </button>
-                                                        • By providing phone number and email, you agree to create an account subject to Link's{" "}
-                                                        <a
-                                                            href="https://link.com/terms"
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="font-medium text-emerald-600 underline hover:text-emerald-700 dark:text-[#00D66F] dark:hover:text-[#38ef90]"
-                                                        >
-                                                            Terms
-                                                        </a>{" "}
-                                                        and{" "}
-                                                        <a
-                                                            href="https://link.com/privacy"
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="font-medium text-emerald-600 underline hover:text-emerald-700 dark:text-[#00D66F] dark:hover:text-[#38ef90]"
-                                                        >
-                                                            Privacy Policy
-                                                        </a>.
-                                                    </p>
-                                                </div>
-
-                                                {/* SAVE TO ACCOUNT BUTTON */}
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setSavedSuccessMsg("Information saved to account for faster checkout.");
-                                                        setTimeout(() => setSavedSuccessMsg(""), 4000);
-                                                    }}
-                                                    className="text-xs font-semibold text-purple-700 transition hover:text-purple-900 dark:text-[#d4b56a] dark:hover:text-[#f2eee3]"
-                                                >
-                                                    Save to account
-                                                </button>
-
-                                                {savedSuccessMsg && (
-                                                    <p className="mt-2 text-xs text-emerald-600 dark:text-emerald-400">
-                                                        ✓ {savedSuccessMsg}
-                                                    </p>
+                                                                <span className="whitespace-nowrap text-sm font-semibold text-purple-700 dark:text-[#d4b56a]">
+                                                                    £{lineTotal.toFixed(2)}
+                                                                </span>
+                                                            </div>
+                                                        );
+                                                    })
                                                 )}
                                             </div>
 
-                                            {/* PLACE ORDER */}
-                                            <button
-                                                type="submit"
-                                                className="mt-6 w-full rounded-md border border-purple-600 bg-purple-600 px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-purple-500/25 transition duration-300 hover:bg-purple-700 dark:border-[#d4b56a] dark:bg-[#d4b56a] dark:text-[#050b08] dark:hover:bg-transparent dark:hover:text-[#d4b56a] dark:shadow-none"
-                                            >
-                                                Place Order — £{total.toFixed(2)}
-                                            </button>
+                                            {/* SUBTOTAL */}
+                                            <div className="mt-7 border-t border-purple-100 pt-5 dark:border-[#1e3b2b]">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-sm text-zinc-600 dark:text-[#8d9790]">
+                                                        Subtotal
+                                                    </span>
 
-                                            {/* PRIVACY DISCLAIMER */}
-                                            <p className="mt-4 text-center text-[11px] leading-5 text-zinc-500 dark:text-[#69746d]">
-                                                Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our{" "}
-                                                <Link href="/privacy-policy" className="underline text-purple-600 hover:text-purple-700 dark:text-[#d4b56a] dark:hover:text-[#f2eee3]">
-                                                    privacy policy
-                                                </Link>.
-                                            </p>
+                                                    <span className="text-sm font-semibold text-zinc-900 dark:text-[#f2eee3]">
+                                                        £{subtotal.toFixed(2)}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* TOTAL */}
+                                            <div className="mt-4 flex items-center justify-between border-t border-purple-200 pt-5 dark:border-[#294333]">
+                                                <span className="font-serif text-xl text-zinc-900 dark:text-[#f2eee3]">
+                                                    Total
+                                                </span>
+
+                                                <span className="font-serif text-2xl font-bold text-purple-700 dark:text-[#d4b56a]">
+                                                    £{total.toFixed(2)}
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        {/* =========================
+                          PAYMENT / CARD DETAILS CARD
+                      ========================= */}
+                                        <div className="mt-8">
+
+                                            {/* CREDIT / DEBIT CARDS TAB HEADER */}
+                                            <div className="flex items-center justify-between px-2 pb-2">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-xs font-semibold tracking-wide text-zinc-800 dark:text-[#f2eee3]">
+                                                        Credit/Debit Cards
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex items-center gap-1.5">
+                                                    {/* AMEX */}
+                                                    <div className="flex h-5 items-center justify-center rounded bg-[#006FCF] px-1.5 text-[8px] font-black tracking-wider text-white shadow-sm">
+                                                        AMEX
+                                                    </div>
+                                                    {/* DISCOVER */}
+                                                    <div className="flex h-5 items-center justify-center rounded bg-[#231F20] px-1.5 text-[8px] font-bold text-white shadow-sm">
+                                                        <span className="text-[#F47216]">DISC</span>OVER
+                                                    </div>
+                                                    {/* VISA */}
+                                                    <div className="flex h-5 items-center justify-center rounded bg-[#1A1F71] px-1.5 text-[9px] font-extrabold italic tracking-wider text-white shadow-sm">
+                                                        VISA
+                                                    </div>
+                                                    {/* MASTERCARD */}
+                                                    <div className="flex h-5 items-center justify-center rounded bg-[#222] px-1.5 shadow-sm">
+                                                        <span className="h-3 w-3 -mr-1 rounded-full bg-[#EB001B]" />
+                                                        <span className="h-3 w-3 rounded-full bg-[#F79E1B]/90" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* TAB POINTER ARROW */}
+                                            <div className="relative pl-6">
+                                                <div className="h-0 w-0 border-x-[7px] border-b-[7px] border-x-transparent border-b-purple-100 dark:border-b-[#1e3b2b]" />
+                                            </div>
+
+                                            {/* MAIN PAYMENT BOX WITH STRIPE */}
+                                            <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-xl shadow-purple-500/5 sm:p-7 dark:border-[#1e3b2b] dark:bg-[#08140e] dark:shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+                                                <StripePaymentSection
+                                                    clientSecret={clientSecret}
+                                                    stripePromise={stripePromise}
+                                                    total={total}
+                                                    isProcessing={isProcessing}
+                                                    setIsProcessing={setIsProcessing}
+                                                    isKeysConfigured={isKeysConfigured}
+                                                    errorMessage={paymentError}
+                                                    setErrorMessage={setPaymentError}
+                                                    onSuccess={handlePaymentSuccess}
+                                                    onValidateBilling={handleValidateBilling}
+                                                    customerName={`${firstName} ${lastName}`.trim()}
+                                                    customerEmail={email.trim()}
+                                                    customerPhone={phone.trim()}
+                                                    shippingAddress={{
+                                                        line1: street.trim(),
+                                                        line2: apartment.trim() || undefined,
+                                                        city: city.trim(),
+                                                        state: state.trim(),
+                                                        postal_code: postcode.trim(),
+                                                        country: getCountryCode(country),
+                                                    }}
+                                                    linkOpen={linkOpen}
+                                                    setLinkOpen={setLinkOpen}
+                                                    setIsLinkModalOpen={setIsLinkModalOpen}
+                                                    cartIsEmpty={cartItems.length === 0}
+                                                />
+                                            </div>
 
                                         </div>
 
                                     </div>
 
-                                </div>
+                                </aside>
 
-                            </aside>
-
+                            </div>
                         </div>
-                    </form>
+                    )}
                 </div>
             </main>
 
