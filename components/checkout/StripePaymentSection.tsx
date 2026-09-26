@@ -229,7 +229,7 @@ function StripeFormInner({
           </span>
         </div>
 
-        {/* BOTTOM ROW: CARD HOLDER & AMOUNT */}
+        {/* BOTTOM ROW: CARD HOLDER & AMOUNT */}           
         <div className="relative z-10 mt-5 flex items-end justify-between">
           <div>
             <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.22em] text-purple-200/80 dark:text-[#d4b56a]/80">

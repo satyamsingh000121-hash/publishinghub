@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
   Star,
@@ -30,6 +30,7 @@ import bookStyles from "./BookOpenCard.module.css";
 import { getBookSlug } from "@/lib/books";
 import type { BookDetailData, AuthorBook, RelatedBook } from "@/lib/books";
 import { useCart } from "@/context/CartContext";
+import BookReviews from "./BookReviews";
 
 export type { BookDetailData, AuthorBook, RelatedBook };
 
@@ -46,11 +47,36 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
   const [quantity, setQuantity] = useState<number>(isOutOfStock ? 0 : 1);
   const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
+  const [reviewCount, setReviewCount] = useState<number>(book?.reviewCount ?? 0);
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [isCompared, setIsCompared] = useState<boolean>(false);
   const [addedAlert, setAddedAlert] = useState<boolean>(false);
   const [relatedSlide, setRelatedSlide] = useState<number>(0);
   const [isBookOpen, setIsBookOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const bookId = book?.id || book?.slug;
+    if (!bookId) return;
+
+    const fetchCount = async () => {
+      try {
+        const params = new URLSearchParams();
+        if (book?.id) params.append("bookId", book.id);
+        if (book?.slug) params.append("slug", book.slug);
+        const res = await fetch(`/api/reviews?${params.toString()}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data)) {
+            setReviewCount(json.data.length);
+          }
+        }
+      } catch (e) {
+        // ignore network error
+      }
+    };
+
+    fetchCount();
+  }, [book?.id, book?.slug]);
 
   // Related products (Matching exact reference image)
   const relatedBooks: RelatedBook[] = [
@@ -518,7 +544,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                 </div>
 
                 <span className="text-[13px] sm:text-[13.5px] text-gray-600 dark:text-[#e5e1d7]">
-                  ( {book?.reviewCount ?? 0} reviews )
+                  ( {reviewCount} reviews )
                 </span>
               </div>
 
@@ -1211,7 +1237,7 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   : "text-[#71717a] hover:text-[#9333ea] border-b-2 border-transparent hover:border-[#e9e1f5] -mb-[1px] dark:text-[#9A9D95] dark:hover:text-[#F2EEE3] dark:hover:border-[#18422e]"
                   }`}
               >
-                Reviews (0)
+                Reviews ({reviewCount})
               </button>
             </div>
 
@@ -1270,9 +1296,12 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
                   )}
                 </div>
               ) : (
-                <div className="py-8 text-center text-xs sm:text-sm text-[#71717a] dark:text-[#9A9D95] font-serif italic">
-                  There are no reviews yet for this book.
-                </div>
+                <BookReviews
+                  bookId={book?.id || book?.slug || "default-book"}
+                  bookSlug={book?.slug}
+                  initialCount={reviewCount}
+                  onReviewCountChange={setReviewCount}
+                />
               )}
             </div>
           </div>

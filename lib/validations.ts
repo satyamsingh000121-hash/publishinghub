@@ -99,3 +99,14 @@ export const ContactMessageSchema = z.object({
 export const NewsletterSubscriberSchema = z.object({
   email: z.string().email("Valid email is required"),
 });
+
+// Review Validation Schema
+export const CreateReviewSchema = z.object({
+  book_id: z.string().min(1, "Book ID is required"),
+  book_slug: z.string().optional(),
+  name: z.string().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
+  email: z.string().email("Please provide a valid email address"),
+  rating: z.number().int().min(1, "Please select a rating between 1 and 5 stars").max(5, "Rating cannot exceed 5 stars"),
+  review: z.string().min(3, "Review text must be at least 3 characters").max(5000, "Review is too long"),
+});
+

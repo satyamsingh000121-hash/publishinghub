@@ -71,6 +71,16 @@ export async function ensureSchemaUpdated(): Promise<void> {
       "order" INTEGER NOT NULL DEFAULT 0,
       createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`,
+    `CREATE TABLE IF NOT EXISTS Review (
+      id TEXT PRIMARY KEY,
+      book_id TEXT NOT NULL,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      rating INTEGER NOT NULL,
+      review TEXT NOT NULL,
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_review_book_id ON Review(book_id)`,
   ];
 
   for (const query of tablesToCreate) {
