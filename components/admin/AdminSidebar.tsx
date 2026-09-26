@@ -26,11 +26,11 @@ interface AdminSidebarProps {
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Books", href: "/admin/books", icon: BookOpen },
+  { name: "Meet The Author", href: "/admin/meet-the-author", icon: User },
+  { name: "Sale Offers", href: "/admin/sale-offers", icon: Tag },
   { name: "Events", href: "/admin/events", icon: Calendar },
   { name: "Users", href: "/admin/users", icon: Users },
   { name: "Settings", href: "/admin/settings", icon: Settings },
-  { name: "Sale Offers", href: "/admin/sale-offers", icon: Tag },
-  { name: "Meet The Author", href: "/admin/meet-the-author", icon: User },
 ];
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
