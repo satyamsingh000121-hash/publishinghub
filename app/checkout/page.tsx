@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart, parsePrice } from "@/context/CartContext";
-import { getStripePromise } from "@/lib/stripe-client";
-import StripePaymentSection from "@/components/checkout/StripePaymentSection";
 
 export default function CheckoutPage() {
+    const router = useRouter();
     const { items: cartItems, subtotal, clearCart } = useCart();
     const total = subtotal;
 
@@ -41,13 +41,8 @@ export default function CheckoutPage() {
     const [couponMessage, setCouponMessage] = useState("");
 
     // =========================
-    // STRIPE & PAYMENT STATES
+    // CHECKOUT & BILLING STATES
     // =========================
-    const [linkOpen, setLinkOpen] = useState(true);
-    const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
-    const [clientSecret, setClientSecret] = useState<string | null>(null);
-    const [isProcessing, setIsProcessing] = useState(false);
-    const [paymentError, setPaymentError] = useState<string | null>(null);
     const [billingError, setBillingError] = useState<string | null>(null);
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
     const [orderConfirmation, setOrderConfirmation] = useState<{
@@ -59,75 +54,69 @@ export default function CheckoutPage() {
         items: any[];
     } | null>(null);
 
-    const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-    const isKeysConfigured = Boolean(
-        publishableKey && !publishableKey.includes("REPLACE_WITH_MY_TEST_PUBLISHABLE_KEY")
-    );
-
-    const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
-
+    // Restore saved checkout data if returning from payment page or previously entered
     useEffect(() => {
-        if (isKeysConfigured) {
-            setStripePromise(getStripePromise());
-        } else {
-            setStripePromise(null);
+        try {
+            const raw = sessionStorage.getItem("publishinghub_checkout_data") || localStorage.getItem("publishinghub_checkout_data");
+            if (raw) {
+                const data = JSON.parse(raw);
+                if (data.email) setEmail(data.email);
+                if (data.firstName) setFirstName(data.firstName);
+                if (data.lastName) setLastName(data.lastName);
+                if (data.company) setCompany(data.company);
+                if (data.country) setCountry(data.country);
+                if (data.street) setStreet(data.street);
+                if (data.apartment) setApartment(data.apartment);
+                if (data.city) setCity(data.city);
+                if (data.state) setState(data.state);
+                if (data.postcode) setPostcode(data.postcode);
+                if (data.phone) setPhone(data.phone);
+                if (data.notes) setNotes(data.notes);
+            }
+        } catch (e) {
+            // Ignore parse errors
         }
-    }, [isKeysConfigured]);
+    }, []);
 
-    // Fetch Stripe clientSecret whenever cart items or total change
-    useEffect(() => {
-        if (!isKeysConfigured || cartItems.length === 0 || total <= 0) {
-            setClientSecret(null);
+    const handleProceedToPayment = () => {
+        if (cartItems.length === 0 || total <= 0) {
+            setBillingError("Your shopping cart is currently empty. Please add items before checking out.");
             return;
         }
 
-        let isMounted = true;
-        const createIntent = async () => {
-            try {
-                const res = await fetch("/api/create-payment-intent", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        items: cartItems,
-                        billingDetails: {
-                            email,
-                            firstName,
-                            lastName,
-                            company,
-                            country,
-                            street,
-                            apartment,
-                            city,
-                            state,
-                            postcode,
-                            phone,
-                            notes,
-                        },
-                    }),
-                });
+        const isValid = handleValidateBilling();
+        if (!isValid) return;
 
-                const data = await res.json();
-                if (isMounted) {
-                    if (res.ok && data.clientSecret) {
-                        setClientSecret(data.clientSecret);
-                        setPaymentError(null);
-                    } else {
-                        setPaymentError(data.error || "Could not initialize Stripe payment session.");
-                    }
-                }
-            } catch (err: any) {
-                if (isMounted) {
-                    setPaymentError("Network error initializing payment session.");
-                }
-            }
+        const checkoutData = {
+            customerName: `${firstName} ${lastName}`.trim(),
+            firstName,
+            lastName,
+            email,
+            phone,
+            company,
+            billingAddress: street,
+            street,
+            apartment,
+            city,
+            state,
+            postcode,
+            country,
+            notes,
+            subtotal,
+            total,
+            items: cartItems,
+            timestamp: Date.now(),
         };
 
-        createIntent();
+        try {
+            sessionStorage.setItem("publishinghub_checkout_data", JSON.stringify(checkoutData));
+            localStorage.setItem("publishinghub_checkout_data", JSON.stringify(checkoutData));
+        } catch (e) {
+            console.error("Failed to store checkout details:", e);
+        }
 
-        return () => {
-            isMounted = false;
-        };
-    }, [isKeysConfigured, cartItems, total]);
+        router.push("/checkout/payment");
+    };
 
     // Handle return from 3D secure redirect if status=success
     useEffect(() => {
@@ -890,77 +879,28 @@ export default function CheckoutPage() {
                                                 </span>
                                             </div>
 
-                                        </div>
+                                            {/* PAY / PLACE ORDER BUTTON */}
+                                            <button
+                                                type="button"
+                                                id="pay-place-order-button"
+                                                onClick={handleProceedToPayment}
+                                                disabled={cartItems.length === 0}
+                                                className="mt-6 w-full rounded-md border border-purple-600 bg-purple-600 px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-purple-500/25 transition duration-300 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed dark:border-[#d4b56a] dark:bg-[#d4b56a] dark:text-[#050b08] dark:hover:bg-transparent dark:hover:text-[#d4b56a] dark:shadow-none"
+                                            >
+                                                PAY / PLACE ORDER — £{total.toFixed(2)}
+                                            </button>
 
-                                        {/* =========================
-                          PAYMENT / CARD DETAILS CARD
-                      ========================= */}
-                                        <div className="mt-8">
-
-                                            {/* CREDIT / DEBIT CARDS TAB HEADER */}
-                                            <div className="flex items-center justify-between px-2 pb-2">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-xs font-semibold tracking-wide text-zinc-800 dark:text-[#f2eee3]">
-                                                        Credit/Debit Cards
-                                                    </span>
-                                                </div>
-
-                                                <div className="flex items-center gap-1.5">
-                                                    {/* AMEX */}
-                                                    <div className="flex h-5 items-center justify-center rounded bg-[#006FCF] px-1.5 text-[8px] font-black tracking-wider text-white shadow-sm">
-                                                        AMEX
-                                                    </div>
-                                                    {/* DISCOVER */}
-                                                    <div className="flex h-5 items-center justify-center rounded bg-[#231F20] px-1.5 text-[8px] font-bold text-white shadow-sm">
-                                                        <span className="text-[#F47216]">DISC</span>OVER
-                                                    </div>
-                                                    {/* VISA */}
-                                                    <div className="flex h-5 items-center justify-center rounded bg-[#1A1F71] px-1.5 text-[9px] font-extrabold italic tracking-wider text-white shadow-sm">
-                                                        VISA
-                                                    </div>
-                                                    {/* MASTERCARD */}
-                                                    <div className="flex h-5 items-center justify-center rounded bg-[#222] px-1.5 shadow-sm">
-                                                        <span className="h-3 w-3 -mr-1 rounded-full bg-[#EB001B]" />
-                                                        <span className="h-3 w-3 rounded-full bg-[#F79E1B]/90" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* TAB POINTER ARROW */}
-                                            <div className="relative pl-6">
-                                                <div className="h-0 w-0 border-x-[7px] border-b-[7px] border-x-transparent border-b-purple-100 dark:border-b-[#1e3b2b]" />
-                                            </div>
-
-                                            {/* MAIN PAYMENT BOX WITH STRIPE */}
-                                            <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-xl shadow-purple-500/5 sm:p-7 dark:border-[#1e3b2b] dark:bg-[#08140e] dark:shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
-                                                <StripePaymentSection
-                                                    clientSecret={clientSecret}
-                                                    stripePromise={stripePromise}
-                                                    total={total}
-                                                    isProcessing={isProcessing}
-                                                    setIsProcessing={setIsProcessing}
-                                                    isKeysConfigured={isKeysConfigured}
-                                                    errorMessage={paymentError}
-                                                    setErrorMessage={setPaymentError}
-                                                    onSuccess={handlePaymentSuccess}
-                                                    onValidateBilling={handleValidateBilling}
-                                                    customerName={`${firstName} ${lastName}`.trim()}
-                                                    customerEmail={email.trim()}
-                                                    customerPhone={phone.trim()}
-                                                    shippingAddress={{
-                                                        line1: street.trim(),
-                                                        line2: apartment.trim() || undefined,
-                                                        city: city.trim(),
-                                                        state: state.trim(),
-                                                        postal_code: postcode.trim(),
-                                                        country: getCountryCode(country),
-                                                    }}
-                                                    linkOpen={linkOpen}
-                                                    setLinkOpen={setLinkOpen}
-                                                    setIsLinkModalOpen={setIsLinkModalOpen}
-                                                    cartIsEmpty={cartItems.length === 0}
-                                                />
-                                            </div>
+                                            {/* PRIVACY DISCLAIMER */}
+                                            <p className="mt-4 text-center text-[11px] leading-5 text-zinc-500 dark:text-[#69746d]">
+                                                Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our{" "}
+                                                <Link
+                                                    href="/refund_returns"
+                                                    className="underline text-purple-600 hover:text-purple-700 dark:text-[#d4b56a] dark:hover:text-[#f2eee3]"
+                                                >
+                                                    privacy & refund policy
+                                                </Link>
+                                                .
+                                            </p>
 
                                         </div>
 
@@ -973,135 +913,6 @@ export default function CheckoutPage() {
                     )}
                 </div>
             </main>
-
-            {/* ========================================================
-                LINK INFO MODAL (Stripe Link Details Popup)
-            ======================================================== */}
-            {isLinkModalOpen && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-200"
-                    onClick={() => setIsLinkModalOpen(false)}
-                >
-                    <div
-                        className="relative w-full max-w-[400px] rounded-3xl bg-white p-7 sm:p-8 shadow-2xl transition-all dark:bg-[#0c1a12] dark:border dark:border-[#1e3b2b]"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {/* HEADER: LOGO & CLOSE BUTTON */}
-                        <div className="flex items-center justify-between">
-                            {/* LINK LOGO */}
-                            <a
-                                href="https://link.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1.5 group"
-                                title="Visit Link.com"
-                            >
-                                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#00D66F] shadow-sm transition-transform group-hover:scale-105">
-                                    <svg className="h-4 w-4 fill-white ml-0.5" viewBox="0 0 16 16">
-                                        <path d="M5.5 3.5l5 4.5-5 4.5v-9z" />
-                                    </svg>
-                                </div>
-                                <span className="text-2xl font-black tracking-tight text-zinc-900 dark:text-white">
-                                    link
-                                </span>
-                            </a>
-
-                            {/* CLOSE BUTTON */}
-                            <button
-                                type="button"
-                                onClick={() => setIsLinkModalOpen(false)}
-                                className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-[#14281c] dark:hover:text-zinc-100 transition"
-                                aria-label="Close modal"
-                            >
-                                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        {/* HEADLINE */}
-                        <h3 className="mt-7 mb-8 text-center text-2xl font-bold leading-tight text-zinc-900 dark:text-white">
-                            Pay quickly,<br />shop confidently
-                        </h3>
-
-                        {/* 3 FEATURE ITEMS */}
-                        <div className="space-y-6">
-                            {/* ITEM 1 */}
-                            <div className="flex items-start gap-4">
-                                <div className="mt-0.5 text-zinc-900 dark:text-zinc-100 shrink-0">
-                                    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 className="text-sm font-bold text-zinc-900 dark:text-white">
-                                        Fast and simple
-                                    </h4>
-                                    <p className="mt-0.5 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-                                        Autofill your payment, contact, and shipping details at checkout.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* ITEM 2 */}
-                            <div className="flex items-start gap-4">
-                                <div className="mt-0.5 text-zinc-900 dark:text-zinc-100 shrink-0">
-                                    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <rect x="2" y="5" width="20" height="14" rx="2" />
-                                        <line x1="2" y1="10" x2="22" y2="10" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 className="text-sm font-bold text-zinc-900 dark:text-white">
-                                        Multiple ways to pay
-                                    </h4>
-                                    <p className="mt-0.5 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-                                        Choose from your favorite cards or bank account.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* ITEM 3 */}
-                            <div className="flex items-start gap-4">
-                                <div className="mt-0.5 text-zinc-900 dark:text-zinc-100 shrink-0">
-                                    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 className="text-sm font-bold text-zinc-900 dark:text-white">
-                                        Protects your data
-                                    </h4>
-                                    <p className="mt-0.5 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-                                        Shop safely knowing your information is encrypted.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* FOOTER LINKS */}
-                        <div className="mt-9 flex items-center justify-center gap-7 text-xs text-zinc-500 dark:text-zinc-400">
-                            <a
-                                href="https://link.com/privacy"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-zinc-900 dark:hover:text-white hover:underline transition"
-                            >
-                                Privacy
-                            </a>
-                            <a
-                                href="https://link.com/cookies"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-zinc-900 dark:hover:text-white hover:underline transition"
-                            >
-                                Cookies
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* =========================
           FOOTER
