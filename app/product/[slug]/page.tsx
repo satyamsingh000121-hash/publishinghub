@@ -93,12 +93,12 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
                 youtube: a.youtube,
               };
 
-              // Filter out the current book itself from the assigned showcase books
+              // Use assigned showcase books from admin (preserve all assigned books)
               const rawBooks = mtaProf?.books && mtaProf.books.length > 0
                 ? mtaProf.books
                 : await AuthorService.getShowcaseBooksForAuthor(a.name, a.id, prod.id);
 
-              const assignedBooks = (rawBooks || []).filter((b: any) => b.id !== prod.id);
+              const assignedBooks = rawBooks && rawBooks.length > 0 ? rawBooks : [];
 
               return {
                 ...a,
@@ -117,13 +117,31 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
         console.error("Failed to load multi-author profiles:", err);
       }
 
-      // If DB returned no or single author but static catalog defines multi-authors (like Savanna Walker & Shia Ung)
-      try {
-        const staticFallback = getBookBySlug(cleanSlug) || getBookBySlug(rawSlug);
-        if (staticFallback?.authorsList && staticFallback.authorsList.length > authorsList.length) {
-          authorsList = staticFallback.authorsList;
-        }
-      } catch {}
+      // If DB returned no authors, check static catalog author names and enrich with DB profiles
+      if (authorsList.length === 0) {
+        try {
+          const staticFallback = getBookBySlug(cleanSlug) || getBookBySlug(rawSlug);
+          if (staticFallback?.authorsList && staticFallback.authorsList.length > 0) {
+            authorsList = await Promise.all(
+              staticFallback.authorsList.map(async (sa) => {
+                const mtaProf = await MeetTheAuthorService.getProfileByAuthorName(sa.name);
+                return {
+                  ...sa,
+                  image: mtaProf?.authorImage || sa.image || "/images/author-01.jpg",
+                  quote: mtaProf?.quote || sa.quote || "",
+                  tagline: mtaProf?.quote || sa.quote || "",
+                  bio: mtaProf?.quote || sa.quote || "",
+                  facebook: mtaProf?.facebook || sa.facebook || "#facebook",
+                  twitter: mtaProf?.twitter || sa.twitter || "#twitter",
+                  linkedin: mtaProf?.linkedin || sa.linkedin || "#linkedin",
+                  instagram: mtaProf?.instagram || sa.instagram || "#instagram",
+                  books: mtaProf?.books && mtaProf.books.length > 0 ? mtaProf.books : sa.books,
+                };
+              })
+            );
+          }
+        } catch {}
+      }
 
       const primaryAuthor = authorsList[0];
 
@@ -202,6 +220,55 @@ async function getProductData(rawSlug: string): Promise<BookDetailData | null> {
   try {
     const staticBook = getBookBySlug(cleanSlug) || getBookBySlug(rawSlug);
     if (staticBook && staticBook.title) {
+      // Enrich staticBook with live Meet The Author profiles from database
+      const authorStr = staticBook.author || staticBook.authorName || "";
+      const rawNames = authorStr
+        .replace(/^By\s+/i, "")
+        .split(/,\s*|\s+and\s+|\s*&\s*/i)
+        .map((s) => s.trim())
+        .filter(Boolean);
+
+      if (staticBook.authorsList && staticBook.authorsList.length > 0) {
+        for (const sa of staticBook.authorsList) {
+          if (!rawNames.some((n) => n.toLowerCase() === sa.name.toLowerCase())) {
+            rawNames.push(sa.name);
+          }
+        }
+      }
+
+      if (rawNames.length > 0) {
+        const enrichedAuthors = await Promise.all(
+          rawNames.map(async (name) => {
+            const mtaProf = await MeetTheAuthorService.getProfileByAuthorName(name);
+            const baseAuthor = staticBook.authorsList?.find((a) => a.name.toLowerCase() === name.toLowerCase());
+            return {
+              name: mtaProf?.authorName || name,
+              image: mtaProf?.authorImage || baseAuthor?.image || staticBook.authorImage || "/images/author-01.jpg",
+              quote: mtaProf?.quote || baseAuthor?.quote || staticBook.authorQuote || "",
+              tagline: mtaProf?.quote || baseAuthor?.quote || staticBook.authorQuote || "",
+              bio: mtaProf?.quote || baseAuthor?.quote || staticBook.authorQuote || "",
+              facebook: mtaProf?.facebook || baseAuthor?.facebook || "#facebook",
+              twitter: mtaProf?.twitter || baseAuthor?.twitter || "#twitter",
+              linkedin: mtaProf?.linkedin || baseAuthor?.linkedin || "#linkedin",
+              instagram: mtaProf?.instagram || baseAuthor?.instagram || "#instagram",
+              books: mtaProf?.books && mtaProf.books.length > 0 ? mtaProf.books : (baseAuthor?.books || staticBook.authorBooks || []),
+            };
+          })
+        );
+
+        if (enrichedAuthors.length > 0) {
+          const primary = enrichedAuthors[0];
+          return {
+            ...staticBook,
+            authorsList: enrichedAuthors,
+            authorName: primary.name,
+            authorImage: primary.image,
+            authorQuote: primary.quote,
+            authorBooks: primary.books,
+          };
+        }
+      }
+
       return staticBook;
     }
   } catch (err) {

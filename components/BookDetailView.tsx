@@ -28,11 +28,11 @@ import BookCoverArt from "./BookCoverArt";
 import BookOpenCard from "./BookOpenCard";
 import bookStyles from "./BookOpenCard.module.css";
 import { getBookSlug } from "@/lib/books";
-import type { BookDetailData, AuthorBook, RelatedBook } from "@/lib/books";
+import type { BookDetailData, AuthorBook, RelatedBook, AuthorProfile } from "@/lib/books";
 import { useCart } from "@/context/CartContext";
 import BookReviews from "./BookReviews";
 
-export type { BookDetailData, AuthorBook, RelatedBook };
+export type { BookDetailData, AuthorBook, RelatedBook, AuthorProfile };
 
 export interface BookDetailViewProps {
   book?: BookDetailData;
@@ -130,23 +130,111 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
     "Unlock Your Entrepreneurial Journey with \"Visions to Victory\"\n\nEmbarking on the journey of entrepreneurship can feel both exciting and overwhelming. As you face the challenges and opportunities ahead, having a trustworthy guide can make all the difference. That's where \"Visions to Victory\" steps in - it's a comprehensive handbook crafted to empower entrepreneurs like yourself to turn your dreams into reality and achieve lasting success in the competitive world of business.\n\nThe book starts by stressing the importance of defining your vision clearly and setting goals that are ambitious yet achievable. Through practical advice and real-life examples, it helps you shape a vision that acts as a guiding star, keeping you motivated, focused, and resilient in the face of obstacles.\n\n\"Visions to Victory\" serves as a strategic roadmap for crafting success from the very beginning to achieving significant milestones like stock exchange glory and reaching nine to twelve-figure revenues. It provides blueprints and successful models for clarifying your vision and goals, developing strategic plans, optimising business models, implementing efficient systems and processes, fostering a culture of continuous improvement, and driving innovation and value creation.\n\nIn summary, \"Visions to Victory\" fulfills its purpose by empowering entrepreneurs with the knowledge, tools, and resources needed to navigate the complexities of business ownership, overcome challenges, and achieve their vision of success. Whether you're launching a new venture or expanding an existing business, this book equips you with the skills and mindset required to thrive in today's dynamic business landscape.";
   const [selectedAuthorIdx, setSelectedAuthorIdx] = useState(0);
 
-  const authorsList =
-    book?.authorsList && book.authorsList.length > 0
-      ? book.authorsList
-      : [
-        {
-          name: book?.authorName || (book?.author ? book.author.replace(/^By\s+/i, "") : "Author"),
-          image: book?.authorImage || "/images/author-01.jpg",
-          quote: book?.authorQuote || "",
-          facebook: book?.authorSocials?.facebook || "#facebook",
-          twitter: book?.authorSocials?.twitter || "#twitter",
-          instagram: book?.authorSocials?.instagram || "#instagram",
-          pinterest: book?.authorSocials?.pinterest || "#pinterest",
-          linkedin: book?.authorSocials?.linkedin || "#linkedin",
-          youtube: book?.authorSocials?.youtube || "#youtube",
-          books: book?.authorBooks || [],
-        },
-      ];
+  const getInitialAuthors = (): AuthorProfile[] => {
+    if (book?.authorsList && book.authorsList.length > 0) {
+      return book.authorsList;
+    }
+    const rawAuthorStr = book?.authorName || book?.author || "Author";
+    const names = rawAuthorStr
+      .replace(/^By\s+/i, "")
+      .split(/,\s*|\s+and\s+|\s*&\s*/i)
+      .map((n) => n.trim())
+      .filter(Boolean);                
+
+    if (names.length > 0) {
+      return names.map((name): AuthorProfile => ({
+        name,
+        image: book?.authorImage || "/images/author-01.jpg",
+        quote: book?.authorQuote || "",
+        tagline: book?.authorQuote || "",
+        bio: book?.authorQuote || "",
+        facebook: book?.authorSocials?.facebook || "#facebook",
+        twitter: book?.authorSocials?.twitter || "#twitter",
+        instagram: book?.authorSocials?.instagram || "#instagram",
+        pinterest: book?.authorSocials?.pinterest || "#pinterest",
+        linkedin: book?.authorSocials?.linkedin || "#linkedin",
+        youtube: book?.authorSocials?.youtube || "#youtube",
+        books: book?.authorBooks || [],
+      }));
+    }
+
+    return [
+      {
+        name: "Author",
+        image: book?.authorImage || "/images/author-01.jpg",
+        quote: book?.authorQuote || "",
+        tagline: book?.authorQuote || "",
+        bio: book?.authorQuote || "",
+        facebook: book?.authorSocials?.facebook || "#facebook",
+        twitter: book?.authorSocials?.twitter || "#twitter",
+        instagram: book?.authorSocials?.instagram || "#instagram",
+        pinterest: book?.authorSocials?.pinterest || "#pinterest",
+        linkedin: book?.authorSocials?.linkedin || "#linkedin",
+        youtube: book?.authorSocials?.youtube || "#youtube",
+        books: book?.authorBooks || [],
+      },
+    ];
+  };
+
+  const [liveAuthorsList, setLiveAuthorsList] = useState<AuthorProfile[]>(getInitialAuthors);
+
+  useEffect(() => {
+    setLiveAuthorsList(getInitialAuthors());
+  }, [book?.id, book?.slug, book?.author, book?.authorName, book?.authorsList]);
+
+  // Live client-side sync with Meet The Author admin settings
+  useEffect(() => {
+    let isCancelled = false;
+    const fetchLiveAuthorProfiles = async () => {
+      try {
+        const res = await fetch("/api/meet-the-author?t=" + Date.now(), { cache: "no-store" });
+        if (!res.ok) return;
+        const json = await res.json();
+        if (isCancelled) return;
+
+        if (json?.success && Array.isArray(json?.data?.authors) && json.data.authors.length > 0) {
+          const allMtaProfiles: any[] = json.data.authors;
+
+          setLiveAuthorsList((prevList) => {
+            return prevList.map((authorItem): AuthorProfile => {
+              const cleanName = (authorItem.name || "").replace(/^By\s+/i, "").trim().toLowerCase();
+
+              const matched = allMtaProfiles.find((p: any) => {
+                const pName = (p.authorName || "").trim().toLowerCase();
+                return pName === cleanName || cleanName.includes(pName) || pName.includes(cleanName);
+              });
+
+              if (!matched) return authorItem;
+
+              return {
+                ...authorItem,
+                name: matched.authorName || authorItem.name,
+                image: matched.authorImage || authorItem.image,
+                quote: matched.quote || authorItem.quote,
+                tagline: matched.quote || authorItem.tagline,
+                bio: matched.quote || authorItem.bio,
+                facebook: matched.facebook || authorItem.facebook,
+                twitter: matched.twitter || authorItem.twitter,
+                linkedin: matched.linkedin || authorItem.linkedin,
+                instagram: matched.instagram || authorItem.instagram,
+                books: matched.books && matched.books.length > 0 ? matched.books : authorItem.books,
+              };
+            });
+          });
+        }
+      } catch (e) {
+        // ignore network error
+      }
+    };
+
+    fetchLiveAuthorProfiles();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [book?.id, book?.slug, book?.author, book?.authorName]);
+
+  const authorsList: AuthorProfile[] = liveAuthorsList;
 
   const activeAuthor = authorsList[selectedAuthorIdx] || authorsList[0];
   const currentAuthorName = activeAuthor.name;

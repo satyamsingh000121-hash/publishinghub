@@ -85,7 +85,10 @@ export class MeetTheAuthorService {
         );
 
       if (!selectedRows || selectedRows.length === 0) {
-        return [];
+        // Fallback to DEFAULT_MEET_THE_AUTHOR_PROFILES if profile has no rows in MeetTheAuthorBook yet
+        const { DEFAULT_MEET_THE_AUTHOR_PROFILES } = await import("@/lib/initial-authors-data");
+        const defaultProf = DEFAULT_MEET_THE_AUTHOR_PROFILES.find((p) => p.id === profileId);
+        return defaultProf?.books || [];
       }
 
       const productIds = selectedRows.map((r) => r.productId);
@@ -95,23 +98,75 @@ export class MeetTheAuthorService {
 
       const prodMap = new Map(dbProducts.map((p) => [p.id, p]));
 
-      return selectedRows
-        .map((r) => {
-          const prod = prodMap.get(r.productId);
-          if (!prod) return null;
-          return {
+      // Fallback collections for books whose IDs don't exist in Prisma Product table
+      const { ALL_BOOKS_DATABASE } = await import("@/lib/books");
+      const { DEFAULT_MEET_THE_AUTHOR_PROFILES } = await import("@/lib/initial-authors-data");
+      const allDefaultBooks: MeetTheAuthorBookItem[] = [];
+      for (const dp of DEFAULT_MEET_THE_AUTHOR_PROFILES) {
+        if (Array.isArray(dp.books)) {
+          allDefaultBooks.push(...dp.books);
+        }
+      }
+
+      const results: MeetTheAuthorBookItem[] = [];
+
+      for (const r of selectedRows) {
+        let prod: any = prodMap.get(r.productId);
+
+        if (!prod) {
+          // Try finding in DB by slug
+          try {
+            prod = await prisma.product.findFirst({
+              where: { OR: [{ slug: r.productId }, { id: r.productId }] },
+            });
+          } catch {}
+        }
+
+        if (!prod) {
+          // Try finding in static ALL_BOOKS_DATABASE
+          const staticMatch = ALL_BOOKS_DATABASE.find(
+            (b) => b.id === r.productId || b.slug === r.productId || b.title?.toLowerCase() === r.productId.toLowerCase()
+          );
+          if (staticMatch) {
+            prod = {
+              id: staticMatch.id,
+              title: staticMatch.title,
+              author: staticMatch.author,
+              price: staticMatch.price,
+              originalPrice: staticMatch.originalPrice,
+              image: staticMatch.image,
+              slug: staticMatch.slug,
+              badge: staticMatch.badge,
+            };
+          }
+        }
+
+        if (!prod) {
+          // Try finding in DEFAULT_MEET_THE_AUTHOR_PROFILES
+          const defaultMatch = allDefaultBooks.find(
+            (b) => b.id === r.productId || b.slug === r.productId || b.title?.toLowerCase() === r.productId.toLowerCase()
+          );
+          if (defaultMatch) {
+            prod = defaultMatch;
+          }
+        }
+
+        if (prod) {
+          results.push({
             id: prod.id,
             title: prod.title,
             author: prod.author,
             price: prod.price,
-            oldPrice: prod.originalPrice || undefined,
+            oldPrice: prod.originalPrice || prod.oldPrice || undefined,
             image: prod.image,
             slug: prod.slug,
             badge: prod.badge || undefined,
             order: r.order,
-          };
-        })
-        .filter(Boolean) as MeetTheAuthorBookItem[];
+          });
+        }
+      }
+
+      return results;
     } catch (e) {
       console.error("Error querying books for profile:", profileId, e);
       return [];
@@ -163,9 +218,14 @@ export class MeetTheAuthorService {
     await ensureSchemaUpdated();
 
     if (!authorName) return null;
-    const clean = authorName.toLowerCase().trim();
+    const clean = authorName.replace(/^By\s+/i, "").toLowerCase().trim();
+    const subNames = clean
+      .split(/,\s*|\s+and\s+|\s*&\s*/i)
+      .map((s) => s.trim())
+      .filter(Boolean);
 
     try {
+      // 1. Direct match on clean name
       const rows: any[] = await prisma.$queryRawUnsafe(
         `SELECT * FROM MeetTheAuthorProfile WHERE LOWER(authorName) = ? LIMIT 1`,
         clean
@@ -187,13 +247,36 @@ export class MeetTheAuthorService {
         };
       }
 
-      // Fuzzy / partial search fallback
+      // 2. Sub-name match if combined string
+      for (const sub of subNames) {
+        const subRows: any[] = await prisma.$queryRawUnsafe(
+          `SELECT * FROM MeetTheAuthorProfile WHERE LOWER(authorName) = ? LIMIT 1`,
+          sub
+        );
+        if (subRows && subRows.length > 0) {
+          const prof = subRows[0];
+          const books = await this.getBooksForProfile(prof.id);
+          return {
+            id: prof.id,
+            authorName: prof.authorName,
+            authorImage: prof.authorImage || "/images/author-01.jpg",
+            quote: prof.quote || "",
+            facebook: prof.facebook || "#facebook",
+            twitter: prof.twitter || "#twitter",
+            linkedin: prof.linkedin || "#linkedin",
+            instagram: prof.instagram || "#instagram",
+            books,
+          };
+        }
+      }
+
+      // 3. Fuzzy / partial search fallback
       const allRows: any[] = await prisma.$queryRawUnsafe(
         `SELECT * FROM MeetTheAuthorProfile`
       );
       for (const row of allRows) {
         const rName = (row.authorName || "").toLowerCase().trim();
-        if (rName && (rName === clean || rName.includes(clean) || clean.includes(rName))) {
+        if (rName && (rName === clean || rName.includes(clean) || clean.includes(rName) || subNames.some((sn) => sn === rName || sn.includes(rName) || rName.includes(sn)))) {
           const books = await this.getBooksForProfile(row.id);
           return {
             id: row.id,
@@ -217,7 +300,7 @@ export class MeetTheAuthorService {
       const { DEFAULT_MEET_THE_AUTHOR_PROFILES } = await import("@/lib/initial-authors-data");
       const found = DEFAULT_MEET_THE_AUTHOR_PROFILES.find((p) => {
         const pName = p.authorName.toLowerCase().trim();
-        return pName === clean || pName.includes(clean) || clean.includes(pName);
+        return pName === clean || pName.includes(clean) || clean.includes(pName) || subNames.some((sn) => sn === pName || sn.includes(pName) || pName.includes(sn));
       });
       if (found) return found;
     } catch {}
