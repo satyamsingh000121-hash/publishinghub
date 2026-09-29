@@ -168,12 +168,33 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const authorBooksList = activeAuthor.books || [];
   const relatedBooksList = book?.relatedBooks || relatedBooks;
 
-  const authorBooksScrollRef = useRef<HTMLDivElement>(null);
-  const scrollAuthorBooks = (direction: "left" | "right") => {
-    if (authorBooksScrollRef.current) {
-      const scrollAmount = direction === "left" ? -240 : 240;
-      authorBooksScrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  const [authorBookIndex, setAuthorBookIndex] = useState<number>(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const maxAuthorIndex = Math.max(0, authorBooksList.length - 3);
+
+  useEffect(() => {
+    setAuthorBookIndex(0);
+  }, [selectedAuthorIdx]);
+
+  useEffect(() => {
+    if (authorBookIndex > maxAuthorIndex) {
+      setAuthorBookIndex(maxAuthorIndex);
     }
+  }, [maxAuthorIndex, authorBookIndex]);
+
+  const handleAuthorTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleAuthorTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (diff > 40) {
+      setAuthorBookIndex((prev) => Math.min(maxAuthorIndex, prev + 1));
+    } else if (diff < -40) {
+      setAuthorBookIndex((prev) => Math.max(0, prev - 1));
+    }
+    setTouchStartX(null);
   };
 
   const handleAddToCart = () => {
@@ -1131,64 +1152,131 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
               </div>
             </div>
 
-            {/* Right Column: Author's Books (Clean Horizontal Row Matching Reference) */}
+            {/* Right Column: Author's Books (Clean 3-Book Showcase Carousel) */}
             <div className="lg:col-span-8 flex flex-col justify-center min-h-[240px] relative w-full overflow-hidden">
               {authorBooksList && authorBooksList.length > 0 ? (
                 <div className="relative group/carousel w-full">
-                  {/* Horizontal scrollable container for books */}
+                  {/* Floating Prev Arrow for quick access */}
+                  {authorBooksList.length > 3 && (
+                    <button
+                      type="button"
+                      disabled={authorBookIndex === 0}
+                      onClick={() => setAuthorBookIndex((prev) => Math.max(0, prev - 1))}
+                      aria-label="Previous book"
+                      className="absolute -left-2.5 sm:-left-3.5 top-[38%] -translate-y-1/2 z-30 w-8 h-8 rounded-full border border-[#e9e1f5] bg-white/95 text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-white dark:border-[#f2eee3]/20 dark:bg-[#071911]/95 dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-all shadow-md cursor-pointer disabled:opacity-0 disabled:pointer-events-none active:scale-95"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                  )}
+
+                  {/* Floating Next Arrow for quick access */}
+                  {authorBooksList.length > 3 && (
+                    <button
+                      type="button"
+                      disabled={authorBookIndex >= maxAuthorIndex}
+                      onClick={() => setAuthorBookIndex((prev) => Math.min(maxAuthorIndex, prev + 1))}
+                      aria-label="Next book"
+                      className="absolute -right-2.5 sm:-right-3.5 top-[38%] -translate-y-1/2 z-30 w-8 h-8 rounded-full border border-[#e9e1f5] bg-white/95 text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-white dark:border-[#f2eee3]/20 dark:bg-[#071911]/95 dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-all shadow-md cursor-pointer disabled:opacity-0 disabled:pointer-events-none active:scale-95"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  )}
+
+                  {/* Carousel Viewport (Overflow Hidden so only 3 books are visible without cutoff) */}
                   <div
-                    ref={authorBooksScrollRef}
-                    className="flex items-start justify-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1 flex-nowrap"
+                    className="w-full overflow-hidden py-2"
+                    onTouchStart={handleAuthorTouchStart}
+                    onTouchEnd={handleAuthorTouchEnd}
                   >
-                    {authorBooksList.map((b) => {
-                      const targetSlug = b.slug || getBookSlug(b);
-                      return (
-                        <Link
-                          key={b.id}
-                          href={`/product/${targetSlug}`}
-                          className="flex-shrink-0 w-[140px] sm:w-[160px] md:w-[180px] lg:w-[195px] flex flex-col items-center text-center group cursor-pointer transition-transform"
-                        >
-                          {/* Realistic Book Cover with subtle shadow */}
-                          <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-r-[3px] rounded-l-[1px] shadow-md group-hover:shadow-xl dark:shadow-[0_12px_28px_rgba(0,0,0,0.65)] dark:group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-1.5 transition-all duration-300 border border-[#e9e1f5] group-hover:border-[#9333ea] dark:border-[#f2eee3]/15 dark:group-hover:border-[#d4b56a]/70 bg-white dark:bg-black/40">
-                            <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
-                          </div>
+                    {/* Sliding Track with exactly 3 items visible at a time */}
+                    <div
+                      className="flex items-start transition-transform duration-500 ease-out flex-nowrap"
+                      style={{
+                        gap: "20px",
+                        transform:
+                          authorBooksList.length > 3
+                            ? `translateX(calc(-${authorBookIndex} * (100% + 20px) / 3))`
+                            : undefined,
+                        justifyContent: authorBooksList.length < 3 ? "center" : "flex-start",
+                      }}
+                    >
+                      {authorBooksList.map((b) => {
+                        const targetSlug = b.slug || getBookSlug(b);
+                        return (
+                          <Link
+                            key={b.id}
+                            href={`/product/${targetSlug}`}
+                            style={{
+                              width: "calc((100% - 40px) / 3)",
+                              minWidth: "calc((100% - 40px) / 3)",
+                              maxWidth: "calc((100% - 40px) / 3)",
+                            }}
+                            className="flex-shrink-0 flex flex-col items-center text-center group cursor-pointer transition-transform"
+                          >
+                            {/* Realistic Book Cover with subtle shadow */}
+                            <div className="relative w-full aspect-[3/4.4] overflow-hidden rounded-r-[3px] rounded-l-[1px] shadow-md group-hover:shadow-xl dark:shadow-[0_12px_28px_rgba(0,0,0,0.65)] dark:group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.9)] transform group-hover:-translate-y-1.5 transition-all duration-300 border border-[#e9e1f5] group-hover:border-[#9333ea] dark:border-[#f2eee3]/15 dark:group-hover:border-[#d4b56a]/70 bg-white dark:bg-black/40">
+                              <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
+                            </div>
 
-                          {/* Book Price */}
-                          <div className="mt-3.5 text-xs sm:text-sm font-semibold text-[#9333ea] dark:text-[#d4b56a] tracking-wide transition-colors">
-                            {b.price}
-                          </div>
+                            {/* Book Price */}
+                            <div className="mt-3.5 text-xs sm:text-sm font-semibold text-[#9333ea] dark:text-[#d4b56a] tracking-wide transition-colors">
+                              {b.price}
+                            </div>
 
-                          {/* Thin Accent Line underneath Price */}
-                          <div className="w-6 h-[1.5px] bg-[#9333ea]/80 dark:bg-[#d4b56a] mx-auto my-1.5 opacity-80 group-hover:w-8 group-hover:bg-[#7c3aed] dark:group-hover:bg-[#e6c880] transition-all" />
+                            {/* Thin Accent Line underneath Price */}
+                            <div className="w-6 h-[1.5px] bg-[#9333ea]/80 dark:bg-[#d4b56a] mx-auto my-1.5 opacity-80 group-hover:w-8 group-hover:bg-[#7c3aed] dark:group-hover:bg-[#e6c880] transition-all" />
 
-                          {/* Book Title */}
-                          <h4 className="font-serif text-sm sm:text-[15px] text-[#18181b] group-hover:text-[#9333ea] dark:text-[#f2eee3] dark:group-hover:text-[#d4b56a] transition-colors line-clamp-2 leading-snug">
-                            {b.title}
-                          </h4>
-                        </Link>
-                      );
-                    })}
+                            {/* Book Title */}
+                            <h4 className="font-serif text-xs sm:text-sm md:text-[15px] text-[#18181b] group-hover:text-[#9333ea] dark:text-[#f2eee3] dark:group-hover:text-[#d4b56a] transition-colors line-clamp-2 leading-snug px-1">
+                              {b.title}
+                            </h4>
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
 
-                  {/* Navigation Arrow Controls when books can scroll */}
+                  {/* Navigation Indicators & Arrow Controls */}
                   {authorBooksList.length > 3 && (
-                    <div className="flex items-center justify-end gap-2 mt-3 pr-1">
-                      <button
-                        type="button"
-                        onClick={() => scrollAuthorBooks("left")}
-                        aria-label="Previous book"
-                        className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-[#faf5ff] dark:border-[#f2eee3]/20 dark:bg-[#071911] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-colors shadow-xs cursor-pointer"
-                      >
-                        <ChevronLeft className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => scrollAuthorBooks("right")}
-                        aria-label="Next book"
-                        className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-[#faf5ff] dark:border-[#f2eee3]/20 dark:bg-[#071911] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-colors shadow-xs cursor-pointer"
-                      >
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
+                    <div className="flex items-center justify-between mt-3 px-1">
+                      {/* Dots Pagination indicator */}
+                      <div className="flex items-center gap-1.5">
+                        {Array.from({ length: maxAuthorIndex + 1 }).map((_, i) => (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => setAuthorBookIndex(i)}
+                            className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                              authorBookIndex === i
+                                ? "w-6 bg-[#9333ea] dark:bg-[#d4b56a]"
+                                : "w-1.5 bg-[#e9e1f5] dark:bg-[#f2eee3]/25 hover:bg-[#9333ea]/50 dark:hover:bg-[#d4b56a]/50"
+                            }`}
+                            aria-label={`Go to slide ${i + 1}`}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Bottom Arrow Buttons */}
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          disabled={authorBookIndex === 0}
+                          onClick={() => setAuthorBookIndex((prev) => Math.max(0, prev - 1))}
+                          aria-label="Previous book"
+                          className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-[#faf5ff] dark:border-[#f2eee3]/20 dark:bg-[#071911] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-all shadow-xs cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed"
+                        >
+                          <ChevronLeft className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          disabled={authorBookIndex >= maxAuthorIndex}
+                          onClick={() => setAuthorBookIndex((prev) => Math.min(maxAuthorIndex, prev + 1))}
+                          aria-label="Next book"
+                          className="w-7 h-7 rounded-full border border-[#e9e1f5] bg-white text-[#71717a] hover:border-[#9333ea] hover:text-[#9333ea] hover:bg-[#faf5ff] dark:border-[#f2eee3]/20 dark:bg-[#071911] dark:text-[#d4b56a] dark:hover:border-[#d4b56a] dark:hover:text-[#f2eee3] dark:hover:bg-[#0c3522] flex items-center justify-center transition-all shadow-xs cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed"
+                        >
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
