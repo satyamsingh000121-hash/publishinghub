@@ -129,7 +129,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 );
               })
             ) : (
-              <div className="py-8 text-center text-xs text-[#71717a] dark:text-[#888b83]">
+              <div className="py-8 text-center text-xs text-[#71717a] dark:text-[#888b83]">``
                 No books found matching &ldquo;{query}&rdquo;. Try another title or author.
               </div>
             )}

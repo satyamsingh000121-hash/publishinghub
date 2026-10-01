@@ -126,7 +126,7 @@ export default function BestsellerSection({ onAddToCart, onQuickView }: Bestsell
         }
       })
       .catch(() => {});
-  }, []);
+  }, []);0
 
   const filteredBooks = books.filter((book) => {
     if (activeTab === "sale") return !!book.saleBadge;

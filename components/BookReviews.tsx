@@ -310,7 +310,7 @@ export default function BookReviews({
             <div className="border-b border-[#e9e1f5] dark:border-[#18422e]/80 pt-2" />
           </div>
         )}
-      </div>
+      </div> 
 
       {/* ========================================================================= */}
       {/* 2. SUCCESS FEEDBACK ALERT                                                 */}
