@@ -44,6 +44,8 @@ export default function CheckoutPage() {
     // CHECKOUT & BILLING STATES
     // =========================
     const [billingError, setBillingError] = useState<string | null>(null);
+    const [isRedirecting, setIsRedirecting] = useState(false);
+    const [canceledNotice, setCanceledNotice] = useState(false);
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
     const [orderConfirmation, setOrderConfirmation] = useState<{
         paymentIntentId: string;
@@ -54,31 +56,17 @@ export default function CheckoutPage() {
         items: any[];
     } | null>(null);
 
-    // Restore saved checkout data if returning from payment page or previously entered
+    // Ensure checkout form always starts completely clean and empty
     useEffect(() => {
         try {
-            const raw = sessionStorage.getItem("publishinghub_checkout_data") || localStorage.getItem("publishinghub_checkout_data");
-            if (raw) {
-                const data = JSON.parse(raw);
-                if (data.email) setEmail(data.email);
-                if (data.firstName) setFirstName(data.firstName);
-                if (data.lastName) setLastName(data.lastName);
-                if (data.company) setCompany(data.company);
-                if (data.country) setCountry(data.country);
-                if (data.street) setStreet(data.street);
-                if (data.apartment) setApartment(data.apartment);
-                if (data.city) setCity(data.city);
-                if (data.state) setState(data.state);
-                if (data.postcode) setPostcode(data.postcode);
-                if (data.phone) setPhone(data.phone);
-                if (data.notes) setNotes(data.notes);
-            }
+            sessionStorage.removeItem("publishinghub_checkout_data");
+            localStorage.removeItem("publishinghub_checkout_data");
         } catch (e) {
             // Ignore parse errors
         }
     }, []);
 
-    const handleProceedToPayment = () => {
+    const handleProceedToPayment = async () => {
         if (cartItems.length === 0 || total <= 0) {
             setBillingError("Your shopping cart is currently empty. Please add items before checking out.");
             return;
@@ -87,14 +75,17 @@ export default function CheckoutPage() {
         const isValid = handleValidateBilling();
         if (!isValid) return;
 
-        const checkoutData = {
+        setIsRedirecting(true);
+        setBillingError(null);
+        setCanceledNotice(false);
+
+        const customerData = {
             customerName: `${firstName} ${lastName}`.trim(),
             firstName,
             lastName,
             email,
             phone,
             company,
-            billingAddress: street,
             street,
             apartment,
             city,
@@ -102,28 +93,48 @@ export default function CheckoutPage() {
             postcode,
             country,
             notes,
-            subtotal,
-            total,
-            items: cartItems,
-            timestamp: Date.now(),
         };
 
-        try {
-            sessionStorage.setItem("publishinghub_checkout_data", JSON.stringify(checkoutData));
-            localStorage.setItem("publishinghub_checkout_data", JSON.stringify(checkoutData));
-        } catch (e) {
-            console.error("Failed to store checkout details:", e);
-        }
 
-        router.push("/checkout/payment");
+        try {
+            const response = await fetch("/api/create-checkout-session", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    cartItems,
+                    customer: customerData,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.url) {
+                throw new Error(data.error || "Unable to start Stripe checkout session. Please try again.");
+            }
+
+            // Redirect user directly to Stripe's official hosted Checkout page
+            window.location.href = data.url;
+        } catch (err: any) {
+            console.error("Stripe Checkout Session Error:", err);
+            setBillingError(err?.message || "Failed to start payment session. Please try again.");
+            setIsRedirecting(false);
+        }
     };
 
-    // Handle return from 3D secure redirect if status=success
+    // Handle return from redirect
     useEffect(() => {
         if (typeof window !== "undefined") {
             const params = new URLSearchParams(window.location.search);
             const redirectStatus = params.get("redirect_status");
             const paymentIntent = params.get("payment_intent");
+            const isCanceled = params.get("canceled") === "true" || params.get("cancelled") === "true";
+
+            if (isCanceled) {
+                setCanceledNotice(true);
+            }
+
             if (redirectStatus === "succeeded" || params.get("status") === "success") {
                 setIsPaymentSuccess(true);
                 if (paymentIntent) {
@@ -532,6 +543,24 @@ export default function CheckoutPage() {
                                         <div className="mt-4 h-0.5 w-20 bg-purple-600 dark:bg-[#d4b56a]" />
                                     </div>
 
+                                    {canceledNotice && (
+                                        <div className="mb-6 flex items-center justify-between rounded-xl border border-amber-300 bg-amber-50 p-4 text-xs font-medium text-amber-800 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-200">
+                                            <div className="flex items-center gap-2">
+                                                <svg className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                                </svg>
+                                                <span>Payment was cancelled. Your cart is still saved.</span>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => setCanceledNotice(false)}
+                                                className="ml-3 font-bold uppercase tracking-wider text-amber-700 hover:text-amber-900 dark:text-amber-300"
+                                            >
+                                                Dismiss
+                                            </button>
+                                        </div>
+                                    )}
+
                                     {billingError && (
                                         <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-xs font-medium text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
                                             <div className="flex items-center gap-2">
@@ -884,10 +913,20 @@ export default function CheckoutPage() {
                                                 type="button"
                                                 id="pay-place-order-button"
                                                 onClick={handleProceedToPayment}
-                                                disabled={cartItems.length === 0}
+                                                disabled={cartItems.length === 0 || isRedirecting}
                                                 className="mt-6 w-full rounded-md border border-purple-600 bg-purple-600 px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-purple-500/25 transition duration-300 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed dark:border-[#d4b56a] dark:bg-[#d4b56a] dark:text-[#050b08] dark:hover:bg-transparent dark:hover:text-[#d4b56a] dark:shadow-none"
                                             >
-                                                PAY / PLACE ORDER — £{total.toFixed(2)}
+                                                {isRedirecting ? (
+                                                    <span className="flex items-center justify-center gap-2">
+                                                        <svg className="h-4 w-4 animate-spin text-white dark:text-[#050f08]" viewBox="0 0 24 24" fill="none">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                                                        </svg>
+                                                        <span>Redirecting to Stripe...</span>
+                                                    </span>
+                                                ) : (
+                                                    <span>PAY / PLACE ORDER — £{total.toFixed(2)}</span>
+                                                )}
                                             </button>
 
                                             {/* PRIVACY DISCLAIMER */}
