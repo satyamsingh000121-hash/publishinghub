@@ -1117,9 +1117,21 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
           </div>
 
           {/* Content Area: Author Profile (Left) & Books (Right) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center max-w-5xl mx-auto relative z-10">
+          <div
+            className={
+              authorBooksList && authorBooksList.length > 0
+                ? "grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center max-w-5xl mx-auto relative z-10"
+                : "flex flex-col items-center justify-center max-w-xl mx-auto relative z-10"
+            }
+          >
             {/* Left Column: Author Profile */}
-            <div className="lg:col-span-4 flex flex-col items-center text-center">
+            <div
+              className={
+                authorBooksList && authorBooksList.length > 0
+                  ? "lg:col-span-4 flex flex-col items-center text-center"
+                  : "w-full flex flex-col items-center text-center"
+              }
+            >
               {/* Author Portrait Image with Smooth Rounded Corners */}
               <div className="w-44 sm:w-52 aspect-[3.8/4.8] overflow-hidden rounded-2xl bg-white dark:bg-black/40 shadow-md dark:shadow-xl border border-[#e9e1f5] dark:border-[#d4b56a]/30 transition-colors">
                 <img

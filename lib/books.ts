@@ -1975,7 +1975,7 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
     title: "The Journey of Visions to Victory",
     author: "By SANTOSH KUMAR MISHRA",
     authorName: "Santosh Kumar Mishra",
-    authorImage: "/images/author-01.jpg",
+    authorImage: "/images/Gemini_Generated_Image_f41einf41einf41e.png",
     authorQuote: "“My books are written from the human soul of love, crafted with an aim to help readers triumph over every adversity.”",
     price: "£35.00",
     numericPrice: 35.0,
@@ -1988,22 +1988,7 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
       "The definitive bestselling guide to turning ambitious dreams into triumphant realities and purposeful leadership.",
     description:
       "Embarking on the journey of entrepreneurship can feel both exciting and overwhelming. As you face the challenges and opportunities ahead, having a trustworthy guide can make all the difference. That's where \"Visions to Victory\" steps in - it's a comprehensive handbook crafted to empower entrepreneurs like yourself to turn your dreams into reality and achieve lasting success in the competitive world of business.\n\nThe book starts by stressing the importance of defining your vision clearly and setting goals that are ambitious yet achievable. Through practical advice and real-life examples, it helps you shape a vision that acts as a guiding star, keeping you motivated, focused, and resilient in the face of obstacles.\n\n\"Visions to Victory\" serves as a strategic roadmap for crafting success from the very beginning to achieving significant milestones like stock exchange glory and reaching nine to twelve-figure revenues. It provides blueprints and successful models for clarifying your vision and goals, developing strategic plans, optimising business models, implementing efficient systems and processes, fostering a culture of continuous improvement, and driving innovation and value creation.\n\nIn summary, \"Visions to Victory\" fulfills its purpose by empowering entrepreneurs with the knowledge, tools, and resources needed to navigate the complexities of business ownership, overcome challenges, and achieve their vision of success. Whether you're launching a new venture or expanding an existing business, this book equips you with the skills and mindset required to thrive in today's dynamic business landscape.",
-    authorBooks: [
-      {
-        id: "vv-1",
-        image: "/images/Newest3.webp",
-        title: "The Journey of Dreams",
-        price: "£12.00",
-        slug: "the-journey-of-dreams",
-      },
-      {
-        id: "vv-2",
-        image: "/images/book_section8.webp",
-        title: "The Summer of Impossible Things",
-        price: "£24.00",
-        slug: "the-summer-of-impossible-things",
-      },
-    ],
+    authorBooks: [],
     relatedBooks: [
       {
         id: "rel-1",
@@ -2860,75 +2845,6 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
       },
     ],
   },
-  {
-    id: "shop-31",
-    slug: "the-journey-of-visions-to-victory",
-    title: "The Journey of Visions to Victory",
-    author: "By SANTOSH KUMAR MISHRA",
-    authorName: "Santosh Kumar Mishra",
-    authorImage: "/images/Gemini_Generated_Image_f41einf41einf41e.png",
-    authorQuote: "“My books are written from the human soul of love, are crafted with an aim to help readers by publisher.”",
-    price: "£35.00",
-    numericPrice: 35.0,
-    category: "Business",
-    availability: "in-stock",
-    image: "/images/hero_section2.png",
-    coverId: "arrival-1",
-    summary:
-      "The premier hardcover collector's edition of Santosh Kumar's celebrated guide to victory, leadership, and visionary execution.",
-    description:
-      "The Journey of Visions to Victory is an extraordinary masterwork combining biography, strategic philosophy, and profound life lessons. Bound in deluxe green and gold foil hardcover.",
-    authorBooks: [
-      {
-        id: "jvv-1",
-        image: "/images/Newest3.webp",
-        title: "Visions of Victory",
-        price: "£19.00",
-        slug: "visions-of-victory",
-      },
-      {
-        id: "jvv-2",
-        image: "/images/book_section1.png",
-        title: "The Journey of a Young Entrepreneur",
-        price: "£18.00",
-        slug: "the-journey-of-a-young-entrepreneur",
-      },
-    ],
-    relatedBooks: [
-      {
-        id: "rel-1",
-        image: "/images/Newest3.webp",
-        title: "Visions of Victory",
-        author: "By SAVANNA WALKER",
-        price: "£19.00",
-        slug: "visions-of-victory",
-      },
-      {
-        id: "rel-2",
-        image: "/images/book_section1.png",
-        title: "The Journey of a Young Entrepreneur",
-        author: "By Santosh Kumar",
-        price: "£18.00",
-        slug: "the-journey-of-a-young-entrepreneur",
-      },
-      {
-        id: "rel-3",
-        image: "/images/book_section4.webp",
-        title: "The Mind’s Mastery",
-        author: "By MARCUS HATHAWAY",
-        price: "£13.00",
-        slug: "the-minds-mastery",
-      },
-      {
-        id: "rel-4",
-        image: "/images/shop3.jpg",
-        title: "Creative Life",
-        author: "By DORCAS CHENG-TOZUN",
-        price: "£13.00",
-        slug: "creative-life",
-      },
-    ],
-  },
 ];
 
 // Map lookup helpers
@@ -2943,7 +2859,7 @@ ALL_BOOKS_DATABASE.forEach((b) => {
 
 // Extra alias mappings
 SLUG_MAP.set("the-journey-of-dreams", SLUG_MAP.get("shop-17")!);
-SLUG_MAP.set("the-journey-of-visions-to-victory", SLUG_MAP.get("the-journey-of-visions-to-victory") || SLUG_MAP.get("shop-18")!);
+SLUG_MAP.set("the-journey-of-visions-to-victory", SLUG_MAP.get("shop-18")!);
 SLUG_MAP.set("the-night-ocean", SLUG_MAP.get("the-night-ocean") || SLUG_MAP.get("peter-and-the-wolf")!);
 SLUG_MAP.set("henry-the-good-dog", SLUG_MAP.get("henry-and-the-good-dog")!);
 SLUG_MAP.set("henry-good-dog", SLUG_MAP.get("henry-and-the-good-dog")!);

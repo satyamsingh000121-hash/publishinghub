@@ -2,10 +2,19 @@
 
 import React from "react";
 
+interface SponsorItem {
+  name: string;
+  label: string;
+  icon: React.ReactNode;
+  url?: string;
+}
+
 export default function AboutSponsors() {
-  const sponsors = [
+  const sponsors: SponsorItem[] = [
     {
       name: "BOOKS",
+      label: "BOOKS",
+      url: "",
       icon: (
         <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <rect x="14" y="16" width="36" height="7" rx="1.5" strokeWidth="1.8" />
@@ -16,10 +25,11 @@ export default function AboutSponsors() {
           <line x1="18" y1="38" x2="18" y2="45" strokeWidth="1.5" />
         </svg>
       ),
-      label: "BOOKS",
     },
     {
       name: "BOOKCRAFT",
+      label: "BOOKCRAFT",
+      url: "",
       icon: (
         <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <path d="M12 42 C20 38 28 38 32 40 C36 38 44 38 52 42 L52 20 C44 17 36 17 32 19 C28 17 20 17 12 20 Z" strokeWidth="1.8" />
@@ -27,10 +37,11 @@ export default function AboutSponsors() {
           <path d="M38 12 C44 14 48 22 42 30 L34 38" strokeWidth="1.5" />
         </svg>
       ),
-      label: "BOOKCRAFT",
     },
     {
       name: "Word Basement.",
+      label: "WORD BASEMENT.",
+      url: "",
       icon: (
         <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <rect x="14" y="18" width="36" height="28" rx="2" strokeWidth="1.8" />
@@ -39,20 +50,22 @@ export default function AboutSponsors() {
           <line x1="20" y1="38" x2="26" y2="38" strokeWidth="1.8" />
         </svg>
       ),
-      label: "Word Basement.",
     },
     {
-      name: "pelicon",
+      name: "PELICON BOOKS",
+      label: "PELICON BOOKS",
+      url: "",
       icon: (
         <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <path d="M22 46 L22 18 C22 18 36 14 42 22 C48 30 40 38 26 36" strokeWidth="2.2" strokeLinecap="round" />
           <circle cx="33" cy="25" r="2.5" fill="currentColor" />
         </svg>
       ),
-      label: "pelicon",
     },
     {
       name: "CLASSIC BOOKS",
+      label: "BOOKS",
+      url: "",
       icon: (
         <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <rect x="12" y="18" width="40" height="8" rx="1.5" strokeWidth="1.8" />
@@ -60,10 +73,11 @@ export default function AboutSponsors() {
           <rect x="16" y="42" width="32" height="6" rx="1.5" strokeWidth="1.8" />
         </svg>
       ),
-      label: "BOOKS",
     },
     {
       name: "WRITER'S GUILD",
+      label: "WRITER'S GUILD",
+      url: "",
       icon: (
         <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20" fill="none" stroke="currentColor">
           <circle cx="32" cy="32" r="18" strokeWidth="1.5" strokeDasharray="3 3" />
@@ -71,7 +85,6 @@ export default function AboutSponsors() {
           <line x1="32" y1="22" x2="32" y2="34" strokeWidth="1.5" />
         </svg>
       ),
-      label: "WRITER'S GUILD",
     },
   ];
 
@@ -101,22 +114,36 @@ export default function AboutSponsors() {
 
         {/* Marquee Track with CSS Animation */}
         <div className="marquee-track flex items-center gap-8 sm:gap-12 whitespace-nowrap will-change-transform">
-          {marqueeList.map((item, idx) => (
-            <div
-              key={idx}
-              className="flex-shrink-0 w-44 h-40 sm:w-56 sm:h-48 md:w-60 md:h-52 flex flex-col items-center justify-center p-6 sm:p-8 dark:bg-[#0c140f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] rounded-xs group dark:hover:border-[#d4b56a]/50 hover:border-[#9333ea] transition-all duration-300 dark:hover:bg-[#101b14] hover:bg-[#faf5ff] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_24px_rgba(147,51,234,0.12)] cursor-pointer"
-            >
-              {/* Scaled Icon */}
-              <div className="text-[#888b83] dark:text-[#888b83] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] group-hover:scale-110 transition-all duration-300 mb-3 sm:mb-4 flex items-center justify-center">
-                {item.icon}
-              </div>
+          {marqueeList.map((item, idx) => {
+            const hasUrl = Boolean(item.url && item.url.trim().length > 0);
+            const CardTag = hasUrl ? "a" : "div";
+            const linkProps = hasUrl
+              ? {
+                  href: item.url,
+                  target: item.url?.startsWith("http") ? "_blank" : undefined,
+                  rel: item.url?.startsWith("http") ? "noopener noreferrer" : undefined,
+                }
+              : {};
 
-              {/* Brand Label */}
-              <span className="text-[11px] sm:text-xs font-bold tracking-[0.24em] uppercase dark:text-[#f2eee3] text-[#18181b] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors text-center">
-                {item.label}
-              </span>
-            </div>
-          ))}
+            return (
+              <CardTag
+                key={idx}
+                {...linkProps}
+                aria-label={`Sponsor: ${item.label}`}
+                className="flex-shrink-0 w-44 h-40 sm:w-56 sm:h-48 md:w-60 md:h-52 flex flex-col items-center justify-center p-6 sm:p-8 dark:bg-[#0c140f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] rounded-xs group dark:hover:border-[#d4b56a]/50 hover:border-[#9333ea] transition-all duration-300 dark:hover:bg-[#101b14] hover:bg-[#faf5ff] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_24px_rgba(147,51,234,0.12)] cursor-pointer select-none"
+              >
+                {/* Scaled Icon */}
+                <div className="text-[#888b83] dark:text-[#888b83] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] group-hover:scale-110 transition-all duration-300 mb-3 sm:mb-4 flex items-center justify-center">
+                  {item.icon}
+                </div>
+
+                {/* Brand Label */}
+                <span className="text-[11px] sm:text-xs font-bold tracking-[0.24em] uppercase dark:text-[#f2eee3] text-[#18181b] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors text-center">
+                  {item.label}
+                </span>
+              </CardTag>
+            );
+          })}
         </div>
       </div>
 

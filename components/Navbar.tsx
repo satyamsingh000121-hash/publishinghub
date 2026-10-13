@@ -69,7 +69,7 @@ export default function Navbar({
   const getAutoActiveTab = (path: string | null): string => {
     if (!path) return "HOME";
     if (path === "/") return "HOME";
-    if (path.startsWith("/about")) return "ABOUT US";
+    if (path.startsWith("/about-us") || path.startsWith("/about")) return "ABOUT US";
     if (
       path.startsWith("/shop") ||
       path.startsWith("/product") ||
@@ -102,7 +102,7 @@ export default function Navbar({
 
   const navItems = [
     { label: "HOME", href: "/" },
-    { label: "ABOUT US", href: "/about" },
+    { label: "ABOUT US", href: "/about-us" },
     { label: "SHOP", href: "/shop" },
     { label: "OUR OFFER", href: "/our-offer" },
     { label: "EVENT", href: "/events" },

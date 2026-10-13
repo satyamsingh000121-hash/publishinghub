@@ -40,10 +40,21 @@ export default function Footer() {
               <p>12 Shirley road,</p>
               <p>Southampton, United</p>
               <p>Kingdom, SO15 3EU</p>
-              <p className="pt-1.5 text-[#f2eee3] font-medium">(+44) 7454 675398</p>
+              <p className="pt-1.5 text-[#f2eee3] font-medium">
+                <a
+                  href="tel:+447454675398"
+                  className="hover:text-[#d4b56a] hover:underline transition-colors"
+                >
+                  (+44) 7454 675398
+                </a>
+              </p>
               <a
                 href="mailto:hello@thepublishinghub.co.uk"
-                className="text-[#d4b56a] hover:underline cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.location.href = "mailto:hello@thepublishinghub.co.uk";
+                }}
+                className="text-[#9333ea] dark:text-[#d4b56a] hover:underline hover:opacity-80 transition-all duration-200 cursor-pointer inline-block"
               >
                 hello@thepublishinghub.co.uk
               </a>
@@ -121,7 +132,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-[13px] sm:text-sm">
               {[
                 { name: "Home", href: "/" },        
-                { name: "About Us", href: "/about" },  
+                { name: "About Us", href: "/about-us" },  
                 { name: "Shop", href: "/shop" },
                 { name: "Our Offer", href: "/our-offer" },
                 { name: "Event", href: "/events" },

@@ -164,7 +164,8 @@ export default function CollaborativeLaunchPage() {
                     <div className="pt-2">
                         <button
                             type="button"
-                            className="inline-flex items-center gap-2 px-7 py-3 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer"
+                            onClick={scrollToForm}
+                            className="inline-flex items-center gap-2 px-7 py-3 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer active:scale-95"
                         >
                             <span>REQUEST FOR MORE INFORMATION</span>
                             <ArrowRight className="w-4 h-4" />
@@ -373,58 +374,83 @@ export default function CollaborativeLaunchPage() {
                         ) : (
                             <form onSubmit={handleFormSubmit} className="space-y-5 sm:space-y-6">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <input
-                                        type="text"
-                                        required
-                                        name="firstName"
-                                        value={formData.firstName}
-                                        onChange={handleInputChange}
-                                        placeholder="First Name*"
-                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
-                                    />
-                                    <input
-                                        type="text"
-                                        required
-                                        name="lastName"
-                                        value={formData.lastName}
-                                        onChange={handleInputChange}
-                                        placeholder="Last Name*"
-                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
-                                    />
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
+                                            First Name*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            required
+                                            name="firstName"
+                                            value={formData.firstName}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter First Name"
+                                            className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-[#18181b] dark:text-white placeholder:text-[#71717a] dark:placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
+                                            Last Name*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            required
+                                            name="lastName"
+                                            value={formData.lastName}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter Last Name"
+                                            className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-[#18181b] dark:text-white placeholder:text-[#71717a] dark:placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
+                                            Mobile Number*
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            required
+                                            name="phone"
+                                            value={formData.phone}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter Mobile Number"
+                                            className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-[#18181b] dark:text-white placeholder:text-[#71717a] dark:placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
+                                            Business Name*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            required
+                                            name="businessName"
+                                            value={formData.businessName}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter Business Name"
+                                            className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-[#18181b] dark:text-white placeholder:text-[#71717a] dark:placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
+                                        Email Address*
+                                    </label>
                                     <input
-                                        type="tel"
+                                        type="email"
                                         required
-                                        name="phone"
-                                        value={formData.phone}
+                                        name="email"
+                                        value={formData.email}
                                         onChange={handleInputChange}
-                                        placeholder="Mobile Number*"
-                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
-                                    />
-                                    <input
-                                        type="text"
-                                        required
-                                        name="businessName"
-                                        value={formData.businessName}
-                                        onChange={handleInputChange}
-                                        placeholder="Business Name*"
-                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                        placeholder="Enter Your Email"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-[#18181b] dark:text-white placeholder:text-[#71717a] dark:placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
                                     />
                                 </div>
 
-                                <input
-                                    type="email"
-                                    required
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    placeholder="Email Address*"
-                                    className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
-                                />
-
-                                <div className="space-y-2">
+                                <div className="space-y-1.5 sm:space-y-2">
                                     <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
                                         Franchise Type*
                                     </label>
@@ -434,7 +460,7 @@ export default function CollaborativeLaunchPage() {
                                         value={formData.franchiseType}
                                         onChange={handleInputChange}
                                         aria-label="Franchise Type"
-                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white outline-none focus:border-[#d4b56a] transition-colors cursor-pointer"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-[#18181b] dark:text-white outline-none focus:border-[#d4b56a] transition-colors cursor-pointer"
                                     >
                                         <option value="">—Please choose an option—</option>
                                         <option value="Associate Franchise">Associate Franchise</option>
@@ -444,14 +470,19 @@ export default function CollaborativeLaunchPage() {
                                     </select>
                                 </div>
 
-                                <textarea
-                                    rows={4}
-                                    name="comments"
-                                    value={formData.comments}
-                                    onChange={handleInputChange}
-                                    placeholder="Write any comments here"
-                                    className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-white placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
-                                />
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="block text-xs sm:text-sm font-semibold text-[#dedacf]">
+                                        What are You Interested in?*
+                                    </label>
+                                    <textarea
+                                        rows={4}
+                                        name="comments"
+                                        value={formData.comments}
+                                        onChange={handleInputChange}
+                                        placeholder="What are You Interested in?"
+                                        className="w-full px-5 py-3.5 sm:py-4 bg-[#0a1811] border border-[#1e3b2b] rounded-md text-xs sm:text-sm text-[#18181b] dark:text-white placeholder:text-[#71717a] dark:placeholder:text-[#52525b] outline-none focus:border-[#d4b56a] transition-colors"
+                                    />
+                                </div>
 
                                 <div className="pt-2">
                                     <button
@@ -498,7 +529,8 @@ export default function CollaborativeLaunchPage() {
                         <div className="pt-3">
                             <button
                                 type="button"
-                                className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md"
+                                onClick={scrollToForm}
+                                className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#d4b56a] text-[#d4b56a] hover:bg-[#d4b56a] hover:text-[#050807] text-xs font-bold tracking-widest uppercase rounded-[3px] transition-all duration-300 cursor-pointer shadow-md active:scale-95"
                             >
                                 <span>TRAINING AND SUPPORT</span>
                                 <ArrowRight className="w-4 h-4" />
