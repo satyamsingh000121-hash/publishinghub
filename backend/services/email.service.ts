@@ -14,6 +14,65 @@ export interface EmailDeliveryResult {
   error?: string;
 }
 
+/**
+ * Safely ensure environment variables from .env.local and .env are loaded
+ * when running outside the Next.js request lifecycle (e.g., standalone scripts or backend jobs),
+ * or when in-memory process.env contains stale/cached values from before .env.local was updated.
+ */
+function ensureEnvLoaded(): void {
+  if (typeof process === "undefined" || !process.env) return;
+
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+
+  if (
+    apiKey &&
+    fromEmail &&
+    !fromEmail.includes("&lt;") &&
+    !fromEmail.includes("&gt;")
+  ) {
+    return;
+  }
+
+  try {
+    // Next.js ships with @next/env
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { loadEnvConfig } = require("@next/env");
+    loadEnvConfig(process.cwd());
+  } catch {
+    // Fallback or continue to manual parse
+  }
+
+  // Explicitly sync from .env.local to ensure latest configuration on disk is applied
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const fs = require("fs");
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const path = require("path");
+    const envPath = path.resolve(process.cwd(), ".env.local");
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, "utf-8");
+      for (const line of content.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const eqIdx = trimmed.indexOf("=");
+        if (eqIdx > 0) {
+          const key = trimmed.slice(0, eqIdx).trim();
+          let val = trimmed.slice(eqIdx + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          if (key === "RESEND_FROM_EMAIL" || key === "RESEND_API_KEY" || !process.env[key]) {
+            process.env[key] = val;
+          }
+        }
+      }
+    }
+  } catch {
+    // Ignore fallback errors
+  }
+}
+
 export class EmailService {
   /**
    * Safely mask recipient email for diagnostics without exposing full address
@@ -26,26 +85,138 @@ export class EmailService {
   }
 
   /**
-   * Initialize Resend client instance safely
+   * Initialize Resend client instance safely and validate API key
    */
-  private static getResendClient(): Resend | null {
+  private static getResendClient(): { client: Resend | null; error?: string } {
+    ensureEnvLoaded();
     const apiKey = process.env.RESEND_API_KEY?.trim();
-    if (!apiKey || apiKey === "re_xxxxxxxxx" || apiKey === "your_resend_api_key_here") {
-      return null;
+    if (!apiKey) {
+      return {
+        client: null,
+        error:
+          "RESEND_API_KEY is missing from environment variables. Please add your Resend API key to .env.local or production environment variables.",
+      };
     }
-    return new Resend(apiKey);
+    if (apiKey === "re_xxxxxxxxx" || apiKey === "your_resend_api_key_here") {
+      return {
+        client: null,
+        error:
+          "RESEND_API_KEY is set to a placeholder value. Please configure a valid Resend API key in .env.local.",
+      };
+    }
+    if (!apiKey.startsWith("re_")) {
+      return {
+        client: null,
+        error:
+          "RESEND_API_KEY has an invalid format. Resend API keys must start with 're_'.",
+      };
+    }
+    return { client: new Resend(apiKey) };
   }
 
   /**
-   * Resolve configured sender address
+   * Resolve and rigorously validate configured sender address
    */
-  private static getSenderAddress(): string {
+  private static getSenderAddress(): { address?: string; error?: string } {
+    ensureEnvLoaded();
     const fromEnv = process.env.RESEND_FROM_EMAIL?.trim();
-    if (fromEnv && fromEnv !== "The Publishing Hub <verified-sender@yourdomain.com>") {
-      return fromEnv;
+
+    // Default safe sender if completely unconfigured in environment
+    let from = fromEnv || "The Publishing Hub <onboarding@resend.dev>";
+
+    // Strip redundant surrounding quotes if present (e.g. from env parsing quirks)
+    if ((from.startsWith('"') && from.endsWith('"')) || (from.startsWith("'") && from.endsWith("'"))) {
+      from = from.slice(1, -1).trim();
     }
-    // Safe default for unconfigured development or test mode
-    return "The Publishing Hub <onboarding@resend.dev>";
+
+    // Check placeholder from template or example
+    if (from.toLowerCase().includes("@yourdomain.com") || from.toLowerCase().includes("@example.com")) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL is set to a placeholder domain ('yourdomain.com' or 'example.com'). Please configure your actual verified domain from resend.com/domains.",
+      };
+    }
+
+    // Check for HTML entity contamination (e.g. &lt; or &gt;)
+    if (from.includes("&lt;") || from.includes("&gt;") || from.includes("&amp;")) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL contains HTML entities (&lt; or &gt;). Use plain angle brackets 'Name <email@example.com>' format.",
+      };
+    }
+
+    // Check for mailto: URI prefix
+    if (from.toLowerCase().includes("mailto:")) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL contains 'mailto:'. The email address needs to follow the 'email@example.com' or 'Name <email@example.com>' format.",
+      };
+    }
+
+    // Check for Markdown links e.g. [Name](mailto:email)
+    if (/\[.*\]\(.*\)|\(mailto:.*\)/.test(from)) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL contains Markdown links. The email address needs to follow the 'email@example.com' or 'Name <email@example.com>' format.",
+      };
+    }
+
+    // Check for extra or unbalanced brackets
+    const openBrackets = (from.match(/</g) || []).length;
+    const closeBrackets = (from.match(/>/g) || []).length;
+    if (openBrackets > 1 || closeBrackets > 1) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL contains extra angle brackets. Expected 'Name <email@example.com>' format.",
+      };
+    }
+    if (openBrackets !== closeBrackets) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL contains unbalanced angle brackets. Expected 'Name <email@example.com>' format.",
+      };
+    }
+
+    // Check for duplicated email addresses
+    const atCount = (from.match(/@/g) || []).length;
+    if (atCount > 1) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL contains multiple email addresses. Expected a single address in 'Name <email@example.com>' format.",
+      };
+    }
+    if (atCount === 0) {
+      return {
+        error:
+          "RESEND_FROM_EMAIL does not contain a valid email address (missing '@').",
+      };
+    }
+
+    // Validate structure against Resend format specs:
+    // Case A: Name <email@example.com>
+    // Case B: email@example.com
+    const emailPattern = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+";
+    const nameWithEmailRegex = new RegExp(`^([^<>]+)<\\s*(${emailPattern})\\s*>$`);
+    const pureEmailRegex = new RegExp(`^${emailPattern}$`);
+
+    const nameMatch = from.match(nameWithEmailRegex);
+    if (nameMatch) {
+      const displayName = nameMatch[1].trim();
+      const cleanEmail = nameMatch[2].trim();
+      if (!displayName) {
+        return { address: cleanEmail };
+      }
+      return { address: `${displayName} <${cleanEmail}>` };
+    }
+
+    if (pureEmailRegex.test(from)) {
+      return { address: from };
+    }
+
+    return {
+      error:
+        "Invalid 'from' field in RESEND_FROM_EMAIL. The email address needs to follow the 'email@example.com' or 'Name <email@example.com>' format.",
+    };
   }
 
   /**
@@ -55,18 +226,27 @@ export class EmailService {
     const { name, email, passwordSetupUrl, myAccountUrl } = params;
     const username = params.username || name || email.split("@")[0];
 
-    const resend = this.getResendClient();
-    if (!resend) {
-      const errorMsg =
-        "RESEND_API_KEY is missing or unconfigured. Please add your Resend API key to Vercel environment variables or .env.local.";
+    const clientResult = this.getResendClient();
+    if (!clientResult.client) {
+      const errorMsg = clientResult.error || "RESEND_API_KEY is missing or unconfigured.";
       console.warn(`[EmailService] Cannot send welcome email to ${this.maskEmail(email)}: ${errorMsg}`);
       return {
         success: false,
         error: errorMsg,
       };
     }
+    const resend = clientResult.client;
 
-    const fromAddress = this.getSenderAddress();
+    const senderResult = this.getSenderAddress();
+    if (!senderResult.address) {
+      const errorMsg = senderResult.error || "RESEND_FROM_EMAIL configuration is invalid.";
+      console.warn(`[EmailService] Cannot send welcome email to ${this.maskEmail(email)}: ${errorMsg}`);
+      return {
+        success: false,
+        error: errorMsg,
+      };
+    }
+    const fromAddress = senderResult.address;
     const currentYear = new Date().getFullYear();
 
     const subject = "Your The Publishing Hub account has been created!";
@@ -188,11 +368,13 @@ Premium Books & Literary Collections
 © ${currentYear} The Publishing Hub. All rights reserved.
     `.trim();
 
+    const recipientEmail = email.trim();
+
     try {
-      console.log(`[EmailService] Dispatching welcome email to ${this.maskEmail(email)} from ${fromAddress}...`);
+      console.log(`[EmailService] Dispatching welcome email to ${this.maskEmail(recipientEmail)} from ${fromAddress}...`);
       const response = await resend.emails.send({
         from: fromAddress,
-        to: email,
+        to: recipientEmail,
         subject,
         html: htmlContent,
         text: textContent,
@@ -207,9 +389,12 @@ Premium Books & Literary Collections
           errorMsg.toLowerCase().includes("testing emails to your own email address") ||
           errorMsg.toLowerCase().includes("resend.dev")
         ) {
-          contextualError = `${errorMsg} - Note: The default testing sender (onboarding@resend.dev) can only deliver to the account owner's email. Verify your domain at resend.com/domains to send to all recipients.`;
-        } else if (errorMsg.toLowerCase().includes("domain") && errorMsg.toLowerCase().includes("not verified")) {
-          contextualError = `${errorMsg} - Please verify your sender domain in your Resend dashboard.`;
+          contextualError = `Resend Testing Restriction: ${errorMsg} - The test sender 'onboarding@resend.dev' can only deliver to your Resend account owner email. To send to any user, verify a domain at resend.com/domains and set RESEND_FROM_EMAIL to your verified domain in .env.local.`;
+        } else if (
+          errorMsg.toLowerCase().includes("domain") &&
+          (errorMsg.toLowerCase().includes("not verified") || errorMsg.toLowerCase().includes("unverified"))
+        ) {
+          contextualError = `Domain Not Verified: ${errorMsg} - Please complete DNS records verification at resend.com/domains before sending from this custom domain.`;
         }
 
         return {
@@ -219,14 +404,14 @@ Premium Books & Literary Collections
       }
 
       const messageId = response.data?.id;
-      console.log(`[EmailService] Welcome email successfully accepted by Resend for ${this.maskEmail(email)} (Message ID: ${messageId})`);
+      console.log(`[EmailService] Welcome email successfully accepted by Resend for ${this.maskEmail(recipientEmail)} (Message ID: ${messageId})`);
       return {
         success: true,
         messageId,
       };
     } catch (err: any) {
       const errorMsg = err.message || "Failed to send welcome email via Resend.";
-      console.error(`[EmailService] Exception dispatching welcome email to ${this.maskEmail(email)}:`, errorMsg);
+      console.error(`[EmailService] Exception dispatching welcome email to ${this.maskEmail(recipientEmail)}:`, errorMsg);
       return {
         success: false,
         error: errorMsg,
