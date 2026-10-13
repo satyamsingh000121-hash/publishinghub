@@ -800,7 +800,6 @@ export default function CheckoutPage() {
                                                     className="w-full resize-none rounded-lg border border-purple-200 bg-[#faf8fd] px-4 py-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 dark:border-[#294333] dark:bg-[#050b08] dark:text-[#f2eee3] dark:placeholder:text-[#59645d] dark:focus:border-[#d4b56a] dark:focus:ring-[#d4b56a]"
                                                 />
                                             </div>
-
                                         </div>
 
                                     </div>

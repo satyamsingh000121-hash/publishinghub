@@ -10,7 +10,22 @@ export class UserRepository {
 
   static async findByEmail(email: string) {
     return prisma.user.findUnique({
-      where: { email: email.toLowerCase() },
+      where: { email: email.toLowerCase().trim() },
+    });
+  }
+
+  static async findByEmailOrUsername(identifier: string) {
+    const trimmed = identifier.trim();
+    const normalized = trimmed.toLowerCase();
+    const userByEmail = await prisma.user.findUnique({
+      where: { email: normalized },
+    });
+    if (userByEmail) return userByEmail;
+
+    return prisma.user.findFirst({
+      where: {
+        name: { equals: trimmed },
+      },
     });
   }
 

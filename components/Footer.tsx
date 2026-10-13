@@ -150,7 +150,6 @@ export default function Footer() {
                 { name: "Shop", href: "/shop" },
                 { name: "My Orders", href: "/my-account" },
                 { name: "My Account", href: "/my-account" },
-                { name: "Wishlist", href: "/my-account" },
               ].map((link) => (
                 <li key={link.name}>
                   <a

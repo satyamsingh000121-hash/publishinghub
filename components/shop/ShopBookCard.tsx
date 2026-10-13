@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ShoppingBag, Heart } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { getBookSlug } from "@/lib/books";
 import { useCart } from "@/context/CartContext";
 
@@ -39,7 +39,6 @@ export default function ShopBookCard({
 }: ShopBookCardProps) {
   const { addItem } = useCart();
   const [imageError, setImageError] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const bookSlug = getBookSlug(book);
   const productUrl = `/product/${bookSlug}`;
 
@@ -238,26 +237,8 @@ export default function ShopBookCard({
             </span>
           </div>
 
-          {/* Right Action Icons: Wishlist Heart + Solid Gold Cart Button */}
+          {/* Right Action Icons: Solid Gold Cart Button */}
           <div className="flex items-center gap-1.5">
-            {/* Wishlist Heart */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsWishlisted(!isWishlisted);
-              }}
-              className={`w-7 h-7 rounded-full border transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                isWishlisted
-                  ? "border-[#d4b56a] bg-[#d4b56a]/15 text-[#d4b56a]"
-                  : "border-[#d1d5db] dark:border-[#f2eee3]/20 hover:border-[#b89245] dark:hover:border-[#d4b56a] text-[#71717a] dark:text-[#888b83] hover:text-[#b89245] dark:hover:text-[#d4b56a] bg-white dark:bg-transparent"
-              }`}
-              title="Add to Wishlist"
-              aria-label="Add to Wishlist"
-            >
-              <Heart className={`w-3.5 h-3.5 ${isWishlisted ? "fill-current text-[#d4b56a]" : ""}`} />
-            </button>
 
             {/* Solid Gold Add to Cart Circle (Gold in both Day and Night modes!) */}
             <button

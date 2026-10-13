@@ -389,12 +389,12 @@ Premium Books & Literary Collections
           errorMsg.toLowerCase().includes("testing emails to your own email address") ||
           errorMsg.toLowerCase().includes("resend.dev")
         ) {
-          contextualError = `Resend Testing Restriction: ${errorMsg} - The test sender 'onboarding@resend.dev' can only deliver to your Resend account owner email. To send to any user, verify a domain at resend.com/domains and set RESEND_FROM_EMAIL to your verified domain in .env.local.`;
+          contextualError = `Resend Testing Restriction: The test sender 'onboarding@resend.dev' can only deliver to your Resend account owner email (satyamsingh.000121@gmail.com). To deliver to '${recipientEmail}' or other users, a verified custom domain is required.`;
         } else if (
           errorMsg.toLowerCase().includes("domain") &&
           (errorMsg.toLowerCase().includes("not verified") || errorMsg.toLowerCase().includes("unverified"))
         ) {
-          contextualError = `Domain Not Verified: ${errorMsg} - Please complete DNS records verification at resend.com/domains before sending from this custom domain.`;
+          contextualError = `Domain Not Verified: Please complete DNS records verification at resend.com/domains before sending from this custom domain.`;
         }
 
         return {

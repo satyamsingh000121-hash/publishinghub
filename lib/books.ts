@@ -1979,14 +1979,15 @@ export const ALL_BOOKS_DATABASE: BookDetailData[] = [
     authorQuote: "“My books are written from the human soul of love, crafted with an aim to help readers triumph over every adversity.”",
     price: "£35.00",
     numericPrice: 35.0,
-    category: "Fiction",
+    category: "Biography",
     availability: "in-stock",
+    stock: 50,
     image: "/images/book_section1.png",
     coverId: "arrival-1",
     summary:
       "The definitive bestselling guide to turning ambitious dreams into triumphant realities and purposeful leadership.",
     description:
-      "Visions of Victory chronicles the inspiring journey of overcoming insurmountable challenges, building resilience, and executing bold visions. A masterpiece filled with actionable wisdom, soulful encouragement, and transformative life strategies.",
+      "Embarking on the journey of entrepreneurship can feel both exciting and overwhelming. As you face the challenges and opportunities ahead, having a trustworthy guide can make all the difference. That's where \"Visions to Victory\" steps in - it's a comprehensive handbook crafted to empower entrepreneurs like yourself to turn your dreams into reality and achieve lasting success in the competitive world of business.\n\nThe book starts by stressing the importance of defining your vision clearly and setting goals that are ambitious yet achievable. Through practical advice and real-life examples, it helps you shape a vision that acts as a guiding star, keeping you motivated, focused, and resilient in the face of obstacles.\n\n\"Visions to Victory\" serves as a strategic roadmap for crafting success from the very beginning to achieving significant milestones like stock exchange glory and reaching nine to twelve-figure revenues. It provides blueprints and successful models for clarifying your vision and goals, developing strategic plans, optimising business models, implementing efficient systems and processes, fostering a culture of continuous improvement, and driving innovation and value creation.\n\nIn summary, \"Visions to Victory\" fulfills its purpose by empowering entrepreneurs with the knowledge, tools, and resources needed to navigate the complexities of business ownership, overcome challenges, and achieve their vision of success. Whether you're launching a new venture or expanding an existing business, this book equips you with the skills and mindset required to thrive in today's dynamic business landscape.",
     authorBooks: [
       {
         id: "vv-1",

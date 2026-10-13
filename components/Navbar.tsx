@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Search, ShoppingBag, Heart, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
+import { Search, ShoppingBag, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useCart } from "@/context/CartContext";
 import SearchModal from "@/components/SearchModal";
@@ -233,18 +233,6 @@ export default function Navbar({
               <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
             </button>
 
-            {/* Wishlist Button (Hidden on xs phones, visible in drawer) */}
-            <a
-              href="#wishlist"
-              className="hidden sm:flex p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative items-center"
-              title="Wishlist"
-              aria-label="Wishlist"
-            >
-              <Heart className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-              <span className="absolute -top-1 -right-1 bg-[#2c7650] text-[#ffffff] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050807]">
-                0
-              </span>
-            </a>
 
             {/* Cart Button */}
             <button

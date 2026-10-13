@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error: any) {
-    if (error.message?.includes("Invalid email or password")) {
+    if (error.message?.includes("Invalid email or password") || error.message?.includes("password is not set yet")) {
       return errorResponse(error.message, 401);
     }
     return serverErrorResponse(error.message || "Failed to log in");

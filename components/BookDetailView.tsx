@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   Star,
   ShoppingCart,
-  Heart,
   ArrowLeftRight,
   Facebook,
   Twitter,
@@ -48,7 +47,6 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
   const [quantity, setQuantity] = useState<number>(isOutOfStock ? 0 : 1);
   const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
   const [reviewCount, setReviewCount] = useState<number>(book?.reviewCount ?? 0);
-  const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [isCompared, setIsCompared] = useState<boolean>(false);
   const [addedAlert, setAddedAlert] = useState<boolean>(false);
   const [relatedSlide, setRelatedSlide] = useState<number>(0);
@@ -849,39 +847,8 @@ export default function BookDetailView({ book, onAddToCart, onBack }: BookDetail
 
               </div>
 
-              {/* Wishlist / Compare */}
+              {/* Compare */}
               <div className="mt-4 flex flex-wrap items-center gap-5">
-
-                <button
-                  type="button"
-                  onClick={() => setIsWishlisted(!isWishlisted)}
-                  className="
-                    group
-                    flex
-                    items-center
-                    gap-2
-                    text-[13px]
-                    sm:text-[13.5px]
-                    font-medium
-                    text-gray-600
-                    hover:text-[#9a7322]
-                    dark:text-[#dddcd4]
-                    dark:hover:text-[#d7b45c]
-                    transition-colors
-                    cursor-pointer
-                  "
-                >
-                  <Heart
-                    className={`w-4 h-4 transition-colors ${
-                      isWishlisted
-                        ? "fill-[#b89245] text-[#b89245]"
-                        : "text-gray-500 group-hover:text-[#9a7322] dark:text-[#b8bcb3] dark:group-hover:text-[#d7b45c]"
-                    }`}
-                  />
-                  <span>{isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}</span>
-                </button>
-
-                <span className="h-4 w-px bg-gray-300 dark:bg-[#5d675d]" />
 
                 <button
                   type="button"

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 
@@ -48,12 +49,12 @@ export default function AuthorSection() {
             </div>
 
             <div className="pt-2 flex justify-center w-full">
-              <a
-                href="#author"
-                className="min-h-[44px] sm:min-h-[46px] px-7 sm:px-8 bg-[#2c7650] hover:bg-[#37865d] text-white text-[10px] sm:text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 dark:shadow-black/40 shadow-[0_6px_18px_rgba(147,51,234,0.25)] rounded-sm"
+              <Link
+                href="/product/the-journey-of-visions-to-victory"
+                className="min-h-[44px] sm:min-h-[46px] px-7 sm:px-8 bg-[#9333ea] hover:bg-[#7e22ce] text-white text-[10px] sm:text-[11px] font-bold tracking-[0.14em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 shadow-[0_6px_18px_rgba(147,51,234,0.35)] rounded-sm cursor-pointer"
               >
                 VIEW AUTHOR <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -75,16 +76,19 @@ export default function AuthorSection() {
               }}
             />
 
-            <div className="relative w-56 sm:w-72 md:w-80 aspect-[4/5] rounded-sm overflow-hidden border dark:border-[#f2eee3]/15 border-[#e9e1f5] dark:shadow-[0_20px_50px_rgba(0,0,0,0.8)] shadow-[0_12px_32px_rgba(147,51,234,0.14)] bg-gradient-to-b dark:from-[#182a20] dark:to-[#0b1410] from-white to-[#faf5ff] flex items-end justify-center z-10">
+            <Link
+              href="/product/the-journey-of-visions-to-victory"
+              className="relative w-56 sm:w-72 md:w-80 aspect-[4/5] rounded-sm overflow-hidden border dark:border-[#f2eee3]/15 border-[#e9e1f5] dark:shadow-[0_20px_50px_rgba(0,0,0,0.8)] shadow-[0_12px_32px_rgba(147,51,234,0.14)] bg-gradient-to-b dark:from-[#182a20] dark:to-[#0b1410] from-white to-[#faf5ff] flex items-end justify-center z-10 cursor-pointer group"
+            >
               <img
                 src="/images/Gemini_Generated_Image_f41einf41einf41e.png"
                 alt="#1 Best Seller"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
 
               {/* Accent border inside frame */}
               <div className="absolute inset-2 border dark:border-[#d4b56a]/20 border-[#9333ea]/25 pointer-events-none" />
-            </div>
+            </Link>
           </div>
 
           {/* Right Column: Quote & Social Links */}
@@ -94,9 +98,14 @@ export default function AuthorSection() {
             </blockquote>
 
             <div className="pt-1 sm:pt-2">
-              <span className="text-[11px] sm:text-[12px] tracking-[0.2em] font-bold text-[#d4b56a] uppercase block">
-                SANTOSH KUMAR
-              </span>
+              <Link
+                href="/product/the-journey-of-visions-to-victory"
+                className="hover:underline group"
+              >
+                <span className="text-[11px] sm:text-[12px] tracking-[0.2em] font-bold text-[#d4b56a] group-hover:text-[#f2eee3] transition-colors uppercase block">
+                  SANTOSH KUMAR
+                </span>
+              </Link>
               <span className="text-[9px] sm:text-[10px] text-[#9a9b94] tracking-wider uppercase block mt-0.5">
                 Bestselling Author & Speaker
               </span>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, Suspense } from "react";
+import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Lock, Eye, EyeOff, Check, AlertCircle, ArrowRight, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -100,18 +101,18 @@ function SetPasswordForm() {
           Your password has been configured and your account is ready. You are now logged in to The Publishing Hub.
         </p>
         <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
-          <a
+          <Link
             href="/my-account"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#9333ea] hover:bg-[#7e22ce] text-white text-xs font-bold uppercase tracking-wider rounded-xs transition-colors shadow-sm"
           >
             View My Account <ArrowRight className="w-4 h-4" />
-          </a>
-          <a
+          </Link>
+          <Link
             href="/shop"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-xs font-bold uppercase tracking-wider rounded-xs transition-colors"
           >
             Explore Books
-          </a>
+          </Link>
         </div>
       </div>
     );

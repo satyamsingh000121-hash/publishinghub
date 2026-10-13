@@ -164,13 +164,16 @@ export class AuthService {
     email: string;
     password: string;
   }): Promise<AuthResponseData> {
-    const user = await UserRepository.findByEmail(data.email);
+    const user = await UserRepository.findByEmailOrUsername(data.email);
     if (!user) {
       throw new Error("Invalid email or password.");
     }
 
     const isMatch = await comparePassword(data.password, user.passwordHash);
     if (!isMatch) {
+      if (user.passwordResetTokenHash !== null && user.passwordResetExpires && user.passwordResetExpires > new Date()) {
+        throw new Error("Your account was created via email registration, but your password is not set yet. Please check your inbox for the 'Set Your Password' link.");
+      }
       throw new Error("Invalid email or password.");
     }
 
