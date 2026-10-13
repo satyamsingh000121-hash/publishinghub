@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { User, Lock, Mail, Eye, EyeOff, ArrowRight, Check, ShieldCheck } from "lucide-react";
+import { User, Lock, Mail, Eye, EyeOff, ArrowRight, Check, ShieldCheck, AlertCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -12,36 +12,97 @@ export default function MyAccountPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   // Register State
   const [registerEmail, setRegisterEmail] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
+  const [registerSuccess, setRegisterSuccess] = useState<string | null>(null);
 
   // Toast Notification State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoggingIn(true);
+    if (!loginIdentifier.trim() || !loginPassword) return;
 
-    setTimeout(() => {
-      setIsLoggingIn(false);
-      setToastMessage(`Welcome back! Logged in as ${loginIdentifier}.`);
+    setIsLoggingIn(true);
+    setLoginError(null);
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: loginIdentifier.trim(),
+          password: loginPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || data.error || "Invalid email or password.");
+      }
+
+      const userName = data.data?.user?.name || loginIdentifier;
+      setToastMessage(`Welcome back, ${userName}! Logged in successfully.`);
       setLoginPassword("");
       setTimeout(() => setToastMessage(null), 4500);
-    }, 800);
+    } catch (err: any) {
+      setLoginError(err.message || "Failed to log in.");
+      setToastMessage(err.message || "Login failed.");
+      setTimeout(() => setToastMessage(null), 5000);
+    } finally {
+      setIsLoggingIn(false);
+    }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsRegistering(true);
+    const emailToRegister = registerEmail.trim();
+    if (!emailToRegister) return;
 
-    setTimeout(() => {
-      setIsRegistering(false);
-      setToastMessage(`Registration link sent to ${registerEmail}. Please check your inbox.`);
+    setIsRegistering(true);
+    setRegisterError(null);
+    setRegisterSuccess(null);
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailToRegister,
+        }),
+      });
+
+      const data = await res.json();
+
+      // Check whether registration and Resend email sending both succeeded
+      if (!res.ok || !data.success || !data.data?.emailSent) {
+        let failureReason = data.error || data.message || "Registration failed. Welcome email could not be sent.";
+        // Clean any accidental server path or raw token leak if present
+        if (failureReason.includes("apiKey") || failureReason.includes("re_")) {
+          failureReason = "Email service is temporarily unconfigured. Please contact the administrator.";
+        }
+        throw new Error(failureReason);
+      }
+
+      // Display the email-sent success message ONLY when Resend accepted the email request
+      const successMsg = `Your The Publishing Hub account has been created! A welcome email with your secure password setup link has been sent to ${emailToRegister}. Please check your inbox.`;
+      setRegisterSuccess(successMsg);
+      setToastMessage(`Welcome email sent to ${emailToRegister}!`);
       setRegisterEmail("");
-      setTimeout(() => setToastMessage(null), 5000);
-    }, 800);
+      setTimeout(() => setToastMessage(null), 6000);
+    } catch (err: any) {
+      const errorMsg = err.message || "Registration failed. Please try again.";
+      setRegisterError(errorMsg);
+      setToastMessage(errorMsg);
+      setTimeout(() => setToastMessage(null), 6000);
+    } finally {
+      setIsRegistering(false);
+    }
   };
 
   return (
@@ -98,6 +159,13 @@ export default function MyAccountPage() {
               </div>
 
               <form onSubmit={handleLogin} className="space-y-5">
+                {loginError && (
+                  <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded text-xs flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    <span>{loginError}</span>
+                  </div>
+                )}
+
                 {/* Username or Email Address */}
                 <div className="space-y-2">
                   <label className="block text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#f2eee3] text-[#27272a]">
@@ -190,7 +258,7 @@ export default function MyAccountPage() {
                   >
                     Lost your password?
                   </a>
-                </div>
+                </div> 
               </form>
             </div>
 
@@ -207,6 +275,20 @@ export default function MyAccountPage() {
               </div>
 
               <form onSubmit={handleRegister} className="space-y-5">
+                {registerError && (
+                  <div className="p-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded text-xs flex items-start gap-2.5">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    <span>{registerError}</span>
+                  </div>
+                )}
+
+                {registerSuccess && (
+                  <div className="p-3.5 bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 text-green-800 dark:text-green-300 rounded text-xs flex items-start gap-2.5">
+                    <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-green-600 dark:text-green-400" />
+                    <span>{registerSuccess}</span>
+                  </div>
+                )}
+
                 {/* Email Address Field */}
                 <div className="space-y-2">
                   <label className="block text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#f2eee3] text-[#27272a]">
@@ -217,10 +299,11 @@ export default function MyAccountPage() {
                     <input
                       type="email"
                       required
+                      disabled={isRegistering}
                       value={registerEmail}
                       onChange={(e) => setRegisterEmail(e.target.value)}
                       placeholder="Enter your email address"
-                      className="w-full h-12 pl-11 pr-4 text-xs sm:text-sm dark:bg-[#07100c] bg-white border dark:border-[#f2eee3]/15 border-[#e4d4f8] rounded-xs dark:text-[#f2eee3] text-[#18181b] placeholder-[#666a64] focus:outline-none dark:focus:border-[#d4b56a] focus:border-[#9333ea] transition-all shadow-xs"
+                      className="w-full h-12 pl-11 pr-4 text-xs sm:text-sm dark:bg-[#07100c] bg-white border dark:border-[#f2eee3]/15 border-[#e4d4f8] rounded-xs dark:text-[#f2eee3] text-[#18181b] placeholder-[#666a64] focus:outline-none dark:focus:border-[#d4b56a] focus:border-[#9333ea] transition-all shadow-xs disabled:opacity-60"
                     />
                   </div>
                 </div>
@@ -231,7 +314,7 @@ export default function MyAccountPage() {
                     A link to set a new password will be sent to your email address.
                   </p>
                   <p>
-                    Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our{" "}
+                    Your personal data will be used to support your experience throughout this website, to manage qa2aaccess to your account, and for other purposes described in our{" "}
                     <a
                       href="/refund_returns"
                       className="dark:text-[#d4b56a] text-[#7e22ce] font-semibold hover:underline"

@@ -21,6 +21,8 @@ export class UserRepository {
     role?: string;
     phoneNumber?: string;
     avatar?: string;
+    passwordResetTokenHash?: string | null;
+    passwordResetExpires?: Date | null;
   }) {
     return prisma.user.create({
       data: {
@@ -30,6 +32,40 @@ export class UserRepository {
         role: data.role || "USER",
         phoneNumber: data.phoneNumber,
         avatar: data.avatar,
+        passwordResetTokenHash: data.passwordResetTokenHash,
+        passwordResetExpires: data.passwordResetExpires,
+      },
+    });
+  }
+
+  static async findByResetTokenHash(tokenHash: string) {
+    return prisma.user.findFirst({
+      where: {
+        passwordResetTokenHash: tokenHash,
+        passwordResetExpires: {
+          gt: new Date(),
+        },
+      },
+    });
+  }
+
+  static async updatePasswordAndClearToken(userId: string, newPasswordHash: string) {
+    return prisma.user.update({
+      where: { id: userId },
+      data: {
+        passwordHash: newPasswordHash,
+        passwordResetTokenHash: null,
+        passwordResetExpires: null,
+      },
+    });
+  }
+
+  static async setPasswordResetToken(userId: string, tokenHash: string, expires: Date) {
+    return prisma.user.update({
+      where: { id: userId },
+      data: {
+        passwordResetTokenHash: tokenHash,
+        passwordResetExpires: expires,
       },
     });
   }
@@ -41,6 +77,8 @@ export class UserRepository {
       phoneNumber?: string;
       avatar?: string;
       passwordHash?: string;
+      passwordResetTokenHash?: string | null;
+      passwordResetExpires?: Date | null;
     }
   ) {
     return prisma.user.update({

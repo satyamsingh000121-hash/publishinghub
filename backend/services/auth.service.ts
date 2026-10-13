@@ -1,27 +1,100 @@
+import crypto from "crypto";
 import { UserRepository } from "@/backend/repositories/user.repository";
 import { comparePassword, hashPassword, signToken } from "@/lib/auth";
 import { AuthResponseData, AuthSessionUser, UserDTO } from "@/types/user";
 
 export class AuthService {
   static async register(data: {
-    name: string;
     email: string;
-    password: string;
+    name?: string;
+    password?: string;
     role?: string;
     phoneNumber?: string;
-  }): Promise<{ user: UserDTO; token: string }> {
-    const existing = await UserRepository.findByEmail(data.email);
+  }): Promise<{
+    user: UserDTO;
+    token: string;
+    rawResetToken?: string;
+    resetTokenExpires?: Date;
+    isRetry?: boolean;
+  }> {
+    const normalizedEmail = data.email.toLowerCase().trim();
+    const existing = await UserRepository.findByEmail(normalizedEmail);
     if (existing) {
-      throw new Error("User with this email already exists.");
+      // Check if account was created via email-only flow and is still awaiting password setup
+      const hasPendingPasswordSetup = existing.passwordResetTokenHash !== null;
+
+      // If user registered with a direct password or already completed password setup, block duplicate
+      if (!hasPendingPasswordSetup || (data.password && data.password.trim() !== "")) {
+        throw new Error("User with this email already exists.");
+      }
+
+      // Safe retry: generate a fresh single-use password setup token without creating a duplicate record
+      const rawResetToken = crypto.randomBytes(32).toString("hex");
+      const tokenHash = crypto.createHash("sha256").update(rawResetToken).digest("hex");
+      const resetTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+      const updatedUser = await UserRepository.setPasswordResetToken(
+        existing.id,
+        tokenHash,
+        resetTokenExpires
+      );
+
+      const sessionUser: AuthSessionUser = {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role as any,
+      };
+
+      const token = signToken(sessionUser);
+
+      const userDTO: UserDTO = {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role as any,
+        avatar: updatedUser.avatar,
+        phoneNumber: updatedUser.phoneNumber,
+        createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
+      };
+
+      return {
+        user: userDTO,
+        token,
+        rawResetToken,
+        resetTokenExpires,
+        isRetry: true,
+      };
     }
 
-    const passwordHash = await hashPassword(data.password);
+    const displayName = data.name?.trim() || normalizedEmail.split("@")[0];
+    let passwordHash: string;
+    let rawResetToken: string | undefined;
+    let tokenHash: string | undefined;
+    let resetTokenExpires: Date | undefined;
+
+    if (data.password && data.password.trim() !== "") {
+      passwordHash = await hashPassword(data.password);
+    } else {
+      // Email-only registration: generate unguessable temporary password hash
+      const randomSecret = crypto.randomBytes(32).toString("hex");
+      passwordHash = await hashPassword(randomSecret);
+
+      // Generate secure single-use password setup token (valid for 24 hours)
+      rawResetToken = crypto.randomBytes(32).toString("hex");
+      tokenHash = crypto.createHash("sha256").update(rawResetToken).digest("hex");
+      resetTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    }
+
     const user = await UserRepository.create({
-      name: data.name,
-      email: data.email,
+      name: displayName,
+      email: normalizedEmail,
       passwordHash,
       role: data.role || "USER",
       phoneNumber: data.phoneNumber,
+      passwordResetTokenHash: tokenHash || null,
+      passwordResetExpires: resetTokenExpires || null,
     });
 
     const sessionUser: AuthSessionUser = {
@@ -44,7 +117,47 @@ export class AuthService {
       updatedAt: user.updatedAt,
     };
 
-    return { user: userDTO, token };
+    return {
+      user: userDTO,
+      token,
+      rawResetToken,
+      resetTokenExpires,
+      isRetry: false,
+    };
+  }
+
+  static async setPassword(data: {
+    token: string;
+    email: string;
+    password: string;
+  }): Promise<{ user: UserDTO }> {
+    const normalizedEmail = data.email.toLowerCase().trim();
+    const tokenHash = crypto.createHash("sha256").update(data.token.trim()).digest("hex");
+
+    const user = await UserRepository.findByResetTokenHash(tokenHash);
+
+    if (!user || user.email.toLowerCase() !== normalizedEmail) {
+      throw new Error("Invalid or expired password setup link. Please request a new one.");
+    }
+
+    // Hash the new user password
+    const newPasswordHash = await hashPassword(data.password);
+
+    // Invalidate the token immediately and update password
+    const updatedUser = await UserRepository.updatePasswordAndClearToken(user.id, newPasswordHash);
+
+    const userDTO: UserDTO = {
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      role: updatedUser.role as any,
+      avatar: updatedUser.avatar,
+      phoneNumber: updatedUser.phoneNumber,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt,
+    };
+
+    return { user: userDTO };
   }
 
   static async login(data: {
