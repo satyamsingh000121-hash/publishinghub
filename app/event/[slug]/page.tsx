@@ -15,17 +15,17 @@ interface EventData {
 const EVENTS_MAP: Record<string, EventData> = {
   "an-evening-with-the-author": {
     title: "An Evening with the Author",
-    date: "12 APR",
+    date: "12 APR 2026",
     image: "/images/shop1.jpg",
   },
   "creative-writing-workshop": {
     title: "Creative Writing Workshop",
-    date: "18 APR",
+    date: "18 APR 2026",
     image: "/images/shop2.jpg",
   },
   "storytime-for-little-readers": {
     title: "Storytime for Little Readers",
-    date: "25 APR",
+    date: "25 APR 2026",
     image: "/images/shop3.jpg",
   },
 };
@@ -40,7 +40,7 @@ export default function DynamicEventPage() {
       .split("-")
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" "),
-    date: "DECEMBER 1",
+    date: "DECEMBER 1, 2026",
     image: "/images/hero4.png",
   };
 

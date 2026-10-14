@@ -1,4 +1,4 @@
-import { RegisterSchema, LoginSchema, UpdateProfileSchema, SetPasswordSchema } from "@/lib/validations";
+import { RegisterSchema, LoginSchema, UpdateProfileSchema, SetPasswordSchema, ForgotPasswordSchema } from "@/lib/validations";
 import { ZodError } from "zod";
 
 export class AuthValidator {
@@ -8,6 +8,10 @@ export class AuthValidator {
 
   static validateSetPassword(data: unknown) {
     return SetPasswordSchema.safeParse(data);
+  }
+
+  static validateForgotPassword(data: unknown) {
+    return ForgotPasswordSchema.safeParse(data);
   }
 
   static validateLogin(data: unknown) {

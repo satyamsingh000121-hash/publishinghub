@@ -136,7 +136,7 @@ export default function Footer() {
                 { name: "Shop", href: "/shop" },
                 { name: "Our Offer", href: "/our-offer" },
                 { name: "Event", href: "/events" },
-                { name: "Contact Us", href: "/contact" },
+                { name: "Contact Us", href: "/contact-us" },
                 { name: "Join The League", href: "/join-the-league/author" },
               ].map((link) => (
                 <li key={link.name}>

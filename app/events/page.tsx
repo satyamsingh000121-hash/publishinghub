@@ -14,7 +14,8 @@ const INITIAL_EVENTS: EventItem[] = [
     id: "event-1",
     day: "12",
     month: "APR",
-    date: "12 APR",
+    year: "2026",
+    date: "12 APR 2026",
     tag: "BOOK READING",
     title: "An Evening with the Author",
     slug: "an-evening-with-the-author",
@@ -30,7 +31,8 @@ const INITIAL_EVENTS: EventItem[] = [
     id: "event-2",
     day: "18",
     month: "APR",
-    date: "18 APR",
+    year: "2026",
+    date: "18 APR 2026",
     tag: "WRITING WORKSHOP",
     title: "Creative Writing Workshop",
     slug: "creative-writing-workshop",
@@ -46,7 +48,8 @@ const INITIAL_EVENTS: EventItem[] = [
     id: "event-3",
     day: "25",
     month: "APR",
-    date: "25 APR",
+    year: "2026",
+    date: "25 APR 2026",
     tag: "KIDS EVENT",
     title: "Storytime for Little Readers",
     slug: "storytime-for-little-readers",
@@ -62,7 +65,8 @@ const INITIAL_EVENTS: EventItem[] = [
     id: "event-4",
     day: "03",
     month: "MAY",
-    date: "03 MAY",
+    year: "2026",
+    date: "03 MAY 2026",
     tag: "PANEL DISCUSSION",
     title: "The Future of Fiction",
     slug: "the-future-of-fiction",
@@ -78,7 +82,8 @@ const INITIAL_EVENTS: EventItem[] = [
     id: "event-5",
     day: "10",
     month: "MAY",
-    date: "10 MAY",
+    year: "2026",
+    date: "10 MAY 2026",
     tag: "BOOK LAUNCH",
     title: "New Release Launch",
     slug: "new-release-launch",
@@ -94,7 +99,8 @@ const INITIAL_EVENTS: EventItem[] = [
     id: "event-6",
     day: "17",
     month: "MAY",
-    date: "17 MAY",
+    year: "2026",
+    date: "17 MAY 2026",
     tag: "WORKSHOP",
     title: "Bookbinding Workshop",
     slug: "bookbinding-workshop",
@@ -294,36 +300,37 @@ export default function EventsPage() {
             </div>
           )}
 
-          {/* 4. Bottom Pagination */}
-          <div className="flex items-center justify-center gap-3 pt-6 sm:pt-8">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+          {/* 4. Bottom Pagination (Arrows Only) */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-3 pt-6 sm:pt-8">
               <button
-                key={pageNum}
                 type="button"
-                onClick={() => setCurrentPage(pageNum)}
-                className={`w-9 h-9 rounded-full text-xs transition-all cursor-pointer ${
-                  currentPage === pageNum
-                    ? "bg-[#9333ea] text-white dark:bg-[#d4b56a] dark:text-[#050807] font-bold shadow-lg shadow-[#9333ea]/20 dark:shadow-[#d4b56a]/20 scale-105"
-                    : "border border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] shadow-2xs"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                aria-label="Previous events"
+                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+                  currentPage === 1
+                    ? "opacity-40 cursor-not-allowed border-[#e9e1f5] dark:border-[#1b3424] text-[#a1a1aa] dark:text-[#8e9c93]"
+                    : "border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] hover:bg-[#f6f0fc] dark:hover:bg-[#0c1810] shadow-2xs cursor-pointer active:scale-95"
                 }`}
               >
-                {pageNum}
+                <ChevronLeft className="w-4 h-4" />
               </button>
-            ))}
-
-            {totalPages > 1 && (
               <button
                 type="button"
-                onClick={() =>
-                  setCurrentPage((p) => (p < totalPages ? p + 1 : 1))
-                }
-                aria-label="Next page"
-                className="w-9 h-9 rounded-full border border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] text-xs flex items-center justify-center transition-colors shadow-2xs cursor-pointer"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage >= totalPages}
+                aria-label="Next events"
+                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+                  currentPage >= totalPages
+                    ? "opacity-40 cursor-not-allowed border-[#e9e1f5] dark:border-[#1b3424] text-[#a1a1aa] dark:text-[#8e9c93]"
+                    : "border-[#e9e1f5] dark:border-[#1b3424] bg-white dark:bg-transparent text-[#71717a] dark:text-[#8e9c93] hover:border-[#9333ea] dark:hover:border-[#d4b56a] hover:text-[#9333ea] dark:hover:text-[#f2eee3] hover:bg-[#f6f0fc] dark:hover:bg-[#0c1810] shadow-2xs cursor-pointer active:scale-95"
+                }`}
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
-            )}
-          </div>
+            </div>
+          )}
 
         </div>
       </section>

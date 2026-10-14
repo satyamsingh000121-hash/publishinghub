@@ -18,6 +18,8 @@ import {
   Clock,
   Calendar,
   ExternalLink,
+  KeyRound,
+  ArrowLeft,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -43,6 +45,13 @@ export default function MyAccountPage() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [registerError, setRegisterError] = useState<string | null>(null);
   const [registerSuccess, setRegisterSuccess] = useState<string | null>(null);
+
+  // Forgot Password State
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [isSendingReset, setIsSendingReset] = useState(false);
+  const [forgotError, setForgotError] = useState<string | null>(null);
+  const [forgotSuccess, setForgotSuccess] = useState<string | null>(null);
 
   // Toast Notification State
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
@@ -73,6 +82,12 @@ export default function MyAccountPage() {
 
   useEffect(() => {
     checkSession();
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("action") === "forgot-password" || params.get("forgot") === "true") {
+        setShowForgotPassword(true);
+      }
+    }
   }, []);
 
   // Fetch orders when user is authenticated
@@ -135,6 +150,42 @@ export default function MyAccountPage() {
       showToast(err.message || "Login failed.", "error");
     } finally {
       setIsLoggingIn(false);
+    }
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const emailToReset = forgotEmail.trim();
+    if (!emailToReset) return;
+
+    setIsSendingReset(true);
+    setForgotError(null);
+    setForgotSuccess(null);
+
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailToReset,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || data.message || "Failed to send reset link.");
+      }
+
+      const msg = data.message || `If an account with this email address exists, a password reset link has been sent. Please check your inbox.`;
+      setForgotSuccess(msg);
+      showToast("Password reset link requested. Please check your inbox.", "success");
+    } catch (err: any) {
+      const errorMsg = err.message || "Failed to send password reset link. Please try again.";
+      setForgotError(errorMsg);
+      showToast(errorMsg, "error");
+    } finally {
+      setIsSendingReset(false);
     }
   };
 
@@ -526,111 +577,207 @@ export default function MyAccountPage() {
             /* ========================================================= */
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20">
               {/* ========================================================= */}
-              {/* LEFT COLUMN: LOGIN FORM */}
+              {/* LEFT COLUMN: LOGIN OR FORGOT PASSWORD FORM */}
               {/* ========================================================= */}
               <div className="space-y-6 sm:space-y-8">
-                {/* Column Title with Filigree Underline */}
-                <div className="relative inline-block pb-1">
-                  <h2 className="font-display text-3xl sm:text-4xl md:text-[38px] font-normal dark:text-[#d4b56a] text-[#7e22ce] tracking-tight">
-                    Login
-                  </h2>
-                  <div className="w-16 h-[2px] dark:bg-[#d4b56a] bg-[#9333ea] mt-1.5" />
-                </div>
-
-                <form onSubmit={handleLogin} className="space-y-5">
-                  {loginError && (
-                    <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded text-xs flex items-start gap-2">
-                      <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                      <span>{loginError}</span>
+                {showForgotPassword ? (
+                  /* FORGOT PASSWORD FORM */
+                  <div className="space-y-6">
+                    <div className="relative inline-block pb-1">
+                      <h2 className="font-display text-3xl sm:text-4xl md:text-[38px] font-normal dark:text-[#d4b56a] text-[#7e22ce] tracking-tight">
+                        Forgot Password
+                      </h2>
+                      <div className="w-16 h-[2px] dark:bg-[#d4b56a] bg-[#9333ea] mt-1.5" />
                     </div>
-                  )}
 
-                  {/* Username or Email Address */}
-                  <div className="space-y-2">
-                    <label className="block text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#f2eee3] text-[#27272a]">
-                      USERNAME OR EMAIL ADDRESS <span className="text-[#dc2626]">*</span>
-                    </label>
-                    <div className="relative">
-                      <User className="w-4 h-4 dark:text-[#888b83] text-[#a1a1aa] absolute left-4 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="text"
-                        required
-                        value={loginIdentifier}
-                        onChange={(e) => setLoginIdentifier(e.target.value)}
-                        placeholder="Enter your username or email"
-                        className="w-full h-12 pl-11 pr-4 text-xs sm:text-sm dark:bg-[#07100c] bg-white border dark:border-[#f2eee3]/15 border-[#e4d4f8] rounded-xs dark:text-[#f2eee3] text-[#18181b] placeholder-[#666a64] focus:outline-none dark:focus:border-[#d4b56a] focus:border-[#9333ea] transition-all shadow-xs"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Password Field */}
-                  <div className="space-y-2">
-                    <label className="block text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#f2eee3] text-[#27272a]">
-                      PASSWORD <span className="text-[#dc2626]">*</span>
-                    </label>
-                    <div className="relative">
-                      <Lock className="w-4 h-4 dark:text-[#888b83] text-[#a1a1aa] absolute left-4 top-1/2 -translate-y-1/2" />
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        required
-                        value={loginPassword}
-                        onChange={(e) => setLoginPassword(e.target.value)}
-                        placeholder="Enter your password"
-                        className="w-full h-12 pl-11 pr-12 text-xs sm:text-sm dark:bg-[#07100c] bg-white border dark:border-[#f2eee3]/15 border-[#e4d4f8] rounded-xs dark:text-[#f2eee3] text-[#18181b] placeholder-[#666a64] focus:outline-none dark:focus:border-[#d4b56a] focus:border-[#9333ea] transition-all shadow-xs"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 dark:text-[#888b83] text-[#a1a1aa] hover:dark:text-[#d4b56a] hover:text-[#9333ea] transition-colors"
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                      >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Remember Me Checkbox */}
-                  <div className="flex items-center gap-2.5 pt-1">
-                    <input
-                      type="checkbox"
-                      id="rememberMe"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-4 h-4 rounded border dark:border-[#f2eee3]/30 border-[#d8b4fe] dark:bg-[#07100c] bg-white text-[#184a32] focus:ring-0 cursor-pointer accent-[#184a32]"
-                    />
-                    <label
-                      htmlFor="rememberMe"
-                      className="text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#b4b1a8] text-[#52525b] cursor-pointer select-none"
-                    >
-                      REMEMBER ME
-                    </label>
-                  </div>
-
-                  {/* Log In Button */}
-                  <div className="pt-3">
-                    <button
-                      type="submit"
-                      disabled={isLoggingIn}
-                      className="min-h-[48px] px-8 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#184a32] dark:hover:bg-[#206644] text-white dark:text-[#f2eee3] border border-[#7e22ce] dark:border-[#276643] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer group active:scale-98 disabled:opacity-60"
-                    >
-                      {isLoggingIn ? (
-                        <span className="animate-pulse">LOGGING IN...</span>
-                      ) : (
-                        <>
-                          <span>LOG IN</span>
-                          <ArrowRight className="w-4 h-4 text-white dark:text-[#d4b56a] transition-transform group-hover:translate-x-1" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  {/* Lost Password Notice */}
-                  <div className="pt-3">
-                    <p className="text-xs text-zinc-500 dark:text-[#888b83]">
-                      Forgot your password? Use the register box to receive a fresh password setup link.
+                    <p className="text-xs sm:text-[13px] text-zinc-600 dark:text-[#b4b1a8] leading-relaxed">
+                      Lost your password? Please enter your registered email address. You will receive a secure single-use link to create a new password via email.
                     </p>
+
+                    <form onSubmit={handleForgotPassword} className="space-y-5">
+                      {forgotError && (
+                        <div className="p-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded text-xs flex items-start gap-2.5">
+                          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                          <span>{forgotError}</span>
+                        </div>
+                      )}
+
+                      {forgotSuccess && (
+                        <div className="p-3.5 bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 text-green-800 dark:text-green-300 rounded text-xs flex items-start gap-2.5">
+                          <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-green-600 dark:text-green-400" />
+                          <span>{forgotSuccess}</span>
+                        </div>
+                      )}
+
+                      {/* Registered Email Address */}
+                      <div className="space-y-2">
+                        <label className="block text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#f2eee3] text-[#27272a]">
+                          EMAIL ADDRESS <span className="text-[#dc2626]">*</span>
+                        </label>
+                        <div className="relative">
+                          <Mail className="w-4 h-4 dark:text-[#888b83] text-[#a1a1aa] absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="email"
+                            required
+                            disabled={isSendingReset}
+                            value={forgotEmail}
+                            onChange={(e) => setForgotEmail(e.target.value)}
+                            placeholder="Enter your registered email address"
+                            className="w-full h-12 pl-11 pr-4 text-xs sm:text-sm dark:bg-[#07100c] bg-white border dark:border-[#f2eee3]/15 border-[#e4d4f8] rounded-xs dark:text-[#f2eee3] text-[#18181b] placeholder-[#666a64] focus:outline-none dark:focus:border-[#d4b56a] focus:border-[#9333ea] transition-all shadow-xs disabled:opacity-60"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                        <button
+                          type="submit"
+                          disabled={isSendingReset}
+                          className="min-h-[48px] px-8 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#184a32] dark:hover:bg-[#206644] text-white dark:text-[#f2eee3] border border-[#7e22ce] dark:border-[#276643] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer group active:scale-98 disabled:opacity-60"
+                        >
+                          {isSendingReset ? (
+                            <span className="animate-pulse">SENDING RESET LINK...</span>
+                          ) : (
+                            <>
+                              <span>RESET PASSWORD</span>
+                              <ArrowRight className="w-4 h-4 text-white dark:text-[#d4b56a] transition-transform group-hover:translate-x-1" />
+                            </>
+                          )}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShowForgotPassword(false);
+                            setForgotError(null);
+                          }}
+                          className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold text-zinc-600 dark:text-[#b4b1a8] hover:text-[#7e22ce] dark:hover:text-[#d4b56a] transition-colors cursor-pointer"
+                        >
+                          <ArrowLeft className="w-3.5 h-3.5" />
+                          <span>Back to Login</span>
+                        </button>
+                      </div>
+                    </form>
                   </div>
-                </form>
+                ) : (
+                  /* NORMAL LOGIN FORM */
+                  <>
+                    {/* Column Title with Filigree Underline */}
+                    <div className="relative inline-block pb-1">
+                      <h2 className="font-display text-3xl sm:text-4xl md:text-[38px] font-normal dark:text-[#d4b56a] text-[#7e22ce] tracking-tight">
+                        Login
+                      </h2>
+                      <div className="w-16 h-[2px] dark:bg-[#d4b56a] bg-[#9333ea] mt-1.5" />
+                    </div>
+
+                    <form onSubmit={handleLogin} className="space-y-5">
+                      {loginError && (
+                        <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded text-xs flex items-start gap-2">
+                          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                          <span>{loginError}</span>
+                        </div>
+                      )}
+
+                      {/* Username or Email Address */}
+                      <div className="space-y-2">
+                        <label className="block text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#f2eee3] text-[#27272a]">
+                          USERNAME OR EMAIL ADDRESS <span className="text-[#dc2626]">*</span>
+                        </label>
+                        <div className="relative">
+                          <User className="w-4 h-4 dark:text-[#888b83] text-[#a1a1aa] absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="text"
+                            required
+                            value={loginIdentifier}
+                            onChange={(e) => setLoginIdentifier(e.target.value)}
+                            placeholder="Enter your username or email"
+                            className="w-full h-12 pl-11 pr-4 text-xs sm:text-sm dark:bg-[#07100c] bg-white border dark:border-[#f2eee3]/15 border-[#e4d4f8] rounded-xs dark:text-[#f2eee3] text-[#18181b] placeholder-[#666a64] focus:outline-none dark:focus:border-[#d4b56a] focus:border-[#9333ea] transition-all shadow-xs"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Password Field */}
+                      <div className="space-y-2">
+                        <label className="block text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#f2eee3] text-[#27272a]">
+                          PASSWORD <span className="text-[#dc2626]">*</span>
+                        </label>
+                        <div className="relative">
+                          <Lock className="w-4 h-4 dark:text-[#888b83] text-[#a1a1aa] absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            required
+                            value={loginPassword}
+                            onChange={(e) => setLoginPassword(e.target.value)}
+                            placeholder="Enter your password"
+                            className="w-full h-12 pl-11 pr-12 text-xs sm:text-sm dark:bg-[#07100c] bg-white border dark:border-[#f2eee3]/15 border-[#e4d4f8] rounded-xs dark:text-[#f2eee3] text-[#18181b] placeholder-[#666a64] focus:outline-none dark:focus:border-[#d4b56a] focus:border-[#9333ea] transition-all shadow-xs"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 dark:text-[#888b83] text-[#a1a1aa] hover:dark:text-[#d4b56a] hover:text-[#9333ea] transition-colors"
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                          >
+                            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Remember Me Checkbox */}
+                      <div className="flex items-center gap-2.5 pt-1">
+                        <input
+                          type="checkbox"
+                          id="rememberMe"
+                          checked={rememberMe}
+                          onChange={(e) => setRememberMe(e.target.checked)}
+                          className="w-4 h-4 rounded border dark:border-[#f2eee3]/30 border-[#d8b4fe] dark:bg-[#07100c] bg-white text-[#184a32] focus:ring-0 cursor-pointer accent-[#184a32]"
+                        />
+                        <label
+                          htmlFor="rememberMe"
+                          className="text-[11px] sm:text-xs font-bold tracking-[0.14em] uppercase dark:text-[#b4b1a8] text-[#52525b] cursor-pointer select-none"
+                        >
+                          REMEMBER ME
+                        </label>
+                      </div>
+
+                      {/* Log In Button */}
+                      <div className="pt-3">
+                        <button
+                          type="submit"
+                          disabled={isLoggingIn}
+                          className="min-h-[48px] px-8 bg-[#9333ea] hover:bg-[#7e22ce] dark:bg-[#184a32] dark:hover:bg-[#206644] text-white dark:text-[#f2eee3] border border-[#7e22ce] dark:border-[#276643] text-xs sm:text-[13px] font-bold tracking-[0.14em] uppercase rounded-xs inline-flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer group active:scale-98 disabled:opacity-60"
+                        >
+                          {isLoggingIn ? (
+                            <span className="animate-pulse">LOGGING IN...</span>
+                          ) : (
+                            <>
+                              <span>LOG IN</span>
+                              <ArrowRight className="w-4 h-4 text-white dark:text-[#d4b56a] transition-transform group-hover:translate-x-1" />
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Forgot Password Action Link */}
+                      <div className="pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShowForgotPassword(true);
+                            setForgotError(null);
+                            setForgotSuccess(null);
+                            if (loginIdentifier && loginIdentifier.includes("@")) {
+                              setForgotEmail(loginIdentifier.trim());
+                            }
+                          }}
+                          className="text-xs sm:text-[13px] font-semibold text-[#7e22ce] dark:text-[#d4b56a] hover:underline cursor-pointer inline-flex items-center gap-1.5 transition-colors"
+                        >
+                          <KeyRound className="w-3.5 h-3.5" />
+                          <span>Forgot Password?</span>
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                )}
               </div>
 
               {/* ========================================================= */}

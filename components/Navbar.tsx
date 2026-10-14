@@ -80,7 +80,7 @@ export default function Navbar({
     }
     if (path.startsWith("/our-offer")) return "OUR OFFER";
     if (path.startsWith("/events") || path.startsWith("/event")) return "EVENT";
-    if (path.startsWith("/contact")) return "CONTACT US";
+    if (path.startsWith("/contact-us") || path.startsWith("/contact")) return "CONTACT US";
     if (path.startsWith("/join-the-league")) return "JOIN THE LEAGUE";
     return "";
   };
@@ -106,7 +106,7 @@ export default function Navbar({
     { label: "SHOP", href: "/shop" },
     { label: "OUR OFFER", href: "/our-offer" },
     { label: "EVENT", href: "/events" },
-    { label: "CONTACT US", href: "/contact" },
+    { label: "CONTACT US", href: "/contact-us" },
     {
       label: "JOIN THE LEAGUE",
       href: "/join-the-league/author",

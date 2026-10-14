@@ -8,6 +8,12 @@ export interface SendWelcomeEmailParams {
   myAccountUrl: string;
 }
 
+export interface SendPasswordResetEmailParams {
+  name?: string;
+  email: string;
+  resetUrl: string;
+}
+
 export interface EmailDeliveryResult {
   success: boolean;
   messageId?: string;
@@ -412,6 +418,194 @@ Premium Books & Literary Collections
     } catch (err: any) {
       const errorMsg = err.message || "Failed to send welcome email via Resend.";
       console.error(`[EmailService] Exception dispatching welcome email to ${this.maskEmail(recipientEmail)}:`, errorMsg);
+      return {
+        success: false,
+        error: errorMsg,
+      };
+    }
+  }
+
+  /**
+   * Send a rich HTML password reset email with reset link matching The Publishing Hub brand
+   */
+  static async sendPasswordResetEmail(params: SendPasswordResetEmailParams): Promise<EmailDeliveryResult> {
+    const { name, email, resetUrl } = params;
+    const recipientEmail = email.trim();
+    const displayName = name?.trim() || recipientEmail.split("@")[0];
+
+    const clientResult = this.getResendClient();
+    if (!clientResult.client) {
+      const errorMsg = clientResult.error || "RESEND_API_KEY is missing or unconfigured.";
+      console.warn(`[EmailService] Cannot send password reset email to ${this.maskEmail(recipientEmail)}: ${errorMsg}`);
+      return {
+        success: false,
+        error: errorMsg,
+      };
+    }
+    const resend = clientResult.client;
+
+    const senderResult = this.getSenderAddress();
+    if (!senderResult.address) {
+      const errorMsg = senderResult.error || "RESEND_FROM_EMAIL configuration is invalid.";
+      console.warn(`[EmailService] Cannot send password reset email to ${this.maskEmail(recipientEmail)}: ${errorMsg}`);
+      return {
+        success: false,
+        error: errorMsg,
+      };
+    }
+    const fromAddress = senderResult.address;
+    const currentYear = new Date().getFullYear();
+
+    const subject = "Reset Your Password - The Publishing Hub";
+
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${subject}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1f2937;">
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f1ea; padding: 30px 15px;">
+    <tr>
+      <td align="center">
+        <!-- Main Container Card -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); border: 1px solid #e5e0d8;">
+          
+          <!-- Header Banner -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1b0a2a 0%, #3b0764 100%); padding: 36px 32px 30px 32px; text-align: center;">
+              <p style="margin: 0 0 8px 0; color: #d4b56a; font-size: 11px; font-weight: bold; letter-spacing: 0.2em; text-transform: uppercase;">The Publishing Hub</p>
+              <h1 style="margin: 0; color: #ffffff; font-family: 'Georgia', serif, -apple-system, sans-serif; font-size: 26px; font-weight: normal; letter-spacing: -0.02em;">Password Reset Request</h1>
+              <div style="width: 48px; height: 2px; background-color: #d4b56a; margin: 14px auto 0 auto;"></div>
+            </td>
+          </tr>
+
+          <!-- Main Content Body -->
+          <tr>
+            <td style="padding: 36px 36px 28px 36px;">
+              <!-- User Greeting -->
+              <p style="margin: 0 0 16px 0; font-size: 16px; line-height: 1.6; color: #18181b;">
+                Hi <strong>${displayName}</strong>,
+              </p>
+
+              <!-- Request Explanation -->
+              <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.65; color: #3f3f46;">
+                We received a request to reset the password for your account on <strong>The Publishing Hub</strong>. To choose a new password, click the button below:
+              </p>
+
+              <!-- Reset Password Action Box -->
+              <div style="margin: 24px 0 28px 0; padding: 24px 24px; background-color: #faf7fd; border: 1px solid #e4d4f8; border-left: 4px solid #7e22ce; border-radius: 6px; text-align: center;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto 16px auto;">
+                  <tr>
+                    <td align="center" style="border-radius: 4px; background-color: #7e22ce;">
+                      <a href="${resetUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 13px 34px; font-family: -apple-system, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 4px; border: 1px solid #6b21a8;">
+                        Reset Your Password &rarr;
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="margin: 12px 0 0 0; font-size: 12px; line-height: 1.5; color: #71717a; word-break: break-all;">
+                  Or copy and paste this link into your browser:<br>
+                  <a href="${resetUrl}" style="color: #7e22ce; text-decoration: underline;" target="_blank" rel="noopener noreferrer">${resetUrl}</a>
+                </p>
+              </div>
+
+              <!-- Security Information Note -->
+              <p style="margin: 0 0 8px 0; font-size: 12px; line-height: 1.6; color: #71717a;">
+                Security note: This password reset link is single-use and valid for <strong>1 hour</strong>.
+              </p>
+              <p style="margin: 0; font-size: 12px; line-height: 1.6; color: #a1a1aa; font-style: italic;">
+                If you did not request a password reset, you can safely ignore this email. Your existing password remains unchanged and secure.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Email Footer -->
+          <tr>
+            <td style="background-color: #faf7fd; padding: 24px 32px; border-top: 1px solid #ede8f2; text-align: center;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: bold; color: #7e22ce; letter-spacing: 0.05em;">
+                The Publishing Hub
+              </p>
+              <p style="margin: 0 0 8px 0; font-size: 11px; color: #71717a;">
+                Premium Books, Literary Masterpieces &amp; Author Collections
+              </p>
+              <p style="margin: 0; font-size: 11px; color: #a1a1aa;">
+                &copy; ${currentYear} The Publishing Hub. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `.trim();
+
+    const textContent = `
+Password Reset Request - The Publishing Hub
+
+Hi ${displayName},
+
+We received a request to reset the password for your account on The Publishing Hub. Visit the link below to set a new password:
+
+${resetUrl}
+
+This link is single-use and will expire in 1 hour.
+
+If you did not request a password reset, you can safely ignore this email. Your existing password will remain unchanged and secure.
+
+The Publishing Hub
+Premium Books & Literary Collections
+© ${currentYear} The Publishing Hub. All rights reserved.
+    `.trim();
+
+    try {
+      console.log(`[EmailService] Dispatching password reset email to ${this.maskEmail(recipientEmail)} from ${fromAddress}...`);
+      const response = await resend.emails.send({
+        from: fromAddress,
+        to: recipientEmail,
+        subject,
+        html: htmlContent,
+        text: textContent,
+      });
+
+      if (response.error) {
+        const errorMsg = response.error.message || "Resend rejected the email sending request.";
+        console.error(`[EmailService] Resend rejected password reset email to ${this.maskEmail(recipientEmail)}:`, errorMsg);
+
+        let contextualError = errorMsg;
+        if (
+          errorMsg.toLowerCase().includes("testing emails to your own email address") ||
+          errorMsg.toLowerCase().includes("resend.dev")
+        ) {
+          contextualError = `Resend Testing Restriction: The test sender 'onboarding@resend.dev' can only deliver to your Resend account owner's email. To deliver to '${recipientEmail}' or other users, a verified custom domain is required.`;
+        } else if (
+          errorMsg.toLowerCase().includes("domain") &&
+          (errorMsg.toLowerCase().includes("not verified") || errorMsg.toLowerCase().includes("unverified"))
+        ) {
+          contextualError = `Domain Not Verified: Please complete DNS records verification at resend.com/domains before sending from this custom domain.`;
+        }
+
+        return {
+          success: false,
+          error: contextualError,
+        };
+      }
+
+      const messageId = response.data?.id;
+      console.log(`[EmailService] Password reset email successfully accepted by Resend for ${this.maskEmail(recipientEmail)} (Message ID: ${messageId})`);
+      return {
+        success: true,
+        messageId,
+      };
+    } catch (err: any) {
+      const errorMsg = err.message || "Failed to send password reset email via Resend.";
+      console.error(`[EmailService] Exception dispatching password reset email to ${this.maskEmail(recipientEmail)}:`, errorMsg);
       return {
         success: false,
         error: errorMsg,

@@ -76,15 +76,21 @@ function SetPasswordForm() {
         </div>
         <h2 className="text-xl font-display text-zinc-900 dark:text-[#f2eee3]">Invalid Setup Link</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          This password setup link is incomplete or missing required parameters.
+          This password setup or reset link is incomplete or missing required parameters.
         </p>
-        <div className="pt-2">
-          <a
-            href="/my-account"
+        <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+          <Link
+            href="/my-account?action=forgot-password"
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#9333ea] hover:bg-[#7e22ce] text-white text-xs font-bold uppercase tracking-wider rounded-xs transition-colors"
           >
-            Go to My Account
-          </a>
+            Request New Link
+          </Link>
+          <Link
+            href="/my-account"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-xs font-bold uppercase tracking-wider rounded-xs transition-colors"
+          >
+            Go to Login
+          </Link>
         </div>
       </div>
     );
@@ -96,9 +102,9 @@ function SetPasswordForm() {
         <div className="w-14 h-14 rounded-full bg-green-100 dark:bg-green-950/40 text-green-600 dark:text-green-400 mx-auto flex items-center justify-center">
           <Check className="w-7 h-7" />
         </div>
-        <h2 className="text-2xl font-display text-zinc-900 dark:text-[#f2eee3]">Password Set Successfully</h2>
+        <h2 className="text-2xl font-display text-zinc-900 dark:text-[#f2eee3]">Password Saved Successfully</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          Your password has been configured and your account is ready. You are now logged in to The Publishing Hub.
+          Your password has been updated and your account is ready. You are now logged in to The Publishing Hub.
         </p>
         <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
           <Link
@@ -123,10 +129,10 @@ function SetPasswordForm() {
       <div className="space-y-1 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f3e8ff] dark:bg-[#184a32]/40 text-[#7e22ce] dark:text-[#d4b56a] text-xs font-semibold mb-2">
           <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Secure Password Setup</span>
+          <span>Secure Password Setup &amp; Reset</span>
         </div>
         <h2 className="font-display text-2xl sm:text-3xl text-zinc-900 dark:text-[#f2eee3]">
-          Create Your Password
+          Set Your Password
         </h2>
         <p className="text-xs text-zinc-600 dark:text-zinc-400">
           Setting password for <strong className="text-zinc-900 dark:text-zinc-200">{email}</strong>
@@ -134,9 +140,19 @@ function SetPasswordForm() {
       </div>
 
       {errorMessage && (
-        <div className="p-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded text-xs flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-          <span>{errorMessage}</span>
+        <div className="p-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded text-xs space-y-2">
+          <div className="flex items-start gap-2.5">
+            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <span>{errorMessage}</span>
+          </div>
+          <div className="pt-1">
+            <Link
+              href="/my-account?action=forgot-password"
+              className="text-[#7e22ce] dark:text-[#d4b56a] underline font-semibold hover:opacity-80"
+            >
+              Request a fresh password setup link &rarr;
+            </Link>
+          </div>
         </div>
       )}
 

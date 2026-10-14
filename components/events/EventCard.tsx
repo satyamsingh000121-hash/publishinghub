@@ -8,6 +8,7 @@ export interface EventItem {
   id: string;
   day?: string;
   month?: string;
+  year?: string;
   date?: string;
   tag?: string;
   title: string;
@@ -28,11 +29,12 @@ export default function EventCard({ event }: EventCardProps) {
   const [imageError, setImageError] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  // Extract day and month if not provided separately
+  // Extract day, month, and year if not provided separately
   let displayDay = event.day;
   let displayMonth = event.month;
+  let displayYear = event.year || "2026";
   if (!displayDay || !displayMonth) {
-    const parts = (event.date || "").split(" ");
+    const parts = (event.date || "").trim().split(/\s+/);
     if (parts.length >= 2) {
       if (isNaN(Number(parts[0]))) {
         displayMonth = parts[0].slice(0, 3).toUpperCase();
@@ -41,9 +43,13 @@ export default function EventCard({ event }: EventCardProps) {
         displayDay = parts[0];
         displayMonth = parts[1].slice(0, 3).toUpperCase();
       }
+      if (parts[2]) {
+        displayYear = parts[2];
+      }
     } else {
       displayDay = "12";
       displayMonth = "APR";
+      displayYear = "2026";
     }
   }
 
@@ -64,13 +70,16 @@ export default function EventCard({ event }: EventCardProps) {
           {/* Vignette Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 dark:from-[#09110c]/80 dark:to-black/20 pointer-events-none" />
 
-          {/* Date Badge (Top-Left) */}
-          <div className="absolute top-3.5 left-3.5 bg-white/95 dark:bg-[#08120b]/90 backdrop-blur-md border border-[#e9e1f5] dark:border-[#1b3324] rounded-xl px-3.5 py-1.5 flex flex-col items-center justify-center shadow-md dark:shadow-lg min-w-[50px]">
-            <span className="text-xl sm:text-2xl font-bold text-[#18181b] dark:text-[#f2eee3] leading-tight font-sans">
+          {/* Date Badge (Top-Left) with Day, Month & Year */}
+          <div className="absolute top-3.5 left-3.5 bg-white/95 dark:bg-[#08120b]/90 backdrop-blur-md border border-[#e9e1f5] dark:border-[#1b3324] rounded-xl px-3 py-1.5 flex flex-col items-center justify-center shadow-md dark:shadow-lg min-w-[54px]">
+            <span className="text-xl sm:text-2xl font-bold text-[#18181b] dark:text-[#f2eee3] leading-none font-sans">
               {displayDay}
             </span>
-            <span className="text-[10px] font-bold text-[#9333ea] dark:text-[#8e9c93] tracking-wider uppercase font-sans">
+            <span className="text-[10px] font-bold text-[#9333ea] dark:text-[#8e9c93] tracking-wider uppercase font-sans mt-0.5">
               {displayMonth}
+            </span>
+            <span className="text-[9px] font-semibold text-[#71717a] dark:text-[#a8a9a2] font-sans">
+              {displayYear}
             </span>
           </div>
         </div>
@@ -97,7 +106,7 @@ export default function EventCard({ event }: EventCardProps) {
 
       {/* Bottom Details & Actions */}
       <div>
-        {/* Meta Info: Location & Time */}
+        {/* Meta Info: Location & Date/Time with Year */}
         <div className="flex flex-col gap-2 py-3 border-t border-[#e9e1f5] dark:border-[#16291d] text-xs text-[#71717a] dark:text-[#8e9c93]">
           <div className="flex items-center gap-2">
             <MapPin className="w-3.5 h-3.5 text-[#9333ea] dark:text-[#8e9c93] flex-shrink-0" />
@@ -105,7 +114,7 @@ export default function EventCard({ event }: EventCardProps) {
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-3.5 h-3.5 text-[#9333ea] dark:text-[#8e9c93] flex-shrink-0" />
-            <span>{event.time}</span>
+            <span>{displayDay} {displayMonth} {displayYear} • {event.time}</span>
           </div>
         </div>
 

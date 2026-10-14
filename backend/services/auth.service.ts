@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { UserRepository } from "@/backend/repositories/user.repository";
+import { EmailService } from "@/backend/services/email.service";
 import { comparePassword, hashPassword, signToken } from "@/lib/auth";
 import { AuthResponseData, AuthSessionUser, UserDTO } from "@/types/user";
 
@@ -158,6 +159,61 @@ export class AuthService {
     };
 
     return { user: userDTO };
+  }
+
+  static async requestPasswordReset(data: {
+    email: string;
+    baseUrl: string;
+  }): Promise<{
+    userExists: boolean;
+    emailSent: boolean;
+    messageId?: string;
+    deliveryError?: string;
+  }> {
+    const normalizedEmail = data.email.toLowerCase().trim();
+    const user = await UserRepository.findByEmail(normalizedEmail);
+
+    if (!user) {
+      // User not found: do not disclose existence to prevent user enumeration
+      return {
+        userExists: false,
+        emailSent: false,
+      };
+    }
+
+    // Generate cryptographically secure random 32-byte hex token
+    const rawResetToken = crypto.randomBytes(32).toString("hex");
+    // Generate SHA-256 hash for secure database storage
+    const tokenHash = crypto.createHash("sha256").update(rawResetToken).digest("hex");
+    // Set expiration time to 1 hour
+    const resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000);
+
+    // Save token hash and expiry to database
+    await UserRepository.setPasswordResetToken(user.id, tokenHash, resetTokenExpires);
+
+    // Resolve reset link to existing set-password page
+    const resetUrl = `${data.baseUrl}/set-password?token=${rawResetToken}&email=${encodeURIComponent(user.email)}`;
+
+    // Dispatch email via Resend
+    const emailResult = await EmailService.sendPasswordResetEmail({
+      name: user.name,
+      email: user.email,
+      resetUrl,
+    });
+
+    if (!emailResult.success) {
+      return {
+        userExists: true,
+        emailSent: false,
+        deliveryError: emailResult.error || "Failed to send password reset email via Resend.",
+      };
+    }
+
+    return {
+      userExists: true,
+      emailSent: true,
+      messageId: emailResult.messageId,
+    };
   }
 
   static async login(data: {
