@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 
@@ -41,10 +42,12 @@ export default function RootLayout({
       </head>
       <body className="bg-[var(--bg)] text-[var(--cream)] font-sans antialiased min-h-screen selection:bg-[#b89245] selection:text-[#050807] transition-colors duration-300">
         <ThemeProvider>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+            </CartProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -61,6 +61,9 @@ function SetPasswordForm() {
       }
 
       setIsSuccess(true);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("auth-state-changed", { detail: { user: data.data?.user } }));
+      }
     } catch (err: any) {
       setErrorMessage(err.message || "Failed to set password. Link may have expired.");
     } finally {

@@ -138,6 +138,9 @@ export default function MyAccountPage() {
       const user = data.data?.user;
       if (user) {
         setCurrentUser(user);
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("auth-state-changed", { detail: { user } }));
+        }
       } else {
         await checkSession();
       }
@@ -193,9 +196,15 @@ export default function MyAccountPage() {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
       setCurrentUser(null);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("auth-state-changed", { detail: { user: null } }));
+      }
       showToast("You have been signed out.", "success");
     } catch {
       setCurrentUser(null);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("auth-state-changed", { detail: { user: null } }));
+      }
     }
   };
 

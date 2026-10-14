@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, User, ChevronDown, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import SearchModal from "@/components/SearchModal";
 import { SidebarPromoData } from "@/types/promo";
 import { defaultAdminPromoData } from "@/lib/adminPromoData";
@@ -27,6 +28,27 @@ export default function Navbar({
   const { totalQuantity, openCart } = useCart();
   const cartCount = controlledCartCount !== undefined ? controlledCartCount : totalQuantity;
   const handleCartClick = controlledOnOpenCart || openCart;
+
+  const { user, isAuthenticated } = useAuth();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const getInitials = (name?: string, email?: string): string => {
+    if (name && name.trim()) {
+      const parts = name.trim().split(/\s+/);
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
+      return parts[0].slice(0, 2).toUpperCase();
+    }
+    if (email && email.trim()) {
+      return email.trim().slice(0, 2).toUpperCase();
+    }
+    return "U";
+  };
 
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -251,14 +273,52 @@ export default function Navbar({
               </span>
             </button>
 
-            {/* Account Icon */}
+            {/* Account Icon / Profile Status */}
             <a
               href="/my-account"
-              className="hidden md:flex p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200"
-              title="My Account"
-              aria-label="Account"
+              className="p-1.5 hover:text-[#d4b56a] hover:-translate-y-0.5 transition-all duration-200 relative flex items-center justify-center group"
+              title={
+                isMounted && isAuthenticated && user
+                  ? `Logged in as ${user.name} — My Account`
+                  : "Log In / My Account"
+              }
+              aria-label={
+                isMounted && isAuthenticated && user
+                  ? `Logged in as ${user.name}`
+                  : "Log In or Register"
+              }
             >
-              <User className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+              {isMounted && isAuthenticated && user ? (
+                <div className="relative flex items-center justify-center">
+                  {/* Luxury User Initials Badge (Dynamic Day/Night Theme) */}
+                  <span
+                    className="navbar-user-avatar w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-full text-[11px] sm:text-xs font-bold tracking-wider flex items-center justify-center uppercase group-hover:scale-105 transition-all duration-200 select-none"
+                  >
+                    {getInitials(user.name, user.email)}
+                  </span>
+                  {/* Refined Emerald Online Status Dot */}
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3 items-center justify-center pointer-events-none">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
+                    <span className="navbar-status-dot relative inline-flex rounded-full h-2.5 w-2.5 shadow-xs"></span>
+                  </span>
+                </div>
+              ) : (
+                <div className="relative flex items-center justify-center">
+                  <User className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                </div>
+              )}
+
+              {/* Tooltip on Hover */}
+              <span className="navbar-user-tooltip hidden sm:block absolute -bottom-8 left-1/2 -translate-x-1/2 px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded shadow-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                {isMounted && isAuthenticated && user ? (
+                  <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                    <span>My Account</span>
+                  </span>
+                ) : (
+                  <span>Log In</span>
+                )}
+              </span>
             </a>
 
             {/* Mobile Menu Toggle Button */}
@@ -286,6 +346,53 @@ export default function Navbar({
                 {theme === "dark" ? <Sun className="w-4 h-4 text-[#e6c880]" /> : <Moon className="w-4 h-4 text-[#9333ea]" />}
                 <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
               </button>
+            </div>
+
+            {/* Account Status in Mobile Drawer */}
+            <div className="pb-3 border-b border-[#f2eee3]/10">
+              {isMounted && isAuthenticated && user ? (
+                <a
+                  href="/my-account"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mobile-user-card flex items-center justify-between p-2.5 rounded transition-all group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <span
+                        className="navbar-user-avatar w-9 h-9 rounded-full text-xs font-bold flex items-center justify-center uppercase shadow-sm"
+                      >
+                        {getInitials(user.name, user.email)}
+                      </span>
+                      <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3 items-center justify-center pointer-events-none">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
+                        <span className="navbar-status-dot relative inline-flex rounded-full h-2.5 w-2.5"></span>
+                      </span>
+                    </div>
+                    <div className="text-left">
+                      <p className="text-xs font-bold text-[#f2eee3] group-hover:text-[#d4b56a] transition-colors leading-tight">
+                        {user.name}
+                      </p>
+                      <span className="text-[10px] text-emerald-400 flex items-center gap-1 mt-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        Logged in • My Account
+                      </span>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-[#d4b56a] group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              ) : (
+                <a
+                  href="/my-account"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-2 rounded hover:bg-[#f2eee3]/5 transition-colors group"
+                >
+                  <div className="flex items-center gap-2.5 text-xs font-bold tracking-wider uppercase text-[#dddcd5] group-hover:text-[#d4b56a]">
+                    <User className="w-4 h-4 text-[#d4b56a]" />
+                    <span>Log In / Register</span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-[#d4b56a] group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              )}
             </div>
 
             {/* Navigation links */}
