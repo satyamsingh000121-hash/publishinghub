@@ -61,7 +61,7 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
               <img
                 src="/images/The-Publishing-Hub-Final-Logo-02-Photoroom.png"
                 alt="The Publishing Hub"
-                className="h-9 w-auto max-w-[175px] object-contain object-left transition-transform duration-200 group-hover:scale-105"
+                className="brand-logo-img h-9 w-auto max-w-[175px] object-contain object-left transition-transform duration-200 group-hover:scale-105"
                 style={{ height: "36px", maxHeight: "36px", maxWidth: "170px", width: "auto", objectFit: "contain" }}
               />
             </Link>

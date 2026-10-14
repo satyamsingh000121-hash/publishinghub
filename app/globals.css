@@ -679,6 +679,11 @@ html.light div.bg-\[\#0d2a1d\] a {
 }
 
 /* Brand Logo */
+.brand-logo-img {
+  filter: brightness(1.65) contrast(1.05) !important;
+  transition: filter 0.3s ease;
+}
+
 html.light .brand-logo-img {
   filter: none !important;
 }

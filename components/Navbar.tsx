@@ -330,7 +330,6 @@ export default function Navbar({
               {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
-
         </div>
 
         {/* Mobile Navigation Drawer */}
