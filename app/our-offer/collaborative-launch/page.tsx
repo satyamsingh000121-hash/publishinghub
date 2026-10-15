@@ -635,6 +635,7 @@ export default function CollaborativeLaunchPage() {
                         <div className="pt-4 flex justify-center">
                             <button
                                 type="button"
+                                onClick={scrollToForm}
                                 className="inline-flex items-center gap-3 px-8 py-3.5 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
                             >
                                 <span>READ MORE</span>
