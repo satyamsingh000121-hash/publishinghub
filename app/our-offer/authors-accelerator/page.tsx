@@ -101,7 +101,7 @@ export default function AuthorsAcceleratorPage() {
             </section>
 
             {/* 3. HERO BANNER SECTION (FULL WIDTH EDGE-TO-EDGE WITH GAP) */}
-            <section className="relative w-full mt-8 sm:mt-12 overflow-hidden border-y border-[#1e3b2b]/80 bg-[#07130c] shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+            <section className="package-hero-banner relative w-full mt-8 sm:mt-12 overflow-hidden border-y border-[#1e3b2b]/80 bg-[#07130c] shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
                 {/* Background image overlay */}
                 <div className="relative min-h-[380px] sm:min-h-[440px] md:min-h-[480px] flex items-center justify-center p-8 sm:p-14 text-center">
                     <div className="absolute inset-0 z-0">
@@ -116,15 +116,15 @@ export default function AuthorsAcceleratorPage() {
                     </div>
 
                     <div className="relative z-10 max-w-5xl lg:max-w-6xl mx-auto space-y-4 sm:space-y-6 px-4">
-                        <span className="inline-block text-sm sm:text-base font-normal font-serif text-white tracking-wide">
+                        <span className="inline-block text-sm sm:text-base font-normal font-serif text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                             Authors Accelerator Package
                         </span>
 
-                        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-[46px] font-medium text-white leading-tight drop-shadow-md">
+                        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-[46px] font-medium text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                             Fast-Track Your Publishing Journey – Launch Your Book in Just 6 Months!
                         </h2>
 
-                        <p className="text-xs sm:text-sm md:text-base text-white/95 font-medium max-w-3xl mx-auto leading-relaxed drop-shadow-sm">
+                        <p className="text-xs sm:text-sm md:text-base text-white font-medium max-w-3xl mx-auto leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                             Achieve your dream of publishing with speed and control in just 6 months
                         </p>
 

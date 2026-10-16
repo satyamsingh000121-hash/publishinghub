@@ -447,52 +447,66 @@ html.light div.bg-\[\#060d09\] {
 }
 
 /* Section 11 (2-Column Feature Card) in Light Mode */
-html.light section.overflow-hidden.bg-\[\#07130c\] {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] {
   background-color: #ffffff !important;
   border-color: #e9e1f5 !important;
   box-shadow: 0 10px 30px rgba(147, 51, 234, 0.05) !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] .bg-\[\#07130c\]\/85 {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] .bg-\[\#07130c\]\/85 {
   background-color: rgba(255, 255, 255, 0.94) !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] h3 {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] h3 {
   color: #18181b !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] p,
-html.light section.overflow-hidden.bg-\[\#07130c\] span {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] p,
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] span {
   color: #3f3f46 !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] strong {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] strong {
   color: #18181b !important;
   font-weight: 700 !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] p.text-\[\#9a9d95\] {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] p.text-\[\#9a9d95\] {
   color: #71717a !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\],
-html.light section.overflow-hidden.bg-\[\#07130c\] a.bg-\[\#e67e22\] {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\],
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] a.bg-\[\#e67e22\] {
   background-color: #e67e22 !important;
   color: #ffffff !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] span,
-html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] span,
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div {
   color: #ffffff !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div.bg-white {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div.bg-white {
   background-color: #ffffff !important;
   color: #e67e22 !important;
 }
 
-html.light section.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div.bg-white svg {
+html.light section.rounded-2xl.overflow-hidden.bg-\[\#07130c\] button.bg-\[\#e67e22\] div.bg-white svg {
   stroke: #e67e22 !important;
+}
+
+/* Package Hero Banners (Always keep dark image styling and white text in both light and dark mode) */
+.package-hero-banner,
+html.light .package-hero-banner {
+  background-color: #07130c !important;
+}
+.package-hero-banner h2,
+.package-hero-banner p,
+.package-hero-banner span,
+html.light .package-hero-banner h2,
+html.light .package-hero-banner p,
+html.light .package-hero-banner span {
+  color: #ffffff !important;
 }
 
 /* 1. Hero Section in Light Mode */
