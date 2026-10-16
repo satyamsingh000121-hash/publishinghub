@@ -91,6 +91,19 @@ export default function AboutSponsors() {
   // Repeat for continuous seamless looping
   const marqueeList = [...sponsors, ...sponsors, ...sponsors];
 
+  const scrollToHeader = () => {
+    if (typeof window !== "undefined") {
+      const header = document.getElementById("about-header");
+      if (header) {
+        header.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (window.location.pathname.includes("/about-us")) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.location.href = "/about-us#about-header";
+      }
+    }
+  };
+
   return (
     <section className="py-14 sm:py-24 dark:bg-[#050807] bg-white border-b dark:border-[#f2eee3]/10 border-[#e9e1f5] relative overflow-hidden">
       <div className="container-custom">
@@ -115,22 +128,14 @@ export default function AboutSponsors() {
         {/* Marquee Track with CSS Animation */}
         <div className="marquee-track flex items-center gap-8 sm:gap-12 whitespace-nowrap will-change-transform">
           {marqueeList.map((item, idx) => {
-            const hasUrl = Boolean(item.url && item.url.trim().length > 0);
-            const CardTag = hasUrl ? "a" : "div";
-            const linkProps = hasUrl
-              ? {
-                  href: item.url,
-                  target: item.url?.startsWith("http") ? "_blank" : undefined,
-                  rel: item.url?.startsWith("http") ? "noopener noreferrer" : undefined,
-                }
-              : {};
-
             return (
-              <CardTag
+              <button
                 key={idx}
-                {...linkProps}
-                aria-label={`Sponsor: ${item.label}`}
-                className="flex-shrink-0 w-44 h-40 sm:w-56 sm:h-48 md:w-60 md:h-52 flex flex-col items-center justify-center p-6 sm:p-8 dark:bg-[#0c140f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] rounded-xs group dark:hover:border-[#d4b56a]/50 hover:border-[#9333ea] transition-all duration-300 dark:hover:bg-[#101b14] hover:bg-[#faf5ff] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_24px_rgba(147,51,234,0.12)] cursor-pointer select-none"
+                type="button"
+                onClick={scrollToHeader}
+                aria-label={`Scroll to header - ${item.label}`}
+                title="Click to go to About header"
+                className="flex-shrink-0 w-44 h-40 sm:w-56 sm:h-48 md:w-60 md:h-52 flex flex-col items-center justify-center p-6 sm:p-8 dark:bg-[#0c140f] bg-white border dark:border-[#f2eee3]/10 border-[#e9e1f5] rounded-xs group dark:hover:border-[#d4b56a]/50 hover:border-[#9333ea] transition-all duration-300 dark:hover:bg-[#101b14] hover:bg-[#faf5ff] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_24px_rgba(147,51,234,0.12)] cursor-pointer select-none focus:outline-none"
               >
                 {/* Scaled Icon */}
                 <div className="text-[#888b83] dark:text-[#888b83] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] group-hover:scale-110 transition-all duration-300 mb-3 sm:mb-4 flex items-center justify-center">
@@ -141,7 +146,7 @@ export default function AboutSponsors() {
                 <span className="text-[11px] sm:text-xs font-bold tracking-[0.24em] uppercase dark:text-[#f2eee3] text-[#18181b] group-hover:text-[#9333ea] dark:group-hover:text-[#d4b56a] transition-colors text-center">
                   {item.label}
                 </span>
-              </CardTag>
+              </button>
             );
           })}
         </div>

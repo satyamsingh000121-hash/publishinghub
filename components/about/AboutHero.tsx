@@ -5,7 +5,7 @@ import SmokyText from "@/components/SmokyText";
 
 export default function AboutHero() {
   return (
-    <section className="relative w-full py-16 sm:py-28 md:py-36 overflow-hidden border-b dark:border-[#b89245]/20 border-[#e9e1f5] dark:bg-none dark:bg-[#050807] bg-gradient-to-b from-[#f6f0fd] via-[#fbf8fe] to-[#ffffff]">
+    <section id="about-header" className="relative scroll-mt-24 w-full py-16 sm:py-28 md:py-36 overflow-hidden border-b dark:border-[#b89245]/20 border-[#e9e1f5] dark:bg-none dark:bg-[#050807] bg-gradient-to-b from-[#f6f0fd] via-[#fbf8fe] to-[#ffffff]">
       {/* Background with Sunflower Engraving */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Deep Forest Gradient Base (Dark Mode Only) */}
