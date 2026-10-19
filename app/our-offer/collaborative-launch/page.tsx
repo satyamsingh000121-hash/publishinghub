@@ -128,21 +128,21 @@ export default function CollaborativeLaunchPage() {
                             Partner with our experts to write, edit, and launch your book in record time
                         </p>
 
-                        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-3 sm:pt-4">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-3 sm:pt-4 w-full max-w-lg mx-auto">
                             <button
                                 type="button"
                                 onClick={scrollToForm}
-                                className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95"
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95 text-center"
                             >
-                                <Check className="w-4 h-4 text-white stroke-[3]" />
+                                <Check className="w-4 h-4 text-white stroke-[3] shrink-0" />
                                 <span>APPLY NOW</span>
                             </button>
                             <button
                                 type="button"
                                 onClick={scrollToForm}
-                                className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95"
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-lg border border-white/40 transition-all duration-200 cursor-pointer active:scale-95 text-center"
                             >
-                                <Search className="w-4 h-4 text-white stroke-[2.5]" />
+                                <Search className="w-4 h-4 text-white stroke-[2.5] shrink-0" />
                                 <span>Partner with Us and Publish Fast!</span>
                             </button>
                         </div>
@@ -270,7 +270,7 @@ export default function CollaborativeLaunchPage() {
                             )}
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <button
                                 type="button"
                                 onClick={scrollToForm}
@@ -558,15 +558,15 @@ export default function CollaborativeLaunchPage() {
                     <p className="text-sm sm:text-base text-[#9a9d95] max-w-2xl mx-auto leading-relaxed">
                         As the “go-to” people, Regional Directors play a prominent role. Besides increasing your income, The publishing hub will also allow you to promote and sell your products and services more effectively because it will connect you with more local and national businesses.
                     </p>
-                    <div className="pt-2">
+                    <div className="pt-2 w-full flex justify-center">
                         <a
                             href="https://calendly.com/santoshuk/publishing_discovery?month=2026-08"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#d4b56a] hover:bg-[#c59e4b] text-[#050807] text-xs sm:text-sm font-bold tracking-widest uppercase rounded-[3px] transition-all duration-200 cursor-pointer shadow-xl active:scale-95"
+                            className="inline-flex items-center justify-center gap-2 sm:gap-2.5 w-full sm:w-auto max-w-full px-5 sm:px-8 py-3.5 sm:py-4 bg-[#d4b56a] hover:bg-[#c59e4b] text-[#050807] text-[11px] sm:text-xs md:text-sm font-bold tracking-wide sm:tracking-widest uppercase rounded-[3px] transition-all duration-200 cursor-pointer shadow-xl active:scale-95 text-center"
                         >
                             <span>SCHEDULE A FACE-TO-FACE RIGHT NOW</span>
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="w-4 h-4 shrink-0" />
                         </a>
                     </div>
                 </div>
@@ -649,7 +649,7 @@ export default function CollaborativeLaunchPage() {
             </div>
 
             {/* 12. BOTTOM CTA FULL-WIDTH BANNER (GREEN CARD ON BOTTOM LINE) */}
-            <section className="relative w-full min-h-[400px] sm:min-h-[480px] lg:min-h-[520px] flex items-end justify-center mt-6 sm:mt-8 mb-44 sm:mb-56 md:mb-64">
+            <section className="relative w-full min-h-[400px] sm:min-h-[480px] lg:min-h-[520px] flex items-end justify-center mt-6 sm:mt-8 mb-60 sm:mb-64 md:mb-56 lg:mb-64">
                 {/* Full-bleed Background Image with Bottom Line */}
                 <div className="absolute inset-0 z-0 overflow-hidden border-y border-[#1e3b2b]/90 bg-[#07130c]">
                     <Image
@@ -666,7 +666,7 @@ export default function CollaborativeLaunchPage() {
                     <div className="relative rounded-xl border border-[#1e3b2b]/90 bg-[#0b1c14] backdrop-blur-md p-6 sm:p-8 md:p-9 shadow-[0_25px_60px_rgba(0,0,0,0.9)]">
                         <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
                             {/* Left Column */}
-                            <div className="space-y-2.5 text-left md:pr-4">
+                            <div className="space-y-2.5 text-center md:text-left md:pr-4">
                                 <h4 className="text-sm sm:text-base font-semibold text-white">
                                     Got your voucher code?
                                 </h4>
@@ -691,7 +691,7 @@ export default function CollaborativeLaunchPage() {
                                         href="https://calendly.com/santoshuk/publishing_discovery?month=2026-08"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
+                                        className="inline-flex items-center justify-center gap-2 sm:gap-2.5 w-full sm:w-auto px-4 sm:px-8 py-3.5 bg-[#e67e22] hover:bg-[#d35400] text-white text-[11px] sm:text-xs md:text-sm font-bold tracking-wide sm:tracking-wider uppercase rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group text-center"
                                     >
                                         <span>SCHEDULE A FACE-TO-FACE RIGHT NOW</span>
                                         <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform shrink-0">
