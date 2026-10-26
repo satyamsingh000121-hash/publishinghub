@@ -358,7 +358,7 @@ export default function CollaborativeLaunchPage() {
                     </div>
 
                     {/* Right: Form (EXPANDED HEIGHT & SPACIOUS GAPS) */}
-                    <div className="lg:col-span-7 bg-[#050b08] p-8 sm:p-10 lg:p-12 rounded-2xl border border-[#1e3b2b] shadow-2xl">
+                    <div className="lg:col-span-7 bg-[#050b08] p-8 sm:p-10 lg:p-12 rounde d-2xl border border-[#1e3b2b] shadow-2xl">
                         <h4 className="text-xl sm:text-2xl font-bold tracking-[0.2em] uppercase text-[#d4b56a] mb-8 text-center drop-shadow-sm">
                             ENQUIRY FORM - APPLY NOW
                         </h4>

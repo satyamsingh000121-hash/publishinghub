@@ -172,7 +172,7 @@ function SuccessContent() {
                 {session.customerEmail}
               </span>
             </div>
-          )}
+          )}  
 
           <div className="flex justify-between items-center text-xs pt-1">
             <span className="text-zinc-500 dark:text-[#8ea394]">Payment Method:</span>
