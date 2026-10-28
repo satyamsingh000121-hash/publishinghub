@@ -313,6 +313,42 @@ html.light button[type="submit"].bg-\[\#e67e22\] * {
   color: #ffffff !important;
 }
 
+/* White circle/badge icon containers inside orange CTA buttons (keeps chevron orange on white circle) */
+html.light .bg-\[\#e67e22\] div.bg-white,
+html.light button.bg-\[\#e67e22\] div.bg-white,
+html.light a.bg-\[\#e67e22\] div.bg-white,
+html.light button[type="submit"].bg-\[\#e67e22\] div.bg-white,
+html.light .bg-\[\#e67e22\] .bg-white,
+html.light button.bg-\[\#e67e22\] .bg-white,
+html.light a.bg-\[\#e67e22\] .bg-white,
+html.light .bg-\[\#d35400\] div.bg-white,
+html.light button.bg-\[\#d35400\] div.bg-white,
+html.light a.bg-\[\#d35400\] div.bg-white {
+  background-color: #ffffff !important;
+  color: #e67e22 !important;
+}
+
+html.light .bg-\[\#e67e22\] div.bg-white *,
+html.light button.bg-\[\#e67e22\] div.bg-white *,
+html.light a.bg-\[\#e67e22\] div.bg-white *,
+html.light button[type="submit"].bg-\[\#e67e22\] div.bg-white *,
+html.light .bg-\[\#e67e22\] .bg-white *,
+html.light button.bg-\[\#e67e22\] .bg-white *,
+html.light a.bg-\[\#e67e22\] .bg-white *,
+html.light .bg-\[\#e67e22\] div.bg-white svg,
+html.light button.bg-\[\#e67e22\] div.bg-white svg,
+html.light a.bg-\[\#e67e22\] div.bg-white svg,
+html.light button[type="submit"].bg-\[\#e67e22\] div.bg-white svg,
+html.light .bg-\[\#e67e22\] .bg-white svg,
+html.light button.bg-\[\#e67e22\] .bg-white svg,
+html.light a.bg-\[\#e67e22\] .bg-white svg,
+html.light .bg-\[\#d35400\] div.bg-white svg,
+html.light button.bg-\[\#d35400\] div.bg-white svg,
+html.light a.bg-\[\#d35400\] div.bg-white svg {
+  color: #e67e22 !important;
+  stroke: #e67e22 !important;
+}
+
 /* Secondary Gold / Purple Outline Buttons across whole site in Light Mode */
 html.light button.border-\[\#d4b56a\],
 html.light a.border-\[\#d4b56a\],

@@ -307,7 +307,7 @@ export default function CollaborativeLaunchPage() {
                             className="inline-flex items-center gap-3 px-8 sm:px-9 py-3.5 sm:py-4 bg-[#e67e22] hover:bg-[#d35400] text-white text-sm sm:text-base font-bold rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
                         >
                             <span>Request A Call Back</span>
-                            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform">
+                            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform shrink-0">
                                 <ChevronRight className="w-4 h-4 stroke-[3]" />
                             </div>
                         </button>
@@ -639,7 +639,7 @@ export default function CollaborativeLaunchPage() {
                                 className="inline-flex items-center gap-3 px-8 py-3.5 bg-[#e67e22] hover:bg-[#d35400] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full border border-white/40 shadow-xl transition-all duration-200 cursor-pointer active:scale-95 group"
                             >
                                 <span>READ MORE</span>
-                                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform">
+                                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#e67e22] group-hover:translate-x-0.5 transition-transform shrink-0">
                                     <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
                                 </div>
                             </button>
