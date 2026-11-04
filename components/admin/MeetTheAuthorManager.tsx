@@ -390,7 +390,7 @@ export default function MeetTheAuthorManager() {
         setShowDeleteModal(false);
         setAuthorToDelete(null);
         setTimeout(() => setSuccessMsg(""), 5000);
-
+                        
         // Remove immediately from authorsList
         const remaining = authorsList.filter((a) => a.id !== target.id);
         setAuthorsList(remaining);

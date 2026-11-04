@@ -143,17 +143,6 @@ export class ProductService {
 
   static async getProducts(params?: ProductFilterParams) {
     await ensureSchemaUpdated();
-
-    // Only auto-sync on initial run when database is completely empty (0 books)
-    try {
-      const currentCount = await prisma.product.count();
-      if (currentCount === 0) {
-        await this.syncLiveBooksToDb();
-      }
-    } catch (err) {
-      console.error("Initial auto-sync error:", err);
-    }
-
     return ProductRepository.findAll(params);
   }
 

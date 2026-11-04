@@ -7,88 +7,91 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String    @id @default(cuid())
-  name         String
-  email        String    @unique
-  passwordHash String
-  role         String    @default("USER") // USER | ADMIN
-  avatar       String?
+  id                     String    @id @default(cuid())
+  name                   String
+  email                  String    @unique
+  passwordHash           String
+  role                   String    @default("USER") // USER | ADMIN
+  avatar                 String?
   phoneNumber            String?
   passwordResetTokenHash String?
   passwordResetExpires   DateTime?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
 
-  orders       Order[]
-  carts        Cart[]
+  orders Order[]
+  carts  Cart[]
 }
 
 model Category {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  slug        String    @unique
-  description String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  products    Product[]
+  products Product[]
 }
 
 model Product {
-  id            String    @id @default(cuid())
-  slug          String    @unique
-  title         String
-  author        String
-  authorName    String?
-  authorImage   String?
-  authorQuote   String?
-  price         String
-  numericPrice  Float
-  originalPrice String?
-  badge         String?
-  category      String
-  categoryId    String?
-  categoryRel   Category? @relation(fields: [categoryId], references: [id])
-  availability  String    @default("in-stock")
-  image         String
-  coverId       String?
-  summary       String?
-  description   String?
-  stock         Int       @default(100)
-  featured      Boolean   @default(false)
-  isbn          String?
-  publisher     String?
-  publicationDate String?
-  pages         Int?
-  language      String?   @default("English")
-  format        String?   @default("Hardcover")
-  rating        Float?    @default(5.0)
-  reviewCount   Int?      @default(0)
-  displayOrder  Int?      @default(0)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id               String    @id @default(cuid())
+  slug             String    @unique
+  title            String
+  author           String
+  authorName       String?
+  authorImage      String?
+  authorQuote      String?   @db.Text
+  price            String
+  numericPrice     Float
+  originalPrice    String?
+  badge            String?
+  category         String
+  categoryId       String?
+  categoryRel      Category? @relation(fields: [categoryId], references: [id])
+  availability     String    @default("in-stock")
+  image            String
+  coverId          String?
+  summary          String?   @db.Text
+  description      String?   @db.Text
+  stock            Int       @default(100)
+  featured         Boolean   @default(false)
+  isbn             String?
+  publisher        String?
+  publicationDate  String?
+  pages            Int?
+  language         String?   @default("English")
+  format           String?   @default("Hardcover")
+  rating           Float?    @default(5.0)
+  reviewCount      Int?      @default(0)
+  displayOrder     Int?      @default(0)
+  showInMeetAuthor Boolean   @default(false)
+  showOnHomepage   Boolean?  @default(true)
+  bestSeller       Boolean?  @default(false)
+  salePrice        String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
-  cartItems     CartItem[]
-  orderItems    OrderItem[]
-  showInMeetAuthor Boolean @default(false)
+  cartItems          CartItem[]
+  orderItems         OrderItem[]
   meetTheAuthorBooks MeetTheAuthorBook[]
-  bookAuthors   BookAuthor[]
+  bookAuthors        BookAuthor[]
 }
 
 model Cart {
-  id          String     @id @default(cuid())
-  userId      String?
-  sessionId   String?    @unique
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id        String   @id @default(cuid())
+  userId    String?
+  sessionId String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items       CartItem[]
+  user  User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
 }
 
 model CartItem {
@@ -100,8 +103,8 @@ model CartItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Order {
@@ -112,15 +115,15 @@ model Order {
   status          String      @default("PENDING") // PENDING | PROCESSING | SHIPPED | DELIVERED | CANCELLED
   paymentStatus   String      @default("UNPAID")  // UNPAID | PAID | REFUNDED | FAILED
   paymentMethod   String      @default("CARD")
-  shippingAddress String
+  shippingAddress String      @db.Text
   customerName    String
   customerEmail   String
   customerPhone   String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 
-  user            User?       @relation(fields: [userId], references: [id])
-  items           OrderItem[]
+  user  User?       @relation(fields: [userId], references: [id])
+  items OrderItem[]
 }
 
 model OrderItem {
@@ -133,8 +136,8 @@ model OrderItem {
   quantity     Int
   createdAt    DateTime @default(now())
 
-  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product      Product  @relation(fields: [productId], references: [id])
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
 }
 
 model Event {
@@ -143,7 +146,7 @@ model Event {
   date        String
   time        String
   location    String
-  description String
+  description String   @db.Text
   image       String?
   price       String?
   featured    Boolean  @default(false)
@@ -174,7 +177,7 @@ model ContactMessage {
   name      String
   email     String
   subject   String?
-  message   String
+  message   String   @db.Text
   status    String   @default("UNREAD") // UNREAD | READ | REPLIED
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -184,7 +187,7 @@ model MeetTheAuthorProfile {
   id          String              @id @default("default")
   authorName  String              @default("Santosh Kumar Mishra")
   authorImage String              @default("/images/Gemini_Generated_Image_f41einf41einf41e.png")
-  quote       String?
+  quote       String?             @db.Text
   facebook    String?
   twitter     String?
   linkedin    String?
@@ -201,27 +204,27 @@ model MeetTheAuthorBook {
   order     Int                  @default(0)
   createdAt DateTime             @default(now())
 
-  profile   MeetTheAuthorProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  product   Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
+  profile MeetTheAuthorProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  product Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([profileId, productId])
 }
 
 model Author {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  slug        String       @unique
-  image       String?
-  bio         String?
-  tagline     String?
-  facebook    String?
-  twitter     String?
-  instagram   String?
-  pinterest   String?
-  linkedin    String?
-  youtube     String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  image     String?
+  bio       String?  @db.Text
+  tagline   String?  @db.Text
+  facebook  String?
+  twitter   String?
+  instagram String?
+  pinterest String?
+  linkedin  String?
+  youtube   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   bookAuthors BookAuthor[]
 }
@@ -233,10 +236,20 @@ model BookAuthor {
   order     Int      @default(0)
   createdAt DateTime @default(now())
 
-  book      Product  @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  author    Author   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  book   Product @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  author Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@unique([bookId, authorId])
 }
 
+model Review {
+  id         String   @id @default(cuid())
+  book_id    String
+  name       String
+  email      String
+  rating     Int
+  review     String   @db.Text
+  created_at DateTime @default(now())
 
+  @@index([book_id], map: "idx_review_book_id")
+}

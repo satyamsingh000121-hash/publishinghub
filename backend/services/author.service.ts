@@ -181,7 +181,7 @@ export class AuthorService {
       const baId = `ba_${bookId}_${auth.id}_${Date.now()}`;
       try {
         await prisma.$executeRawUnsafe(
-          `INSERT INTO BookAuthor (id, bookId, authorId, "order") VALUES (?, ?, ?, ?)`,
+          `INSERT INTO BookAuthor (id, bookId, authorId, \`order\`) VALUES (?, ?, ?, ?)`,
           baId,
           bookId,
           auth.id,
@@ -206,7 +206,7 @@ export class AuthorService {
         `SELECT a.* FROM Author a
          JOIN BookAuthor ba ON ba.authorId = a.id
          WHERE ba.bookId = ?
-         ORDER BY ba."order" ASC`,
+         ORDER BY ba.\`order\` ASC`,
         bookId
       );
 

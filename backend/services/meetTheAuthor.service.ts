@@ -80,7 +80,7 @@ export class MeetTheAuthorService {
     try {
       const selectedRows: Array<{ productId: string; order: number }> =
         await prisma.$queryRawUnsafe(
-          `SELECT productId, "order" FROM MeetTheAuthorBook WHERE profileId = ? ORDER BY "order" ASC`,
+          `SELECT productId, \`order\` FROM MeetTheAuthorBook WHERE profileId = ? ORDER BY \`order\` ASC`,
           profileId
         );
 
@@ -389,7 +389,7 @@ export class MeetTheAuthorService {
         const rowId = `mta_b_${Date.now()}_${i}`;
         try {
           await prisma.$executeRawUnsafe(
-            `INSERT INTO MeetTheAuthorBook (id, profileId, productId, "order") VALUES (?, ?, ?, ?)`,
+            `INSERT INTO MeetTheAuthorBook (id, profileId, productId, \`order\`) VALUES (?, ?, ?, ?)`,
             rowId,
             id,
             pId,
@@ -459,7 +459,7 @@ export class MeetTheAuthorService {
         const rowId = `mta_b_${Date.now()}_${i}`;
         try {
           await prisma.$executeRawUnsafe(
-            `INSERT INTO MeetTheAuthorBook (id, profileId, productId, "order") VALUES (?, ?, ?, ?)`,
+            `INSERT INTO MeetTheAuthorBook (id, profileId, productId, \`order\`) VALUES (?, ?, ?, ?)`,
             rowId,
             id,
             pId,

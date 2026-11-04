@@ -6,6 +6,15 @@ export async function ensureSchemaUpdated(): Promise<void> {
   if (isSchemaEnsured) return;
   isSchemaEnsured = true;
 
+  // On MySQL, Prisma creates and manages all tables (Author, BookAuthor, Review, Product columns)
+  // with correct native data types and indexes. SQLite-specific DDL is skipped.
+  const isMySQL =
+    process.env.DATABASE_URL?.startsWith("mysql:") ||
+    process.env.DATABASE_URL_MYSQL?.startsWith("mysql:");
+  if (isMySQL) {
+    return;
+  }
+
   const columnsToAdd = [
     "ALTER TABLE Product ADD COLUMN isbn TEXT",
     "ALTER TABLE Product ADD COLUMN publisher TEXT",

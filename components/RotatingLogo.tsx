@@ -67,5 +67,6 @@ export default function RotatingLogo({
         }
       `}</style>
     </div>
-  );
+  ); 
 }
+  
